@@ -1,3081 +1,3081 @@
 export type CommunityPoolsAnchor = {
-  "version": "0.1.0",
-  "name": "community_pools_anchor",
-  "instructions": [
+  version: '0.1.0';
+  name: 'community_pools_anchor';
+  instructions: [
     {
-      "name": "initPool",
-      "accounts": [
+      name: 'initPool';
+      accounts: [
         {
-          "name": "communityPool",
-          "isMut": true,
-          "isSigner": true
+          name: 'communityPool';
+          isMut: true;
+          isSigner: true;
         },
         {
-          "name": "authority",
-          "isMut": true,
-          "isSigner": true
+          name: 'authority';
+          isMut: true;
+          isSigner: true;
         },
         {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'systemProgram';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "fractionMint",
-          "isMut": true,
-          "isSigner": true
+          name: 'fractionMint';
+          isMut: true;
+          isSigner: true;
         },
         {
-          "name": "rent",
-          "isMut": false,
-          "isSigner": false
+          name: 'rent';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'tokenProgram';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "communityPoolsAuthority",
-          "isMut": true,
-          "isSigner": false
-        }
-      ],
-      "args": [
+          name: 'communityPoolsAuthority';
+          isMut: true;
+          isSigner: false;
+        },
+      ];
+      args: [
         {
-          "name": "bumpPoolsAuth",
-          "type": "u8"
-        }
-      ],
-      "returns": null
+          name: 'bumpPoolsAuth';
+          type: 'u8';
+        },
+      ];
+      returns: null;
     },
     {
-      "name": "addToWhitelist",
-      "accounts": [
+      name: 'addToWhitelist';
+      accounts: [
         {
-          "name": "authority",
-          "isMut": true,
-          "isSigner": true
+          name: 'authority';
+          isMut: true;
+          isSigner: true;
         },
         {
-          "name": "poolWhitelist",
-          "isMut": true,
-          "isSigner": true
+          name: 'poolWhitelist';
+          isMut: true;
+          isSigner: true;
         },
         {
-          "name": "communityPool",
-          "isMut": true,
-          "isSigner": false
+          name: 'communityPool';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "whitelistedAddress",
-          "isMut": false,
-          "isSigner": false
+          name: 'whitelistedAddress';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "rent",
-          "isMut": false,
-          "isSigner": false
+          name: 'rent';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'tokenProgram';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": [
+          name: 'systemProgram';
+          isMut: false;
+          isSigner: false;
+        },
+      ];
+      args: [
         {
-          "name": "isCreator",
-          "type": "bool"
-        }
-      ],
-      "returns": null
+          name: 'isCreator';
+          type: 'bool';
+        },
+      ];
+      returns: null;
     },
     {
-      "name": "activatePool",
-      "accounts": [
+      name: 'activatePool';
+      accounts: [
         {
-          "name": "communityPool",
-          "isMut": true,
-          "isSigner": false
+          name: 'communityPool';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "authority",
-          "isMut": true,
-          "isSigner": true
+          name: 'authority';
+          isMut: true;
+          isSigner: true;
         },
         {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": [],
-      "returns": null
+          name: 'systemProgram';
+          isMut: false;
+          isSigner: false;
+        },
+      ];
+      args: [];
+      returns: null;
     },
     {
-      "name": "depositNft",
-      "accounts": [
+      name: 'depositNft';
+      accounts: [
         {
-          "name": "safetyDepositBox",
-          "isMut": true,
-          "isSigner": true
+          name: 'safetyDepositBox';
+          isMut: true;
+          isSigner: true;
         },
         {
-          "name": "nftUserTokenAccount",
-          "isMut": true,
-          "isSigner": false
+          name: 'nftUserTokenAccount';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "nftMint",
-          "isMut": false,
-          "isSigner": false
+          name: 'nftMint';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "storeNftTokenAccount",
-          "isMut": true,
-          "isSigner": true
+          name: 'storeNftTokenAccount';
+          isMut: true;
+          isSigner: true;
         },
         {
-          "name": "communityPool",
-          "isMut": true,
-          "isSigner": false
+          name: 'communityPool';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "communityPoolsAuthority",
-          "isMut": true,
-          "isSigner": false
+          name: 'communityPoolsAuthority';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "user",
-          "isMut": true,
-          "isSigner": true
+          name: 'user';
+          isMut: true;
+          isSigner: true;
         },
         {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'systemProgram';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "rent",
-          "isMut": false,
-          "isSigner": false
+          name: 'rent';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'tokenProgram';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "fractionMint",
-          "isMut": true,
-          "isSigner": false
+          name: 'fractionMint';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "userFractionsTokenAccount",
-          "isMut": true,
-          "isSigner": false
+          name: 'userFractionsTokenAccount';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "poolWhitelist",
-          "isMut": true,
-          "isSigner": false
+          name: 'poolWhitelist';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "metadataInfo",
-          "isMut": false,
-          "isSigner": false
+          name: 'metadataInfo';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "tokenMintInput",
-          "isMut": true,
-          "isSigner": false
+          name: 'tokenMintInput';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "fusionVaultOwnerPda",
-          "isMut": true,
-          "isSigner": false
+          name: 'fusionVaultOwnerPda';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "vaultTokenAccountOutput",
-          "isMut": true,
-          "isSigner": false
+          name: 'vaultTokenAccountOutput';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "mainRouter",
-          "isMut": true,
-          "isSigner": false
+          name: 'mainRouter';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "configOutput",
-          "isMut": true,
-          "isSigner": false
+          name: 'configOutput';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "fusionId",
-          "isMut": false,
-          "isSigner": false
+          name: 'fusionId';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "associatedTokenProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'associatedTokenProgram';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "feeConfig",
-          "isMut": true,
-          "isSigner": false
+          name: 'feeConfig';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "boardEntry",
-          "isMut": true,
-          "isSigner": false
+          name: 'boardEntry';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "leaderboardAccount",
-          "isMut": true,
-          "isSigner": false
+          name: 'leaderboardAccount';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "admin",
-          "isMut": true,
-          "isSigner": false
+          name: 'admin';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "adminTokenAccount",
-          "isMut": true,
-          "isSigner": false
-        }
-      ],
-      "args": [
+          name: 'adminTokenAccount';
+          isMut: true;
+          isSigner: false;
+        },
+      ];
+      args: [
         {
-          "name": "bumpPoolsAuth",
-          "type": "u8"
+          name: 'bumpPoolsAuth';
+          type: 'u8';
         },
         {
-          "name": "bumpTopupAuth",
-          "type": "u8"
-        }
-      ],
-      "returns": null
+          name: 'bumpTopupAuth';
+          type: 'u8';
+        },
+      ];
+      returns: null;
     },
     {
-      "name": "getLotteryTicket",
-      "accounts": [
+      name: 'getLotteryTicket';
+      accounts: [
         {
-          "name": "lotteryTicket",
-          "isMut": true,
-          "isSigner": true
+          name: 'lotteryTicket';
+          isMut: true;
+          isSigner: true;
         },
         {
-          "name": "communityPool",
-          "isMut": true,
-          "isSigner": false
+          name: 'communityPool';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "user",
-          "isMut": true,
-          "isSigner": true
+          name: 'user';
+          isMut: true;
+          isSigner: true;
         },
         {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'systemProgram';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "rent",
-          "isMut": false,
-          "isSigner": false
+          name: 'rent';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'tokenProgram';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "fractionMint",
-          "isMut": true,
-          "isSigner": false
+          name: 'fractionMint';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "userFractionsTokenAccount",
-          "isMut": true,
-          "isSigner": false
+          name: 'userFractionsTokenAccount';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "tokenMintInput",
-          "isMut": true,
-          "isSigner": false
+          name: 'tokenMintInput';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "fusionVaultOwnerPda",
-          "isMut": true,
-          "isSigner": false
+          name: 'fusionVaultOwnerPda';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "vaultTokenAccountOutput",
-          "isMut": true,
-          "isSigner": false
+          name: 'vaultTokenAccountOutput';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "mainRouter",
-          "isMut": true,
-          "isSigner": false
+          name: 'mainRouter';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "configOutput",
-          "isMut": true,
-          "isSigner": false
+          name: 'configOutput';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "fusionId",
-          "isMut": false,
-          "isSigner": false
+          name: 'fusionId';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "associatedTokenProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'associatedTokenProgram';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "feeConfig",
-          "isMut": true,
-          "isSigner": false
+          name: 'feeConfig';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "boardEntry",
-          "isMut": true,
-          "isSigner": false
+          name: 'boardEntry';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "leaderboardAccount",
-          "isMut": true,
-          "isSigner": false
+          name: 'leaderboardAccount';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "admin",
-          "isMut": true,
-          "isSigner": false
+          name: 'admin';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "adminTokenAccount",
-          "isMut": true,
-          "isSigner": false
-        }
-      ],
-      "args": [
+          name: 'adminTokenAccount';
+          isMut: true;
+          isSigner: false;
+        },
+      ];
+      args: [
         {
-          "name": "bumpTopupAuth",
-          "type": "u8"
-        }
-      ],
-      "returns": null
+          name: 'bumpTopupAuth';
+          type: 'u8';
+        },
+      ];
+      returns: null;
     },
     {
-      "name": "revealLotteryTicket",
-      "accounts": [
+      name: 'revealLotteryTicket';
+      accounts: [
         {
-          "name": "lotteryTicket",
-          "isMut": true,
-          "isSigner": false
+          name: 'lotteryTicket';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "safetyDepositBox",
-          "isMut": true,
-          "isSigner": false
+          name: 'safetyDepositBox';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "communityPool",
-          "isMut": true,
-          "isSigner": false
+          name: 'communityPool';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "admin",
-          "isMut": true,
-          "isSigner": true
-        }
-      ],
-      "args": [],
-      "returns": null
+          name: 'admin';
+          isMut: true;
+          isSigner: true;
+        },
+      ];
+      args: [];
+      returns: null;
     },
     {
-      "name": "withdrawNftByTicket",
-      "accounts": [
+      name: 'withdrawNftByTicket';
+      accounts: [
         {
-          "name": "lotteryTicket",
-          "isMut": true,
-          "isSigner": false
+          name: 'lotteryTicket';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "safetyDepositBox",
-          "isMut": true,
-          "isSigner": false
+          name: 'safetyDepositBox';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "nftUserTokenAccount",
-          "isMut": true,
-          "isSigner": false
+          name: 'nftUserTokenAccount';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "nftMint",
-          "isMut": false,
-          "isSigner": false
+          name: 'nftMint';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "storeNftTokenAccount",
-          "isMut": true,
-          "isSigner": false
+          name: 'storeNftTokenAccount';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "communityPool",
-          "isMut": true,
-          "isSigner": false
+          name: 'communityPool';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "communityPoolsAuthority",
-          "isMut": true,
-          "isSigner": false
+          name: 'communityPoolsAuthority';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "user",
-          "isMut": true,
-          "isSigner": true
+          name: 'user';
+          isMut: true;
+          isSigner: true;
         },
         {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'systemProgram';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "rent",
-          "isMut": false,
-          "isSigner": false
+          name: 'rent';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": [
+          name: 'tokenProgram';
+          isMut: false;
+          isSigner: false;
+        },
+      ];
+      args: [
         {
-          "name": "bumpPoolsAuth",
-          "type": "u8"
-        }
-      ],
-      "returns": null
+          name: 'bumpPoolsAuth';
+          type: 'u8';
+        },
+      ];
+      returns: null;
     },
     {
-      "name": "withdrawNftByAdmin",
-      "accounts": [
+      name: 'withdrawNftByAdmin';
+      accounts: [
         {
-          "name": "lotteryTicket",
-          "isMut": true,
-          "isSigner": false
+          name: 'lotteryTicket';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "safetyDepositBox",
-          "isMut": true,
-          "isSigner": false
+          name: 'safetyDepositBox';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "nftUserTokenAccount",
-          "isMut": true,
-          "isSigner": false
+          name: 'nftUserTokenAccount';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "nftMint",
-          "isMut": false,
-          "isSigner": false
+          name: 'nftMint';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "storeNftTokenAccount",
-          "isMut": true,
-          "isSigner": false
+          name: 'storeNftTokenAccount';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "communityPool",
-          "isMut": true,
-          "isSigner": false
+          name: 'communityPool';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "communityPoolsAuthority",
-          "isMut": true,
-          "isSigner": false
+          name: 'communityPoolsAuthority';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'systemProgram';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "rent",
-          "isMut": false,
-          "isSigner": false
+          name: 'rent';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'tokenProgram';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "admin",
-          "isMut": true,
-          "isSigner": true
-        }
-      ],
-      "args": [
+          name: 'admin';
+          isMut: true;
+          isSigner: true;
+        },
+      ];
+      args: [
         {
-          "name": "bumpPoolsAuth",
-          "type": "u8"
-        }
-      ],
-      "returns": null
+          name: 'bumpPoolsAuth';
+          type: 'u8';
+        },
+      ];
+      returns: null;
     },
     {
-      "name": "initializeLeaderboard",
-      "accounts": [
+      name: 'initializeLeaderboard';
+      accounts: [
         {
-          "name": "admin",
-          "isMut": true,
-          "isSigner": true
+          name: 'admin';
+          isMut: true;
+          isSigner: true;
         },
         {
-          "name": "communityPool",
-          "isMut": true,
-          "isSigner": false
+          name: 'communityPool';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "fractionMint",
-          "isMut": true,
-          "isSigner": false
+          name: 'fractionMint';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'systemProgram';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "rent",
-          "isMut": false,
-          "isSigner": false
+          name: 'rent';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'tokenProgram';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "leaderboardAccount",
-          "isMut": true,
-          "isSigner": false
-        }
-      ],
-      "args": [
+          name: 'leaderboardAccount';
+          isMut: true;
+          isSigner: false;
+        },
+      ];
+      args: [
         {
-          "name": "depositReward",
-          "type": "u64"
+          name: 'depositReward';
+          type: 'u64';
         },
         {
-          "name": "withdrawReward",
-          "type": "u64"
-        }
-      ],
-      "returns": null
+          name: 'withdrawReward';
+          type: 'u64';
+        },
+      ];
+      returns: null;
     },
     {
-      "name": "updateLeaderboard",
-      "accounts": [
+      name: 'updateLeaderboard';
+      accounts: [
         {
-          "name": "admin",
-          "isMut": true,
-          "isSigner": true
+          name: 'admin';
+          isMut: true;
+          isSigner: true;
         },
         {
-          "name": "communityPool",
-          "isMut": true,
-          "isSigner": false
+          name: 'communityPool';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "fractionMint",
-          "isMut": true,
-          "isSigner": false
+          name: 'fractionMint';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'systemProgram';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "rent",
-          "isMut": false,
-          "isSigner": false
+          name: 'rent';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'tokenProgram';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "leaderboardAccount",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": [
+          name: 'leaderboardAccount';
+          isMut: false;
+          isSigner: false;
+        },
+      ];
+      args: [
         {
-          "name": "bumpLeaderboard",
-          "type": "u8"
+          name: 'bumpLeaderboard';
+          type: 'u8';
         },
         {
-          "name": "depositReward",
-          "type": "u64"
+          name: 'depositReward';
+          type: 'u64';
         },
         {
-          "name": "withdrawReward",
-          "type": "u64"
-        }
-      ],
-      "returns": null
+          name: 'withdrawReward';
+          type: 'u64';
+        },
+      ];
+      returns: null;
     },
     {
-      "name": "initializeFee",
-      "accounts": [
+      name: 'initializeFee';
+      accounts: [
         {
-          "name": "admin",
-          "isMut": true,
-          "isSigner": true
+          name: 'admin';
+          isMut: true;
+          isSigner: true;
         },
         {
-          "name": "communityPool",
-          "isMut": false,
-          "isSigner": false
+          name: 'communityPool';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "config",
-          "isMut": true,
-          "isSigner": true
+          name: 'config';
+          isMut: true;
+          isSigner: true;
         },
         {
-          "name": "rent",
-          "isMut": false,
-          "isSigner": false
+          name: 'rent';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": [
+          name: 'systemProgram';
+          isMut: false;
+          isSigner: false;
+        },
+      ];
+      args: [
         {
-          "name": "depositFeeAdmin",
-          "type": "u32"
+          name: 'depositFeeAdmin';
+          type: 'u32';
         },
         {
-          "name": "depositFeePool",
-          "type": "u32"
+          name: 'depositFeePool';
+          type: 'u32';
         },
         {
-          "name": "getLotteryFeeAdmin",
-          "type": "u32"
+          name: 'getLotteryFeeAdmin';
+          type: 'u32';
         },
         {
-          "name": "getLotteryFeePool",
-          "type": "u32"
-        }
-      ],
-      "returns": null
+          name: 'getLotteryFeePool';
+          type: 'u32';
+        },
+      ];
+      returns: null;
     },
     {
-      "name": "updateFee",
-      "accounts": [
+      name: 'updateFee';
+      accounts: [
         {
-          "name": "admin",
-          "isMut": true,
-          "isSigner": true
+          name: 'admin';
+          isMut: true;
+          isSigner: true;
         },
         {
-          "name": "config",
-          "isMut": true,
-          "isSigner": false
+          name: 'config';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "rent",
-          "isMut": false,
-          "isSigner": false
+          name: 'rent';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": [
+          name: 'systemProgram';
+          isMut: false;
+          isSigner: false;
+        },
+      ];
+      args: [
         {
-          "name": "depositFeeAdmin",
-          "type": "u32"
+          name: 'depositFeeAdmin';
+          type: 'u32';
         },
         {
-          "name": "depositFeePool",
-          "type": "u32"
+          name: 'depositFeePool';
+          type: 'u32';
         },
         {
-          "name": "getLotteryFeeAdmin",
-          "type": "u32"
+          name: 'getLotteryFeeAdmin';
+          type: 'u32';
         },
         {
-          "name": "getLotteryFeePool",
-          "type": "u32"
-        }
-      ],
-      "returns": null
+          name: 'getLotteryFeePool';
+          type: 'u32';
+        },
+      ];
+      returns: null;
     },
     {
-      "name": "addScore",
-      "accounts": [
+      name: 'addScore';
+      accounts: [
         {
-          "name": "user",
-          "isMut": true,
-          "isSigner": false
+          name: 'user';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "programAuthority",
-          "isMut": false,
-          "isSigner": true
+          name: 'programAuthority';
+          isMut: false;
+          isSigner: true;
         },
         {
-          "name": "boardEntry",
-          "isMut": true,
-          "isSigner": false
+          name: 'boardEntry';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "permission",
-          "isMut": true,
-          "isSigner": false
+          name: 'permission';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": [
+          name: 'systemProgram';
+          isMut: false;
+          isSigner: false;
+        },
+      ];
+      args: [
         {
-          "name": "bumpPermission",
-          "type": "u8"
+          name: 'bumpPermission';
+          type: 'u8';
         },
         {
-          "name": "bumpBoard",
-          "type": "u8"
+          name: 'bumpBoard';
+          type: 'u8';
         },
         {
-          "name": "programPubkey",
-          "type": "publicKey"
+          name: 'programPubkey';
+          type: 'publicKey';
         },
         {
-          "name": "toAdd",
-          "type": "u64"
-        }
-      ],
-      "returns": null
+          name: 'toAdd';
+          type: 'u64';
+        },
+      ];
+      returns: null;
     },
     {
-      "name": "harvestScore",
-      "accounts": [
+      name: 'harvestScore';
+      accounts: [
         {
-          "name": "user",
-          "isMut": true,
-          "isSigner": true
+          name: 'user';
+          isMut: true;
+          isSigner: true;
         },
         {
-          "name": "tokenMint",
-          "isMut": true,
-          "isSigner": false
+          name: 'tokenMint';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "userTokenAccount",
-          "isMut": true,
-          "isSigner": false
+          name: 'userTokenAccount';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "vaultOwnerPda",
-          "isMut": true,
-          "isSigner": false
+          name: 'vaultOwnerPda';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "vaultTokenAccount",
-          "isMut": true,
-          "isSigner": false
+          name: 'vaultTokenAccount';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "config",
-          "isMut": false,
-          "isSigner": false
+          name: 'config';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "boardEntry",
-          "isMut": true,
-          "isSigner": false
+          name: 'boardEntry';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "rent",
-          "isMut": false,
-          "isSigner": false
+          name: 'rent';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'systemProgram';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'tokenProgram';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "associatedTokenProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": [
+          name: 'associatedTokenProgram';
+          isMut: false;
+          isSigner: false;
+        },
+      ];
+      args: [
         {
-          "name": "bumpBoard",
-          "type": "u8"
+          name: 'bumpBoard';
+          type: 'u8';
         },
         {
-          "name": "bumpAuth",
-          "type": "u8"
+          name: 'bumpAuth';
+          type: 'u8';
         },
         {
-          "name": "bumpConfig",
-          "type": "u8"
-        }
-      ],
-      "returns": null
+          name: 'bumpConfig';
+          type: 'u8';
+        },
+      ];
+      returns: null;
     },
     {
-      "name": "initializeBoardEntry",
-      "accounts": [
+      name: 'initializeBoardEntry';
+      accounts: [
         {
-          "name": "user",
-          "isMut": true,
-          "isSigner": true
+          name: 'user';
+          isMut: true;
+          isSigner: true;
         },
         {
-          "name": "nftMint",
-          "isMut": true,
-          "isSigner": false
+          name: 'nftMint';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "boardEntry",
-          "isMut": true,
-          "isSigner": false
+          name: 'boardEntry';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "rent",
-          "isMut": false,
-          "isSigner": false
+          name: 'rent';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": [
+          name: 'systemProgram';
+          isMut: false;
+          isSigner: false;
+        },
+      ];
+      args: [
         {
-          "name": "totalScore",
-          "type": "u64"
+          name: 'totalScore';
+          type: 'u64';
         },
         {
-          "name": "message",
-          "type": "string"
-        }
-      ],
-      "returns": null
+          name: 'message';
+          type: 'string';
+        },
+      ];
+      returns: null;
     },
     {
-      "name": "initializePermission",
-      "accounts": [
+      name: 'initializePermission';
+      accounts: [
         {
-          "name": "admin",
-          "isMut": true,
-          "isSigner": true
+          name: 'admin';
+          isMut: true;
+          isSigner: true;
         },
         {
-          "name": "programPubkey",
-          "isMut": false,
-          "isSigner": false
+          name: 'programPubkey';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "permission",
-          "isMut": true,
-          "isSigner": false
+          name: 'permission';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "rent",
-          "isMut": false,
-          "isSigner": false
+          name: 'rent';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": [
+          name: 'systemProgram';
+          isMut: false;
+          isSigner: false;
+        },
+      ];
+      args: [
         {
-          "name": "expiration",
-          "type": "u64"
+          name: 'expiration';
+          type: 'u64';
         },
         {
-          "name": "add",
-          "type": "bool"
+          name: 'add';
+          type: 'bool';
         },
         {
-          "name": "harvest",
-          "type": "bool"
-        }
-      ],
-      "returns": null
+          name: 'harvest';
+          type: 'bool';
+        },
+      ];
+      returns: null;
     },
     {
-      "name": "intializeConfig",
-      "accounts": [
+      name: 'intializeConfig';
+      accounts: [
         {
-          "name": "admin",
-          "isMut": true,
-          "isSigner": true
+          name: 'admin';
+          isMut: true;
+          isSigner: true;
         },
         {
-          "name": "tokenMint",
-          "isMut": true,
-          "isSigner": false
+          name: 'tokenMint';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "vaultOwnerPda",
-          "isMut": true,
-          "isSigner": false
+          name: 'vaultOwnerPda';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "vaultTokenAccount",
-          "isMut": true,
-          "isSigner": false
+          name: 'vaultTokenAccount';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "config",
-          "isMut": true,
-          "isSigner": false
+          name: 'config';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "rent",
-          "isMut": false,
-          "isSigner": false
+          name: 'rent';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'systemProgram';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'tokenProgram';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "associatedTokenProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": [
+          name: 'associatedTokenProgram';
+          isMut: false;
+          isSigner: false;
+        },
+      ];
+      args: [
         {
-          "name": "bumpAuth",
-          "type": "u8"
-        }
-      ],
-      "returns": null
+          name: 'bumpAuth';
+          type: 'u8';
+        },
+      ];
+      returns: null;
     },
     {
-      "name": "topupConfig",
-      "accounts": [
+      name: 'topupConfig';
+      accounts: [
         {
-          "name": "admin",
-          "isMut": true,
-          "isSigner": true
+          name: 'admin';
+          isMut: true;
+          isSigner: true;
         },
         {
-          "name": "tokenMint",
-          "isMut": true,
-          "isSigner": false
+          name: 'tokenMint';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "adminTokenAccount",
-          "isMut": true,
-          "isSigner": false
+          name: 'adminTokenAccount';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "vaultOwnerPda",
-          "isMut": true,
-          "isSigner": false
+          name: 'vaultOwnerPda';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "vaultTokenAccount",
-          "isMut": true,
-          "isSigner": false
+          name: 'vaultTokenAccount';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "config",
-          "isMut": true,
-          "isSigner": false
+          name: 'config';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "rent",
-          "isMut": false,
-          "isSigner": false
+          name: 'rent';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'systemProgram';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'tokenProgram';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "associatedTokenProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": [
+          name: 'associatedTokenProgram';
+          isMut: false;
+          isSigner: false;
+        },
+      ];
+      args: [
         {
-          "name": "bumpAuth",
-          "type": "u8"
+          name: 'bumpAuth';
+          type: 'u8';
         },
         {
-          "name": "bumpConfig",
-          "type": "u8"
+          name: 'bumpConfig';
+          type: 'u8';
         },
         {
-          "name": "topupAmount",
-          "type": "u64"
-        }
-      ],
-      "returns": null
+          name: 'topupAmount';
+          type: 'u64';
+        },
+      ];
+      returns: null;
     },
     {
-      "name": "updateConnection",
-      "accounts": [
+      name: 'updateConnection';
+      accounts: [
         {
-          "name": "communityPool",
-          "isMut": true,
-          "isSigner": false
+          name: 'communityPool';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "admin",
-          "isMut": true,
-          "isSigner": true
+          name: 'admin';
+          isMut: true;
+          isSigner: true;
         },
         {
-          "name": "fractionMint",
-          "isMut": true,
-          "isSigner": false
+          name: 'fractionMint';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "router",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": [],
-      "returns": null
+          name: 'router';
+          isMut: false;
+          isSigner: false;
+        },
+      ];
+      args: [];
+      returns: null;
     },
     {
-      "name": "emergencyWithdrawByAdmin",
-      "accounts": [
+      name: 'emergencyWithdrawByAdmin';
+      accounts: [
         {
-          "name": "safetyDepositBox",
-          "isMut": true,
-          "isSigner": false
+          name: 'safetyDepositBox';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "nftUserTokenAccount",
-          "isMut": true,
-          "isSigner": false
+          name: 'nftUserTokenAccount';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "nftMint",
-          "isMut": false,
-          "isSigner": false
+          name: 'nftMint';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "storeNftTokenAccount",
-          "isMut": true,
-          "isSigner": false
+          name: 'storeNftTokenAccount';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "communityPool",
-          "isMut": true,
-          "isSigner": false
+          name: 'communityPool';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "communityPoolsAuthority",
-          "isMut": true,
-          "isSigner": false
+          name: 'communityPoolsAuthority';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'systemProgram';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "rent",
-          "isMut": false,
-          "isSigner": false
+          name: 'rent';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'tokenProgram';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "admin",
-          "isMut": true,
-          "isSigner": true
-        }
-      ],
-      "args": [
+          name: 'admin';
+          isMut: true;
+          isSigner: true;
+        },
+      ];
+      args: [
         {
-          "name": "bumpPoolsAuth",
-          "type": "u8"
-        }
-      ],
-      "returns": null
+          name: 'bumpPoolsAuth';
+          type: 'u8';
+        },
+      ];
+      returns: null;
     },
     {
-      "name": "removeFromWhitelistByAdmin",
-      "accounts": [
+      name: 'removeFromWhitelistByAdmin';
+      accounts: [
         {
-          "name": "admin",
-          "isMut": true,
-          "isSigner": true
+          name: 'admin';
+          isMut: true;
+          isSigner: true;
         },
         {
-          "name": "poolWhitelist",
-          "isMut": true,
-          "isSigner": false
+          name: 'poolWhitelist';
+          isMut: true;
+          isSigner: false;
         },
         {
-          "name": "whitelistedAddress",
-          "isMut": false,
-          "isSigner": false
+          name: 'whitelistedAddress';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "rent",
-          "isMut": false,
-          "isSigner": false
+          name: 'rent';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'tokenProgram';
+          isMut: false;
+          isSigner: false;
         },
         {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": [],
-      "returns": null
-    }
-  ],
-  "accounts": [
+          name: 'systemProgram';
+          isMut: false;
+          isSigner: false;
+        },
+      ];
+      args: [];
+      returns: null;
+    },
+  ];
+  accounts: [
     {
-      "name": "boardEntry",
-      "type": {
-        "kind": "struct",
-        "fields": [
+      name: 'boardEntry';
+      type: {
+        kind: 'struct';
+        fields: [
           {
-            "name": "entryholder",
-            "type": "publicKey"
+            name: 'entryholder';
+            type: 'publicKey';
           },
           {
-            "name": "totalScore",
-            "type": "u64"
+            name: 'totalScore';
+            type: 'u64';
           },
           {
-            "name": "scoreToHarvest",
-            "type": "u64"
+            name: 'scoreToHarvest';
+            type: 'u64';
           },
           {
-            "name": "nftMint",
-            "type": "publicKey"
+            name: 'nftMint';
+            type: 'publicKey';
           },
           {
-            "name": "message",
-            "type": "string"
-          }
-        ]
-      }
+            name: 'message';
+            type: 'string';
+          },
+        ];
+      };
     },
     {
-      "name": "communityPool",
-      "type": {
-        "kind": "struct",
-        "fields": [
+      name: 'communityPool';
+      type: {
+        kind: 'struct';
+        fields: [
           {
-            "name": "tokenProgram",
-            "type": "publicKey"
+            name: 'tokenProgram';
+            type: 'publicKey';
           },
           {
-            "name": "fractionMint",
-            "type": "publicKey"
+            name: 'fractionMint';
+            type: 'publicKey';
           },
           {
-            "name": "authority",
-            "type": "publicKey"
+            name: 'authority';
+            type: 'publicKey';
           },
           {
-            "name": "fractionsSupply",
-            "type": "u64"
+            name: 'fractionsSupply';
+            type: 'u64';
           },
           {
-            "name": "createdAt",
-            "type": "u64"
+            name: 'createdAt';
+            type: 'u64';
           },
           {
-            "name": "tokenTypeCount",
-            "type": "u64"
+            name: 'tokenTypeCount';
+            type: 'u64';
           },
           {
-            "name": "state",
-            "type": {
-              "defined": "VaultState"
-            }
-          }
-        ]
-      }
+            name: 'state';
+            type: {
+              defined: 'VaultState';
+            };
+          },
+        ];
+      };
     },
     {
-      "name": "feeConfig",
-      "type": {
-        "kind": "struct",
-        "fields": [
+      name: 'feeConfig';
+      type: {
+        kind: 'struct';
+        fields: [
           {
-            "name": "communityPool",
-            "type": "publicKey"
+            name: 'communityPool';
+            type: 'publicKey';
           },
           {
-            "name": "depositFeeAdmin",
-            "type": "u64"
+            name: 'depositFeeAdmin';
+            type: 'u64';
           },
           {
-            "name": "depositFeePool",
-            "type": "u64"
+            name: 'depositFeePool';
+            type: 'u64';
           },
           {
-            "name": "getLotteryFeeAdmin",
-            "type": "u64"
+            name: 'getLotteryFeeAdmin';
+            type: 'u64';
           },
           {
-            "name": "getLotteryFeePool",
-            "type": "u64"
-          }
-        ]
-      }
+            name: 'getLotteryFeePool';
+            type: 'u64';
+          },
+        ];
+      };
     },
     {
-      "name": "poolConfig",
-      "type": {
-        "kind": "struct",
-        "fields": [
+      name: 'poolConfig';
+      type: {
+        kind: 'struct';
+        fields: [
           {
-            "name": "vaultOwnerPda",
-            "type": "publicKey"
+            name: 'vaultOwnerPda';
+            type: 'publicKey';
           },
           {
-            "name": "tokenMint",
-            "type": "publicKey"
+            name: 'tokenMint';
+            type: 'publicKey';
           },
           {
-            "name": "vaultTokenAccount",
-            "type": "publicKey"
+            name: 'vaultTokenAccount';
+            type: 'publicKey';
           },
           {
-            "name": "poolVaultBalance",
-            "type": "u64"
-          }
-        ]
-      }
+            name: 'poolVaultBalance';
+            type: 'u64';
+          },
+        ];
+      };
     },
     {
-      "name": "leaderboardRewardAccount",
-      "type": {
-        "kind": "struct",
-        "fields": [
+      name: 'leaderboardRewardAccount';
+      type: {
+        kind: 'struct';
+        fields: [
           {
-            "name": "communityPool",
-            "type": "publicKey"
+            name: 'communityPool';
+            type: 'publicKey';
           },
           {
-            "name": "depositReward",
-            "type": "u64"
+            name: 'depositReward';
+            type: 'u64';
           },
           {
-            "name": "withdrawReward",
-            "type": "u64"
-          }
-        ]
-      }
+            name: 'withdrawReward';
+            type: 'u64';
+          },
+        ];
+      };
     },
     {
-      "name": "lotteryTicket",
-      "type": {
-        "kind": "struct",
-        "fields": [
+      name: 'lotteryTicket';
+      type: {
+        kind: 'struct';
+        fields: [
           {
-            "name": "communityPool",
-            "type": "publicKey"
+            name: 'communityPool';
+            type: 'publicKey';
           },
           {
-            "name": "ticketHolder",
-            "type": "publicKey"
+            name: 'ticketHolder';
+            type: 'publicKey';
           },
           {
-            "name": "winningSafetyBox",
-            "type": "publicKey"
+            name: 'winningSafetyBox';
+            type: 'publicKey';
           },
           {
-            "name": "lotteryTicketState",
-            "type": {
-              "defined": "LotteryTicketState"
-            }
-          }
-        ]
-      }
+            name: 'lotteryTicketState';
+            type: {
+              defined: 'LotteryTicketState';
+            };
+          },
+        ];
+      };
     },
     {
-      "name": "permission",
-      "type": {
-        "kind": "struct",
-        "fields": [
+      name: 'permission';
+      type: {
+        kind: 'struct';
+        fields: [
           {
-            "name": "programPubkey",
-            "type": "publicKey"
+            name: 'programPubkey';
+            type: 'publicKey';
           },
           {
-            "name": "expiration",
-            "type": "u64"
+            name: 'expiration';
+            type: 'u64';
           },
           {
-            "name": "canAddScore",
-            "type": "bool"
+            name: 'canAddScore';
+            type: 'bool';
           },
           {
-            "name": "canHarvestScore",
-            "type": "bool"
-          }
-        ]
-      }
+            name: 'canHarvestScore';
+            type: 'bool';
+          },
+        ];
+      };
     },
     {
-      "name": "poolWhitelist",
-      "type": {
-        "kind": "struct",
-        "fields": [
+      name: 'poolWhitelist';
+      type: {
+        kind: 'struct';
+        fields: [
           {
-            "name": "communityPool",
-            "type": "publicKey"
+            name: 'communityPool';
+            type: 'publicKey';
           },
           {
-            "name": "whitelistedAddress",
-            "type": "publicKey"
+            name: 'whitelistedAddress';
+            type: 'publicKey';
           },
           {
-            "name": "whitelistType",
-            "type": {
-              "defined": "WhitelistType"
-            }
-          }
-        ]
-      }
+            name: 'whitelistType';
+            type: {
+              defined: 'WhitelistType';
+            };
+          },
+        ];
+      };
     },
     {
-      "name": "safetyDepositBox",
-      "type": {
-        "kind": "struct",
-        "fields": [
+      name: 'safetyDepositBox';
+      type: {
+        kind: 'struct';
+        fields: [
           {
-            "name": "communityPool",
-            "type": "publicKey"
+            name: 'communityPool';
+            type: 'publicKey';
           },
           {
-            "name": "nftMint",
-            "type": "publicKey"
+            name: 'nftMint';
+            type: 'publicKey';
           },
           {
-            "name": "storeNftTokenAccount",
-            "type": "publicKey"
+            name: 'storeNftTokenAccount';
+            type: 'publicKey';
           },
           {
-            "name": "safetyBoxState",
-            "type": {
-              "defined": "SafetyBoxState"
-            }
-          }
-        ]
-      }
-    }
-  ],
-  "types": [
+            name: 'safetyBoxState';
+            type: {
+              defined: 'SafetyBoxState';
+            };
+          },
+        ];
+      };
+    },
+  ];
+  types: [
     {
-      "name": "VaultState",
-      "type": {
-        "kind": "enum",
-        "variants": [
+      name: 'VaultState';
+      type: {
+        kind: 'enum';
+        variants: [
           {
-            "name": "Inactive"
+            name: 'Inactive';
           },
           {
-            "name": "Active"
+            name: 'Active';
           },
           {
-            "name": "Deactivated"
-          }
-        ]
-      }
+            name: 'Deactivated';
+          },
+        ];
+      };
     },
     {
-      "name": "LotteryTicketState",
-      "type": {
-        "kind": "enum",
-        "variants": [
+      name: 'LotteryTicketState';
+      type: {
+        kind: 'enum';
+        variants: [
           {
-            "name": "ToBeRevealed"
+            name: 'ToBeRevealed';
           },
           {
-            "name": "Revealed"
+            name: 'Revealed';
           },
           {
-            "name": "Used"
-          }
-        ]
-      }
+            name: 'Used';
+          },
+        ];
+      };
     },
     {
-      "name": "WhitelistType",
-      "type": {
-        "kind": "enum",
-        "variants": [
+      name: 'WhitelistType';
+      type: {
+        kind: 'enum';
+        variants: [
           {
-            "name": "CreatorWhitelist"
+            name: 'CreatorWhitelist';
           },
           {
-            "name": "SingleNFTWhitelist"
-          }
-        ]
-      }
+            name: 'SingleNFTWhitelist';
+          },
+        ];
+      };
     },
     {
-      "name": "SafetyBoxState",
-      "type": {
-        "kind": "enum",
-        "variants": [
+      name: 'SafetyBoxState';
+      type: {
+        kind: 'enum';
+        variants: [
           {
-            "name": "Locked"
+            name: 'Locked';
           },
           {
-            "name": "Empty"
+            name: 'Empty';
           },
           {
-            "name": "ToBeWithdrawn"
-          }
-        ]
-      }
-    }
-  ],
-  "errors": [
+            name: 'ToBeWithdrawn';
+          },
+        ];
+      };
+    },
+  ];
+  errors: [
     {
-      "code": 6000,
-      "name": "CommunityPoolAuthorityDoesntMatch",
-      "msg": "Community pool authority doesn't match actual authority"
+      code: 6000;
+      name: 'CommunityPoolAuthorityDoesntMatch';
+      msg: "Community pool authority doesn't match actual authority";
     },
     {
-      "code": 6001,
-      "name": "PoolIsAlreadyActivated",
-      "msg": "Pool is already activated"
+      code: 6001;
+      name: 'PoolIsAlreadyActivated';
+      msg: 'Pool is already activated';
     },
     {
-      "code": 6002,
-      "name": "NotWhitelisted",
-      "msg": "Nft or creator is not whitelisted"
+      code: 6002;
+      name: 'NotWhitelisted';
+      msg: 'Nft or creator is not whitelisted';
     },
     {
-      "code": 6003,
-      "name": "WrongMetadata",
-      "msg": "Wrong metadata"
+      code: 6003;
+      name: 'WrongMetadata';
+      msg: 'Wrong metadata';
     },
     {
-      "code": 6004,
-      "name": "InvalidAuthority",
-      "msg": "Invalid Authority"
+      code: 6004;
+      name: 'InvalidAuthority';
+      msg: 'Invalid Authority';
     },
     {
-      "code": 6005,
-      "name": "InvalidBoardEntry",
-      "msg": "Invalid BoardEntry"
-    }
-  ]
+      code: 6005;
+      name: 'InvalidBoardEntry';
+      msg: 'Invalid BoardEntry';
+    },
+  ];
 };
 
 export const IDL: CommunityPoolsAnchor = {
-  "version": "0.1.0",
-  "name": "community_pools_anchor",
-  "instructions": [
+  version: '0.1.0',
+  name: 'community_pools_anchor',
+  instructions: [
     {
-      "name": "initPool",
-      "accounts": [
+      name: 'initPool',
+      accounts: [
         {
-          "name": "communityPool",
-          "isMut": true,
-          "isSigner": true
+          name: 'communityPool',
+          isMut: true,
+          isSigner: true,
         },
         {
-          "name": "authority",
-          "isMut": true,
-          "isSigner": true
+          name: 'authority',
+          isMut: true,
+          isSigner: true,
         },
         {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'systemProgram',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "fractionMint",
-          "isMut": true,
-          "isSigner": true
+          name: 'fractionMint',
+          isMut: true,
+          isSigner: true,
         },
         {
-          "name": "rent",
-          "isMut": false,
-          "isSigner": false
+          name: 'rent',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'tokenProgram',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "communityPoolsAuthority",
-          "isMut": true,
-          "isSigner": false
-        }
+          name: 'communityPoolsAuthority',
+          isMut: true,
+          isSigner: false,
+        },
       ],
-      "args": [
+      args: [
         {
-          "name": "bumpPoolsAuth",
-          "type": "u8"
-        }
+          name: 'bumpPoolsAuth',
+          type: 'u8',
+        },
       ],
-      "returns": null
+      returns: null,
     },
     {
-      "name": "addToWhitelist",
-      "accounts": [
+      name: 'addToWhitelist',
+      accounts: [
         {
-          "name": "authority",
-          "isMut": true,
-          "isSigner": true
+          name: 'authority',
+          isMut: true,
+          isSigner: true,
         },
         {
-          "name": "poolWhitelist",
-          "isMut": true,
-          "isSigner": true
+          name: 'poolWhitelist',
+          isMut: true,
+          isSigner: true,
         },
         {
-          "name": "communityPool",
-          "isMut": true,
-          "isSigner": false
+          name: 'communityPool',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "whitelistedAddress",
-          "isMut": false,
-          "isSigner": false
+          name: 'whitelistedAddress',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "rent",
-          "isMut": false,
-          "isSigner": false
+          name: 'rent',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'tokenProgram',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        }
+          name: 'systemProgram',
+          isMut: false,
+          isSigner: false,
+        },
       ],
-      "args": [
+      args: [
         {
-          "name": "isCreator",
-          "type": "bool"
-        }
+          name: 'isCreator',
+          type: 'bool',
+        },
       ],
-      "returns": null
+      returns: null,
     },
     {
-      "name": "activatePool",
-      "accounts": [
+      name: 'activatePool',
+      accounts: [
         {
-          "name": "communityPool",
-          "isMut": true,
-          "isSigner": false
+          name: 'communityPool',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "authority",
-          "isMut": true,
-          "isSigner": true
+          name: 'authority',
+          isMut: true,
+          isSigner: true,
         },
         {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        }
+          name: 'systemProgram',
+          isMut: false,
+          isSigner: false,
+        },
       ],
-      "args": [],
-      "returns": null
+      args: [],
+      returns: null,
     },
     {
-      "name": "depositNft",
-      "accounts": [
+      name: 'depositNft',
+      accounts: [
         {
-          "name": "safetyDepositBox",
-          "isMut": true,
-          "isSigner": true
+          name: 'safetyDepositBox',
+          isMut: true,
+          isSigner: true,
         },
         {
-          "name": "nftUserTokenAccount",
-          "isMut": true,
-          "isSigner": false
+          name: 'nftUserTokenAccount',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "nftMint",
-          "isMut": false,
-          "isSigner": false
+          name: 'nftMint',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "storeNftTokenAccount",
-          "isMut": true,
-          "isSigner": true
+          name: 'storeNftTokenAccount',
+          isMut: true,
+          isSigner: true,
         },
         {
-          "name": "communityPool",
-          "isMut": true,
-          "isSigner": false
+          name: 'communityPool',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "communityPoolsAuthority",
-          "isMut": true,
-          "isSigner": false
+          name: 'communityPoolsAuthority',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "user",
-          "isMut": true,
-          "isSigner": true
+          name: 'user',
+          isMut: true,
+          isSigner: true,
         },
         {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'systemProgram',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "rent",
-          "isMut": false,
-          "isSigner": false
+          name: 'rent',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'tokenProgram',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "fractionMint",
-          "isMut": true,
-          "isSigner": false
+          name: 'fractionMint',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "userFractionsTokenAccount",
-          "isMut": true,
-          "isSigner": false
+          name: 'userFractionsTokenAccount',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "poolWhitelist",
-          "isMut": true,
-          "isSigner": false
+          name: 'poolWhitelist',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "metadataInfo",
-          "isMut": false,
-          "isSigner": false
+          name: 'metadataInfo',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "tokenMintInput",
-          "isMut": true,
-          "isSigner": false
+          name: 'tokenMintInput',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "fusionVaultOwnerPda",
-          "isMut": true,
-          "isSigner": false
+          name: 'fusionVaultOwnerPda',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "vaultTokenAccountOutput",
-          "isMut": true,
-          "isSigner": false
+          name: 'vaultTokenAccountOutput',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "mainRouter",
-          "isMut": true,
-          "isSigner": false
+          name: 'mainRouter',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "configOutput",
-          "isMut": true,
-          "isSigner": false
+          name: 'configOutput',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "fusionId",
-          "isMut": false,
-          "isSigner": false
+          name: 'fusionId',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "associatedTokenProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'associatedTokenProgram',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "feeConfig",
-          "isMut": true,
-          "isSigner": false
+          name: 'feeConfig',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "boardEntry",
-          "isMut": true,
-          "isSigner": false
+          name: 'boardEntry',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "leaderboardAccount",
-          "isMut": true,
-          "isSigner": false
+          name: 'leaderboardAccount',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "admin",
-          "isMut": true,
-          "isSigner": false
+          name: 'admin',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "adminTokenAccount",
-          "isMut": true,
-          "isSigner": false
-        }
+          name: 'adminTokenAccount',
+          isMut: true,
+          isSigner: false,
+        },
       ],
-      "args": [
+      args: [
         {
-          "name": "bumpPoolsAuth",
-          "type": "u8"
+          name: 'bumpPoolsAuth',
+          type: 'u8',
         },
         {
-          "name": "bumpTopupAuth",
-          "type": "u8"
-        }
+          name: 'bumpTopupAuth',
+          type: 'u8',
+        },
       ],
-      "returns": null
+      returns: null,
     },
     {
-      "name": "getLotteryTicket",
-      "accounts": [
+      name: 'getLotteryTicket',
+      accounts: [
         {
-          "name": "lotteryTicket",
-          "isMut": true,
-          "isSigner": true
+          name: 'lotteryTicket',
+          isMut: true,
+          isSigner: true,
         },
         {
-          "name": "communityPool",
-          "isMut": true,
-          "isSigner": false
+          name: 'communityPool',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "user",
-          "isMut": true,
-          "isSigner": true
+          name: 'user',
+          isMut: true,
+          isSigner: true,
         },
         {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'systemProgram',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "rent",
-          "isMut": false,
-          "isSigner": false
+          name: 'rent',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'tokenProgram',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "fractionMint",
-          "isMut": true,
-          "isSigner": false
+          name: 'fractionMint',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "userFractionsTokenAccount",
-          "isMut": true,
-          "isSigner": false
+          name: 'userFractionsTokenAccount',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "tokenMintInput",
-          "isMut": true,
-          "isSigner": false
+          name: 'tokenMintInput',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "fusionVaultOwnerPda",
-          "isMut": true,
-          "isSigner": false
+          name: 'fusionVaultOwnerPda',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "vaultTokenAccountOutput",
-          "isMut": true,
-          "isSigner": false
+          name: 'vaultTokenAccountOutput',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "mainRouter",
-          "isMut": true,
-          "isSigner": false
+          name: 'mainRouter',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "configOutput",
-          "isMut": true,
-          "isSigner": false
+          name: 'configOutput',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "fusionId",
-          "isMut": false,
-          "isSigner": false
+          name: 'fusionId',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "associatedTokenProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'associatedTokenProgram',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "feeConfig",
-          "isMut": true,
-          "isSigner": false
+          name: 'feeConfig',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "boardEntry",
-          "isMut": true,
-          "isSigner": false
+          name: 'boardEntry',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "leaderboardAccount",
-          "isMut": true,
-          "isSigner": false
+          name: 'leaderboardAccount',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "admin",
-          "isMut": true,
-          "isSigner": false
+          name: 'admin',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "adminTokenAccount",
-          "isMut": true,
-          "isSigner": false
-        }
+          name: 'adminTokenAccount',
+          isMut: true,
+          isSigner: false,
+        },
       ],
-      "args": [
+      args: [
         {
-          "name": "bumpTopupAuth",
-          "type": "u8"
-        }
+          name: 'bumpTopupAuth',
+          type: 'u8',
+        },
       ],
-      "returns": null
+      returns: null,
     },
     {
-      "name": "revealLotteryTicket",
-      "accounts": [
+      name: 'revealLotteryTicket',
+      accounts: [
         {
-          "name": "lotteryTicket",
-          "isMut": true,
-          "isSigner": false
+          name: 'lotteryTicket',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "safetyDepositBox",
-          "isMut": true,
-          "isSigner": false
+          name: 'safetyDepositBox',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "communityPool",
-          "isMut": true,
-          "isSigner": false
+          name: 'communityPool',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "admin",
-          "isMut": true,
-          "isSigner": true
-        }
+          name: 'admin',
+          isMut: true,
+          isSigner: true,
+        },
       ],
-      "args": [],
-      "returns": null
+      args: [],
+      returns: null,
     },
     {
-      "name": "withdrawNftByTicket",
-      "accounts": [
+      name: 'withdrawNftByTicket',
+      accounts: [
         {
-          "name": "lotteryTicket",
-          "isMut": true,
-          "isSigner": false
+          name: 'lotteryTicket',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "safetyDepositBox",
-          "isMut": true,
-          "isSigner": false
+          name: 'safetyDepositBox',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "nftUserTokenAccount",
-          "isMut": true,
-          "isSigner": false
+          name: 'nftUserTokenAccount',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "nftMint",
-          "isMut": false,
-          "isSigner": false
+          name: 'nftMint',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "storeNftTokenAccount",
-          "isMut": true,
-          "isSigner": false
+          name: 'storeNftTokenAccount',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "communityPool",
-          "isMut": true,
-          "isSigner": false
+          name: 'communityPool',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "communityPoolsAuthority",
-          "isMut": true,
-          "isSigner": false
+          name: 'communityPoolsAuthority',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "user",
-          "isMut": true,
-          "isSigner": true
+          name: 'user',
+          isMut: true,
+          isSigner: true,
         },
         {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'systemProgram',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "rent",
-          "isMut": false,
-          "isSigner": false
+          name: 'rent',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
-        }
+          name: 'tokenProgram',
+          isMut: false,
+          isSigner: false,
+        },
       ],
-      "args": [
+      args: [
         {
-          "name": "bumpPoolsAuth",
-          "type": "u8"
-        }
+          name: 'bumpPoolsAuth',
+          type: 'u8',
+        },
       ],
-      "returns": null
+      returns: null,
     },
     {
-      "name": "withdrawNftByAdmin",
-      "accounts": [
+      name: 'withdrawNftByAdmin',
+      accounts: [
         {
-          "name": "lotteryTicket",
-          "isMut": true,
-          "isSigner": false
+          name: 'lotteryTicket',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "safetyDepositBox",
-          "isMut": true,
-          "isSigner": false
+          name: 'safetyDepositBox',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "nftUserTokenAccount",
-          "isMut": true,
-          "isSigner": false
+          name: 'nftUserTokenAccount',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "nftMint",
-          "isMut": false,
-          "isSigner": false
+          name: 'nftMint',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "storeNftTokenAccount",
-          "isMut": true,
-          "isSigner": false
+          name: 'storeNftTokenAccount',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "communityPool",
-          "isMut": true,
-          "isSigner": false
+          name: 'communityPool',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "communityPoolsAuthority",
-          "isMut": true,
-          "isSigner": false
+          name: 'communityPoolsAuthority',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'systemProgram',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "rent",
-          "isMut": false,
-          "isSigner": false
+          name: 'rent',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'tokenProgram',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "admin",
-          "isMut": true,
-          "isSigner": true
-        }
+          name: 'admin',
+          isMut: true,
+          isSigner: true,
+        },
       ],
-      "args": [
+      args: [
         {
-          "name": "bumpPoolsAuth",
-          "type": "u8"
-        }
+          name: 'bumpPoolsAuth',
+          type: 'u8',
+        },
       ],
-      "returns": null
+      returns: null,
     },
     {
-      "name": "initializeLeaderboard",
-      "accounts": [
+      name: 'initializeLeaderboard',
+      accounts: [
         {
-          "name": "admin",
-          "isMut": true,
-          "isSigner": true
+          name: 'admin',
+          isMut: true,
+          isSigner: true,
         },
         {
-          "name": "communityPool",
-          "isMut": true,
-          "isSigner": false
+          name: 'communityPool',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "fractionMint",
-          "isMut": true,
-          "isSigner": false
+          name: 'fractionMint',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'systemProgram',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "rent",
-          "isMut": false,
-          "isSigner": false
+          name: 'rent',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'tokenProgram',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "leaderboardAccount",
-          "isMut": true,
-          "isSigner": false
-        }
+          name: 'leaderboardAccount',
+          isMut: true,
+          isSigner: false,
+        },
       ],
-      "args": [
+      args: [
         {
-          "name": "depositReward",
-          "type": "u64"
+          name: 'depositReward',
+          type: 'u64',
         },
         {
-          "name": "withdrawReward",
-          "type": "u64"
-        }
+          name: 'withdrawReward',
+          type: 'u64',
+        },
       ],
-      "returns": null
+      returns: null,
     },
     {
-      "name": "updateLeaderboard",
-      "accounts": [
+      name: 'updateLeaderboard',
+      accounts: [
         {
-          "name": "admin",
-          "isMut": true,
-          "isSigner": true
+          name: 'admin',
+          isMut: true,
+          isSigner: true,
         },
         {
-          "name": "communityPool",
-          "isMut": true,
-          "isSigner": false
+          name: 'communityPool',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "fractionMint",
-          "isMut": true,
-          "isSigner": false
+          name: 'fractionMint',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'systemProgram',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "rent",
-          "isMut": false,
-          "isSigner": false
+          name: 'rent',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'tokenProgram',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "leaderboardAccount",
-          "isMut": false,
-          "isSigner": false
-        }
+          name: 'leaderboardAccount',
+          isMut: false,
+          isSigner: false,
+        },
       ],
-      "args": [
+      args: [
         {
-          "name": "bumpLeaderboard",
-          "type": "u8"
+          name: 'bumpLeaderboard',
+          type: 'u8',
         },
         {
-          "name": "depositReward",
-          "type": "u64"
+          name: 'depositReward',
+          type: 'u64',
         },
         {
-          "name": "withdrawReward",
-          "type": "u64"
-        }
+          name: 'withdrawReward',
+          type: 'u64',
+        },
       ],
-      "returns": null
+      returns: null,
     },
     {
-      "name": "initializeFee",
-      "accounts": [
+      name: 'initializeFee',
+      accounts: [
         {
-          "name": "admin",
-          "isMut": true,
-          "isSigner": true
+          name: 'admin',
+          isMut: true,
+          isSigner: true,
         },
         {
-          "name": "communityPool",
-          "isMut": false,
-          "isSigner": false
+          name: 'communityPool',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "config",
-          "isMut": true,
-          "isSigner": true
+          name: 'config',
+          isMut: true,
+          isSigner: true,
         },
         {
-          "name": "rent",
-          "isMut": false,
-          "isSigner": false
+          name: 'rent',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        }
+          name: 'systemProgram',
+          isMut: false,
+          isSigner: false,
+        },
       ],
-      "args": [
+      args: [
         {
-          "name": "depositFeeAdmin",
-          "type": "u32"
+          name: 'depositFeeAdmin',
+          type: 'u32',
         },
         {
-          "name": "depositFeePool",
-          "type": "u32"
+          name: 'depositFeePool',
+          type: 'u32',
         },
         {
-          "name": "getLotteryFeeAdmin",
-          "type": "u32"
+          name: 'getLotteryFeeAdmin',
+          type: 'u32',
         },
         {
-          "name": "getLotteryFeePool",
-          "type": "u32"
-        }
+          name: 'getLotteryFeePool',
+          type: 'u32',
+        },
       ],
-      "returns": null
+      returns: null,
     },
     {
-      "name": "updateFee",
-      "accounts": [
+      name: 'updateFee',
+      accounts: [
         {
-          "name": "admin",
-          "isMut": true,
-          "isSigner": true
+          name: 'admin',
+          isMut: true,
+          isSigner: true,
         },
         {
-          "name": "config",
-          "isMut": true,
-          "isSigner": false
+          name: 'config',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "rent",
-          "isMut": false,
-          "isSigner": false
+          name: 'rent',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        }
+          name: 'systemProgram',
+          isMut: false,
+          isSigner: false,
+        },
       ],
-      "args": [
+      args: [
         {
-          "name": "depositFeeAdmin",
-          "type": "u32"
+          name: 'depositFeeAdmin',
+          type: 'u32',
         },
         {
-          "name": "depositFeePool",
-          "type": "u32"
+          name: 'depositFeePool',
+          type: 'u32',
         },
         {
-          "name": "getLotteryFeeAdmin",
-          "type": "u32"
+          name: 'getLotteryFeeAdmin',
+          type: 'u32',
         },
         {
-          "name": "getLotteryFeePool",
-          "type": "u32"
-        }
+          name: 'getLotteryFeePool',
+          type: 'u32',
+        },
       ],
-      "returns": null
+      returns: null,
     },
     {
-      "name": "addScore",
-      "accounts": [
+      name: 'addScore',
+      accounts: [
         {
-          "name": "user",
-          "isMut": true,
-          "isSigner": false
+          name: 'user',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "programAuthority",
-          "isMut": false,
-          "isSigner": true
+          name: 'programAuthority',
+          isMut: false,
+          isSigner: true,
         },
         {
-          "name": "boardEntry",
-          "isMut": true,
-          "isSigner": false
+          name: 'boardEntry',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "permission",
-          "isMut": true,
-          "isSigner": false
+          name: 'permission',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        }
+          name: 'systemProgram',
+          isMut: false,
+          isSigner: false,
+        },
       ],
-      "args": [
+      args: [
         {
-          "name": "bumpPermission",
-          "type": "u8"
+          name: 'bumpPermission',
+          type: 'u8',
         },
         {
-          "name": "bumpBoard",
-          "type": "u8"
+          name: 'bumpBoard',
+          type: 'u8',
         },
         {
-          "name": "programPubkey",
-          "type": "publicKey"
+          name: 'programPubkey',
+          type: 'publicKey',
         },
         {
-          "name": "toAdd",
-          "type": "u64"
-        }
+          name: 'toAdd',
+          type: 'u64',
+        },
       ],
-      "returns": null
+      returns: null,
     },
     {
-      "name": "harvestScore",
-      "accounts": [
+      name: 'harvestScore',
+      accounts: [
         {
-          "name": "user",
-          "isMut": true,
-          "isSigner": true
+          name: 'user',
+          isMut: true,
+          isSigner: true,
         },
         {
-          "name": "tokenMint",
-          "isMut": true,
-          "isSigner": false
+          name: 'tokenMint',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "userTokenAccount",
-          "isMut": true,
-          "isSigner": false
+          name: 'userTokenAccount',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "vaultOwnerPda",
-          "isMut": true,
-          "isSigner": false
+          name: 'vaultOwnerPda',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "vaultTokenAccount",
-          "isMut": true,
-          "isSigner": false
+          name: 'vaultTokenAccount',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "config",
-          "isMut": false,
-          "isSigner": false
+          name: 'config',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "boardEntry",
-          "isMut": true,
-          "isSigner": false
+          name: 'boardEntry',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "rent",
-          "isMut": false,
-          "isSigner": false
+          name: 'rent',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'systemProgram',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'tokenProgram',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "associatedTokenProgram",
-          "isMut": false,
-          "isSigner": false
-        }
+          name: 'associatedTokenProgram',
+          isMut: false,
+          isSigner: false,
+        },
       ],
-      "args": [
+      args: [
         {
-          "name": "bumpBoard",
-          "type": "u8"
+          name: 'bumpBoard',
+          type: 'u8',
         },
         {
-          "name": "bumpAuth",
-          "type": "u8"
+          name: 'bumpAuth',
+          type: 'u8',
         },
         {
-          "name": "bumpConfig",
-          "type": "u8"
-        }
+          name: 'bumpConfig',
+          type: 'u8',
+        },
       ],
-      "returns": null
+      returns: null,
     },
     {
-      "name": "initializeBoardEntry",
-      "accounts": [
+      name: 'initializeBoardEntry',
+      accounts: [
         {
-          "name": "user",
-          "isMut": true,
-          "isSigner": true
+          name: 'user',
+          isMut: true,
+          isSigner: true,
         },
         {
-          "name": "nftMint",
-          "isMut": true,
-          "isSigner": false
+          name: 'nftMint',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "boardEntry",
-          "isMut": true,
-          "isSigner": false
+          name: 'boardEntry',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "rent",
-          "isMut": false,
-          "isSigner": false
+          name: 'rent',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        }
+          name: 'systemProgram',
+          isMut: false,
+          isSigner: false,
+        },
       ],
-      "args": [
+      args: [
         {
-          "name": "totalScore",
-          "type": "u64"
+          name: 'totalScore',
+          type: 'u64',
         },
         {
-          "name": "message",
-          "type": "string"
-        }
+          name: 'message',
+          type: 'string',
+        },
       ],
-      "returns": null
+      returns: null,
     },
     {
-      "name": "initializePermission",
-      "accounts": [
+      name: 'initializePermission',
+      accounts: [
         {
-          "name": "admin",
-          "isMut": true,
-          "isSigner": true
+          name: 'admin',
+          isMut: true,
+          isSigner: true,
         },
         {
-          "name": "programPubkey",
-          "isMut": false,
-          "isSigner": false
+          name: 'programPubkey',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "permission",
-          "isMut": true,
-          "isSigner": false
+          name: 'permission',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "rent",
-          "isMut": false,
-          "isSigner": false
+          name: 'rent',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        }
+          name: 'systemProgram',
+          isMut: false,
+          isSigner: false,
+        },
       ],
-      "args": [
+      args: [
         {
-          "name": "expiration",
-          "type": "u64"
+          name: 'expiration',
+          type: 'u64',
         },
         {
-          "name": "add",
-          "type": "bool"
+          name: 'add',
+          type: 'bool',
         },
         {
-          "name": "harvest",
-          "type": "bool"
-        }
+          name: 'harvest',
+          type: 'bool',
+        },
       ],
-      "returns": null
+      returns: null,
     },
     {
-      "name": "intializeConfig",
-      "accounts": [
+      name: 'intializeConfig',
+      accounts: [
         {
-          "name": "admin",
-          "isMut": true,
-          "isSigner": true
+          name: 'admin',
+          isMut: true,
+          isSigner: true,
         },
         {
-          "name": "tokenMint",
-          "isMut": true,
-          "isSigner": false
+          name: 'tokenMint',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "vaultOwnerPda",
-          "isMut": true,
-          "isSigner": false
+          name: 'vaultOwnerPda',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "vaultTokenAccount",
-          "isMut": true,
-          "isSigner": false
+          name: 'vaultTokenAccount',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "config",
-          "isMut": true,
-          "isSigner": false
+          name: 'config',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "rent",
-          "isMut": false,
-          "isSigner": false
+          name: 'rent',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'systemProgram',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'tokenProgram',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "associatedTokenProgram",
-          "isMut": false,
-          "isSigner": false
-        }
+          name: 'associatedTokenProgram',
+          isMut: false,
+          isSigner: false,
+        },
       ],
-      "args": [
+      args: [
         {
-          "name": "bumpAuth",
-          "type": "u8"
-        }
+          name: 'bumpAuth',
+          type: 'u8',
+        },
       ],
-      "returns": null
+      returns: null,
     },
     {
-      "name": "topupConfig",
-      "accounts": [
+      name: 'topupConfig',
+      accounts: [
         {
-          "name": "admin",
-          "isMut": true,
-          "isSigner": true
+          name: 'admin',
+          isMut: true,
+          isSigner: true,
         },
         {
-          "name": "tokenMint",
-          "isMut": true,
-          "isSigner": false
+          name: 'tokenMint',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "adminTokenAccount",
-          "isMut": true,
-          "isSigner": false
+          name: 'adminTokenAccount',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "vaultOwnerPda",
-          "isMut": true,
-          "isSigner": false
+          name: 'vaultOwnerPda',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "vaultTokenAccount",
-          "isMut": true,
-          "isSigner": false
+          name: 'vaultTokenAccount',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "config",
-          "isMut": true,
-          "isSigner": false
+          name: 'config',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "rent",
-          "isMut": false,
-          "isSigner": false
+          name: 'rent',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'systemProgram',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'tokenProgram',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "associatedTokenProgram",
-          "isMut": false,
-          "isSigner": false
-        }
+          name: 'associatedTokenProgram',
+          isMut: false,
+          isSigner: false,
+        },
       ],
-      "args": [
+      args: [
         {
-          "name": "bumpAuth",
-          "type": "u8"
+          name: 'bumpAuth',
+          type: 'u8',
         },
         {
-          "name": "bumpConfig",
-          "type": "u8"
+          name: 'bumpConfig',
+          type: 'u8',
         },
         {
-          "name": "topupAmount",
-          "type": "u64"
-        }
+          name: 'topupAmount',
+          type: 'u64',
+        },
       ],
-      "returns": null
+      returns: null,
     },
     {
-      "name": "updateConnection",
-      "accounts": [
+      name: 'updateConnection',
+      accounts: [
         {
-          "name": "communityPool",
-          "isMut": true,
-          "isSigner": false
+          name: 'communityPool',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "admin",
-          "isMut": true,
-          "isSigner": true
+          name: 'admin',
+          isMut: true,
+          isSigner: true,
         },
         {
-          "name": "fractionMint",
-          "isMut": true,
-          "isSigner": false
+          name: 'fractionMint',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "router",
-          "isMut": false,
-          "isSigner": false
-        }
+          name: 'router',
+          isMut: false,
+          isSigner: false,
+        },
       ],
-      "args": [],
-      "returns": null
+      args: [],
+      returns: null,
     },
     {
-      "name": "emergencyWithdrawByAdmin",
-      "accounts": [
+      name: 'emergencyWithdrawByAdmin',
+      accounts: [
         {
-          "name": "safetyDepositBox",
-          "isMut": true,
-          "isSigner": false
+          name: 'safetyDepositBox',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "nftUserTokenAccount",
-          "isMut": true,
-          "isSigner": false
+          name: 'nftUserTokenAccount',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "nftMint",
-          "isMut": false,
-          "isSigner": false
+          name: 'nftMint',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "storeNftTokenAccount",
-          "isMut": true,
-          "isSigner": false
+          name: 'storeNftTokenAccount',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "communityPool",
-          "isMut": true,
-          "isSigner": false
+          name: 'communityPool',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "communityPoolsAuthority",
-          "isMut": true,
-          "isSigner": false
+          name: 'communityPoolsAuthority',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'systemProgram',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "rent",
-          "isMut": false,
-          "isSigner": false
+          name: 'rent',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'tokenProgram',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "admin",
-          "isMut": true,
-          "isSigner": true
-        }
+          name: 'admin',
+          isMut: true,
+          isSigner: true,
+        },
       ],
-      "args": [
+      args: [
         {
-          "name": "bumpPoolsAuth",
-          "type": "u8"
-        }
+          name: 'bumpPoolsAuth',
+          type: 'u8',
+        },
       ],
-      "returns": null
+      returns: null,
     },
     {
-      "name": "removeFromWhitelistByAdmin",
-      "accounts": [
+      name: 'removeFromWhitelistByAdmin',
+      accounts: [
         {
-          "name": "admin",
-          "isMut": true,
-          "isSigner": true
+          name: 'admin',
+          isMut: true,
+          isSigner: true,
         },
         {
-          "name": "poolWhitelist",
-          "isMut": true,
-          "isSigner": false
+          name: 'poolWhitelist',
+          isMut: true,
+          isSigner: false,
         },
         {
-          "name": "whitelistedAddress",
-          "isMut": false,
-          "isSigner": false
+          name: 'whitelistedAddress',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "rent",
-          "isMut": false,
-          "isSigner": false
+          name: 'rent',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
+          name: 'tokenProgram',
+          isMut: false,
+          isSigner: false,
         },
         {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        }
+          name: 'systemProgram',
+          isMut: false,
+          isSigner: false,
+        },
       ],
-      "args": [],
-      "returns": null
-    }
+      args: [],
+      returns: null,
+    },
   ],
-  "accounts": [
+  accounts: [
     {
-      "name": "boardEntry",
-      "type": {
-        "kind": "struct",
-        "fields": [
+      name: 'boardEntry',
+      type: {
+        kind: 'struct',
+        fields: [
           {
-            "name": "entryholder",
-            "type": "publicKey"
+            name: 'entryholder',
+            type: 'publicKey',
           },
           {
-            "name": "totalScore",
-            "type": "u64"
+            name: 'totalScore',
+            type: 'u64',
           },
           {
-            "name": "scoreToHarvest",
-            "type": "u64"
+            name: 'scoreToHarvest',
+            type: 'u64',
           },
           {
-            "name": "nftMint",
-            "type": "publicKey"
+            name: 'nftMint',
+            type: 'publicKey',
           },
           {
-            "name": "message",
-            "type": "string"
-          }
-        ]
-      }
+            name: 'message',
+            type: 'string',
+          },
+        ],
+      },
     },
     {
-      "name": "communityPool",
-      "type": {
-        "kind": "struct",
-        "fields": [
+      name: 'communityPool',
+      type: {
+        kind: 'struct',
+        fields: [
           {
-            "name": "tokenProgram",
-            "type": "publicKey"
+            name: 'tokenProgram',
+            type: 'publicKey',
           },
           {
-            "name": "fractionMint",
-            "type": "publicKey"
+            name: 'fractionMint',
+            type: 'publicKey',
           },
           {
-            "name": "authority",
-            "type": "publicKey"
+            name: 'authority',
+            type: 'publicKey',
           },
           {
-            "name": "fractionsSupply",
-            "type": "u64"
+            name: 'fractionsSupply',
+            type: 'u64',
           },
           {
-            "name": "createdAt",
-            "type": "u64"
+            name: 'createdAt',
+            type: 'u64',
           },
           {
-            "name": "tokenTypeCount",
-            "type": "u64"
+            name: 'tokenTypeCount',
+            type: 'u64',
           },
           {
-            "name": "state",
-            "type": {
-              "defined": "VaultState"
-            }
-          }
-        ]
-      }
+            name: 'state',
+            type: {
+              defined: 'VaultState',
+            },
+          },
+        ],
+      },
     },
     {
-      "name": "feeConfig",
-      "type": {
-        "kind": "struct",
-        "fields": [
+      name: 'feeConfig',
+      type: {
+        kind: 'struct',
+        fields: [
           {
-            "name": "communityPool",
-            "type": "publicKey"
+            name: 'communityPool',
+            type: 'publicKey',
           },
           {
-            "name": "depositFeeAdmin",
-            "type": "u64"
+            name: 'depositFeeAdmin',
+            type: 'u64',
           },
           {
-            "name": "depositFeePool",
-            "type": "u64"
+            name: 'depositFeePool',
+            type: 'u64',
           },
           {
-            "name": "getLotteryFeeAdmin",
-            "type": "u64"
+            name: 'getLotteryFeeAdmin',
+            type: 'u64',
           },
           {
-            "name": "getLotteryFeePool",
-            "type": "u64"
-          }
-        ]
-      }
+            name: 'getLotteryFeePool',
+            type: 'u64',
+          },
+        ],
+      },
     },
     {
-      "name": "poolConfig",
-      "type": {
-        "kind": "struct",
-        "fields": [
+      name: 'poolConfig',
+      type: {
+        kind: 'struct',
+        fields: [
           {
-            "name": "vaultOwnerPda",
-            "type": "publicKey"
+            name: 'vaultOwnerPda',
+            type: 'publicKey',
           },
           {
-            "name": "tokenMint",
-            "type": "publicKey"
+            name: 'tokenMint',
+            type: 'publicKey',
           },
           {
-            "name": "vaultTokenAccount",
-            "type": "publicKey"
+            name: 'vaultTokenAccount',
+            type: 'publicKey',
           },
           {
-            "name": "poolVaultBalance",
-            "type": "u64"
-          }
-        ]
-      }
+            name: 'poolVaultBalance',
+            type: 'u64',
+          },
+        ],
+      },
     },
     {
-      "name": "leaderboardRewardAccount",
-      "type": {
-        "kind": "struct",
-        "fields": [
+      name: 'leaderboardRewardAccount',
+      type: {
+        kind: 'struct',
+        fields: [
           {
-            "name": "communityPool",
-            "type": "publicKey"
+            name: 'communityPool',
+            type: 'publicKey',
           },
           {
-            "name": "depositReward",
-            "type": "u64"
+            name: 'depositReward',
+            type: 'u64',
           },
           {
-            "name": "withdrawReward",
-            "type": "u64"
-          }
-        ]
-      }
+            name: 'withdrawReward',
+            type: 'u64',
+          },
+        ],
+      },
     },
     {
-      "name": "lotteryTicket",
-      "type": {
-        "kind": "struct",
-        "fields": [
+      name: 'lotteryTicket',
+      type: {
+        kind: 'struct',
+        fields: [
           {
-            "name": "communityPool",
-            "type": "publicKey"
+            name: 'communityPool',
+            type: 'publicKey',
           },
           {
-            "name": "ticketHolder",
-            "type": "publicKey"
+            name: 'ticketHolder',
+            type: 'publicKey',
           },
           {
-            "name": "winningSafetyBox",
-            "type": "publicKey"
+            name: 'winningSafetyBox',
+            type: 'publicKey',
           },
           {
-            "name": "lotteryTicketState",
-            "type": {
-              "defined": "LotteryTicketState"
-            }
-          }
-        ]
-      }
+            name: 'lotteryTicketState',
+            type: {
+              defined: 'LotteryTicketState',
+            },
+          },
+        ],
+      },
     },
     {
-      "name": "permission",
-      "type": {
-        "kind": "struct",
-        "fields": [
+      name: 'permission',
+      type: {
+        kind: 'struct',
+        fields: [
           {
-            "name": "programPubkey",
-            "type": "publicKey"
+            name: 'programPubkey',
+            type: 'publicKey',
           },
           {
-            "name": "expiration",
-            "type": "u64"
+            name: 'expiration',
+            type: 'u64',
           },
           {
-            "name": "canAddScore",
-            "type": "bool"
+            name: 'canAddScore',
+            type: 'bool',
           },
           {
-            "name": "canHarvestScore",
-            "type": "bool"
-          }
-        ]
-      }
+            name: 'canHarvestScore',
+            type: 'bool',
+          },
+        ],
+      },
     },
     {
-      "name": "poolWhitelist",
-      "type": {
-        "kind": "struct",
-        "fields": [
+      name: 'poolWhitelist',
+      type: {
+        kind: 'struct',
+        fields: [
           {
-            "name": "communityPool",
-            "type": "publicKey"
+            name: 'communityPool',
+            type: 'publicKey',
           },
           {
-            "name": "whitelistedAddress",
-            "type": "publicKey"
+            name: 'whitelistedAddress',
+            type: 'publicKey',
           },
           {
-            "name": "whitelistType",
-            "type": {
-              "defined": "WhitelistType"
-            }
-          }
-        ]
-      }
+            name: 'whitelistType',
+            type: {
+              defined: 'WhitelistType',
+            },
+          },
+        ],
+      },
     },
     {
-      "name": "safetyDepositBox",
-      "type": {
-        "kind": "struct",
-        "fields": [
+      name: 'safetyDepositBox',
+      type: {
+        kind: 'struct',
+        fields: [
           {
-            "name": "communityPool",
-            "type": "publicKey"
+            name: 'communityPool',
+            type: 'publicKey',
           },
           {
-            "name": "nftMint",
-            "type": "publicKey"
+            name: 'nftMint',
+            type: 'publicKey',
           },
           {
-            "name": "storeNftTokenAccount",
-            "type": "publicKey"
+            name: 'storeNftTokenAccount',
+            type: 'publicKey',
           },
           {
-            "name": "safetyBoxState",
-            "type": {
-              "defined": "SafetyBoxState"
-            }
-          }
-        ]
-      }
-    }
+            name: 'safetyBoxState',
+            type: {
+              defined: 'SafetyBoxState',
+            },
+          },
+        ],
+      },
+    },
   ],
-  "types": [
+  types: [
     {
-      "name": "VaultState",
-      "type": {
-        "kind": "enum",
-        "variants": [
+      name: 'VaultState',
+      type: {
+        kind: 'enum',
+        variants: [
           {
-            "name": "Inactive"
+            name: 'Inactive',
           },
           {
-            "name": "Active"
+            name: 'Active',
           },
           {
-            "name": "Deactivated"
-          }
-        ]
-      }
+            name: 'Deactivated',
+          },
+        ],
+      },
     },
     {
-      "name": "LotteryTicketState",
-      "type": {
-        "kind": "enum",
-        "variants": [
+      name: 'LotteryTicketState',
+      type: {
+        kind: 'enum',
+        variants: [
           {
-            "name": "ToBeRevealed"
+            name: 'ToBeRevealed',
           },
           {
-            "name": "Revealed"
+            name: 'Revealed',
           },
           {
-            "name": "Used"
-          }
-        ]
-      }
+            name: 'Used',
+          },
+        ],
+      },
     },
     {
-      "name": "WhitelistType",
-      "type": {
-        "kind": "enum",
-        "variants": [
+      name: 'WhitelistType',
+      type: {
+        kind: 'enum',
+        variants: [
           {
-            "name": "CreatorWhitelist"
+            name: 'CreatorWhitelist',
           },
           {
-            "name": "SingleNFTWhitelist"
-          }
-        ]
-      }
+            name: 'SingleNFTWhitelist',
+          },
+        ],
+      },
     },
     {
-      "name": "SafetyBoxState",
-      "type": {
-        "kind": "enum",
-        "variants": [
+      name: 'SafetyBoxState',
+      type: {
+        kind: 'enum',
+        variants: [
           {
-            "name": "Locked"
+            name: 'Locked',
           },
           {
-            "name": "Empty"
+            name: 'Empty',
           },
           {
-            "name": "ToBeWithdrawn"
-          }
-        ]
-      }
-    }
+            name: 'ToBeWithdrawn',
+          },
+        ],
+      },
+    },
   ],
-  "errors": [
+  errors: [
     {
-      "code": 6000,
-      "name": "CommunityPoolAuthorityDoesntMatch",
-      "msg": "Community pool authority doesn't match actual authority"
+      code: 6000,
+      name: 'CommunityPoolAuthorityDoesntMatch',
+      msg: "Community pool authority doesn't match actual authority",
     },
     {
-      "code": 6001,
-      "name": "PoolIsAlreadyActivated",
-      "msg": "Pool is already activated"
+      code: 6001,
+      name: 'PoolIsAlreadyActivated',
+      msg: 'Pool is already activated',
     },
     {
-      "code": 6002,
-      "name": "NotWhitelisted",
-      "msg": "Nft or creator is not whitelisted"
+      code: 6002,
+      name: 'NotWhitelisted',
+      msg: 'Nft or creator is not whitelisted',
     },
     {
-      "code": 6003,
-      "name": "WrongMetadata",
-      "msg": "Wrong metadata"
+      code: 6003,
+      name: 'WrongMetadata',
+      msg: 'Wrong metadata',
     },
     {
-      "code": 6004,
-      "name": "InvalidAuthority",
-      "msg": "Invalid Authority"
+      code: 6004,
+      name: 'InvalidAuthority',
+      msg: 'Invalid Authority',
     },
     {
-      "code": 6005,
-      "name": "InvalidBoardEntry",
-      "msg": "Invalid BoardEntry"
-    }
-  ]
+      code: 6005,
+      name: 'InvalidBoardEntry',
+      msg: 'Invalid BoardEntry',
+    },
+  ],
 };

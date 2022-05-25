@@ -170,7 +170,6 @@ export async function depositNftToCommunityPool(
   );
   const safetyDepositBox = anchor.web3.Keypair.generate();
   const storeNftTokenAccount = anchor.web3.Keypair.generate();
-  // const userFractionsTokenAccount = anchor.web3.Keypair.generate()
 
   const instructions = [];
   const userFractionsTokenAccount = await utils.findAssociatedTokenAddress(userPubkey, fractionMint);
@@ -232,11 +231,7 @@ export async function depositNftToCommunityPool(
       configOutput,
       fusionId: fusionProgramId,
       associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
-      // selfProgram: programId,
       boardEntry,
-      // permission,
-      // leaderboard: leaderboardProgramId ,
-      // leaderboardAuthority,
       leaderboardAccount,
       feeConfig,
       admin,
@@ -285,14 +280,6 @@ export async function getLotteryTicket(
 ) {
   let program = await returnCommunityPoolsAnchorProgram(programId, provider);
 
-  // lotteryTicket: lotteryTicketAccount.publicKey,
-  // communityPool: communityPool.publicKey,
-  // user: userAccount.publicKey,
-  // systemProgram: SystemProgram.programId,
-  // rent: anchor.web3.SYSVAR_RENT_PUBKEY,
-  // tokenProgram: TOKEN_PROGRAM_ID,
-  // fractionMint: fractionMint.publicKey,
-  // userFractionsTokenAccount: userFractionsTokenAccount.publicKey
   const lotteryTicketAccount = anchor.web3.Keypair.generate();
   const [leaderboardAccount, _bump] = await anchor.web3.PublicKey.findProgramAddress(
     [communityPool.toBuffer(), encoder.encode('leaderBoard')],
@@ -386,11 +373,6 @@ export async function revealLotteryTicket(
 ) {
   let program = await returnCommunityPoolsAnchorProgram(programId, provider);
 
-  // lotteryTicket: lotteryTicketAccount.publicKey,
-  // communityPool: communityPool.publicKey,
-  // safetyDepositBox: safety_deposit_box.publicKey,
-  // admin: ADMIN_KEYPAIR.publicKey
-
   const signers = [];
   const tx = program.instruction.revealLotteryTicket({
     accounts: {
@@ -444,17 +426,6 @@ export async function withdrawNftByTicket(
   const nftUserTokenAccount = await utils.findAssociatedTokenAddress(userPubkey, nftMint);
   if (!(await provider.connection.getAccountInfo(nftUserTokenAccount)))
     utils.createAssociatedTokenAccountInstruction(instructions, nftUserTokenAccount, userPubkey, userPubkey, nftMint);
-  // lotteryTicket: lotteryTicketAccount.publicKey,
-  // communityPool: communityPool.publicKey,
-  // safetyDepositBox: safety_deposit_box.publicKey,
-  // nftUserTokenAccount: userNftTokenAccount,
-  // nftMint: nftMint.publicKey,
-  // storeNftTokenAccount: storeNftTokenAccount.publicKey,
-  // communityPoolsAuthority: community_pools_authority,
-  // user: userAccount.publicKey,
-  // systemProgram: SystemProgram.programId,
-  // rent: anchor.web3.SYSVAR_RENT_PUBKEY,
-  // tokenProgram: TOKEN_PROGRAM_ID,
 
   const signers = [];
   const mainIx = program.instruction.withdrawNftByTicket(bump, {
@@ -522,29 +493,8 @@ export async function withdrawNftByAdmin(
   const nftUserTokenAccount = await utils.findAssociatedTokenAddress(ticketHolder, nftMint);
   if (!(await provider.connection.getAccountInfo(nftUserTokenAccount)))
     utils.createAssociatedTokenAccountInstruction(instructions, nftUserTokenAccount, admin, ticketHolder, nftMint);
-  // lotteryTicket: lotteryTicketAccount.publicKey,
-  // communityPool: communityPool.publicKey,
-  // safetyDepositBox: safety_deposit_box.publicKey,
-  // nftUserTokenAccount: userNftTokenAccount,
-  // nftMint: nftMint.publicKey,
-  // storeNftTokenAccount: storeNftTokenAccount.publicKey,
-  // communityPoolsAuthority: community_pools_authority,
-  // user: userAccount.publicKey,
-  // systemProgram: SystemProgram.programId,
-  // rent: anchor.web3.SYSVAR_RENT_PUBKEY,
-  // tokenProgram: TOKEN_PROGRAM_ID,
 
   const signers = [];
-
-  // const revealIx = program.instruction.revealLotteryTicket({
-  //   accounts: {
-  //     lotteryTicket: lotteryTicket,
-  //     communityPool: communityPool,
-  //     safetyDepositBox: safetyDepositBox,
-  //     admin: admin,
-  //   },
-  //   signers: signers,
-  // });
 
   const withdrawIx = program.instruction.withdrawNftByAdmin(bump, {
     accounts: {
@@ -567,7 +517,6 @@ export async function withdrawNftByAdmin(
 
   for (let instruction of instructions) transaction.add(instruction);
 
-  // transaction.add(revealIx)
   transaction.add(withdrawIx);
 
   await sendTxn(transaction, signers);
@@ -603,60 +552,8 @@ export async function emergencyWithdrawByAdmin(
   const nftAdminTokenAccount = await utils.findAssociatedTokenAddress(admin, nftMint);
   if (!(await provider.connection.getAccountInfo(nftAdminTokenAccount)))
     utils.createAssociatedTokenAccountInstruction(instructions, nftAdminTokenAccount, admin, admin, nftMint);
-  // lotteryTicket: lotteryTicketAccount.publicKey,
-  // communityPool: communityPool.publicKey,
-  // safetyDepositBox: safety_deposit_box.publicKey,
-  // nftUserTokenAccount: userNftTokenAccount,
-  // nftMint: nftMint.publicKey,
-  // storeNftTokenAccount: storeNftTokenAccount.publicKey,
-  // communityPoolsAuthority: community_pools_authority,
-  // user: userAccount.publicKey,
-  // systemProgram: SystemProgram.programId,
-  // rent: anchor.web3.SYSVAR_RENT_PUBKEY,
-  // tokenProgram: TOKEN_PROGRAM_ID,
 
   const signers = [];
-
-  //   #[account(mut,
-  //     // owner = COMMUNITY_POOLS_ID.parse::<Pubkey>().unwrap(),
-  //  has_one = store_nft_token_account,
-  //   constraint = safety_deposit_box.safety_box_state == SafetyBoxState::Locked,
-  //    has_one = nft_mint,
-  //    has_one = community_pool )]
-  // pub safety_deposit_box: Box<Account<'info, SafetyDepositBox>>,
-
-  // #[account(mut,
-  //     // owner = token::ID,
-  //      constraint = nft_user_token_account.mint == nft_mint.key())]
-  // pub nft_user_token_account: Box<Account<'info, TokenAccount>>,
-
-  // #[account(
-  // //    owner = token::ID,
-  // constraint = nft_mint.decimals == TOKEN_MINT_DECIMALS, constraint = nft_mint.supply == TOKEN_MINT_SUPPLY)]
-  // pub nft_mint: Box<Account<'info, Mint>>,
-
-  // #[account(mut,
-  //     // owner = token::ID
-  // )]
-  // pub store_nft_token_account: Box<Account<'info, TokenAccount>>,
-
-  // #[account(mut,
-  // // owner = COMMUNITY_POOLS_ID.parse::<Pubkey>().unwrap(),
-  // constraint = community_pool.state == VaultState::Active)]
-  // pub community_pool: Box<Account<'info, CommunityPool>>,
-
-  // /// CHECK:
-  // #[account(mut, seeds = [PREFIX.as_bytes(),
-  //  COMMUNITY_POOLS_ID.parse::<Pubkey>().unwrap().as_ref(), community_pool.key().as_ref()], bump = bump_pools_auth)]
-  // pub community_pools_authority: AccountInfo<'info>,
-
-  // pub system_program: Program<'info, System>,
-  // pub rent: Sysvar<'info, Rent>,
-  // #[account(address = token::ID)]
-  // pub token_program: Program<'info, Token>,
-
-  // #[account(mut, address = ADMIN_ADDRESS.parse::<Pubkey>().unwrap(),)]
-  // pub admin: Signer<'info>,
 
   const withdrawIx = program.instruction.emergencyWithdrawByAdmin(bump, {
     accounts: {
@@ -678,7 +575,6 @@ export async function emergencyWithdrawByAdmin(
 
   for (let instruction of instructions) transaction.add(instruction);
 
-  // transaction.add(revealIx)
   transaction.add(withdrawIx);
 
   await sendTxn(transaction, signers);
@@ -913,13 +809,11 @@ export async function initPermission(
   let transaction = new Transaction().add(ix);
 
   await sendTxn(transaction);
-  // return ix
 }
 
 export async function initBoardEntry(
   programId: PublicKey,
   provider: anchor.Provider,
-  // admin: PublicKey,
   user: PublicKey,
   nftMint: PublicKey,
   message: string,
@@ -940,7 +834,6 @@ export async function initBoardEntry(
 
   const ix = await program.instruction.initializeBoardEntry(initialBalance, message, {
     accounts: {
-      // admin: admin,
       user: user,
       nftMint: nftMint,
       boardEntry,
@@ -950,15 +843,11 @@ export async function initBoardEntry(
   });
   let transaction = new Transaction().add(ix);
   await sendTxn(transaction, []);
-
-  // return ix
-  // return instructions
 }
 
 export async function initBoardEntryInstruction(
   programId: PublicKey,
   provider: anchor.Provider,
-  // admin: PublicKey,
   user: PublicKey,
   nftMint: PublicKey,
   message: string,
@@ -978,7 +867,6 @@ export async function initBoardEntryInstruction(
 
   const ix = await program.instruction.initializeBoardEntry(initialBalance, message, {
     accounts: {
-      // admin: admin,
       user: user,
       nftMint: nftMint,
       boardEntry,
@@ -986,12 +874,7 @@ export async function initBoardEntryInstruction(
       systemProgram: anchor.web3.SystemProgram.programId,
     },
   });
-  // let transaction = new Transaction().add(ix)
-  // await sendTxn(transaction, [])
   return ix;
-
-  // return ix
-  // return instructions
 }
 
 export async function harvestScore(
@@ -1038,8 +921,6 @@ export async function harvestScore(
   let transaction = new Transaction().add(ix);
 
   await sendTxn(transaction);
-  // return ix
-  // return instructions
 }
 
 export async function initializeFee(
@@ -1133,8 +1014,6 @@ export async function updateConnection(
     },
   });
 
-  // transaction.add(ix)
-
   await sendTxn(tx, []);
 }
 
@@ -1184,7 +1063,6 @@ export async function depositNftToCommunityPoolIx(
   );
   const safetyDepositBox = anchor.web3.Keypair.generate();
   const storeNftTokenAccount = anchor.web3.Keypair.generate();
-  // const userFractionsTokenAccount = anchor.web3.Keypair.generate()
 
   const instructions: TransactionInstruction[] = [];
   const userFractionsTokenAccount = await utils.findAssociatedTokenAddress(userPubkey, fractionMint);
@@ -1251,11 +1129,7 @@ export async function depositNftToCommunityPoolIx(
       configOutput,
       fusionId: fusionProgramId,
       associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
-      // selfProgram: programId,
       boardEntry,
-      // permission,
-      // leaderboard: leaderboardProgramId ,
-      // leaderboardAuthority,
       leaderboardAccount,
       feeConfig,
       admin,
@@ -1263,15 +1137,7 @@ export async function depositNftToCommunityPoolIx(
     },
     signers: signers,
   });
-
-  // const transaction = new Transaction();
-
-  // for(let instruction of instructions)
-  //   transaction.add(instruction)
-
-  // transaction.add(mainIx)
   instructions.push(mainIx);
-  // await sendTxn(transaction, signers);
   return { instructions, signers };
 }
 
@@ -1305,14 +1171,6 @@ export async function getLotteryTicketIx(
 ) {
   let program = await returnCommunityPoolsAnchorProgram(programId, provider);
 
-  // lotteryTicket: lotteryTicketAccount.publicKey,
-  // communityPool: communityPool.publicKey,
-  // user: userAccount.publicKey,
-  // systemProgram: SystemProgram.programId,
-  // rent: anchor.web3.SYSVAR_RENT_PUBKEY,
-  // tokenProgram: TOKEN_PROGRAM_ID,
-  // fractionMint: fractionMint.publicKey,
-  // userFractionsTokenAccount: userFractionsTokenAccount.publicKey
   const lotteryTicketAccount = anchor.web3.Keypair.generate();
   const [leaderboardAccount, _bump] = await anchor.web3.PublicKey.findProgramAddress(
     [communityPool.toBuffer(), encoder.encode('leaderBoard')],
@@ -1331,15 +1189,11 @@ export async function getLotteryTicketIx(
 
   let vaultTokenAccountOutput = await utils.findAssociatedTokenAddress(vaultOwnerPda, fractionMint);
 
-  let [mainRouter, bumpRouter] = await anchor.web3.PublicKey.findProgramAddress(
+  let [mainRouter] = await anchor.web3.PublicKey.findProgramAddress(
     [encoder.encode('mainRouter'), tokenMintInputFusion.toBuffer(), fractionMint.toBuffer()],
     fusionProgramId,
   );
-
-  // if (!(await provider.connection.getAccountInfo(mainRouter))){
-  //     vaultTokenAccountOutput = tokenMintInputFusion
-  //   }
-  let [configOutput, bumpConfigOutput] = await anchor.web3.PublicKey.findProgramAddress(
+  let [configOutput] = await anchor.web3.PublicKey.findProgramAddress(
     [encoder.encode('mainConfigAccountOutput'), fractionMint.toBuffer(), mainRouter.toBuffer()],
     fusionProgramId,
   );
@@ -1348,19 +1202,9 @@ export async function getLotteryTicketIx(
   const adminTokenAccount = await utils.findAssociatedTokenAddress(admin, fractionMint);
 
   if (!(await provider.connection.getAccountInfo(mainRouter))) {
-    vaultTokenAccountOutput = adminTokenAccount;
-    // if (!(await provider.connection.getAccountInfo(vaultTokenAccountOutput)))
-    //   utils.createAssociatedTokenAccountInstruction(
-    //     instructions,
-    //     vaultTokenAccountOutput,
-    //     userPubkey,
-    //     admin,
-    //     fractionMint,
-    //   );
-
     vaultOwnerPda = tokenMintInputFusion;
   }
-  let [boardEntry, bumpBoardEntry] = await anchor.web3.PublicKey.findProgramAddress(
+  let [boardEntry] = await anchor.web3.PublicKey.findProgramAddress(
     [encoder.encode('BoardEntry'), userPubkey.toBuffer()],
     programId,
   );
@@ -1391,15 +1235,8 @@ export async function getLotteryTicketIx(
     },
     signers: signers,
   });
-  // const transaction = new Transaction();
 
-  // for(let instruction of instructions)
-  //   transaction.add(instruction)
-
-  // transaction.add(tx)
   instructions.push(tx);
-
-  // await sendTxn(transaction, signers);
 
   return { lotteryTicketPubkey: lotteryTicketAccount.publicKey, instructions, signers };
 }

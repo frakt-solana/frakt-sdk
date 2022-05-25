@@ -31,17 +31,12 @@ export async function approveLoanByAdmin({
   user: PublicKey;
   sendTxn: (transaction: Transaction) => Promise<void>;
 }) {
-  // const accountRentExempt = await provider.connection.getMinimumBalanceForRentExemption(AccountLayout.span);
-
-  // let signers: Keypair[] = [];
   const program = await accounts.returnAnchorProgram(programId, provider);
   const [liqOwner, liqOwnerBump] = await anchor.web3.PublicKey.findProgramAddress(
     [encoder.encode('nftlendingv2'), liquidityPool.toBuffer()],
     programId,
   );
-  // const instructions: TransactionInstruction[] = [];
 
-  // instructions.push(
   const instr = program.instruction.approveLoanByAdmin(new anchor.BN(nftPrice), new anchor.BN(discount), {
     accounts: {
       loan: loan,
@@ -50,14 +45,11 @@ export async function approveLoanByAdmin({
       liqOwner,
       collectionInfo,
       admin,
-      // tokenProgram: TOKEN_PROGRAM_ID,
       systemProgram: anchor.web3.SystemProgram.programId,
     },
   });
-  // );
 
   const transaction = new Transaction().add(instr);
-  // for (let ix of instructions) transaction.add(ix);
 
   await sendTxn(transaction);
 }
@@ -239,7 +231,6 @@ export async function updateCollectionInfo({
   const transaction = new Transaction().add(ix);
 
   await sendTxn(transaction);
-  // return collectionInfo;
 }
 
 export async function initializeCollectionInfo({
@@ -416,7 +407,6 @@ export async function updateLiquidityPool({
   const transaction = new Transaction().add(ix);
 
   await sendTxn(transaction);
-  // return liquidityPool;
 }
 
 export async function liquidateLoanByAdmin({
@@ -494,7 +484,6 @@ export async function paybackLoan({
 
   sendTxn: (transaction: Transaction) => Promise<void>;
 }) {
-  // const instructions: TransactionInstruction[] = [];
   const program = await accounts.returnAnchorProgram(programId, provider);
 
   const [communityPoolsAuthority, bumpPoolsAuth] = await anchor.web3.PublicKey.findProgramAddress(
@@ -573,7 +562,6 @@ export async function proposeLoan({
       metadataProgram: MetadataProgram.PUBKEY,
       editionInfo: editionId,
     },
-    // signers: [loan]
   });
   const transaction = new Transaction().add(ix);
 
@@ -606,7 +594,6 @@ export async function rejectLoanByAdmin({
     [encoder.encode('nftlendingv2'), programId.toBuffer()],
     programId,
   );
-  // const nftUserTokenAccount = await utils.findAssociatedTokenAddress(user, nftMint);
 
   const editionId = await Edition.getPDA(nftMint);
   const ix = program.instruction.rejectLoanByAdmin(bumpPoolsAuth, {
@@ -676,8 +663,7 @@ export async function getAllProgramAccounts(programId: PublicKey, connection: Co
   const liquidityPools = liquidityPoolRaws.map((raw) => accounts.decodedLiquidityPool(raw.account, raw.publicKey));
   const loans = loanRaws.map((raw) => accounts.decodedLoan(raw.account, raw.publicKey));
 
-  // return { collectionInfos, deposits, liquidityPools, loans };
-  return { collectionInfos, deposits, liquidityPools, loans }; //loanRaws };
+  return { collectionInfos, deposits, liquidityPools, loans };
 }
 
 export function objectBNsToNums(obj) {
@@ -698,44 +684,21 @@ export function decodeLoan(buffer: Buffer, connection: Connection, programId: Pu
 }
 
 export function CalculateStatFromAccounts(allAccounts: accounts.AllAccounts) {
-  // allAccounts.loans.forEach((loan) => {
-  //   console.log(Object.keys(loan.loanStatus)[0] == "activated")
-  // })
   console.log('loan1: ', allAccounts.loans[0]);
-  const activeLoans = allAccounts.loans.filter(
-    (loan) =>
-      // objectloan.loanStatus == {activated: {}}
-      Object.keys(loan.loanStatus)[0] == 'activated',
-  );
+  const activeLoans = allAccounts.loans.filter((loan) => Object.keys(loan.loanStatus)[0] == 'activated');
 
-  // console.log(activeLoans)
   const lockedNftsInLoans = activeLoans.length;
   const loansVolumeAllTime: number = allAccounts.loans.reduce((acc, loan) => acc + loan.amountToGet, 0) / 1e9;
-  // 0;
-  // for (let i = 0; i < allAccounts.loans.length; i++) {
-  //   loansVolumeAllTime += allAccounts.loans[i].amountToGet;
-  // }
-  // const loansLast7Days = allAccounts.loans.filter((el) => el.startedAt + 86400 * 7 > Math.floor(Date.now() / 1000));
-  // console.log(loanLast7Days.length)
+
   const loansVolume7Days: number =
     allAccounts.loans
       .filter((el) => el.startedAt + 86400 * 7 > Math.floor(Date.now() / 1000))
       .reduce((acc, loan) => acc + loan.amountToGet, 0) / 1e9;
-  // const TVL = activeLoans.forEach((el, counter) => {
-  //   counter += el.originalPrice
-  // }) + allAccounts.liquidityPool.forEach((el, counter) => {
-  //   counter += el.amountOfStaked
-  // })
-  // const TVL = activeLoans.reduce((el) => {
-  //     counter += el.originalPrice
-  //     return counter
+
   const TVL =
     (activeLoans.reduce((acc, loan) => acc + loan.originalPrice, 0) +
       allAccounts.liquidityPools.reduce((acc, liquidityPool) => acc + liquidityPool.amountOfStaked, 0)) /
     1e9;
-
-  // то есть ты можешь по started_at посмотреть сколько выдано за 24 часа,
-  //  по finished at можешь посмотреть сколько ликвидированных и выплаченных
 
   const totalIssued = allAccounts.loans.filter((loan) => Object.keys(loan.loanStatus)[0] != 'rejected').length;
   const SECONDS_IN_24_HOURS = 86400;
@@ -750,15 +713,6 @@ export function CalculateStatFromAccounts(allAccounts: accounts.AllAccounts) {
   const paidBackIn24Hours = allAccounts.loans
     .filter((loan) => Object.keys(loan.loanStatus)[0] == 'paidBack')
     .filter((loan) => loan.startedAt > now() - SECONDS_IN_24_HOURS).length;
-  // Active funds это суммарно сколько застейкано
-  // TVL это суммарная ценность NFT которые в активных лоанах
-
-  // Locked NFTs in Pools,
-  // Locked NFTs in Loans (Loaned nfts)+
-  // TVL in Pools (NFTs + value, staked liquidity),
-  // TVL in Loans (loaned NFTs + value, provided liquidity) +
-  // Pools volume all time, 7 day in SOL (buy/sell in Pools)
-  // Loans volume all time, 7 day in SOL (issued loans) +
 
   return {
     lockedNftsInLoans,
