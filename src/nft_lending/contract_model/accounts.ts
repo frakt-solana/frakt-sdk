@@ -1,6 +1,7 @@
-import { PublicKey } from '@solana/web3.js';
+import { Connection, PublicKey } from '@solana/web3.js';
 import * as anchor from '@project-serum/anchor';
 import { NftLendingV2, IDL } from './types/nft_lending_v2';
+import { createFakeWallet } from '../../common/utils';
 
 export function returnAnchorProgram(programId: PublicKey, provider: anchor.Provider): anchor.Program<NftLendingV2> {
   // let idl = require('./multi_reward_staking.json');
@@ -155,4 +156,12 @@ export function decodedLoan(decodedLoan: any, address: PublicKey): LoanView {
     loanStatus: Object.keys(decodedLoan.loanStatus)[0],
     loanType: Object.keys(decodedLoan.loanType)[0],
   };
+}
+
+export function decodeLoan(buffer: Buffer, connection: Connection, programId: PublicKey) {
+  const program = returnAnchorProgram(
+    programId,
+    new anchor.Provider(connection, createFakeWallet(), anchor.Provider.defaultOptions()),
+  );
+  return program.coder.accounts.decode('loan', buffer);
 }
