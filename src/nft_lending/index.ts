@@ -1,8 +1,8 @@
 import * as anchor from '@project-serum/anchor';
-export { AllAccounts, CollectionInfoView, LiquidityPoolView, DepositView, LoanView } from './accounts';
+export { AllAccounts, CollectionInfoView, LiquidityPoolView, DepositView, LoanView } from './contract_model/accounts';
 import { PublicKey, Connection, Transaction, Keypair, TransactionInstruction } from '@solana/web3.js';
 import * as utils from './../common/utils';
-import * as accounts from './accounts';
+import * as accounts from './contract_model/accounts';
 import { Edition, MetadataProgram } from '@metaplex-foundation/mpl-token-metadata';
 import { ASSOCIATED_PROGRAM_ID, TOKEN_PROGRAM_ID } from '@project-serum/anchor/dist/cjs/utils/token';
 const encoder = new TextEncoder();

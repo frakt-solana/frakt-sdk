@@ -1,6 +1,6 @@
 import { Program, Provider } from '@project-serum/anchor';
 import { PublicKey } from '@solana/web3.js';
-import { CommunityPoolsAnchor, IDL } from '../contract_model/types/community_pools_anchor';
+import { CommunityPoolsAnchor, IDL } from './types/community_pools_anchor';
 
 export async function returnCommunityPoolsAnchorProgram(
   programId: PublicKey,

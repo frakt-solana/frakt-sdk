@@ -3,9 +3,9 @@ import * as anchor from '@project-serum/anchor';
 
 import { PublicKey, Connection, Keypair, Transaction, SystemProgram, TransactionInstruction } from '@solana/web3.js';
 import * as utils from './../common/utils';
-import { ACCOUNT_PREFIX } from './utils/constants';
-import * as accounts from './utils/accounts';
-import { returnCommunityPoolsAnchorProgram } from './utils/accounts';
+import { ACCOUNT_PREFIX } from './constants';
+import * as accounts from './contract_model/accounts';
+import { returnCommunityPoolsAnchorProgram } from './contract_model/accounts';
 
 export { Provider, Program } from '@project-serum/anchor';
 
