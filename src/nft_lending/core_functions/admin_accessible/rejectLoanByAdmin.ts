@@ -1,8 +1,7 @@
 import * as anchor from '@project-serum/anchor';
 
 import { Keypair, PublicKey, Transaction } from '@solana/web3.js';
-import * as accounts from '../../contract_model/accounts';
-import * as utils from '../../../common/utils';
+import * as accounts from './../../contract_model/accounts';
 import { Edition, MetadataProgram } from '@metaplex-foundation/mpl-token-metadata';
 import { TOKEN_PROGRAM_ID } from '@project-serum/anchor/dist/cjs/utils/token';
 const encoder = new TextEncoder();

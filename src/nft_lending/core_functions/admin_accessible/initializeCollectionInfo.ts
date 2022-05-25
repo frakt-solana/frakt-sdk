@@ -1,6 +1,6 @@
 import * as anchor from '@project-serum/anchor';
 import { Keypair, PublicKey, Transaction } from '@solana/web3.js';
-import * as accounts from '../../contract_model/accounts';
+import * as accounts from './../../contract_model/accounts';
 
 export async function initializeCollectionInfo({
   programId,

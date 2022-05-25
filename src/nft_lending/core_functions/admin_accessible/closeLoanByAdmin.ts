@@ -1,6 +1,6 @@
 import * as anchor from '@project-serum/anchor';
 import { PublicKey, Transaction } from '@solana/web3.js';
-import * as accounts from '../../contract_model/accounts';
+import * as accounts from './../../contract_model/accounts';
 const encoder = new TextEncoder();
 
 export async function closeLoanByAdmin({
