@@ -1,11 +1,4 @@
 import * as anchor from '@project-serum/anchor';
-export {
-  AllAccounts,
-  CollectionInfoView,
-  LiquidityPoolView,
-  DepositView,
-  LoanView,
-} from './../../contract_model/accounts';
 import { PublicKey, Transaction } from '@solana/web3.js';
 import * as accounts from './../../contract_model/accounts';
 const encoder = new TextEncoder();
