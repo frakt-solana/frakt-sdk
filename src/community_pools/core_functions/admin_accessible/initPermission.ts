@@ -5,16 +5,25 @@ import { returnCommunityPoolsAnchorProgram } from './../../contract_model/accoun
 
 export { Provider, Program } from '@project-serum/anchor';
 
-export async function initPermission(
-  programId: PublicKey,
-  provider: anchor.Provider,
-  admin: PublicKey,
-  programPubkey: PublicKey,
-  expiration: anchor.BN,
-  canAdd: boolean,
-  canHarvest: boolean,
-  sendTxn: any,
-) {
+export async function initPermission({
+  programId,
+  provider,
+  admin,
+  programPubkey,
+  expiration,
+  canAdd,
+  canHarvest,
+  sendTxn,
+}: {
+  programId: PublicKey;
+  provider: anchor.Provider;
+  admin: PublicKey;
+  programPubkey: PublicKey;
+  expiration: anchor.BN;
+  canAdd: boolean;
+  canHarvest: boolean;
+  sendTxn: (transaction: Transaction) => Promise<void>;
+}) {
   let encoder = new TextEncoder();
 
   let program = await returnCommunityPoolsAnchorProgram(programId, provider);

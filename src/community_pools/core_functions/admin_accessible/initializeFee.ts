@@ -5,17 +5,27 @@ import { returnCommunityPoolsAnchorProgram } from './../../contract_model/accoun
 
 export { Provider, Program } from '@project-serum/anchor';
 
-export async function initializeFee(
-  programId: PublicKey,
-  provider: anchor.Provider,
-  userPubkey: PublicKey,
-  depositFeeAdmin: number,
-  depositFeePool: number,
-  getLotteryFeeAdmin: number,
-  getLotteryFeePool: number,
-  sendTxn: any,
-  communityPool?: PublicKey,
-) {
+export async function initializeFee({
+  programId,
+  provider,
+  userPubkey,
+  depositFeeAdmin,
+  depositFeePool,
+  getLotteryFeeAdmin,
+  getLotteryFeePool,
+  sendTxn,
+  communityPool,
+}: {
+  programId: PublicKey;
+  provider: anchor.Provider;
+  userPubkey: PublicKey;
+  depositFeeAdmin: number;
+  depositFeePool: number;
+  getLotteryFeeAdmin: number;
+  getLotteryFeePool: number;
+  sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>;
+  communityPool?: PublicKey;
+}) {
   let config = anchor.web3.Keypair.generate();
   const transaction = new Transaction();
 

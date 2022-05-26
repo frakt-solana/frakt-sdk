@@ -6,15 +6,23 @@ import { returnCommunityPoolsAnchorProgram } from './../../contract_model/accoun
 export { Provider, Program } from '@project-serum/anchor';
 const encoder = new TextEncoder();
 
-export async function initBoardEntry(
-  programId: PublicKey,
-  provider: anchor.Provider,
-  user: PublicKey,
-  nftMint: PublicKey,
-  message: string,
-  sendTxn: any,
-  initialBalance?: anchor.BN,
-) {
+export async function initBoardEntry({
+  programId,
+  provider,
+  user,
+  nftMint,
+  message,
+  sendTxn,
+  initialBalance,
+}: {
+  programId: PublicKey;
+  provider: anchor.Provider;
+  user: PublicKey;
+  nftMint: PublicKey;
+  message: string;
+  sendTxn: (transaction: Transaction) => Promise<void>;
+  initialBalance?: anchor.BN;
+}) {
   let encoder = new TextEncoder();
 
   let program = await returnCommunityPoolsAnchorProgram(programId, provider);
@@ -37,7 +45,7 @@ export async function initBoardEntry(
     },
   });
   let transaction = new Transaction().add(ix);
-  await sendTxn(transaction, []);
+  await sendTxn(transaction);
 }
 
 export async function initBoardEntryInstruction(

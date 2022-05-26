@@ -7,13 +7,19 @@ import { returnCommunityPoolsAnchorProgram } from './../../contract_model/accoun
 
 export { Provider, Program } from '@project-serum/anchor';
 
-export async function initConfig(
-  programId: PublicKey,
-  provider: anchor.Provider,
-  admin: PublicKey,
-  tokenMint: PublicKey,
-  sendTxn: any,
-) {
+export async function initConfig({
+  programId,
+  provider,
+  admin,
+  tokenMint,
+  sendTxn,
+}: {
+  programId: PublicKey;
+  provider: anchor.Provider;
+  admin: PublicKey;
+  tokenMint: PublicKey;
+  sendTxn: (transaction: Transaction) => Promise<void>;
+}) {
   let program = await returnCommunityPoolsAnchorProgram(programId, provider);
   let encoder = new TextEncoder();
 

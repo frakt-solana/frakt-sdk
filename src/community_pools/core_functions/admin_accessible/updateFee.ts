@@ -5,17 +5,27 @@ import { returnCommunityPoolsAnchorProgram } from './../../contract_model/accoun
 
 export { Provider, Program } from '@project-serum/anchor';
 
-export async function updateFee(
-  programId: PublicKey,
-  provider: anchor.Provider,
-  userPubkey: PublicKey,
-  config: PublicKey,
-  depositFeeAdmin: number,
-  depositFeePool: number,
-  getLotteryFeeAdmin: number,
-  getLotteryFeePool: number,
-  sendTxn: any,
-) {
+export async function updateFee({
+  programId,
+  provider,
+  userPubkey,
+  config,
+  depositFeeAdmin,
+  depositFeePool,
+  getLotteryFeeAdmin,
+  getLotteryFeePool,
+  sendTxn,
+}: {
+  programId: PublicKey;
+  provider: anchor.Provider;
+  userPubkey: PublicKey;
+  config: PublicKey;
+  depositFeeAdmin: number;
+  depositFeePool: number;
+  getLotteryFeeAdmin: number;
+  getLotteryFeePool: number;
+  sendTxn: (transaction: Transaction) => Promise<void>;
+}) {
   const transaction = new Transaction();
 
   let program = await returnCommunityPoolsAnchorProgram(programId, provider);
@@ -30,5 +40,5 @@ export async function updateFee(
 
   transaction.add(ix);
 
-  await sendTxn(transaction, []);
+  await sendTxn(transaction);
 }
