@@ -2,7 +2,7 @@ import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
 import * as anchor from '@project-serum/anchor';
 import * as utils from './../../../common/utils';
 
-import { PublicKey, Keypair, Transaction, SystemProgram } from '@solana/web3.js';
+import { PublicKey, Keypair, Transaction, SystemProgram, TransactionInstruction } from '@solana/web3.js';
 import { returnCommunityPoolsAnchorProgram } from './../../contract_model/accounts';
 import { ACCOUNT_PREFIX } from './../../constants';
 
@@ -35,10 +35,13 @@ export async function emergencyWithdrawByAdmin(
     program.programId,
   );
 
-  const instructions = [];
+  let instructions: TransactionInstruction[] = [];
   const nftAdminTokenAccount = await utils.findAssociatedTokenAddress(admin, nftMint);
   if (!(await provider.connection.getAccountInfo(nftAdminTokenAccount)))
-    utils.createAssociatedTokenAccountInstruction(instructions, nftAdminTokenAccount, admin, admin, nftMint);
+    instructions = [
+      ...instructions,
+      ...(await utils.createAssociatedTokenAccountInstruction(nftAdminTokenAccount, admin, admin, nftMint)),
+    ];
 
   const signers = [];
 

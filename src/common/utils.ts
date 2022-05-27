@@ -18,14 +18,15 @@ export const createFakeWallet = () => {
 };
 
 export const findAssociatedTokenAddress = async (
-    walletAddress: PublicKey,
-    tokenMintAddress: PublicKey
-): Promise<PublicKey> => (
+  walletAddress: PublicKey,
+  tokenMintAddress: PublicKey,
+): Promise<PublicKey> =>
+  (
     await PublicKey.findProgramAddress(
-        [walletAddress.toBuffer(), TOKEN_PROGRAM_ID.toBuffer(), tokenMintAddress.toBuffer()],
-        SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID,
+      [walletAddress.toBuffer(), TOKEN_PROGRAM_ID.toBuffer(), tokenMintAddress.toBuffer()],
+      SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID,
     )
-)[0];
+  )[0];
 
 export const getTokenBalance = async (pubkey: PublicKey, connection: Connection) => {
   const balance = await connection.getTokenAccountBalance(pubkey);
@@ -34,15 +35,12 @@ export const getTokenBalance = async (pubkey: PublicKey, connection: Connection)
 };
 
 export const createUninitializedAccount = (
-  instructions: TransactionInstruction[],
   payer: PublicKey,
   amount: number,
-  signers: Keypair[],
-) => {
+): { instructions: TransactionInstruction[]; signers: Keypair[]; accountPubkey: PublicKey } => {
   const account = Keypair.generate();
 
-  // TODO: изменение исходных параметров?
-  instructions.push(
+  const instructions = [
     SystemProgram.createAccount({
       fromPubkey: payer,
       newAccountPubkey: account.publicKey,
@@ -50,37 +48,36 @@ export const createUninitializedAccount = (
       space: AccountLayout.span,
       programId: TOKEN_PROGRAM_ID,
     }),
-  );
+  ];
 
-  // TODO: изменение исходных параметров?
-  signers.push(account);
+  const signers = [account];
 
-  return account.publicKey;
+  return { accountPubkey: account.publicKey, instructions, signers };
 };
 
 export const createTokenAccount = (
-  instructions: TransactionInstruction[],
   payer: PublicKey,
   accountRentExempt: number,
   mint: PublicKey,
   owner: PublicKey,
-  signers: Keypair[],
-) => {
-  const account = createUninitializedAccount(instructions, payer, accountRentExempt, signers);
+): { instructions: TransactionInstruction[]; signers: Keypair[]; accountPubkey: PublicKey } => {
+  const {
+    instructions: newInstructions,
+    signers: newSigners,
+    accountPubkey,
+  } = createUninitializedAccount(payer, accountRentExempt);
 
-  // TODO: изменение исходных параметров?
-  instructions.push(Token.createInitAccountInstruction(TOKEN_PROGRAM_ID, mint, account, owner));
+  const initAccountInstruction = Token.createInitAccountInstruction(TOKEN_PROGRAM_ID, mint, accountPubkey, owner);
 
-  return account;
+  return { accountPubkey, signers: newSigners, instructions: [...newInstructions, initAccountInstruction] };
 };
 
 export const createAssociatedTokenAccountInstruction = (
-  instructions: TransactionInstruction[],
   associatedTokenAddress: PublicKey,
   payer: PublicKey,
   walletAddress: PublicKey,
   splTokenMintAddress: PublicKey,
-) => {
+): TransactionInstruction[] => {
   const keys = [
     {
       pubkey: payer,
@@ -119,14 +116,13 @@ export const createAssociatedTokenAccountInstruction = (
     },
   ];
 
-  // TODO: изменение исходных параметров?
-  instructions.push(
+  return [
     new TransactionInstruction({
       keys,
       programId: SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID,
       data: Buffer.from([]),
     }),
-  );
+  ];
 };
 
 export const deriveMetadataPubkeyFromMint = async (nftMint: PublicKey): Promise<PublicKey> => {

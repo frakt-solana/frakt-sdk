@@ -58,16 +58,18 @@ export async function depositNftToCommunityPool(
   const safetyDepositBox = anchor.web3.Keypair.generate();
   const storeNftTokenAccount = anchor.web3.Keypair.generate();
 
-  const instructions = [];
+  let instructions: TransactionInstruction[] = [];
   const userFractionsTokenAccount = await utils.findAssociatedTokenAddress(userPubkey, fractionMint);
   if (!(await provider.connection.getAccountInfo(userFractionsTokenAccount)))
-    utils.createAssociatedTokenAccountInstruction(
-      instructions,
-      userFractionsTokenAccount,
-      userPubkey,
-      userPubkey,
-      fractionMint,
-    );
+    instructions = [
+      ...instructions,
+      ...(await utils.createAssociatedTokenAccountInstruction(
+        userFractionsTokenAccount,
+        userPubkey,
+        userPubkey,
+        fractionMint,
+      )),
+    ];
 
   let [vaultOwnerPda, bumpPda] = await anchor.web3.PublicKey.findProgramAddress(
     [encoder.encode('vaultownerpda'), fusionProgramId.toBuffer()],
@@ -182,17 +184,18 @@ export async function depositNftToCommunityPoolIx(
   const safetyDepositBox = anchor.web3.Keypair.generate();
   const storeNftTokenAccount = anchor.web3.Keypair.generate();
 
-  const instructions: TransactionInstruction[] = [];
+  let instructions: TransactionInstruction[] = [];
   const userFractionsTokenAccount = await utils.findAssociatedTokenAddress(userPubkey, fractionMint);
   if (!(await provider.connection.getAccountInfo(userFractionsTokenAccount)))
-    utils.createAssociatedTokenAccountInstruction(
-      instructions,
-      userFractionsTokenAccount,
-      userPubkey,
-      userPubkey,
-      fractionMint,
-    );
-
+    instructions = [
+      ...instructions,
+      ...(await utils.createAssociatedTokenAccountInstruction(
+        userFractionsTokenAccount,
+        userPubkey,
+        userPubkey,
+        fractionMint,
+      )),
+    ];
   let [vaultOwnerPda, bumpPda] = await anchor.web3.PublicKey.findProgramAddress(
     [encoder.encode('vaultownerpda'), fusionProgramId.toBuffer()],
     fusionProgramId,
