@@ -1,10 +1,12 @@
+import anchor from '@project-serum/anchor';
 import { Connection, PublicKey, Keypair, SystemProgram, TransactionInstruction } from '@solana/web3.js';
 import { AccountLayout, Token, TOKEN_PROGRAM_ID } from '@solana/spl-token';
-import * as anchor from '@project-serum/anchor';
 import { NodeWallet } from '@metaplex/js';
 
+import { SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID } from './constants';
+
 //when we only want to view vaults, no need to connect a real wallet.
-export function createFakeWallet() {
+export const createFakeWallet = () => {
   const leakedKp = Keypair.fromSecretKey(
     Uint8Array.from([
       208, 175, 150, 242, 88, 34, 108, 88, 177, 16, 168, 75, 115, 181, 199, 242, 120, 4, 78, 75, 19, 227, 13, 215, 184,
@@ -13,34 +15,33 @@ export function createFakeWallet() {
     ]),
   );
   return new NodeWallet(leakedKp);
-}
-const SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID: PublicKey = new PublicKey(
-  'ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL',
-);
-
-export async function findAssociatedTokenAddress(
-  walletAddress: PublicKey,
-  tokenMintAddress: PublicKey,
-): Promise<PublicKey> {
-  return (
-    await PublicKey.findProgramAddress(
-      [walletAddress.toBuffer(), TOKEN_PROGRAM_ID.toBuffer(), tokenMintAddress.toBuffer()],
-      SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID,
-    )
-  )[0];
-}
-
-export const getTokenBalance = async (pubkey: PublicKey, connection: Connection) => {
-  return parseInt((await connection.getTokenAccountBalance(pubkey)).value.amount);
 };
 
-export function createUninitializedAccount(
+export const findAssociatedTokenAddress = async (
+    walletAddress: PublicKey,
+    tokenMintAddress: PublicKey
+): Promise<PublicKey> => (
+    await PublicKey.findProgramAddress(
+        [walletAddress.toBuffer(), TOKEN_PROGRAM_ID.toBuffer(), tokenMintAddress.toBuffer()],
+        SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID,
+    )
+)[0];
+
+export const getTokenBalance = async (pubkey: PublicKey, connection: Connection) => {
+  const balance = await connection.getTokenAccountBalance(pubkey);
+
+  return parseInt(balance.value.amount);
+};
+
+export const createUninitializedAccount = (
   instructions: TransactionInstruction[],
   payer: PublicKey,
   amount: number,
   signers: Keypair[],
-) {
+) => {
   const account = Keypair.generate();
+
+  // TODO: изменение исходных параметров?
   instructions.push(
     SystemProgram.createAccount({
       fromPubkey: payer,
@@ -51,33 +52,35 @@ export function createUninitializedAccount(
     }),
   );
 
+  // TODO: изменение исходных параметров?
   signers.push(account);
 
   return account.publicKey;
-}
+};
 
-export function createTokenAccount(
+export const createTokenAccount = (
   instructions: TransactionInstruction[],
   payer: PublicKey,
   accountRentExempt: number,
   mint: PublicKey,
   owner: PublicKey,
   signers: Keypair[],
-) {
+) => {
   const account = createUninitializedAccount(instructions, payer, accountRentExempt, signers);
 
+  // TODO: изменение исходных параметров?
   instructions.push(Token.createInitAccountInstruction(TOKEN_PROGRAM_ID, mint, account, owner));
 
   return account;
-}
+};
 
-export function createAssociatedTokenAccountInstruction(
+export const createAssociatedTokenAccountInstruction = (
   instructions: TransactionInstruction[],
   associatedTokenAddress: PublicKey,
   payer: PublicKey,
   walletAddress: PublicKey,
   splTokenMintAddress: PublicKey,
-) {
+) => {
   const keys = [
     {
       pubkey: payer,
@@ -115,6 +118,8 @@ export function createAssociatedTokenAccountInstruction(
       isWritable: false,
     },
   ];
+
+  // TODO: изменение исходных параметров?
   instructions.push(
     new TransactionInstruction({
       keys,
@@ -122,9 +127,9 @@ export function createAssociatedTokenAccountInstruction(
       data: Buffer.from([]),
     }),
   );
-}
+};
 
-export async function deriveMetadataPubkeyFromMint(nftMint: PublicKey): Promise<PublicKey> {
+export const deriveMetadataPubkeyFromMint = async (nftMint: PublicKey): Promise<PublicKey> => {
   let metadata_program = new PublicKey('metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s');
 
   const encoder = new TextEncoder();
@@ -146,4 +151,4 @@ export async function deriveMetadataPubkeyFromMint(nftMint: PublicKey): Promise<
   return metadataPubkey;
   // let (metadata_addr, _bump) = Pubkey::find_program_address(seed, &metadata_program);
   // assert_eq!(metadata_addr, nft_metadata.key());
-}
+};

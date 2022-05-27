@@ -1,35 +1,41 @@
 import * as anchor from '@project-serum/anchor';
-
 import { PublicKey, Transaction } from '@solana/web3.js';
-import * as accounts from './../../contract_model/accounts';
-const encoder = new TextEncoder();
 
-export async function depositLiquidity({
-  programId,
-  provider,
-  liquidityPool,
-  user,
-  amount,
-  sendTxn,
-}: {
+import { returnAnchorProgram } from '../../contract_model/accounts';
+
+interface IParams {
   programId: PublicKey;
   provider: anchor.Provider;
   liquidityPool: PublicKey;
   user: PublicKey;
   amount: number;
   sendTxn: (transaction: Transaction) => Promise<void>;
-}) {
-  const program = await accounts.returnAnchorProgram(programId, provider);
+}
 
-  const [liqOwner, liqOwnerBump] = await anchor.web3.PublicKey.findProgramAddress(
+// TODO: Нужен один в рамках модуля или на каждый вызов?
+const encoder = new TextEncoder();
+
+const depositLiquidity = async ({
+  programId,
+  provider,
+  liquidityPool,
+  user,
+  amount,
+  sendTxn
+}: IParams): Promise<any> => {
+  const program = await returnAnchorProgram(programId, provider);
+
+  const [liqOwner] = await anchor.web3.PublicKey.findProgramAddress(
     [encoder.encode('nftlendingv2'), liquidityPool.toBuffer()],
     program.programId,
   );
-  const [deposit, depositBump] = await anchor.web3.PublicKey.findProgramAddress(
+
+  const [deposit] = await anchor.web3.PublicKey.findProgramAddress(
     [encoder.encode('deposit'), liquidityPool.toBuffer(), user.toBuffer()],
     program.programId,
   );
-  const instr = program.instruction.depositLiquidity(new anchor.BN(amount), {
+
+  const instruction = program.instruction.depositLiquidity(new anchor.BN(amount), {
     accounts: {
       liquidityPool: liquidityPool,
       liqOwner,
@@ -40,6 +46,9 @@ export async function depositLiquidity({
     },
   });
 
-  const transaction = new Transaction().add(instr);
+  const transaction = new Transaction().add(instruction);
+
   await sendTxn(transaction);
-}
+};
+
+export default depositLiquidity;

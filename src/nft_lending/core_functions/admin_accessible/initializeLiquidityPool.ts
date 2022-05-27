@@ -1,21 +1,9 @@
-import * as anchor from '@project-serum/anchor';
+import anchor from '@project-serum/anchor';
 
 import { Keypair, PublicKey, Transaction } from '@solana/web3.js';
-import * as accounts from './../../contract_model/accounts';
-const encoder = new TextEncoder();
+import { returnAnchorProgram } from '../../contract_model/accounts';
 
-export async function initializeLiquidityPool({
-  programId,
-  provider,
-  admin,
-  rewardInterestRateTime,
-  rewardInterestRatePrice,
-  feeInterestRateTime,
-  feeInterestRatePrice,
-  id,
-  period,
-  sendTxn,
-}: {
+interface IParams {
   programId: PublicKey;
   provider: anchor.Provider;
   admin: PublicKey;
@@ -26,15 +14,31 @@ export async function initializeLiquidityPool({
   id: number | anchor.BN;
   period: number | anchor.BN;
   sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>;
-}) {
-  const program = await accounts.returnAnchorProgram(programId, provider);
+}
 
+const encoder = new TextEncoder();
+
+const initializeLiquidityPool = async ({
+  programId,
+  provider,
+  admin,
+  rewardInterestRateTime,
+  rewardInterestRatePrice,
+  feeInterestRateTime,
+  feeInterestRatePrice,
+  id,
+  period,
+  sendTxn,
+}: IParams): Promise<any> => {
+  const program = await returnAnchorProgram(programId, provider);
   const liquidityPool = Keypair.generate();
+
   const [liqOwner, liqOwnerBump] = await anchor.web3.PublicKey.findProgramAddress(
     [encoder.encode('nftlendingv2'), liquidityPool.publicKey.toBuffer()],
     program.programId,
   );
-  const ix = program.instruction.initializeLiquidityPool(
+
+  const instruction = program.instruction.initializeLiquidityPool(
     liqOwnerBump,
     {
       rewardInterestRateTime: new anchor.BN(rewardInterestRateTime),
@@ -55,8 +59,11 @@ export async function initializeLiquidityPool({
     },
   );
 
-  const transaction = new Transaction().add(ix);
+  const transaction = new Transaction().add(instruction);
 
   await sendTxn(transaction, [liquidityPool]);
+
   return liquidityPool.publicKey;
 }
+
+export default initializeLiquidityPool;

@@ -1,23 +1,8 @@
-import * as anchor from '@project-serum/anchor';
+import anchor from '@project-serum/anchor';
 import { Keypair, PublicKey, Transaction } from '@solana/web3.js';
-import * as accounts from './../../contract_model/accounts';
+import { returnAnchorProgram } from '../../contract_model/accounts';
 
-export async function initializeCollectionInfo({
-  programId,
-  provider,
-  liquidityPool,
-  admin,
-  creatorAddress,
-  pricingLookupAddress,
-  loanToValue,
-  collaterizationRate,
-  royaltyAddress,
-  royaltyFeeTime,
-  royaltyFeePrice,
-  expirationTime,
-  isPriceBased,
-  sendTxn,
-}: {
+interface IParams {
   programId: PublicKey;
   provider: anchor.Provider;
   liquidityPool: PublicKey;
@@ -32,12 +17,28 @@ export async function initializeCollectionInfo({
   expirationTime: number | anchor.BN;
   isPriceBased: boolean;
   sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>;
-}) {
-  const program = await accounts.returnAnchorProgram(programId, provider);
+}
 
+const initializeCollectionInfo = async ({
+  programId,
+  provider,
+  liquidityPool,
+  admin,
+  creatorAddress,
+  pricingLookupAddress,
+  loanToValue,
+  collaterizationRate,
+  royaltyAddress,
+  royaltyFeeTime,
+  royaltyFeePrice,
+  expirationTime,
+  isPriceBased,
+  sendTxn,
+}: IParams): Promise<any> => {
+  const program = await returnAnchorProgram(programId, provider);
   const collectionInfo = Keypair.generate();
 
-  const ix = await program.instruction.initializeCollectionInfo(
+  const instruction = await program.instruction.initializeCollectionInfo(
     {
       loanToValue: new anchor.BN(loanToValue),
       collaterizationRate: new anchor.BN(collaterizationRate),
@@ -60,8 +61,11 @@ export async function initializeCollectionInfo({
     },
   );
 
-  const transaction = new Transaction().add(ix);
+  const transaction = new Transaction().add(instruction);
 
   await sendTxn(transaction, [collectionInfo]);
+
   return collectionInfo.publicKey;
-}
+};
+
+export default initializeCollectionInfo;

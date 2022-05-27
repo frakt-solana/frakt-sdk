@@ -1,21 +1,9 @@
-import * as anchor from '@project-serum/anchor';
-
+import anchor from '@project-serum/anchor';
 import { PublicKey, Transaction } from '@solana/web3.js';
-import * as accounts from './../../contract_model/accounts';
-const encoder = new TextEncoder();
 
-export async function approveLoanByAdmin({
-  programId,
-  provider,
-  admin,
-  loan,
-  liquidityPool,
-  collectionInfo,
-  nftPrice,
-  discount,
-  user,
-  sendTxn,
-}: {
+import { returnAnchorProgram } from '../../contract_model/accounts';
+
+interface IParams {
   programId: PublicKey;
   provider: anchor.Provider;
   admin: PublicKey;
@@ -27,14 +15,30 @@ export async function approveLoanByAdmin({
   discount: number | anchor.BN;
   user: PublicKey;
   sendTxn: (transaction: Transaction) => Promise<void>;
-}) {
-  const program = await accounts.returnAnchorProgram(programId, provider);
-  const [liqOwner, liqOwnerBump] = await anchor.web3.PublicKey.findProgramAddress(
+}
+
+const encoder = new TextEncoder();
+
+const approveLoanByAdmin = async ({
+  programId,
+  provider,
+  admin,
+  loan,
+  liquidityPool,
+  collectionInfo,
+  nftPrice,
+  discount,
+  user,
+  sendTxn,
+}: IParams): Promise<any> => {
+  const program = await returnAnchorProgram(programId, provider);
+
+  const [liqOwner] = await anchor.web3.PublicKey.findProgramAddress(
     [encoder.encode('nftlendingv2'), liquidityPool.toBuffer()],
     programId,
   );
 
-  const instr = program.instruction.approveLoanByAdmin(new anchor.BN(nftPrice), new anchor.BN(discount), {
+  const instruction = program.instruction.approveLoanByAdmin(new anchor.BN(nftPrice), new anchor.BN(discount), {
     accounts: {
       loan: loan,
       user,
@@ -46,7 +50,9 @@ export async function approveLoanByAdmin({
     },
   });
 
-  const transaction = new Transaction().add(instr);
+  const transaction = new Transaction().add(instruction);
 
   await sendTxn(transaction);
-}
+};
+
+export default approveLoanByAdmin;

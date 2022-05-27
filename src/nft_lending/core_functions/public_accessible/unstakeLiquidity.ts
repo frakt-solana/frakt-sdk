@@ -1,34 +1,40 @@
-import * as anchor from '@project-serum/anchor';
+import anchor from '@project-serum/anchor';
 import { PublicKey, Transaction } from '@solana/web3.js';
-import * as accounts from './../../contract_model/accounts';
-const encoder = new TextEncoder();
 
-export async function unstakeLiquidity({
-  programId,
-  provider,
-  liquidityPool,
-  user,
-  amount,
-  sendTxn,
-}: {
+import { returnAnchorProgram } from '../../contract_model/accounts';
+
+interface IParams {
   programId: PublicKey;
   provider: anchor.Provider;
   liquidityPool: PublicKey;
   user: PublicKey;
   amount: anchor.BN | number;
   sendTxn: (transaction: Transaction) => Promise<void>;
-}) {
-  const program = await accounts.returnAnchorProgram(programId, provider);
+}
 
-  const [liqOwner, liqOwnerBump] = await anchor.web3.PublicKey.findProgramAddress(
+const encoder = new TextEncoder();
+
+const unstakeLiquidity = async ({
+  programId,
+  provider,
+  liquidityPool,
+  user,
+  amount,
+  sendTxn,
+}: IParams): Promise<any> => {
+  const program = await returnAnchorProgram(programId, provider);
+
+  const [liqOwner] = await anchor.web3.PublicKey.findProgramAddress(
     [encoder.encode('nftlendingv2'), liquidityPool.toBuffer()],
     program.programId,
   );
+
   const [deposit, depositBump] = await anchor.web3.PublicKey.findProgramAddress(
     [encoder.encode('deposit'), liquidityPool.toBuffer(), user.toBuffer()],
     program.programId,
   );
-  const ix = program.instruction.unstakeLiquidity(depositBump, new anchor.BN(amount), {
+
+  const instruction = program.instruction.unstakeLiquidity(depositBump, new anchor.BN(amount), {
     accounts: {
       liquidityPool,
       user,
@@ -38,7 +44,9 @@ export async function unstakeLiquidity({
     },
   });
 
-  const transaction = new Transaction().add(ix);
+  const transaction = new Transaction().add(instruction);
 
   await sendTxn(transaction);
-}
+};
+
+export default unstakeLiquidity;

@@ -1,22 +1,9 @@
-import * as anchor from '@project-serum/anchor';
-
+import anchor from '@project-serum/anchor';
 import { PublicKey, Transaction } from '@solana/web3.js';
-import * as accounts from './../../contract_model/accounts';
-const encoder = new TextEncoder();
 
-export async function updateLiquidityPool({
-  programId,
-  provider,
-  admin,
-  liquidityPool,
-  rewardInterestRateTime,
-  rewardInterestRatePrice,
-  feeInterestRateTime,
-  feeInterestRatePrice,
-  id,
-  period,
-  sendTxn,
-}: {
+import { returnAnchorProgram } from '../../contract_model/accounts';
+
+interface IParams {
   programId: PublicKey;
   provider: anchor.Provider;
   admin: PublicKey;
@@ -28,14 +15,24 @@ export async function updateLiquidityPool({
   id: number | anchor.BN;
   period: number | anchor.BN;
   sendTxn: (transaction: Transaction) => Promise<void>;
-}) {
-  const program = await accounts.returnAnchorProgram(programId, provider);
+}
 
-  const [liqOwner, liqOwnerBump] = await anchor.web3.PublicKey.findProgramAddress(
-    [encoder.encode('nftlendingv2'), liquidityPool.toBuffer()],
-    program.programId,
-  );
-  const ix = program.instruction.updateLiquidityPool(
+const updateLiquidityPool = async ({
+  programId,
+  provider,
+  admin,
+  liquidityPool,
+  rewardInterestRateTime,
+  rewardInterestRatePrice,
+  feeInterestRateTime,
+  feeInterestRatePrice,
+  id,
+  period,
+  sendTxn,
+}: IParams): Promise<any> => {
+  const program = await returnAnchorProgram(programId, provider);
+
+  const instruction = program.instruction.updateLiquidityPool(
     {
       rewardInterestRateTime: new anchor.BN(rewardInterestRateTime),
       rewardInterestRatePrice: new anchor.BN(rewardInterestRatePrice),
@@ -54,7 +51,9 @@ export async function updateLiquidityPool({
     },
   );
 
-  const transaction = new Transaction().add(ix);
+  const transaction = new Transaction().add(instruction);
 
   await sendTxn(transaction);
-}
+};
+
+export default updateLiquidityPool;

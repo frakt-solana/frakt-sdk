@@ -1,22 +1,12 @@
-import * as anchor from '@project-serum/anchor';
-
+import anchor from '@project-serum/anchor';
 import { PublicKey, Transaction, TransactionInstruction } from '@solana/web3.js';
-import * as accounts from './../../contract_model/accounts';
-import * as utils from './../../../common/utils';
 import { Edition, MetadataProgram } from '@metaplex-foundation/mpl-token-metadata';
 import { ASSOCIATED_PROGRAM_ID, TOKEN_PROGRAM_ID } from '@project-serum/anchor/dist/cjs/utils/token';
 
-const encoder = new TextEncoder();
+import { returnAnchorProgram } from '../../contract_model/accounts';
+import { findAssociatedTokenAddress } from '../../../common/utils';
 
-export async function liquidateLoanByAdmin({
-  programId,
-  provider,
-  liquidator,
-  user,
-  loan,
-  nftMint,
-  sendTxn,
-}: {
+interface IParams {
   programId: PublicKey;
   provider: anchor.Provider;
   liquidator: PublicKey;
@@ -24,18 +14,31 @@ export async function liquidateLoanByAdmin({
   loan: PublicKey;
   nftMint: PublicKey;
   sendTxn: (transaction: Transaction) => Promise<void>;
-}) {
-  const program = await accounts.returnAnchorProgram(programId, provider);
+}
+
+const encoder = new TextEncoder();
+
+const liquidateLoanByAdmin = async ({
+  programId,
+  provider,
+  liquidator,
+  user,
+  loan,
+  nftMint,
+  sendTxn,
+}: IParams): Promise<any> => {
+  const program = await returnAnchorProgram(programId, provider);
+  const nftUserTokenAccount = await findAssociatedTokenAddress(user, nftMint);
+  const instructions: TransactionInstruction[] = [];
+  const nftLiquidatorTokenAccount = await findAssociatedTokenAddress(liquidator, nftMint);
+  const editionId = await Edition.getPDA(nftMint);
+
   const [communityPoolsAuthority, bumpPoolsAuth] = await anchor.web3.PublicKey.findProgramAddress(
     [encoder.encode('nftlendingv2'), programId.toBuffer()],
     program.programId,
   );
 
-  const nftUserTokenAccount = await utils.findAssociatedTokenAddress(user, nftMint);
-  const instructions: TransactionInstruction[] = [];
-  const nftLiquidatorTokenAccount = await utils.findAssociatedTokenAddress(liquidator, nftMint);
-  const editionId = await Edition.getPDA(nftMint);
-  const instr = program.instruction.liquidateLoanByAdmin(bumpPoolsAuth, {
+  const instruction = program.instruction.liquidateLoanByAdmin(bumpPoolsAuth, {
     accounts: {
       loan: loan,
       liquidator: liquidator,
@@ -53,6 +56,8 @@ export async function liquidateLoanByAdmin({
     },
   });
 
-  const transaction = new Transaction().add(instr);
+  const transaction = new Transaction().add(instruction);
   await sendTxn(transaction);
-}
+};
+
+export default liquidateLoanByAdmin;

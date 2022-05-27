@@ -1,51 +1,54 @@
-import * as anchor from '@project-serum/anchor';
+import anchor from '@project-serum/anchor';
 import { PublicKey, Transaction } from '@solana/web3.js';
-import * as accounts from './../../contract_model/accounts';
-import * as utils from './../../../common/utils';
 import { Edition, MetadataProgram } from '@metaplex-foundation/mpl-token-metadata';
 import { TOKEN_PROGRAM_ID } from '@project-serum/anchor/dist/cjs/utils/token';
 
+import { returnAnchorProgram } from '../../contract_model/accounts';
+import { findAssociatedTokenAddress } from '../../../common/utils';
+
 const encoder = new TextEncoder();
 
-export async function paybackLoan({
+interface IParams {
+  programId: PublicKey;
+  provider: anchor.Provider;
+  user: PublicKey;
+  admin: PublicKey;
+  loan: PublicKey;
+  nftMint: PublicKey;
+  liquidityPool: PublicKey;
+  collectionInfo: PublicKey;
+  royaltyAddress: PublicKey;
+  sendTxn: (transaction: Transaction) => Promise<void>;
+}
+
+const paybackLoan = async ({
   programId,
   provider,
   user,
   admin,
-
   loan,
   nftMint,
   liquidityPool,
   collectionInfo,
   royaltyAddress,
   sendTxn,
-}: {
-  programId: PublicKey;
-  provider: anchor.Provider;
-  user: PublicKey;
-  admin: PublicKey;
-
-  loan: PublicKey;
-  nftMint: PublicKey;
-  liquidityPool: PublicKey;
-  collectionInfo: PublicKey;
-  royaltyAddress: PublicKey;
-
-  sendTxn: (transaction: Transaction) => Promise<void>;
-}) {
-  const program = await accounts.returnAnchorProgram(programId, provider);
+}: IParams): Promise<any> => {
+  const program = await returnAnchorProgram(programId, provider);
 
   const [communityPoolsAuthority, bumpPoolsAuth] = await anchor.web3.PublicKey.findProgramAddress(
     [encoder.encode('nftlendingv2'), programId.toBuffer()],
     program.programId,
   );
-  const [liqOwner, liqOwnerBump] = await anchor.web3.PublicKey.findProgramAddress(
+
+  const [liqOwner] = await anchor.web3.PublicKey.findProgramAddress(
     [encoder.encode('nftlendingv2'), liquidityPool.toBuffer()],
     program.programId,
   );
-  const nftUserTokenAccount = await utils.findAssociatedTokenAddress(user, nftMint);
+
+  const nftUserTokenAccount = await findAssociatedTokenAddress(user, nftMint);
   const editionId = await Edition.getPDA(nftMint);
-  const instr = program.instruction.paybackLoan(bumpPoolsAuth, {
+
+  const instruction = program.instruction.paybackLoan(bumpPoolsAuth, {
     accounts: {
       loan: loan,
       liquidityPool: liquidityPool,
@@ -65,7 +68,9 @@ export async function paybackLoan({
     },
   });
 
-  const transaction = new Transaction().add(instr);
+  const transaction = new Transaction().add(instruction);
 
   await sendTxn(transaction);
-}
+};
+
+export default paybackLoan;

@@ -1,28 +1,33 @@
-import * as anchor from '@project-serum/anchor';
+import anchor from '@project-serum/anchor';
 import { PublicKey, Transaction } from '@solana/web3.js';
-import * as accounts from './../../contract_model/accounts';
-const encoder = new TextEncoder();
 
-export async function closeLoanByAdmin({
-  programId,
-  provider,
-  loan,
-  admin,
-  sendTxn,
-}: {
+import { returnAnchorProgram } from '../../contract_model/accounts';
+
+interface IParams {
   programId: PublicKey;
   provider: anchor.Provider;
   loan: PublicKey;
   admin: PublicKey;
   sendTxn: (transaction: Transaction) => Promise<void>;
-}) {
-  const program = await accounts.returnAnchorProgram(programId, provider);
+}
+
+const encoder = new TextEncoder();
+
+const closeLoanByAdmin = async ({
+  programId,
+  provider,
+  loan,
+  admin,
+  sendTxn,
+}: IParams): Promise<any> => {
+  const program = await returnAnchorProgram(programId, provider);
+
   const [communityPoolsAuthority, bumpPoolsAuth] = await anchor.web3.PublicKey.findProgramAddress(
     [encoder.encode('nftlendingv2'), programId.toBuffer()],
     programId,
   );
 
-  const ix = await program.methods
+  const instruction = await program.methods
     .closeLoan(bumpPoolsAuth)
     .accounts({
       loan: loan,
@@ -31,7 +36,9 @@ export async function closeLoanByAdmin({
     })
     .instruction();
 
-  const transaction = new Transaction().add(ix);
+  const transaction = new Transaction().add(instruction);
 
   await sendTxn(transaction);
-}
+};
+
+export default closeLoanByAdmin;
