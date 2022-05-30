@@ -1,83 +1,61 @@
+import anchor from '@project-serum/anchor';
 import { TOKEN_PROGRAM_ID, ASSOCIATED_TOKEN_PROGRAM_ID } from '@solana/spl-token';
-import * as anchor from '@project-serum/anchor';
-import * as utils from './../../../common/utils';
-
 import { PublicKey, Keypair, Transaction, SystemProgram, TransactionInstruction } from '@solana/web3.js';
-import { returnCommunityPoolsAnchorProgram } from './../../contract_model/accounts';
 
-export { Provider, Program } from '@project-serum/anchor';
-const encoder = new TextEncoder();
+import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
+import { findAssociatedTokenAddress } from '../../../common/utils';
 
-export async function getLotteryTicket(
-  {
-    communityPool,
-    fractionMint,
-    userFractionsTokenAccount,
-    fusionProgramId,
-    tokenMintInputFusion,
-    feeConfig,
-    adminAddress,
-  }: {
-    communityPool: PublicKey;
-    fractionMint: PublicKey;
-    userFractionsTokenAccount: PublicKey;
-    fusionProgramId: PublicKey;
-    tokenMintInputFusion: PublicKey;
-    feeConfig: PublicKey;
-    adminAddress: PublicKey;
-  },
-  {
-    userPubkey,
-    provider,
-    programId,
-    sendTxn,
-  }: {
-    programId: PublicKey;
-    userPubkey: PublicKey;
-    provider: anchor.Provider;
-    sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>;
-  },
-) {
-  let program = await returnCommunityPoolsAnchorProgram(programId, provider);
+export const getLotteryTicket = async (
+  communityPool: PublicKey,
+  fractionMint: PublicKey,
+  userFractionsTokenAccount: PublicKey,
+  fusionProgramId: PublicKey,
+  tokenMintInputFusion: PublicKey,
+  feeConfig: PublicKey,
+  adminAddress: PublicKey,
+  programId: PublicKey,
+  userPubkey: PublicKey,
+  provider: anchor.Provider,
+  sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>
+) => {
+  const encoder = new TextEncoder();
+  const instructions = [];
+  const program = await returnCommunityPoolsAnchorProgram(programId, provider);
 
   const lotteryTicketAccount = anchor.web3.Keypair.generate();
-  const [leaderboardAccount, _bump] = await anchor.web3.PublicKey.findProgramAddress(
+  const [leaderboardAccount] = await anchor.web3.PublicKey.findProgramAddress(
     [communityPool.toBuffer(), encoder.encode('leaderBoard')],
     program.programId,
   );
-  const [leaderboardAuthority, bumpLead] = await anchor.web3.PublicKey.findProgramAddress(
-    [encoder.encode('leaderBoardProgramAuthority'), programId.toBuffer()],
-    program.programId,
-  );
-  let [vaultOwnerPda, bumpPda] = await anchor.web3.PublicKey.findProgramAddress(
+
+  const [vaultOwnerPda, bumpPda] = await anchor.web3.PublicKey.findProgramAddress(
     [encoder.encode('vaultownerpda'), fusionProgramId.toBuffer()],
     fusionProgramId,
   );
 
-  const instructions = [];
+  const vaultTokenAccountOutput = await findAssociatedTokenAddress(vaultOwnerPda, fractionMint);
 
-  let vaultTokenAccountOutput = await utils.findAssociatedTokenAddress(vaultOwnerPda, fractionMint);
-
-  let [mainRouter, bumpRouter] = await anchor.web3.PublicKey.findProgramAddress(
+  const [mainRouter] = await anchor.web3.PublicKey.findProgramAddress(
     [encoder.encode('mainRouter'), tokenMintInputFusion.toBuffer(), fractionMint.toBuffer()],
     fusionProgramId,
   );
 
-  let [configOutput, bumpConfigOutput] = await anchor.web3.PublicKey.findProgramAddress(
+  const [configOutput] = await anchor.web3.PublicKey.findProgramAddress(
     [encoder.encode('mainConfigAccountOutput'), fractionMint.toBuffer(), mainRouter.toBuffer()],
     fusionProgramId,
   );
 
   const admin = new PublicKey(adminAddress);
-  const adminTokenAccount = await utils.findAssociatedTokenAddress(admin, fractionMint);
+  const adminTokenAccount = await findAssociatedTokenAddress(admin, fractionMint);
 
-  let [boardEntry, bumpBoardEntry] = await anchor.web3.PublicKey.findProgramAddress(
+  const [boardEntry] = await anchor.web3.PublicKey.findProgramAddress(
     [encoder.encode('BoardEntry'), userPubkey.toBuffer()],
     programId,
   );
 
   const signers = [lotteryTicketAccount];
-  const tx = program.instruction.getLotteryTicket(bumpPda, {
+
+  const instruction = program.instruction.getLotteryTicket(bumpPda, {
     accounts: {
       lotteryTicket: lotteryTicketAccount.publicKey,
       communityPool: communityPool,
@@ -102,56 +80,41 @@ export async function getLotteryTicket(
     },
     signers: signers,
   });
+
   const transaction = new Transaction();
 
-  for (let instruction of instructions) transaction.add(instruction);
+  for (const instruction of instructions) {
+    transaction.add(instruction);
+  }
 
-  transaction.add(tx);
+  transaction.add(instruction);
 
   await sendTxn(transaction, signers);
 
   return { lotteryTicketPubkey: lotteryTicketAccount.publicKey };
 }
 
-export async function getLotteryTicketIx(
-  {
-    communityPool,
-    fractionMint,
-    userFractionsTokenAccount,
-    fusionProgramId,
-    tokenMintInputFusion,
-    feeConfig,
-    adminAddress,
-  }: {
-    communityPool: PublicKey;
-    fractionMint: PublicKey;
-    userFractionsTokenAccount: PublicKey;
-    fusionProgramId: PublicKey;
-    tokenMintInputFusion: PublicKey;
-    feeConfig: PublicKey;
-    adminAddress: PublicKey;
-  },
-  {
-    userPubkey,
-    provider,
-    programId,
-  }: {
-    programId: PublicKey;
-    userPubkey: PublicKey;
-    provider: anchor.Provider;
-  },
-) {
-  let program = await returnCommunityPoolsAnchorProgram(programId, provider);
+export const getLotteryTicketIx = async (
+  communityPool: PublicKey,
+  fractionMint: PublicKey,
+  userFractionsTokenAccount: PublicKey,
+  fusionProgramId: PublicKey,
+  tokenMintInputFusion: PublicKey,
+  feeConfig: PublicKey,
+  adminAddress: PublicKey,
+  programId: PublicKey,
+  userPubkey: PublicKey,
+  provider: anchor.Provider
+) => {
+  const encoder = new TextEncoder();
+  const program = await returnCommunityPoolsAnchorProgram(programId, provider);
 
   const lotteryTicketAccount = anchor.web3.Keypair.generate();
-  const [leaderboardAccount, _bump] = await anchor.web3.PublicKey.findProgramAddress(
+  const [leaderboardAccount] = await anchor.web3.PublicKey.findProgramAddress(
     [communityPool.toBuffer(), encoder.encode('leaderBoard')],
     program.programId,
   );
-  const [leaderboardAuthority, bumpLead] = await anchor.web3.PublicKey.findProgramAddress(
-    [encoder.encode('leaderBoardProgramAuthority'), programId.toBuffer()],
-    program.programId,
-  );
+
   let [vaultOwnerPda, bumpPda] = await anchor.web3.PublicKey.findProgramAddress(
     [encoder.encode('vaultownerpda'), fusionProgramId.toBuffer()],
     fusionProgramId,
@@ -159,30 +122,34 @@ export async function getLotteryTicketIx(
 
   const instructions: TransactionInstruction[] = [];
 
-  let vaultTokenAccountOutput = await utils.findAssociatedTokenAddress(vaultOwnerPda, fractionMint);
+  const vaultTokenAccountOutput = await findAssociatedTokenAddress(vaultOwnerPda, fractionMint);
 
-  let [mainRouter] = await anchor.web3.PublicKey.findProgramAddress(
+  const [mainRouter] = await anchor.web3.PublicKey.findProgramAddress(
     [encoder.encode('mainRouter'), tokenMintInputFusion.toBuffer(), fractionMint.toBuffer()],
     fusionProgramId,
   );
-  let [configOutput] = await anchor.web3.PublicKey.findProgramAddress(
+
+  const [configOutput] = await anchor.web3.PublicKey.findProgramAddress(
     [encoder.encode('mainConfigAccountOutput'), fractionMint.toBuffer(), mainRouter.toBuffer()],
     fusionProgramId,
   );
 
   const admin = new PublicKey(adminAddress);
-  const adminTokenAccount = await utils.findAssociatedTokenAddress(admin, fractionMint);
+  const adminTokenAccount = await findAssociatedTokenAddress(admin, fractionMint);
+  const main = await provider.connection.getAccountInfo(mainRouter);
 
-  if (!(await provider.connection.getAccountInfo(mainRouter))) {
+  if (!main) {
     vaultOwnerPda = tokenMintInputFusion;
   }
-  let [boardEntry] = await anchor.web3.PublicKey.findProgramAddress(
+
+  const [boardEntry] = await anchor.web3.PublicKey.findProgramAddress(
     [encoder.encode('BoardEntry'), userPubkey.toBuffer()],
     programId,
   );
 
   const signers = [lotteryTicketAccount];
-  const tx = program.instruction.getLotteryTicket(bumpPda, {
+
+  const instruction = program.instruction.getLotteryTicket(bumpPda, {
     accounts: {
       lotteryTicket: lotteryTicketAccount.publicKey,
       communityPool: communityPool,
@@ -208,7 +175,7 @@ export async function getLotteryTicketIx(
     signers: signers,
   });
 
-  instructions.push(tx);
+  instructions.push(instruction);
 
   return { lotteryTicketPubkey: lotteryTicketAccount.publicKey, instructions, signers };
 }

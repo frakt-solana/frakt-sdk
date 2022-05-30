@@ -3,26 +3,15 @@ import { PublicKey, Transaction } from '@solana/web3.js';
 
 import { returnAnchorProgram } from '../../contract_model/accounts';
 
-interface IParams {
-  programId: PublicKey;
-  provider: anchor.Provider;
-  liquidityPool: PublicKey;
-  user: PublicKey;
-  amount: number;
-  sendTxn: (transaction: Transaction) => Promise<void>;
-}
-
-// TODO: Нужен один в рамках модуля или на каждый вызов?
-const encoder = new TextEncoder();
-
-const depositLiquidity = async ({
-  programId,
-  provider,
-  liquidityPool,
-  user,
-  amount,
-  sendTxn
-}: IParams): Promise<any> => {
+const depositLiquidity = async (
+  programId: PublicKey,
+  provider: anchor.Provider,
+  liquidityPool: PublicKey,
+  user: PublicKey,
+  amount: number,
+  sendTxn: (transaction: Transaction) => Promise<void>
+): Promise<any> => {
+  const encoder = new TextEncoder();
   const program = await returnAnchorProgram(programId, provider);
 
   const [liqOwner] = await anchor.web3.PublicKey.findProgramAddress(

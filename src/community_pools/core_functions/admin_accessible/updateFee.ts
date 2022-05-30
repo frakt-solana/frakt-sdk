@@ -1,11 +1,9 @@
-import * as anchor from '@project-serum/anchor';
-
+import anchor from '@project-serum/anchor';
 import { PublicKey, Transaction } from '@solana/web3.js';
-import { returnCommunityPoolsAnchorProgram } from './../../contract_model/accounts';
 
-export { Provider, Program } from '@project-serum/anchor';
+import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
 
-export async function updateFee(
+const updateFee = async (
   programId: PublicKey,
   provider: anchor.Provider,
   userPubkey: PublicKey,
@@ -15,11 +13,11 @@ export async function updateFee(
   getLotteryFeeAdmin: number,
   getLotteryFeePool: number,
   sendTxn: any,
-) {
+) => {
   const transaction = new Transaction();
+  const program = await returnCommunityPoolsAnchorProgram(programId, provider);
 
-  let program = await returnCommunityPoolsAnchorProgram(programId, provider);
-  let ix = await program.instruction.updateFee(depositFeeAdmin, depositFeePool, getLotteryFeeAdmin, getLotteryFeePool, {
+  const instruction = await program.instruction.updateFee(depositFeeAdmin, depositFeePool, getLotteryFeeAdmin, getLotteryFeePool, {
     accounts: {
       admin: userPubkey,
       config: config,
@@ -28,7 +26,9 @@ export async function updateFee(
     },
   });
 
-  transaction.add(ix);
+  transaction.add(instruction);
 
   await sendTxn(transaction, []);
 }
+
+export default updateFee;

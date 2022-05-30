@@ -1,12 +1,10 @@
-import * as anchor from '@project-serum/anchor';
-
-import { PublicKey, Transaction } from '@solana/web3.js';
-import { returnCommunityPoolsAnchorProgram } from './../../contract_model/accounts';
-
+import anchor from '@project-serum/anchor';
+import {PublicKey, Transaction} from '@solana/web3.js';
 export { Provider, Program } from '@project-serum/anchor';
-const encoder = new TextEncoder();
 
-export async function initBoardEntry(
+import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
+
+export const initBoardEntry = async (
   programId: PublicKey,
   provider: anchor.Provider,
   user: PublicKey,
@@ -14,20 +12,20 @@ export async function initBoardEntry(
   message: string,
   sendTxn: any,
   initialBalance?: anchor.BN,
-) {
-  let encoder = new TextEncoder();
+) => {
+  const encoder = new TextEncoder();
+  const program = await returnCommunityPoolsAnchorProgram(programId, provider);
 
-  let program = await returnCommunityPoolsAnchorProgram(programId, provider);
-
-  const [boardEntry, bumpReward] = await anchor.web3.PublicKey.findProgramAddress(
+  const [boardEntry] = await anchor.web3.PublicKey.findProgramAddress(
     [encoder.encode('BoardEntry'), user.toBuffer()],
     program.programId,
   );
+
   if (initialBalance == null) {
     initialBalance = new anchor.BN(0);
   }
 
-  const ix = await program.instruction.initializeBoardEntry(initialBalance, message, {
+  const instruction = await program.instruction.initializeBoardEntry(initialBalance, message, {
     accounts: {
       user: user,
       nftMint: nftMint,
@@ -36,31 +34,33 @@ export async function initBoardEntry(
       systemProgram: anchor.web3.SystemProgram.programId,
     },
   });
-  let transaction = new Transaction().add(ix);
+
+  const transaction = new Transaction().add(instruction);
+
   await sendTxn(transaction, []);
 }
 
-export async function initBoardEntryInstruction(
+export const initBoardEntryInstruction = async (
   programId: PublicKey,
   provider: anchor.Provider,
   user: PublicKey,
   nftMint: PublicKey,
   message: string,
   initialBalance?: anchor.BN,
-) {
-  let encoder = new TextEncoder();
+) => {
+  const encoder = new TextEncoder();
+  const  program = await returnCommunityPoolsAnchorProgram(programId, provider);
 
-  let program = await returnCommunityPoolsAnchorProgram(programId, provider);
-
-  const [boardEntry, bumpReward] = await anchor.web3.PublicKey.findProgramAddress(
+  const [boardEntry] = await anchor.web3.PublicKey.findProgramAddress(
     [encoder.encode('BoardEntry'), user.toBuffer()],
     program.programId,
   );
+
   if (initialBalance == null) {
     initialBalance = new anchor.BN(0);
   }
 
-  const ix = await program.instruction.initializeBoardEntry(initialBalance, message, {
+  return program.instruction.initializeBoardEntry(initialBalance, message, {
     accounts: {
       user: user,
       nftMint: nftMint,
@@ -69,5 +69,4 @@ export async function initBoardEntryInstruction(
       systemProgram: anchor.web3.SystemProgram.programId,
     },
   });
-  return ix;
 }

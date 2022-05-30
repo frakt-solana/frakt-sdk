@@ -1,32 +1,21 @@
-import * as anchor from '@project-serum/anchor';
+import anchor from '@project-serum/anchor';
+import { PublicKey, Keypair, Transaction } from '@solana/web3.js';
 
-import { PublicKey, Keypair, Transaction, SystemProgram } from '@solana/web3.js';
-import { returnCommunityPoolsAnchorProgram } from './../../contract_model/accounts';
+import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
 
-export { Provider, Program } from '@project-serum/anchor';
-
-export async function revealLotteryTicket(
-  {
-    communityPool,
-    lotteryTicket,
-    safetyDepositBox,
-  }: { communityPool: PublicKey; lotteryTicket: PublicKey; safetyDepositBox: PublicKey },
-  {
-    userPubkey,
-    provider,
-    programId,
-    sendTxn,
-  }: {
-    programId: PublicKey;
-    userPubkey: PublicKey;
-    provider: anchor.Provider;
-    sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>;
-  },
-) {
-  let program = await returnCommunityPoolsAnchorProgram(programId, provider);
-
+const revealLotteryTicket = async (
+  communityPool: PublicKey,
+  lotteryTicket: PublicKey,
+  safetyDepositBox: PublicKey,
+  programId: PublicKey,
+  userPubkey: PublicKey,
+  provider: anchor.Provider,
+  sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>
+) => {
   const signers = [];
-  const tx = program.instruction.revealLotteryTicket({
+  const program = await returnCommunityPoolsAnchorProgram(programId, provider);
+
+  const instruction = program.instruction.revealLotteryTicket({
     accounts: {
       lotteryTicket: lotteryTicket,
       communityPool: communityPool,
@@ -36,7 +25,9 @@ export async function revealLotteryTicket(
     signers: signers,
   });
 
-  const transaction = new Transaction().add(tx);
+  const transaction = new Transaction().add(instruction);
 
   await sendTxn(transaction, signers);
 }
+
+export default revealLotteryTicket;

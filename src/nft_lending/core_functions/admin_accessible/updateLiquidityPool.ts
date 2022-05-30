@@ -3,33 +3,19 @@ import { PublicKey, Transaction } from '@solana/web3.js';
 
 import { returnAnchorProgram } from '../../contract_model/accounts';
 
-interface IParams {
-  programId: PublicKey;
-  provider: anchor.Provider;
-  admin: PublicKey;
-  liquidityPool: PublicKey;
-  rewardInterestRateTime: number | anchor.BN;
-  feeInterestRateTime: number | anchor.BN;
-  rewardInterestRatePrice: number | anchor.BN;
-  feeInterestRatePrice: number | anchor.BN;
-  id: number | anchor.BN;
-  period: number | anchor.BN;
-  sendTxn: (transaction: Transaction) => Promise<void>;
-}
-
-const updateLiquidityPool = async ({
-  programId,
-  provider,
-  admin,
-  liquidityPool,
-  rewardInterestRateTime,
-  rewardInterestRatePrice,
-  feeInterestRateTime,
-  feeInterestRatePrice,
-  id,
-  period,
-  sendTxn,
-}: IParams): Promise<any> => {
+const updateLiquidityPool = async (
+  programId: PublicKey,
+  provider: anchor.Provider,
+  admin: PublicKey,
+  liquidityPool: PublicKey,
+  rewardInterestRateTime: number | anchor.BN,
+  feeInterestRateTime: number | anchor.BN,
+  rewardInterestRatePrice: number | anchor.BN,
+  feeInterestRatePrice: number | anchor.BN,
+  id: number | anchor.BN,
+  period: number | anchor.BN,
+  sendTxn: (transaction: Transaction) => Promise<void>
+): Promise<any> => {
   const program = await returnAnchorProgram(programId, provider);
 
   const instruction = program.instruction.updateLiquidityPool(

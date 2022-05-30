@@ -1,3 +1,29 @@
+export interface BoardEntryView {
+  boardEntryPubkey: string;
+  entryholder: string;
+  totaScore: string;
+  scoreToHarvest: string;
+  nftMint: string;
+  message: string;
+}
+
+export interface PoolConfigView {
+  poolConfigPubkey: string;
+  vaultOwnerPda: string;
+  tokenMint: string;
+  vaultTokenAccount: string;
+  poolVaultBalance: string;
+}
+
+export interface PermissionView {
+  permissionPubkey: string;
+  programPubkey: string;
+  expiration: string;
+  canAddScore: string;
+  canHarvestScore: string;
+}
+
+
 export type CommunityPoolsAnchor = {
   version: '0.1.0';
   name: 'community_pools_anchor';

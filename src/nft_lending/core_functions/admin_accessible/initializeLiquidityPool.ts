@@ -3,33 +3,19 @@ import anchor from '@project-serum/anchor';
 import { Keypair, PublicKey, Transaction } from '@solana/web3.js';
 import { returnAnchorProgram } from '../../contract_model/accounts';
 
-interface IParams {
-  programId: PublicKey;
-  provider: anchor.Provider;
-  admin: PublicKey;
-  rewardInterestRateTime: number | anchor.BN;
-  feeInterestRateTime: number | anchor.BN;
-  rewardInterestRatePrice: number | anchor.BN;
-  feeInterestRatePrice: number | anchor.BN;
-  id: number | anchor.BN;
-  period: number | anchor.BN;
-  sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>;
-}
-
-const encoder = new TextEncoder();
-
-const initializeLiquidityPool = async ({
-  programId,
-  provider,
-  admin,
-  rewardInterestRateTime,
-  rewardInterestRatePrice,
-  feeInterestRateTime,
-  feeInterestRatePrice,
-  id,
-  period,
-  sendTxn,
-}: IParams): Promise<any> => {
+const initializeLiquidityPool = async (
+  programId: PublicKey,
+  provider: anchor.Provider,
+  admin: PublicKey,
+  rewardInterestRateTime: number | anchor.BN,
+  feeInterestRateTime: number | anchor.BN,
+  rewardInterestRatePrice: number | anchor.BN,
+  feeInterestRatePrice: number | anchor.BN,
+  id: number | anchor.BN,
+  period: number | anchor.BN,
+  sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>
+): Promise<any> => {
+  const encoder = new TextEncoder();
   const program = await returnAnchorProgram(programId, provider);
   const liquidityPool = Keypair.generate();
 

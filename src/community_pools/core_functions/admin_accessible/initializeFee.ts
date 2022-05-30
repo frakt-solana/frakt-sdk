@@ -1,11 +1,10 @@
-import * as anchor from '@project-serum/anchor';
-
+import anchor from '@project-serum/anchor';
 import { PublicKey, Transaction } from '@solana/web3.js';
-import { returnCommunityPoolsAnchorProgram } from './../../contract_model/accounts';
-
 export { Provider, Program } from '@project-serum/anchor';
 
-export async function initializeFee(
+import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
+
+const initializeFee = async (
   programId: PublicKey,
   provider: anchor.Provider,
   userPubkey: PublicKey,
@@ -15,17 +14,18 @@ export async function initializeFee(
   getLotteryFeePool: number,
   sendTxn: any,
   communityPool?: PublicKey,
-) {
-  let config = anchor.web3.Keypair.generate();
+): Promise<any> => {
+  const config = anchor.web3.Keypair.generate();
   const transaction = new Transaction();
+  const signers = [config];
 
-  let program = await returnCommunityPoolsAnchorProgram(programId, provider);
+  const program = await returnCommunityPoolsAnchorProgram(programId, provider);
+
   if (communityPool == null) {
     communityPool = new PublicKey('11111111111111111111111111111111');
   }
 
-  const signers = [config];
-  let ix = await program.instruction.initializeFee(
+  const instruction = await program.instruction.initializeFee(
     depositFeeAdmin,
     depositFeePool,
     getLotteryFeeAdmin,
@@ -39,12 +39,14 @@ export async function initializeFee(
         systemProgram: anchor.web3.SystemProgram.programId,
       },
       signers: [config],
-    },
+    }
   );
 
-  transaction.add(ix);
+  transaction.add(instruction);
 
   await sendTxn(transaction, signers);
 
   return config.publicKey;
 }
+
+export default initializeFee;

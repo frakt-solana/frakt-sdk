@@ -6,32 +6,20 @@ import { TOKEN_PROGRAM_ID } from '@project-serum/anchor/dist/cjs/utils/token';
 import { returnAnchorProgram } from '../../contract_model/accounts';
 import { findAssociatedTokenAddress } from '../../../common/utils';
 
-interface IParams {
-  programId: PublicKey;
-  provider: anchor.Provider;
-  user: PublicKey;
-  nftMint: PublicKey;
-  proposedNftPrice: number | anchor.BN;
-  isPriceBased: boolean;
-
-  sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>;
-}
-
 interface IReturn {
   loanPubkey: any;
 }
 
-const encoder = new TextEncoder();
-
-const proposeLoan = async ({
-  proposedNftPrice,
-  programId,
-  provider,
-  user,
-  nftMint,
-  isPriceBased,
-  sendTxn,
-}: IParams): Promise<IReturn> => {
+const proposeLoan = async (
+  programId: PublicKey,
+  provider: anchor.Provider,
+  user: PublicKey,
+  nftMint: PublicKey,
+  proposedNftPrice: number | anchor.BN,
+  isPriceBased: boolean,
+  sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>
+): Promise<IReturn> => {
+  const encoder = new TextEncoder();
   const program = await returnAnchorProgram(programId, provider);
   const loan = Keypair.generate();
 

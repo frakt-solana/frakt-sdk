@@ -1204,7 +1204,6 @@ export interface LiquidityPoolView {
   period: number;
 }
 
-
 export interface AllAccounts {
   collectionInfos: CollectionInfoView[];
   deposits: DepositView[];

@@ -1,11 +1,10 @@
-import * as anchor from '@project-serum/anchor';
+import anchor from '@project-serum/anchor';
 
 import { PublicKey, Transaction } from '@solana/web3.js';
-import { returnCommunityPoolsAnchorProgram } from './../../contract_model/accounts';
 
-export { Provider, Program } from '@project-serum/anchor';
+import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
 
-export async function initPermission(
+const initPermission = async (
   programId: PublicKey,
   provider: anchor.Provider,
   admin: PublicKey,
@@ -14,17 +13,16 @@ export async function initPermission(
   canAdd: boolean,
   canHarvest: boolean,
   sendTxn: any,
-) {
-  let encoder = new TextEncoder();
+) => {
+  const encoder = new TextEncoder();
+  const program = await returnCommunityPoolsAnchorProgram(programId, provider);
 
-  let program = await returnCommunityPoolsAnchorProgram(programId, provider);
-
-  const [permission, bumpPerm] = await anchor.web3.PublicKey.findProgramAddress(
+  const [permission] = await anchor.web3.PublicKey.findProgramAddress(
     [encoder.encode('Permission'), programPubkey.toBuffer()],
     program.programId,
   );
 
-  const ix = program.instruction.initializePermission(expiration, canAdd, canHarvest, {
+  const instruction = program.instruction.initializePermission(expiration, canAdd, canHarvest, {
     accounts: {
       admin,
       programPubkey,
@@ -33,7 +31,10 @@ export async function initPermission(
       systemProgram: anchor.web3.SystemProgram.programId,
     },
   });
-  let transaction = new Transaction().add(ix);
+
+  const transaction = new Transaction().add(instruction);
 
   await sendTxn(transaction);
 }
+
+export default initPermission;

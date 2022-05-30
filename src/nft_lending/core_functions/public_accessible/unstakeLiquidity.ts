@@ -3,25 +3,15 @@ import { PublicKey, Transaction } from '@solana/web3.js';
 
 import { returnAnchorProgram } from '../../contract_model/accounts';
 
-interface IParams {
-  programId: PublicKey;
-  provider: anchor.Provider;
-  liquidityPool: PublicKey;
-  user: PublicKey;
-  amount: anchor.BN | number;
-  sendTxn: (transaction: Transaction) => Promise<void>;
-}
-
-const encoder = new TextEncoder();
-
-const unstakeLiquidity = async ({
-  programId,
-  provider,
-  liquidityPool,
-  user,
-  amount,
-  sendTxn,
-}: IParams): Promise<any> => {
+const unstakeLiquidity = async (
+  programId: PublicKey,
+  provider: anchor.Provider,
+  liquidityPool: PublicKey,
+  user: PublicKey,
+  amount: anchor.BN | number,
+  sendTxn: (transaction: Transaction) => Promise<void>
+): Promise<any> => {
+  const encoder = new TextEncoder();
   const program = await returnAnchorProgram(programId, provider);
 
   const [liqOwner] = await anchor.web3.PublicKey.findProgramAddress(

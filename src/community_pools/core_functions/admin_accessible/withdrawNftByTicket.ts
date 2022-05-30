@@ -1,40 +1,25 @@
-import { TOKEN_PROGRAM_ID, ASSOCIATED_TOKEN_PROGRAM_ID } from '@solana/spl-token';
-import * as anchor from '@project-serum/anchor';
-import * as utils from './../../../common/utils';
-
+import anchor from '@project-serum/anchor';
+import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
 import { PublicKey, Keypair, Transaction, SystemProgram, TransactionInstruction } from '@solana/web3.js';
-import { returnCommunityPoolsAnchorProgram } from './../../contract_model/accounts';
-import { ACCOUNT_PREFIX } from './../../constants';
 
-export { Provider, Program } from '@project-serum/anchor';
-const encoder = new TextEncoder();
+import { findAssociatedTokenAddress, createAssociatedTokenAccountInstruction } from '../../../common/utils';
+import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
+import { ACCOUNT_PREFIX } from '../../constants';
 
-export async function withdrawNftByTicket(
-  {
-    communityPool,
-    lotteryTicket,
-    safetyDepositBox,
-    nftMint,
-    storeNftTokenAccount,
-  }: {
-    communityPool: PublicKey;
-    lotteryTicket: PublicKey;
-    safetyDepositBox: PublicKey;
-    nftMint: PublicKey;
-    storeNftTokenAccount: PublicKey;
-  },
-  {
-    userPubkey,
-    provider,
-    programId,
-    sendTxn,
-  }: {
-    programId: PublicKey;
-    userPubkey: PublicKey;
-    provider: anchor.Provider;
-    sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>;
-  },
-) {
+const withdrawNftByTicket = async (
+  communityPool: PublicKey,
+  lotteryTicket: PublicKey,
+  safetyDepositBox: PublicKey,
+  nftMint: PublicKey,
+  storeNftTokenAccount: PublicKey,
+  programId: PublicKey,
+  userPubkey: PublicKey,
+  provider: anchor.Provider,
+  sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>
+) => {
+  let instructions: TransactionInstruction[] = [];
+  const signers = [];
+  const encoder = new TextEncoder();
   const program = await returnCommunityPoolsAnchorProgram(programId, provider);
 
   const [community_pools_authority, bump] = await anchor.web3.PublicKey.findProgramAddress(
@@ -42,16 +27,17 @@ export async function withdrawNftByTicket(
     program.programId,
   );
 
-  let instructions: TransactionInstruction[] = [];
-  const nftUserTokenAccount = await utils.findAssociatedTokenAddress(userPubkey, nftMint);
-  if (!(await provider.connection.getAccountInfo(nftUserTokenAccount)))
+  const nftUserTokenAccount = await findAssociatedTokenAddress(userPubkey, nftMint);
+  const nftUser = await provider.connection.getAccountInfo(nftUserTokenAccount);
+
+  if (!nftUser) {
     instructions = [
       ...instructions,
-      ...(await utils.createAssociatedTokenAccountInstruction(nftUserTokenAccount, userPubkey, userPubkey, nftMint)),
+      ...createAssociatedTokenAccountInstruction(nftUserTokenAccount, userPubkey, userPubkey, nftMint),
     ];
+  }
 
-  const signers = [];
-  const mainIx = program.instruction.withdrawNftByTicket(bump, {
+  const instruction = program.instruction.withdrawNftByTicket(bump, {
     accounts: {
       lotteryTicket: lotteryTicket,
       communityPool: communityPool,
@@ -70,9 +56,13 @@ export async function withdrawNftByTicket(
 
   const transaction = new Transaction();
 
-  for (let instruction of instructions) transaction.add(instruction);
+  for (const instruction of instructions) {
+    transaction.add(instruction);
+  }
 
-  transaction.add(mainIx);
+  transaction.add(instruction);
 
   await sendTxn(transaction, signers);
 }
+
+export default withdrawNftByTicket;

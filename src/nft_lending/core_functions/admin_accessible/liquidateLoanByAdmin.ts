@@ -1,35 +1,23 @@
 import anchor from '@project-serum/anchor';
-import { PublicKey, Transaction, TransactionInstruction } from '@solana/web3.js';
+import { PublicKey, Transaction } from '@solana/web3.js';
 import { Edition, MetadataProgram } from '@metaplex-foundation/mpl-token-metadata';
 import { ASSOCIATED_PROGRAM_ID, TOKEN_PROGRAM_ID } from '@project-serum/anchor/dist/cjs/utils/token';
 
 import { returnAnchorProgram } from '../../contract_model/accounts';
 import { findAssociatedTokenAddress } from '../../../common/utils';
 
-interface IParams {
-  programId: PublicKey;
-  provider: anchor.Provider;
-  liquidator: PublicKey;
-  user: PublicKey;
-  loan: PublicKey;
-  nftMint: PublicKey;
-  sendTxn: (transaction: Transaction) => Promise<void>;
-}
-
-const encoder = new TextEncoder();
-
-const liquidateLoanByAdmin = async ({
-  programId,
-  provider,
-  liquidator,
-  user,
-  loan,
-  nftMint,
-  sendTxn,
-}: IParams): Promise<any> => {
+const liquidateLoanByAdmin = async (
+  programId: PublicKey,
+  provider: anchor.Provider,
+  liquidator: PublicKey,
+  user: PublicKey,
+  loan: PublicKey,
+  nftMint: PublicKey,
+  sendTxn: (transaction: Transaction) => Promise<void>
+): Promise<any> => {
+  const encoder = new TextEncoder();
   const program = await returnAnchorProgram(programId, provider);
   const nftUserTokenAccount = await findAssociatedTokenAddress(user, nftMint);
-  const instructions: TransactionInstruction[] = [];
   const nftLiquidatorTokenAccount = await findAssociatedTokenAddress(liquidator, nftMint);
   const editionId = await Edition.getPDA(nftMint);
 

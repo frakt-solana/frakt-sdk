@@ -1,22 +1,19 @@
+import anchor from '@project-serum/anchor';
 import { TOKEN_PROGRAM_ID, ASSOCIATED_TOKEN_PROGRAM_ID } from '@solana/spl-token';
-import * as anchor from '@project-serum/anchor';
-import * as utils from './../../../common/utils';
-
 import { PublicKey, Transaction } from '@solana/web3.js';
-import { returnCommunityPoolsAnchorProgram } from './../../contract_model/accounts';
 
-export { Provider, Program } from '@project-serum/anchor';
+import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
+import { findAssociatedTokenAddress } from '../../../common/utils';
 
-export async function harvestScore(
+const harvestScore = async (
   programId: PublicKey,
   provider: anchor.Provider,
   userPublicKey: PublicKey,
   tokenMint: PublicKey,
   sendTxn: any,
-) {
-  let encoder = new TextEncoder();
-
-  let program = await returnCommunityPoolsAnchorProgram(programId, provider);
+) => {
+  const encoder = new TextEncoder();
+  const program = await returnCommunityPoolsAnchorProgram(programId, provider);
 
   const [boardEntry, bumpBoard] = await anchor.web3.PublicKey.findProgramAddress(
     [encoder.encode('BoardEntry'), userPublicKey.toBuffer()],
@@ -27,13 +24,16 @@ export async function harvestScore(
     [encoder.encode('poolConfig'), tokenMint.toBuffer()],
     program.programId,
   );
+
   const [vaultOwnerPda, bumpAuth] = await anchor.web3.PublicKey.findProgramAddress(
     [encoder.encode('vaultownerpda'), program.programId.toBuffer()],
     program.programId,
   );
-  const vaultTokenAccount = await utils.findAssociatedTokenAddress(vaultOwnerPda, tokenMint);
-  const userTokenAccount = await utils.findAssociatedTokenAddress(userPublicKey, tokenMint);
-  const ix = await program.instruction.harvestScore(bumpBoard, bumpAuth, bumpConfig, {
+
+  const vaultTokenAccount = await findAssociatedTokenAddress(vaultOwnerPda, tokenMint);
+  const userTokenAccount = await findAssociatedTokenAddress(userPublicKey, tokenMint);
+
+  const instruction = await program.instruction.harvestScore(bumpBoard, bumpAuth, bumpConfig, {
     accounts: {
       user: userPublicKey,
       tokenMint: tokenMint,
@@ -48,7 +48,10 @@ export async function harvestScore(
       associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
     },
   });
-  let transaction = new Transaction().add(ix);
+
+  const transaction = new Transaction().add(instruction);
 
   await sendTxn(transaction);
 }
+
+export default harvestScore;

@@ -1,11 +1,9 @@
-import * as anchor from '@project-serum/anchor';
-
+import anchor from '@project-serum/anchor';
 import { PublicKey } from '@solana/web3.js';
-import { returnCommunityPoolsAnchorProgram } from './../../contract_model/accounts';
 
-export { Provider, Program } from '@project-serum/anchor';
+import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
 
-export async function updateConnection(
+const updateConnection = async (
   programId: PublicKey,
   provider: anchor.Provider,
   userPubkey: PublicKey,
@@ -13,9 +11,10 @@ export async function updateConnection(
   fractionMint: PublicKey,
   fusion: PublicKey,
   sendTxn: any,
-) {
-  let program = await returnCommunityPoolsAnchorProgram(programId, provider);
-  let tx = await program.transaction.updateConnection({
+) => {
+  const program = await returnCommunityPoolsAnchorProgram(programId, provider);
+
+  const transaction = await program.transaction.updateConnection({
     accounts: {
       admin: userPubkey,
       communityPool,
@@ -24,5 +23,7 @@ export async function updateConnection(
     },
   });
 
-  await sendTxn(tx, []);
+  await sendTxn(transaction, []);
 }
+
+export default updateConnection;

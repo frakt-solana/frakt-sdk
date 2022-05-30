@@ -5,29 +5,17 @@ import { TOKEN_PROGRAM_ID } from '@project-serum/anchor/dist/cjs/utils/token';
 
 import { returnAnchorProgram } from '../../contract_model/accounts';
 
-interface IParams {
-  programId: PublicKey;
-  provider: anchor.Provider;
-  loan: PublicKey;
-  nftUserTokenAccount: PublicKey;
-  admin: PublicKey;
-  user: PublicKey;
-  nftMint: PublicKey;
-  sendTxn: (transaction: Transaction) => Promise<void>;
-}
-
-const encoder = new TextEncoder();
-
-const rejectLoanByAdmin = async ({
-  programId,
-  provider,
-  loan,
-  nftUserTokenAccount,
-  admin,
-  user,
-  nftMint,
-  sendTxn,
-}: IParams): Promise<any> => {
+const rejectLoanByAdmin = async (
+  programId: PublicKey,
+  provider: anchor.Provider,
+  loan: PublicKey,
+  nftUserTokenAccount: PublicKey,
+  admin: PublicKey,
+  user: PublicKey,
+  nftMint: PublicKey,
+  sendTxn: (transaction: Transaction) => Promise<void>
+): Promise<any> => {
+  const encoder = new TextEncoder();
   const program = await returnAnchorProgram(programId, provider);
   const editionId = await Edition.getPDA(nftMint);
 

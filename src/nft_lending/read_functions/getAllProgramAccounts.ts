@@ -3,11 +3,6 @@ import { Connection, PublicKey } from '@solana/web3.js';
 import { returnAnchorProgram, decodedCollectionInfo, decodedDeposit, decodedLiquidityPool, decodedLoan } from '../contract_model/accounts';
 import { createFakeWallet } from '../../common/utils';
 
-interface IParams {
-  programId: PublicKey;
-  connection: Connection;
-}
-
 interface IReturn {
   collectionInfos: any[];
   deposits: any[];
@@ -15,10 +10,10 @@ interface IReturn {
   loans: any[];
 }
 
-const getAllProgramAccounts = async ({
-  programId,
-  connection
-}: IParams): Promise<IReturn> => {
+const getAllProgramAccounts = async (
+  programId: PublicKey,
+  connection: Connection
+): Promise<IReturn> => {
   const provider = new anchor.Provider(connection, createFakeWallet(), anchor.Provider.defaultOptions());
   const program = returnAnchorProgram(programId, provider);
 

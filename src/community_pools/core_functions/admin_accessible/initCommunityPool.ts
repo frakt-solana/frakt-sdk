@@ -1,25 +1,19 @@
+import anchor from '@project-serum/anchor';
 import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
-import * as anchor from '@project-serum/anchor';
-
-import { PublicKey, Connection, Keypair, Transaction, SystemProgram } from '@solana/web3.js';
-import { ACCOUNT_PREFIX } from './../../constants';
-import { returnCommunityPoolsAnchorProgram } from './../../contract_model/accounts';
-
+import { PublicKey, Keypair, Transaction, SystemProgram } from '@solana/web3.js';
 export { Provider, Program } from '@project-serum/anchor';
-const encoder = new TextEncoder();
 
-export async function initCommunityPool({
-  programId,
-  userPubkey,
-  provider,
-  sendTxn,
-}: {
-  programId: PublicKey;
-  userPubkey: PublicKey;
-  provider: anchor.Provider;
-  sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>;
-}) {
-  let program = await returnCommunityPoolsAnchorProgram(programId, provider);
+import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
+import { ACCOUNT_PREFIX } from '../../constants';
+
+const initCommunityPool = async (
+  programId: PublicKey,
+  userPubkey: PublicKey,
+  provider: anchor.Provider,
+  sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>
+) => {
+  const encoder = new TextEncoder();
+  const program = await returnCommunityPoolsAnchorProgram(programId, provider);
   const communityPool = anchor.web3.Keypair.generate();
   const fractionMint = anchor.web3.Keypair.generate();
 
@@ -28,7 +22,7 @@ export async function initCommunityPool({
     program.programId,
   );
 
-  const tx = program.instruction.initPool(bump, {
+  const instruction = program.instruction.initPool(bump, {
     accounts: {
       communityPool: communityPool.publicKey,
       authority: userPubkey,
@@ -41,8 +35,9 @@ export async function initCommunityPool({
     signers: [communityPool, fractionMint],
   });
 
-  const transaction = new Transaction().add(tx);
-  const signers = [communityPool, fractionMint];
+  const transaction = new Transaction().add(instruction);
 
-  await sendTxn(transaction, signers);
+  await sendTxn(transaction, [communityPool, fractionMint]);
 }
+
+export default initCommunityPool;

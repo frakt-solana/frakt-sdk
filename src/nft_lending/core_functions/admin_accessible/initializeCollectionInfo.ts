@@ -2,39 +2,22 @@ import anchor from '@project-serum/anchor';
 import { Keypair, PublicKey, Transaction } from '@solana/web3.js';
 import { returnAnchorProgram } from '../../contract_model/accounts';
 
-interface IParams {
-  programId: PublicKey;
-  provider: anchor.Provider;
-  liquidityPool: PublicKey;
-  admin: PublicKey;
-  creatorAddress: PublicKey;
-  pricingLookupAddress: PublicKey;
-  loanToValue: number | anchor.BN;
-  collaterizationRate: number | anchor.BN;
-  royaltyAddress: PublicKey;
-  royaltyFeeTime: number | anchor.BN;
-  royaltyFeePrice: number | anchor.BN;
-  expirationTime: number | anchor.BN;
-  isPriceBased: boolean;
-  sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>;
-}
-
-const initializeCollectionInfo = async ({
-  programId,
-  provider,
-  liquidityPool,
-  admin,
-  creatorAddress,
-  pricingLookupAddress,
-  loanToValue,
-  collaterizationRate,
-  royaltyAddress,
-  royaltyFeeTime,
-  royaltyFeePrice,
-  expirationTime,
-  isPriceBased,
-  sendTxn,
-}: IParams): Promise<any> => {
+const initializeCollectionInfo = async (
+  programId: PublicKey,
+  provider: anchor.Provider,
+  liquidityPool: PublicKey,
+  admin: PublicKey,
+  creatorAddress: PublicKey,
+  pricingLookupAddress: PublicKey,
+  loanToValue: number | anchor.BN,
+  collaterizationRate: number | anchor.BN,
+  royaltyAddress: PublicKey,
+  royaltyFeeTime: number | anchor.BN,
+  royaltyFeePrice: number | anchor.BN,
+  expirationTime: number | anchor.BN,
+  isPriceBased: boolean,
+  sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>
+): Promise<any> => {
   const program = await returnAnchorProgram(programId, provider);
   const collectionInfo = Keypair.generate();
 
