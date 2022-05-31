@@ -1,5 +1,5 @@
 import anchor from '@project-serum/anchor';
-import { PublicKey, Transaction } from '@solana/web3.js';
+import { PublicKey, Transaction, Keypair } from '@solana/web3.js';
 export { Provider, Program } from '@project-serum/anchor';
 
 import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
