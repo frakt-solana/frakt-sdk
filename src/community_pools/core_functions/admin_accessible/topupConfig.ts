@@ -11,7 +11,7 @@ const topupConfig = async (
   admin: PublicKey,
   tokenMint: PublicKey,
   inputAmount: anchor.BN,
-  sendTxn: any,
+  sendTxn: (transaction: Transaction) => Promise<void>
 ) => {
   const encoder = new TextEncoder();
   const program = await returnCommunityPoolsAnchorProgram(programId, provider);

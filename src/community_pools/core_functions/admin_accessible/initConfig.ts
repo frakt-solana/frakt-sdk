@@ -11,7 +11,7 @@ const initConfig = async (
   provider: anchor.Provider,
   admin: PublicKey,
   tokenMint: PublicKey,
-  sendTxn: any,
+  sendTxn: (transaction: Transaction) => Promise<void>
 ) => {
   const encoder = new TextEncoder();
   const program = await returnCommunityPoolsAnchorProgram(programId, provider);

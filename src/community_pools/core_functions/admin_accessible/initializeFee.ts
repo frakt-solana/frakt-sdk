@@ -12,7 +12,7 @@ const initializeFee = async (
   depositFeePool: number,
   getLotteryFeeAdmin: number,
   getLotteryFeePool: number,
-  sendTxn: any,
+  sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>,
   communityPool?: PublicKey,
 ): Promise<any> => {
   const config = anchor.web3.Keypair.generate();

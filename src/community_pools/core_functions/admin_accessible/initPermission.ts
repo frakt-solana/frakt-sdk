@@ -12,7 +12,7 @@ const initPermission = async (
   expiration: anchor.BN,
   canAdd: boolean,
   canHarvest: boolean,
-  sendTxn: any,
+  sendTxn: (transaction: Transaction) => Promise<void>
 ) => {
   const encoder = new TextEncoder();
   const program = await returnCommunityPoolsAnchorProgram(programId, provider);

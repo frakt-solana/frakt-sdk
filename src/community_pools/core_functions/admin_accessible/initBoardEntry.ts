@@ -10,7 +10,7 @@ export const initBoardEntry = async (
   user: PublicKey,
   nftMint: PublicKey,
   message: string,
-  sendTxn: any,
+  sendTxn: (transaction: Transaction) => Promise<void>,
   initialBalance?: anchor.BN,
 ) => {
   const encoder = new TextEncoder();
@@ -37,7 +37,7 @@ export const initBoardEntry = async (
 
   const transaction = new Transaction().add(instruction);
 
-  await sendTxn(transaction, []);
+  await sendTxn(transaction);
 }
 
 export const initBoardEntryInstruction = async (

@@ -12,7 +12,7 @@ const updateFee = async (
   depositFeePool: number,
   getLotteryFeeAdmin: number,
   getLotteryFeePool: number,
-  sendTxn: any,
+  sendTxn: (transaction: Transaction) => Promise<void>
 ) => {
   const transaction = new Transaction();
   const program = await returnCommunityPoolsAnchorProgram(programId, provider);
@@ -28,7 +28,7 @@ const updateFee = async (
 
   transaction.add(instruction);
 
-  await sendTxn(transaction, []);
+  await sendTxn(transaction);
 }
 
 export default updateFee;

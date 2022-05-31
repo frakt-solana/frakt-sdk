@@ -1,5 +1,5 @@
 import anchor from '@project-serum/anchor';
-import { PublicKey } from '@solana/web3.js';
+import { PublicKey, Transaction } from '@solana/web3.js';
 
 import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
 
@@ -10,7 +10,7 @@ const updateConnection = async (
   communityPool: PublicKey,
   fractionMint: PublicKey,
   fusion: PublicKey,
-  sendTxn: any,
+  sendTxn: (transaction: Transaction) => Promise<void>
 ) => {
   const program = await returnCommunityPoolsAnchorProgram(programId, provider);
 
@@ -23,7 +23,7 @@ const updateConnection = async (
     },
   });
 
-  await sendTxn(transaction, []);
+  await sendTxn(transaction);
 }
 
 export default updateConnection;
