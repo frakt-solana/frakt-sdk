@@ -5,7 +5,7 @@ import { PublicKey, Keypair, Transaction, SystemProgram } from '@solana/web3.js'
 
 import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
 
-const initLeaderboardReward = async (
+export interface InitLeaderboardReward {
   communityPool: PublicKey,
   fractionMint: PublicKey,
   depositReward: anchor.BN,
@@ -14,7 +14,20 @@ const initLeaderboardReward = async (
   admin: PublicKey,
   provider: anchor.Provider,
   sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>
-) => {
+}
+
+const initLeaderboardReward = async (params: InitLeaderboardReward) => {
+  const {
+    communityPool,
+    fractionMint,
+    depositReward,
+    withdrawReward,
+    programId,
+    admin,
+    provider,
+    sendTxn
+  } = params;
+
   const encoder = new TextEncoder();
   const program = await returnCommunityPoolsAnchorProgram(programId, provider);
   const [leaderboardAccount] = await anchor.web3.PublicKey.findProgramAddress(

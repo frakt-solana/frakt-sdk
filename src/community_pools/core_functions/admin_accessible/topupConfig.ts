@@ -5,14 +5,25 @@ import { PublicKey, Transaction } from '@solana/web3.js';
 import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
 import { findAssociatedTokenAddress } from '../../../common/utils';
 
-const topupConfig = async (
+export interface TopupConfig {
   programId: PublicKey,
   provider: anchor.Provider,
   admin: PublicKey,
   tokenMint: PublicKey,
   inputAmount: anchor.BN,
   sendTxn: (transaction: Transaction) => Promise<void>
-) => {
+}
+
+const topupConfig = async (params: TopupConfig) => {
+  const {
+    programId,
+    provider,
+    admin,
+    tokenMint,
+    inputAmount,
+    sendTxn
+  } = params;
+
   const encoder = new TextEncoder();
   const program = await returnCommunityPoolsAnchorProgram(programId, provider);
   const adminTokenAccount = await findAssociatedTokenAddress(admin, tokenMint);

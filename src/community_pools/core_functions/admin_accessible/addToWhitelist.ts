@@ -5,7 +5,7 @@ export { Provider, Program } from '@project-serum/anchor';
 
 import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
 
-const addToWhitelist = async (
+export interface AddToWhitelist {
   isCreator: boolean,
   communityPool: PublicKey,
   whitelistedAddress: PublicKey,
@@ -13,7 +13,19 @@ const addToWhitelist = async (
   userPubkey: PublicKey,
   provider: anchor.Provider,
   sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>
-): Promise<any> => {
+}
+
+const addToWhitelist = async (params: AddToWhitelist): Promise<any> => {
+  const {
+    isCreator,
+    communityPool,
+    whitelistedAddress,
+    programId,
+    userPubkey,
+    provider,
+    sendTxn
+  } = params;
+
   const program = await returnCommunityPoolsAnchorProgram(programId, provider);
   const poolWhitelistAccount = anchor.web3.Keypair.generate();
   const signers = [poolWhitelistAccount];

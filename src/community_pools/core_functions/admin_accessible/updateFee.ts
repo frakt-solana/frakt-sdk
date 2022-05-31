@@ -3,7 +3,7 @@ import { PublicKey, Transaction } from '@solana/web3.js';
 
 import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
 
-const updateFee = async (
+export interface UpdateFee {
   programId: PublicKey,
   provider: anchor.Provider,
   userPubkey: PublicKey,
@@ -13,7 +13,21 @@ const updateFee = async (
   getLotteryFeeAdmin: number,
   getLotteryFeePool: number,
   sendTxn: (transaction: Transaction) => Promise<void>
-) => {
+}
+
+const updateFee = async (params: UpdateFee) => {
+  const {
+    programId,
+    provider,
+    userPubkey,
+    config,
+    depositFeeAdmin,
+    depositFeePool,
+    getLotteryFeeAdmin,
+    getLotteryFeePool,
+    sendTxn
+  } = params;
+
   const transaction = new Transaction();
   const program = await returnCommunityPoolsAnchorProgram(programId, provider);
 

@@ -6,12 +6,21 @@ export { Provider, Program } from '@project-serum/anchor';
 import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
 import { ACCOUNT_PREFIX } from '../../constants';
 
-const initCommunityPool = async (
+interface InitCommunityPool {
   programId: PublicKey,
   userPubkey: PublicKey,
   provider: anchor.Provider,
   sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>
-) => {
+}
+
+const initCommunityPool = async (params: InitCommunityPool) => {
+  const {
+    programId,
+    userPubkey,
+    provider,
+    sendTxn
+  } = params;
+
   const encoder = new TextEncoder();
   const program = await returnCommunityPoolsAnchorProgram(programId, provider);
   const communityPool = anchor.web3.Keypair.generate();

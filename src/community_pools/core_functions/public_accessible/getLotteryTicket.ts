@@ -5,7 +5,7 @@ import { PublicKey, Keypair, Transaction, SystemProgram, TransactionInstruction 
 import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
 import { findAssociatedTokenAddress } from '../../../common/utils';
 
-export const getLotteryTicket = async (
+export interface GetLotteryTicket {
   communityPool: PublicKey,
   fractionMint: PublicKey,
   userFractionsTokenAccount: PublicKey,
@@ -17,7 +17,23 @@ export const getLotteryTicket = async (
   userPubkey: PublicKey,
   provider: anchor.Provider,
   sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>
-) => {
+}
+
+export const getLotteryTicket = async (params: GetLotteryTicket) => {
+  const {
+    communityPool,
+    fractionMint,
+    userFractionsTokenAccount,
+    fusionProgramId,
+    tokenMintInputFusion,
+    feeConfig,
+    adminAddress,
+    programId,
+    userPubkey,
+    provider,
+    sendTxn
+  } = params;
+
   const encoder = new TextEncoder();
   const instructions = [];
   const program = await returnCommunityPoolsAnchorProgram(programId, provider);
@@ -94,7 +110,7 @@ export const getLotteryTicket = async (
   return { lotteryTicketPubkey: lotteryTicketAccount.publicKey };
 }
 
-export const getLotteryTicketIx = async (
+export interface GetLotteryTicketIx {
   communityPool: PublicKey,
   fractionMint: PublicKey,
   userFractionsTokenAccount: PublicKey,
@@ -105,7 +121,22 @@ export const getLotteryTicketIx = async (
   programId: PublicKey,
   userPubkey: PublicKey,
   provider: anchor.Provider
-) => {
+}
+
+export const getLotteryTicketIx = async (params: GetLotteryTicketIx) => {
+  const {
+    communityPool,
+    fractionMint,
+    userFractionsTokenAccount,
+    fusionProgramId,
+    tokenMintInputFusion,
+    feeConfig,
+    adminAddress,
+    programId,
+    userPubkey,
+    provider
+  } = params;
+
   const encoder = new TextEncoder();
   const program = await returnCommunityPoolsAnchorProgram(programId, provider);
 

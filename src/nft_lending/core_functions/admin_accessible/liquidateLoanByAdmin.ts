@@ -6,7 +6,7 @@ import { ASSOCIATED_PROGRAM_ID, TOKEN_PROGRAM_ID } from '@project-serum/anchor/d
 import { returnAnchorProgram } from '../../contract_model/accounts';
 import { findAssociatedTokenAddress } from '../../../common/utils';
 
-const liquidateLoanByAdmin = async (
+export interface LiquidateLoanByAdmin {
   programId: PublicKey,
   provider: anchor.Provider,
   liquidator: PublicKey,
@@ -14,7 +14,19 @@ const liquidateLoanByAdmin = async (
   loan: PublicKey,
   nftMint: PublicKey,
   sendTxn: (transaction: Transaction) => Promise<void>
-): Promise<any> => {
+}
+
+const liquidateLoanByAdmin = async (params: LiquidateLoanByAdmin): Promise<any> => {
+  const {
+    programId,
+    provider,
+    liquidator,
+    user,
+    loan,
+    nftMint,
+    sendTxn
+  } = params;
+
   const encoder = new TextEncoder();
   const program = await returnAnchorProgram(programId, provider);
   const nftUserTokenAccount = await findAssociatedTokenAddress(user, nftMint);

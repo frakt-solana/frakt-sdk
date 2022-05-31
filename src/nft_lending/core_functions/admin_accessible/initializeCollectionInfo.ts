@@ -2,7 +2,7 @@ import anchor from '@project-serum/anchor';
 import { Keypair, PublicKey, Transaction } from '@solana/web3.js';
 import { returnAnchorProgram } from '../../contract_model/accounts';
 
-const initializeCollectionInfo = async (
+export interface InitializeCollectionInfo {
   programId: PublicKey,
   provider: anchor.Provider,
   liquidityPool: PublicKey,
@@ -17,7 +17,26 @@ const initializeCollectionInfo = async (
   expirationTime: number | anchor.BN,
   isPriceBased: boolean,
   sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>
-): Promise<any> => {
+}
+
+const initializeCollectionInfo = async (params: InitializeCollectionInfo): Promise<any> => {
+  const {
+    programId,
+    provider,
+    liquidityPool,
+    admin,
+    creatorAddress,
+    pricingLookupAddress,
+    loanToValue,
+    collaterizationRate,
+    royaltyAddress,
+    royaltyFeeTime,
+    royaltyFeePrice,
+    expirationTime,
+    isPriceBased,
+    sendTxn
+  } = params;
+
   const program = await returnAnchorProgram(programId, provider);
   const collectionInfo = Keypair.generate();
 

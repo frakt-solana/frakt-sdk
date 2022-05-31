@@ -4,13 +4,23 @@ export { Provider, Program } from '@project-serum/anchor';
 
 import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
 
-const activateCommunityPool = async (
+export interface ActivateCommunityPool {
   communityPool: PublicKey,
   programId: PublicKey,
   userPubkey: PublicKey,
   provider: anchor.Provider,
   sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>
-): Promise<any> => {
+}
+
+const activateCommunityPool = async (params: ActivateCommunityPool): Promise<any> => {
+  const {
+    communityPool,
+    programId,
+    userPubkey,
+    provider,
+    sendTxn
+  } = params;
+
   const signers = [];
 
   const program = await returnCommunityPoolsAnchorProgram(programId, provider);

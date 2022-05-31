@@ -6,7 +6,7 @@ import { TOKEN_PROGRAM_ID } from '@project-serum/anchor/dist/cjs/utils/token';
 import { returnAnchorProgram } from '../../contract_model/accounts';
 import { findAssociatedTokenAddress } from '../../../common/utils';
 
-const paybackLoan = async (
+export interface PaybackLoan {
   programId: PublicKey,
   provider: anchor.Provider,
   user: PublicKey,
@@ -17,7 +17,22 @@ const paybackLoan = async (
   collectionInfo: PublicKey,
   royaltyAddress: PublicKey,
   sendTxn: (transaction: Transaction) => Promise<void>
-): Promise<any> => {
+}
+
+const paybackLoan = async (params: PaybackLoan): Promise<any> => {
+  const {
+    programId,
+    provider,
+    user,
+    admin,
+    loan,
+    nftMint,
+    liquidityPool,
+    collectionInfo,
+    royaltyAddress,
+    sendTxn
+  } = params;
+
   const encoder = new TextEncoder();
   const program = await returnAnchorProgram(programId, provider);
 

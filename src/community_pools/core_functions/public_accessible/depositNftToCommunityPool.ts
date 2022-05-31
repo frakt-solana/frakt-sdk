@@ -6,7 +6,7 @@ import { createAssociatedTokenAccountInstruction, findAssociatedTokenAddress } f
 import { ACCOUNT_PREFIX } from '../../constants';
 import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
 
-export const depositNftToCommunityPool = async (
+export interface DepositNftToCommunityPool {
   communityPool: PublicKey,
   nftMint: PublicKey,
   nftUserTokenAccount: PublicKey,
@@ -21,7 +21,26 @@ export const depositNftToCommunityPool = async (
   userPubkey: PublicKey,
   provider: anchor.Provider,
   sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>
-) => {
+}
+
+export const depositNftToCommunityPool = async (params: DepositNftToCommunityPool) => {
+  const {
+    communityPool,
+    nftMint,
+    nftUserTokenAccount,
+    fractionMint,
+    poolWhitelist,
+    metadataInfo,
+    fusionProgramId,
+    tokenMintInputFusion,
+    feeConfig,
+    adminAddress,
+    programId,
+    userPubkey,
+    provider,
+    sendTxn
+  } = params;
+
   let instructions: TransactionInstruction[] = [];
   const encoder = new TextEncoder();
   const program = await returnCommunityPoolsAnchorProgram(programId, provider);
@@ -124,7 +143,7 @@ export const depositNftToCommunityPool = async (
   await sendTxn(transaction, signers);
 }
 
-export const depositNftToCommunityPoolIx = async (
+export interface DepositNftToCommunityPoolIx {
   communityPool: PublicKey,
   nftMint: PublicKey,
   nftUserTokenAccount: PublicKey,
@@ -138,7 +157,25 @@ export const depositNftToCommunityPoolIx = async (
   programId: PublicKey,
   userPubkey: PublicKey,
   provider: anchor.Provider
-) => {
+}
+
+export const depositNftToCommunityPoolIx = async (params: DepositNftToCommunityPoolIx) => {
+  const {
+    communityPool,
+    nftMint,
+    nftUserTokenAccount,
+    fractionMint,
+    poolWhitelist,
+    metadataInfo,
+    fusionProgramId,
+    tokenMintInputFusion,
+    feeConfig,
+    adminAddress,
+    programId,
+    userPubkey,
+    provider
+  } = params;
+
   let instructions: TransactionInstruction[] = [];
   const encoder = new TextEncoder();
   const program = await returnCommunityPoolsAnchorProgram(programId, provider);

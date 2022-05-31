@@ -3,14 +3,25 @@ import { PublicKey, Transaction } from '@solana/web3.js';
 
 import { returnAnchorProgram } from '../../contract_model/accounts';
 
-const depositLiquidity = async (
+export interface DepositLiquidity {
   programId: PublicKey,
   provider: anchor.Provider,
   liquidityPool: PublicKey,
   user: PublicKey,
   amount: number,
   sendTxn: (transaction: Transaction) => Promise<void>
-): Promise<any> => {
+}
+
+const depositLiquidity = async (params: DepositLiquidity): Promise<any> => {
+  const {
+    programId,
+    provider,
+    liquidityPool,
+    user,
+    amount,
+    sendTxn
+  } = params;
+
   const encoder = new TextEncoder();
   const program = await returnAnchorProgram(programId, provider);
 

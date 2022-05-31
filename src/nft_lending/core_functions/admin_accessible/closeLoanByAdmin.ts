@@ -3,13 +3,23 @@ import { PublicKey, Transaction } from '@solana/web3.js';
 
 import { returnAnchorProgram } from '../../contract_model/accounts';
 
-const closeLoanByAdmin = async (
+export interface CloseLoanByAdmin {
   programId: PublicKey,
   provider: anchor.Provider,
   loan: PublicKey,
   admin: PublicKey,
   sendTxn: (transaction: Transaction) => Promise<void>
-): Promise<any> => {
+}
+
+const closeLoanByAdmin = async (params: CloseLoanByAdmin): Promise<any> => {
+  const {
+    programId,
+    provider,
+    loan,
+    admin,
+    sendTxn
+  } = params;
+
   const encoder = new TextEncoder();
   const program = await returnAnchorProgram(programId, provider);
 

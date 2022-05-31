@@ -6,7 +6,7 @@ import { findAssociatedTokenAddress, createAssociatedTokenAccountInstruction } f
 import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
 import { ACCOUNT_PREFIX } from '../../constants';
 
-const withdrawNftByTicket = async (
+export interface WithdrawNftByTicket {
   communityPool: PublicKey,
   lotteryTicket: PublicKey,
   safetyDepositBox: PublicKey,
@@ -16,7 +16,21 @@ const withdrawNftByTicket = async (
   userPubkey: PublicKey,
   provider: anchor.Provider,
   sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>
-) => {
+}
+
+const withdrawNftByTicket = async (params: WithdrawNftByTicket) => {
+  const {
+    communityPool,
+    lotteryTicket,
+    safetyDepositBox,
+    nftMint,
+    storeNftTokenAccount,
+    programId,
+    userPubkey,
+    provider,
+    sendTxn
+  } = params;
+
   let instructions: TransactionInstruction[] = [];
   const signers = [];
   const encoder = new TextEncoder();

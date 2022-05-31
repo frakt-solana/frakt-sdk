@@ -5,13 +5,23 @@ import { PublicKey, Transaction } from '@solana/web3.js';
 import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
 import { findAssociatedTokenAddress } from '../../../common/utils';
 
-const harvestScore = async (
+export interface HarvestScore {
   programId: PublicKey,
   provider: anchor.Provider,
   userPublicKey: PublicKey,
   tokenMint: PublicKey,
   sendTxn: (transaction: Transaction) => Promise<void>
-) => {
+}
+
+const harvestScore = async (params: HarvestScore) => {
+  const {
+    programId,
+    provider,
+    userPublicKey,
+    tokenMint,
+    sendTxn
+  } = params;
+
   const encoder = new TextEncoder();
   const program = await returnCommunityPoolsAnchorProgram(programId, provider);
 

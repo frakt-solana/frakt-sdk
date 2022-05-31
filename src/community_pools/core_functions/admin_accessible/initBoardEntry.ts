@@ -4,7 +4,7 @@ export { Provider, Program } from '@project-serum/anchor';
 
 import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
 
-export const initBoardEntry = async (
+export interface InitBoardEntry {
   programId: PublicKey,
   provider: anchor.Provider,
   user: PublicKey,
@@ -12,7 +12,19 @@ export const initBoardEntry = async (
   message: string,
   sendTxn: (transaction: Transaction) => Promise<void>,
   initialBalance?: anchor.BN,
-) => {
+}
+
+export const initBoardEntry = async (params: InitBoardEntry) => {
+  const {
+    programId,
+    provider,
+    user,
+    nftMint,
+    message,
+    sendTxn,
+    initialBalance = new anchor.BN(0)
+  } = params;
+
   const encoder = new TextEncoder();
   const program = await returnCommunityPoolsAnchorProgram(programId, provider);
 
@@ -20,10 +32,6 @@ export const initBoardEntry = async (
     [encoder.encode('BoardEntry'), user.toBuffer()],
     program.programId,
   );
-
-  if (initialBalance == null) {
-    initialBalance = new anchor.BN(0);
-  }
 
   const instruction = await program.instruction.initializeBoardEntry(initialBalance, message, {
     accounts: {
@@ -40,14 +48,25 @@ export const initBoardEntry = async (
   await sendTxn(transaction);
 }
 
-export const initBoardEntryInstruction = async (
+export interface InitBoardEntryInstruction {
   programId: PublicKey,
   provider: anchor.Provider,
   user: PublicKey,
   nftMint: PublicKey,
   message: string,
   initialBalance?: anchor.BN,
-) => {
+}
+
+export const initBoardEntryInstruction = async (params: InitBoardEntryInstruction) => {
+  const {
+    programId,
+    provider,
+    user,
+    nftMint,
+    message,
+    initialBalance = new anchor.BN(0)
+  } = params;
+
   const encoder = new TextEncoder();
   const  program = await returnCommunityPoolsAnchorProgram(programId, provider);
 
@@ -55,10 +74,6 @@ export const initBoardEntryInstruction = async (
     [encoder.encode('BoardEntry'), user.toBuffer()],
     program.programId,
   );
-
-  if (initialBalance == null) {
-    initialBalance = new anchor.BN(0);
-  }
 
   return program.instruction.initializeBoardEntry(initialBalance, message, {
     accounts: {
