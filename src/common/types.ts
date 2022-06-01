@@ -263,3 +263,12 @@ export interface AmountInParams {
 }
 
 export type RaydiumPoolInfoMap = Map<string, LiquidityPoolInfo>;
+
+export interface PoolData {
+  tokenInfo: TokenInfo;
+  poolConfig: LiquidityPoolKeysV4;
+}
+
+export type PoolDataByMint = Map<string, PoolData>;
+
+export type FetchPoolDataByMint = ({ connection, tokensMap }: { connection: Connection, tokensMap: Map<string, TokenInfo>; }) => Promise<PoolDataByMint>;

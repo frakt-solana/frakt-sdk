@@ -18,3 +18,5 @@ export const SOL_TOKEN: TokenInfo = {
 };
 
 export const ORACLE_URL_BASE = 'https://nft-price-aggregator.herokuapp.com';
+
+export const BLOCKED_POOLS_IDS = ['DqMPkcRT22dPTTsj2rxhCNxg44D93NXiSBWiACAAXd2Q'];

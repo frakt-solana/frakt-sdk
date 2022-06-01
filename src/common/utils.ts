@@ -1,6 +1,9 @@
 import anchor from '@project-serum/anchor';
-import {Connection, Keypair, PublicKey, SystemProgram, TransactionInstruction} from '@solana/web3.js';
-import {AccountLayout, Token as SplToken, TOKEN_PROGRAM_ID} from '@solana/spl-token';
+import { Connection, Keypair, PublicKey, SystemProgram, TransactionInstruction } from '@solana/web3.js';
+import { AccountLayout, Token as SplToken, TOKEN_PROGRAM_ID } from '@solana/spl-token';
+import { NodeWallet } from '@metaplex/js';
+import BN from 'bn.js';
+import { Dictionary, groupBy } from 'lodash';
 import {
   CurrencyAmount,
   Liquidity,
@@ -10,13 +13,15 @@ import {
   Spl,
   SPL_ACCOUNT_LAYOUT,
   Token,
-  TokenAmount
+  TokenAmount,
+  WSOL
 } from '@raydium-io/raydium-sdk';
-import {NodeWallet} from '@metaplex/js';
-import BN from 'bn.js';
-import {Dictionary} from 'lodash';
 
-import {ORACLE_URL_BASE, SOL_TOKEN, SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID} from './constants';
+import {
+  ORACLE_URL_BASE, SOL_TOKEN,
+  SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID,
+  BLOCKED_POOLS_IDS
+} from './constants';
 import {
   AccountInfoData,
   AccountInfoParsed,
@@ -31,8 +36,12 @@ import {
   LoanView,
   ParseTokenAccount,
   PoolWhitelistType, RaydiumPoolInfoMap,
-  UserNFT
+  UserNFT,
+  PoolData,
+  FetchPoolDataByMint,
+  LoanDataByPoolPublicKey
 } from './types';
+import getAllProgramAccounts from '../nft_lending/read_functions/getAllProgramAccounts';
 
 //when we only want to view vaults, no need to connect a real wallet.
 export const createFakeWallet = () => {
@@ -167,16 +176,11 @@ export const deriveMetadataPubkeyFromMint = async (nftMint: PublicKey): Promise<
   return metadataPubkey;
 };
 
-export const decodeSplTokenAccountData = (
-  tokenAccountDataEncoded: Buffer,
-): AccountInfoData => (
+export const decodeSplTokenAccountData = (tokenAccountDataEncoded: Buffer): AccountInfoData => (
   SPL_ACCOUNT_LAYOUT.decode(tokenAccountDataEncoded)
 );
 
-export const parseTokenAccount: ParseTokenAccount = ({
- tokenAccountPubkey,
- tokenAccountEncoded,
-}) => (
+export const parseTokenAccount: ParseTokenAccount = ({ tokenAccountPubkey, tokenAccountEncoded }) => (
   tokenAccountEncoded
     ? {
       publicKey: tokenAccountPubkey,
@@ -185,11 +189,7 @@ export const parseTokenAccount: ParseTokenAccount = ({
     : null
 );
 
-export const getTokenAccount = async ({
-  tokenMint,
-  owner,
-  connection,
-}: GetTokenAccount): Promise<{ pubkey: PublicKey; accountInfo: any; } | null> => {
+export const getTokenAccount = async ({ tokenMint, owner, connection}: GetTokenAccount): Promise<{ pubkey: PublicKey; accountInfo: any; } | null> => {
 
   const tokenAccountPubkey = await Spl.getAssociatedTokenAccount({
     mint: tokenMint,
@@ -206,17 +206,11 @@ export const getTokenAccount = async ({
     : null;
 };
 
-export const getTokenAccountBalance = (
-  lpTokenAccountInfo: AccountInfoParsed,
-  lpDecimals: number,
-): number => (
+export const getTokenAccountBalance = (lpTokenAccountInfo: AccountInfoParsed, lpDecimals: number): number => (
   lpTokenAccountInfo?.accountInfo?.amount.toNumber() / 10 ** lpDecimals || 0
 );
 
-export const getAllUserTokens: GetAllUserTokens = async ({
- connection,
- walletPublicKey,
-}) => {
+export const getAllUserTokens: GetAllUserTokens = async ({ connection, walletPublicKey }) => {
 
   const { value: tokenAccounts } = await connection.getTokenAccountsByOwner(
     walletPublicKey,
@@ -265,10 +259,7 @@ export const shortenAddress = (address: string, chars = 4): string => (
   `${address.slice(0, chars)}...${address.slice(-chars)}`
 );
 
-export const getCurrencyAmount = (
-  tokenInfo,
-  amount: BN,
-): CurrencyAmount | TokenAmount => {
+export const getCurrencyAmount = (tokenInfo, amount: BN): CurrencyAmount | TokenAmount => {
   return tokenInfo.address === SOL_TOKEN.address
     ? new CurrencyAmount(SOL_TOKEN, amount)
     : new TokenAmount(
@@ -282,10 +273,7 @@ export const getCurrencyAmount = (
     );
 };
 
-export const getLoanCollectionInfo = (
-  loanData: LoanData,
-  collectionInfoPublicKey: string,
-): CollectionInfoView | undefined => (
+export const getLoanCollectionInfo = (loanData: LoanData, collectionInfoPublicKey: string): CollectionInfoView | undefined => (
   loanData.collectionsInfo?.find(
     ({ collectionInfoPubkey }) =>
       collectionInfoPubkey === collectionInfoPublicKey,
@@ -324,9 +312,7 @@ export const getNftReturnPeriod: GetNftReturnPeriod = ({ loanData, nft }) => {
   return loanData?.collectionsInfo?.find(({creator}) => nftCreators.includes(creator))?.expirationTime || 0;
 };
 
-export const getNftMarketLowerPriceByCreator = async (
-  creatorAddress: string,
-): Promise<number | null> => {
+export const getNftMarketLowerPriceByCreator = async (creatorAddress: string): Promise<number | null> => {
   try {
     const res = await fetch(`${ORACLE_URL_BASE}/creator/${creatorAddress}`);
     const data = await res.json();
@@ -543,4 +529,51 @@ export const fetchRaydiumPoolsInfoMap = async (
   });
 
   return raydiumPoolInfoMap;
+};
+
+export const fetchPoolDataByMint: FetchPoolDataByMint = async ({ connection , tokensMap }) => {
+  const allRaydiumConfigs = await Liquidity.fetchAllPoolKeys(connection);
+
+  return allRaydiumConfigs.reduce((acc, raydiumPoolConfig) => {
+    const { id, baseMint, quoteMint } = raydiumPoolConfig;
+
+    const tokenInfo = tokensMap.get(baseMint.toBase58());
+
+    if (
+      tokenInfo &&
+      quoteMint.toBase58() === WSOL.mint &&
+      !BLOCKED_POOLS_IDS.includes(id.toBase58())
+    ) {
+      acc.set(baseMint.toBase58(), {
+        tokenInfo,
+        poolConfig: raydiumPoolConfig,
+      });
+    }
+
+    return acc;
+  }, new Map<string, PoolData>());
+};
+
+export const fetchLoanDataByPoolPublicKey = async (connection: Connection, loansProgramPubkey: string): Promise<LoanDataByPoolPublicKey> => {
+  const { collectionInfos, deposits, liquidityPools, loans } =
+    await getAllProgramAccounts(new PublicKey(loansProgramPubkey), connection);
+
+  const collectionInfosByPoolPublicKey = groupBy(
+    collectionInfos,
+    'liquidityPool',
+  );
+  const depositsByPoolPublicKey = groupBy(deposits, 'liquidityPool');
+  const loansByPoolPublicKey = groupBy(loans, 'liquidityPool');
+
+  return liquidityPools?.reduce((loansData, liquidityPool) => {
+    const { liquidityPoolPubkey } = liquidityPool;
+
+    return loansData.set(liquidityPoolPubkey, {
+      collectionsInfo:
+        collectionInfosByPoolPublicKey[liquidityPoolPubkey] || [],
+      deposits: depositsByPoolPublicKey[liquidityPoolPubkey] || [],
+      liquidityPool: liquidityPool,
+      loans: loansByPoolPublicKey[liquidityPoolPubkey] || [],
+    });
+  }, new Map<string, LoanData>());
 };
