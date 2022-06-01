@@ -87,20 +87,6 @@ export type GetAllUserTokens = (props: {
   walletPublicKey: PublicKey;
 }) => Promise<TokenView[]>;
 
-export interface CollectionInfoView {
-  collectionInfoPubkey: string;
-  creator: string;
-  liquidityPool: string;
-  pricingLookupAddress: string;
-  royaltyAddress: string;
-  royaltyFeeTime: number;
-  royaltyFeePrice: number;
-  loanToValue: number;
-  collaterizationRate: number;
-  availableLoanTypes: string;
-  expirationTime: number;
-}
-
 export interface DepositView {
   depositPubkey: string;
   liquidityPool: string;
@@ -157,8 +143,6 @@ export interface LoanData {
   loans: LoanView[];
 }
 
-export type LoanDataByPoolPublicKey = Map<string, LoanData>;
-
 export interface CollectionInfoView {
   collectionInfoPubkey: string;
   creator: string;
@@ -210,13 +194,6 @@ export interface UserNFT {
   metadata: ArweaveMetadata;
 }
 
-export type GetFeePercent = (props: { nft: UserNFT; loanData: LoanData }) => number;
-
-export type GetNftReturnPeriod = (props: {
-  nft: UserNFT;
-  loanData: LoanData;
-}) => number;
-
 export interface LoanView {
   loanPubkey: string;
   user: string;
@@ -244,24 +221,6 @@ export enum PoolWhitelistType {
   CREATOR_WHITELIST = 'creatorWhitelist',
 }
 
-export interface AmountOutParams {
-  poolKeys: LiquidityPoolKeysV4;
-  poolInfo: LiquidityPoolInfo;
-  payToken: TokenInfo;
-  payAmount: number;
-  receiveToken: TokenInfo;
-  slippage?: Percent;
-}
-
-export interface AmountInParams {
-  poolKeys: LiquidityPoolKeysV4;
-  poolInfo: LiquidityPoolInfo;
-  receiveToken: TokenInfo;
-  receiveAmount: number;
-  payToken: TokenInfo;
-  slippage?: Percent;
-}
-
 export type RaydiumPoolInfoMap = Map<string, LiquidityPoolInfo>;
 
 export interface PoolData {
@@ -270,5 +229,3 @@ export interface PoolData {
 }
 
 export type PoolDataByMint = Map<string, PoolData>;
-
-export type FetchPoolDataByMint = ({ connection, tokensMap }: { connection: Connection, tokensMap: Map<string, TokenInfo>; }) => Promise<PoolDataByMint>;

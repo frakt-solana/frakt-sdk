@@ -1,3 +1,4 @@
 export * as utils from './common/utils';
-export * as communityPools from './community_pools';
-export * as nftLending from './nft_lending';
+export * as pools from './pools';
+export * as lending from './lending';
+export * as loans from './loans';
