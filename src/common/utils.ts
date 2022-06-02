@@ -1,10 +1,22 @@
-import { Connection, PublicKey, Keypair, SystemProgram, TransactionInstruction } from '@solana/web3.js';
-import { AccountLayout, Token, TOKEN_PROGRAM_ID } from '@solana/spl-token';
-import * as anchor from '@project-serum/anchor';
+import anchor from '@project-serum/anchor';
+import { Connection, Keypair, PublicKey, SystemProgram, TransactionInstruction } from '@solana/web3.js';
+import { AccountLayout, Token as SplToken, TOKEN_PROGRAM_ID } from '@solana/spl-token';
 import { NodeWallet } from '@metaplex/js';
+import BN from 'bn.js';
+import { Spl, SPL_ACCOUNT_LAYOUT } from '@raydium-io/raydium-sdk';
+
+import { SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID } from './constants';
+import {
+  AccountInfoData,
+  AccountInfoParsed,
+  GetAllUserTokens,
+  GetTokenAccount,
+  ParseTokenAccount,
+  UserNFT,
+} from './types';
 
 //when we only want to view vaults, no need to connect a real wallet.
-export function createFakeWallet() {
+export const createFakeWallet = () => {
   const leakedKp = Keypair.fromSecretKey(
     Uint8Array.from([
       208, 175, 150, 242, 88, 34, 108, 88, 177, 16, 168, 75, 115, 181, 199, 242, 120, 4, 78, 75, 19, 227, 13, 215, 184,
@@ -13,35 +25,32 @@ export function createFakeWallet() {
     ]),
   );
   return new NodeWallet(leakedKp);
-}
-const SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID: PublicKey = new PublicKey(
-  'ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL',
-);
+};
 
-export async function findAssociatedTokenAddress(
+export const findAssociatedTokenAddress = async (
   walletAddress: PublicKey,
   tokenMintAddress: PublicKey,
-): Promise<PublicKey> {
-  return (
+): Promise<PublicKey> =>
+  (
     await PublicKey.findProgramAddress(
       [walletAddress.toBuffer(), TOKEN_PROGRAM_ID.toBuffer(), tokenMintAddress.toBuffer()],
       SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID,
     )
   )[0];
-}
 
 export const getTokenBalance = async (pubkey: PublicKey, connection: Connection) => {
-  return parseInt((await connection.getTokenAccountBalance(pubkey)).value.amount);
+  const balance = await connection.getTokenAccountBalance(pubkey);
+
+  return parseInt(balance.value.amount);
 };
 
-export function createUninitializedAccount(
-  instructions: TransactionInstruction[],
+export const createUninitializedAccount = (
   payer: PublicKey,
   amount: number,
-  signers: Keypair[],
-) {
+): { instructions: TransactionInstruction[]; signers: Keypair[]; accountPubkey: PublicKey } => {
   const account = Keypair.generate();
-  instructions.push(
+
+  const instructions = [
     SystemProgram.createAccount({
       fromPubkey: payer,
       newAccountPubkey: account.publicKey,
@@ -49,35 +58,36 @@ export function createUninitializedAccount(
       space: AccountLayout.span,
       programId: TOKEN_PROGRAM_ID,
     }),
-  );
+  ];
 
-  signers.push(account);
+  const signers = [account];
 
-  return account.publicKey;
-}
+  return { accountPubkey: account.publicKey, instructions, signers };
+};
 
-export function createTokenAccount(
-  instructions: TransactionInstruction[],
+export const createTokenAccount = (
   payer: PublicKey,
   accountRentExempt: number,
   mint: PublicKey,
   owner: PublicKey,
-  signers: Keypair[],
-) {
-  const account = createUninitializedAccount(instructions, payer, accountRentExempt, signers);
+): { instructions: TransactionInstruction[]; signers: Keypair[]; accountPubkey: PublicKey } => {
+  const {
+    instructions: newInstructions,
+    signers: newSigners,
+    accountPubkey,
+  } = createUninitializedAccount(payer, accountRentExempt);
 
-  instructions.push(Token.createInitAccountInstruction(TOKEN_PROGRAM_ID, mint, account, owner));
+  const initAccountInstruction = SplToken.createInitAccountInstruction(TOKEN_PROGRAM_ID, mint, accountPubkey, owner);
 
-  return account;
-}
+  return { accountPubkey, signers: newSigners, instructions: [...newInstructions, initAccountInstruction] };
+};
 
-export function createAssociatedTokenAccountInstruction(
-  instructions: TransactionInstruction[],
+export const createAssociatedTokenAccountInstruction = (
   associatedTokenAddress: PublicKey,
   payer: PublicKey,
   walletAddress: PublicKey,
   splTokenMintAddress: PublicKey,
-) {
+): TransactionInstruction[] => {
   const keys = [
     {
       pubkey: payer,
@@ -115,35 +125,104 @@ export function createAssociatedTokenAccountInstruction(
       isWritable: false,
     },
   ];
-  instructions.push(
+
+  return [
     new TransactionInstruction({
       keys,
       programId: SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID,
       data: Buffer.from([]),
     }),
-  );
-}
+  ];
+};
 
-export async function deriveMetadataPubkeyFromMint(nftMint: PublicKey): Promise<PublicKey> {
+export const deriveMetadataPubkeyFromMint = async (nftMint: PublicKey): Promise<PublicKey> => {
   let metadata_program = new PublicKey('metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s');
 
   const encoder = new TextEncoder();
-  // // 1 verify the owner of the account is metaplex's metadata program
-  // assert_eq!(nft_metadata.owner, &metadata_program);
-
-  // // 2 verify the PDA seeds match
-  // let seed = &[
-  //     b"metadata".as_ref(),
-  //     metadata_program.as_ref(),
-  //     nft_mint.as_ref(),
-  // ];
-
   const [metadataPubkey] = await anchor.web3.PublicKey.findProgramAddress(
     [encoder.encode('metadata'), metadata_program.toBuffer(), nftMint.toBuffer()],
     metadata_program,
   );
 
   return metadataPubkey;
-  // let (metadata_addr, _bump) = Pubkey::find_program_address(seed, &metadata_program);
-  // assert_eq!(metadata_addr, nft_metadata.key());
-}
+};
+
+export const decodeSplTokenAccountData = (tokenAccountDataEncoded: Buffer): AccountInfoData =>
+  SPL_ACCOUNT_LAYOUT.decode(tokenAccountDataEncoded);
+
+export const parseTokenAccount: ParseTokenAccount = ({ tokenAccountPubkey, tokenAccountEncoded }) =>
+  tokenAccountEncoded
+    ? {
+        publicKey: tokenAccountPubkey,
+        accountInfo: decodeSplTokenAccountData(tokenAccountEncoded.data),
+      }
+    : null;
+
+export const getTokenAccount = async ({
+  tokenMint,
+  owner,
+  connection,
+}: GetTokenAccount): Promise<{ pubkey: PublicKey; accountInfo: any } | null> => {
+  const tokenAccountPubkey = await Spl.getAssociatedTokenAccount({
+    mint: tokenMint,
+    owner,
+  });
+
+  const tokenAccountEncoded = await connection.getAccountInfo(tokenAccountPubkey);
+
+  return tokenAccountEncoded
+    ? {
+        pubkey: tokenAccountPubkey,
+        accountInfo: SPL_ACCOUNT_LAYOUT.decode(tokenAccountEncoded.data),
+      }
+    : null;
+};
+
+export const getTokenAccountBalance = (lpTokenAccountInfo: AccountInfoParsed, lpDecimals: number): number =>
+  lpTokenAccountInfo?.accountInfo?.amount.toNumber() / 10 ** lpDecimals || 0;
+
+export const getAllUserTokens: GetAllUserTokens = async ({ connection, walletPublicKey }) => {
+  const { value: tokenAccounts } = await connection.getTokenAccountsByOwner(
+    walletPublicKey,
+    { programId: TOKEN_PROGRAM_ID },
+    'singleGossip',
+  );
+
+  const parse = (parsedData) => {
+    try {
+      return new BN(parsedData.amount, 10, 'le')?.toNumber();
+    } catch (error) {
+      return -1;
+    }
+  };
+
+  return (
+    tokenAccounts?.map(({ pubkey, account }) => {
+      const parsedData = AccountLayout.decode(account.data);
+
+      const amountNum = parse(parsedData);
+
+      return {
+        tokenAccountPubkey: pubkey.toBase58(),
+        mint: new PublicKey(parsedData.mint).toBase58(),
+        owner: new PublicKey(parsedData.owner).toBase58(),
+        amount: amountNum,
+        amountBN: new BN(parsedData.amount, 10, 'le'),
+        delegateOption: !!parsedData.delegateOption,
+        delegate: new PublicKey(parsedData.delegate).toBase58(),
+        state: parsedData.state,
+        isNativeOption: !!parsedData.isNativeOption,
+        isNative: new BN(parsedData.isNative, 10, 'le').toNumber(),
+        delegatedAmount: new BN(parsedData.delegatedAmount, 10, 'le').toNumber(),
+        closeAuthorityOption: !!parsedData.closeAuthorityOption,
+        closeAuthority: new PublicKey(parsedData.closeAuthority).toBase58(),
+      };
+    }) || []
+  );
+};
+
+export const shortenAddress = (address: string, chars = 4): string =>
+  `${address.slice(0, chars)}...${address.slice(-chars)}`;
+
+export const getNftCreators = (nft: UserNFT): string[] =>
+  nft?.metadata?.properties?.creators?.filter(({ verified }) => verified)?.map(({ address }) => address) || [];
