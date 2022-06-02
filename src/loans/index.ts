@@ -1,1 +1,1 @@
-export * as getters from './read_functions';
+export * from './read_functions';
