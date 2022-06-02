@@ -1,18 +1,10 @@
-import anchor from '@project-serum/anchor';
-import { PublicKey, Keypair, Transaction, SystemProgram } from '@solana/web3.js';
+import { Transaction, SystemProgram } from '@solana/web3.js';
 export { Provider, Program } from '@project-serum/anchor';
 
+import { ActivateCommunityPool } from '../../types';
 import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
 
-export interface ActivateCommunityPool {
-  communityPool: PublicKey;
-  programId: PublicKey;
-  userPubkey: PublicKey;
-  provider: anchor.Provider;
-  sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>;
-}
-
-const activateCommunityPool = async (params: ActivateCommunityPool): Promise<any> => {
+export const activateCommunityPool = async (params: ActivateCommunityPool): Promise<any> => {
   const { communityPool, programId, userPubkey, provider, sendTxn } = params;
 
   const signers = [];
@@ -32,5 +24,3 @@ const activateCommunityPool = async (params: ActivateCommunityPool): Promise<any
 
   await sendTxn(transaction, signers);
 };
-
-export default activateCommunityPool;

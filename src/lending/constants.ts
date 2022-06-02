@@ -1,4 +1,4 @@
-import { NftLendingV2 } from './types';
+import { NftLendingV2 } from '../common/types';
 
 export const IDL: NftLendingV2 = {
   version: '0.1.0',

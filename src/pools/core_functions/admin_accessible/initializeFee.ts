@@ -3,20 +3,9 @@ import { PublicKey, Transaction, Keypair } from '@solana/web3.js';
 export { Provider, Program } from '@project-serum/anchor';
 
 import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
+import { InitializeFee } from '../../types';
 
-export interface InitializeFee {
-  programId: PublicKey;
-  provider: anchor.Provider;
-  userPubkey: PublicKey;
-  depositFeeAdmin: number;
-  depositFeePool: number;
-  getLotteryFeeAdmin: number;
-  getLotteryFeePool: number;
-  sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>;
-  communityPool?: PublicKey;
-}
-
-const initializeFee = async (params: InitializeFee): Promise<any> => {
+export const initializeFee = async (params: InitializeFee): Promise<any> => {
   const {
     programId,
     provider,
@@ -58,5 +47,3 @@ const initializeFee = async (params: InitializeFee): Promise<any> => {
 
   return config.publicKey;
 };
-
-export default initializeFee;

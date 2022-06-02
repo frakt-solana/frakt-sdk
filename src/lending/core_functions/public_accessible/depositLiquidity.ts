@@ -1,18 +1,10 @@
 import * as anchor from '@project-serum/anchor';
-import { PublicKey, Transaction } from '@solana/web3.js';
+import { Transaction } from '@solana/web3.js';
 
+import { DepositLiquidity } from '../../types';
 import { returnAnchorProgram } from '../../contract_model/accounts';
 
-export interface DepositLiquidity {
-  programId: PublicKey;
-  provider: anchor.Provider;
-  liquidityPool: PublicKey;
-  user: PublicKey;
-  amount: number;
-  sendTxn: (transaction: Transaction) => Promise<void>;
-}
-
-const depositLiquidity = async (params: DepositLiquidity): Promise<any> => {
+export const depositLiquidity = async (params: DepositLiquidity): Promise<any> => {
   const { programId, provider, liquidityPool, user, amount, sendTxn } = params;
 
   const encoder = new TextEncoder();
@@ -43,5 +35,3 @@ const depositLiquidity = async (params: DepositLiquidity): Promise<any> => {
 
   await sendTxn(transaction);
 };
-
-export default depositLiquidity;

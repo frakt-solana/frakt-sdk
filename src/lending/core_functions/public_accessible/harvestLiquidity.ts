@@ -1,17 +1,10 @@
 import anchor from '@project-serum/anchor';
-import { PublicKey, Transaction } from '@solana/web3.js';
+import { Transaction } from '@solana/web3.js';
 
+import { HarvestLiquidity } from '../../types';
 import { returnAnchorProgram } from '../../contract_model/accounts';
 
-export interface HarvestLiquidity {
-  programId: PublicKey;
-  provider: anchor.Provider;
-  liquidityPool: PublicKey;
-  user: PublicKey;
-  sendTxn: (transaction: Transaction) => Promise<void>;
-}
-
-const harvestLiquidity = async (params: HarvestLiquidity): Promise<any> => {
+export const harvestLiquidity = async (params: HarvestLiquidity): Promise<any> => {
   const { programId, provider, liquidityPool, user, sendTxn } = params;
 
   const encoder = new TextEncoder();
@@ -41,5 +34,3 @@ const harvestLiquidity = async (params: HarvestLiquidity): Promise<any> => {
 
   await sendTxn(transaction);
 };
-
-export default harvestLiquidity;

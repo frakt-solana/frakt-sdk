@@ -1,19 +1,12 @@
 import anchor from '@project-serum/anchor';
 import { TOKEN_PROGRAM_ID, ASSOCIATED_TOKEN_PROGRAM_ID } from '@solana/spl-token';
-import { PublicKey, Transaction } from '@solana/web3.js';
+import { Transaction } from '@solana/web3.js';
 
 import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
-import { findAssociatedTokenAddress } from '../../../common/utils';
+import { findAssociatedTokenAddress } from '../../../common';
+import { HarvestScore } from '../../types';
 
-export interface HarvestScore {
-  programId: PublicKey;
-  provider: anchor.Provider;
-  userPublicKey: PublicKey;
-  tokenMint: PublicKey;
-  sendTxn: (transaction: Transaction) => Promise<void>;
-}
-
-const harvestScore = async (params: HarvestScore) => {
+export const harvestScore = async (params: HarvestScore) => {
   const { programId, provider, userPublicKey, tokenMint, sendTxn } = params;
 
   const encoder = new TextEncoder();
@@ -57,5 +50,3 @@ const harvestScore = async (params: HarvestScore) => {
 
   await sendTxn(transaction);
 };
-
-export default harvestScore;

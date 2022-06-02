@@ -1,6 +1,6 @@
 import { ORACLE_URL_BASE } from '../../common/constants';
 
-const getNftMarketLowerPriceByCreator = async (creatorAddress: string): Promise<number | null> => {
+export const getNftMarketLowerPriceByCreator = async (creatorAddress: string): Promise<number | null> => {
   try {
     const res = await fetch(`${ORACLE_URL_BASE}/creator/${creatorAddress}`);
     const data = await res.json();
@@ -12,5 +12,3 @@ const getNftMarketLowerPriceByCreator = async (creatorAddress: string): Promise<
 
   return null;
 };
-
-export default getNftMarketLowerPriceByCreator;

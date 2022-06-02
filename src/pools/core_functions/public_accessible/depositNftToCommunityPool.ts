@@ -1,27 +1,11 @@
 import anchor from '@project-serum/anchor';
 import { TOKEN_PROGRAM_ID, ASSOCIATED_TOKEN_PROGRAM_ID } from '@solana/spl-token';
-import { PublicKey, Keypair, Transaction, SystemProgram, TransactionInstruction } from '@solana/web3.js';
+import { PublicKey, Transaction, SystemProgram, TransactionInstruction } from '@solana/web3.js';
 
-import { createAssociatedTokenAccountInstruction, findAssociatedTokenAddress } from '../../../common/utils';
+import { createAssociatedTokenAccountInstruction, findAssociatedTokenAddress } from '../../../common';
 import { ACCOUNT_PREFIX } from '../../constants';
 import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
-
-export interface DepositNftToCommunityPool {
-  communityPool: PublicKey;
-  nftMint: PublicKey;
-  nftUserTokenAccount: PublicKey;
-  fractionMint: PublicKey;
-  poolWhitelist: PublicKey;
-  metadataInfo: PublicKey;
-  fusionProgramId: PublicKey;
-  tokenMintInputFusion: PublicKey;
-  feeConfig: PublicKey;
-  adminAddress: PublicKey;
-  programId: PublicKey;
-  userPubkey: PublicKey;
-  provider: anchor.Provider;
-  sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>;
-}
+import { DepositNftToCommunityPool, DepositNftToCommunityPoolIx } from '../../types';
 
 export const depositNftToCommunityPool = async (params: DepositNftToCommunityPool) => {
   const {
@@ -137,22 +121,6 @@ export const depositNftToCommunityPool = async (params: DepositNftToCommunityPoo
 
   await sendTxn(transaction, signers);
 };
-
-export interface DepositNftToCommunityPoolIx {
-  communityPool: PublicKey;
-  nftMint: PublicKey;
-  nftUserTokenAccount: PublicKey;
-  fractionMint: PublicKey;
-  poolWhitelist: PublicKey;
-  metadataInfo: PublicKey;
-  fusionProgramId: PublicKey;
-  tokenMintInputFusion: PublicKey;
-  feeConfig: PublicKey;
-  adminAddress: PublicKey;
-  programId: PublicKey;
-  userPubkey: PublicKey;
-  provider: anchor.Provider;
-}
 
 export const depositNftToCommunityPoolIx = async (params: DepositNftToCommunityPoolIx) => {
   const {

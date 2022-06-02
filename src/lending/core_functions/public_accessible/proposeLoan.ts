@@ -1,26 +1,17 @@
 import anchor from '@project-serum/anchor';
-import { Keypair, PublicKey, Transaction } from '@solana/web3.js';
+import { Keypair, Transaction } from '@solana/web3.js';
 import { Edition, MetadataProgram } from '@metaplex-foundation/mpl-token-metadata';
 import { TOKEN_PROGRAM_ID } from '@project-serum/anchor/dist/cjs/utils/token';
 
+import { ProposeLoan } from '../../types';
 import { returnAnchorProgram } from '../../contract_model/accounts';
-import { findAssociatedTokenAddress } from '../../../common/utils';
-
-export interface ProposeLoan {
-  programId: PublicKey;
-  provider: anchor.Provider;
-  user: PublicKey;
-  nftMint: PublicKey;
-  proposedNftPrice: number | anchor.BN;
-  isPriceBased: boolean;
-  sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>;
-}
+import { findAssociatedTokenAddress } from '../../../common';
 
 interface IReturn {
   loanPubkey: any;
 }
 
-const proposeLoan = async (params: ProposeLoan): Promise<IReturn> => {
+export const proposeLoan = async (params: ProposeLoan): Promise<IReturn> => {
   const { programId, provider, user, nftMint, proposedNftPrice, isPriceBased, sendTxn } = params;
 
   const encoder = new TextEncoder();
@@ -55,5 +46,3 @@ const proposeLoan = async (params: ProposeLoan): Promise<IReturn> => {
 
   return { loanPubkey: loan.publicKey };
 };
-
-export default proposeLoan;

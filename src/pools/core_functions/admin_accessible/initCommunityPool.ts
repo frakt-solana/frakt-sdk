@@ -1,19 +1,13 @@
 import anchor from '@project-serum/anchor';
 import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
-import { PublicKey, Keypair, Transaction, SystemProgram } from '@solana/web3.js';
+import { Transaction, SystemProgram } from '@solana/web3.js';
 export { Provider, Program } from '@project-serum/anchor';
 
 import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
 import { ACCOUNT_PREFIX } from '../../constants';
+import { InitCommunityPool } from '../../types';
 
-interface InitCommunityPool {
-  programId: PublicKey;
-  userPubkey: PublicKey;
-  provider: anchor.Provider;
-  sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>;
-}
-
-const initCommunityPool = async (params: InitCommunityPool) => {
+export const initCommunityPool = async (params: InitCommunityPool) => {
   const { programId, userPubkey, provider, sendTxn } = params;
 
   const encoder = new TextEncoder();
@@ -43,5 +37,3 @@ const initCommunityPool = async (params: InitCommunityPool) => {
 
   await sendTxn(transaction, [communityPool, fractionMint]);
 };
-
-export default initCommunityPool;

@@ -1,11 +1,7 @@
-import { LoanData, UserNFT } from '../../common/types';
-import { getNftCreators } from '../../common/utils';
+import { GetFeePercent } from '../types';
+import { getNftCreators } from '../../common';
 
-export interface GetFeePercent {
-  (props: { nft: UserNFT; loanData: LoanData }): number;
-}
-
-const getFeePercent: GetFeePercent = ({ loanData, nft }) => {
+export const getFeePercent: GetFeePercent = ({ loanData, nft }) => {
   const PERCENT_PRECISION = 100;
 
   const nftCreators = getNftCreators(nft);
@@ -21,5 +17,3 @@ const getFeePercent: GetFeePercent = ({ loanData, nft }) => {
 
   return feesPercent || 0;
 };
-
-export default getFeePercent;

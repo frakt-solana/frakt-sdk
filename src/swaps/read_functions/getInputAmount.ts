@@ -1,23 +1,12 @@
 import {
   Liquidity,
-  LiquidityPoolInfo,
-  LiquidityPoolKeysV4,
   Percent,
   Token,
   TokenAmount,
 } from '@raydium-io/raydium-sdk';
-import { TokenInfo } from '../../common/types';
+import { GetInputAmount } from '../types';
 
-export interface GetInputAmount {
-  poolKeys: LiquidityPoolKeysV4;
-  poolInfo: LiquidityPoolInfo;
-  receiveToken: TokenInfo;
-  receiveAmount: number;
-  payToken: TokenInfo;
-  slippage?: Percent;
-}
-
-const getInputAmount = ({
+export const getInputAmount = ({
   poolKeys,
   poolInfo,
   receiveToken,
@@ -59,5 +48,3 @@ const getInputAmount = ({
     priceImpact: '',
   };
 };
-
-export default getInputAmount;

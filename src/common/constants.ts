@@ -1,6 +1,6 @@
 import { PublicKey } from '@solana/web3.js';
-import { TokenInfo } from '@solana/spl-token-registry';
 import { WSOL } from '@raydium-io/raydium-sdk';
+import { TokenInfo } from './types';
 
 export const SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID: PublicKey = new PublicKey(
   'ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL',

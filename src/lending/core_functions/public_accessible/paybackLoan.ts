@@ -1,25 +1,13 @@
 import anchor from '@project-serum/anchor';
-import { PublicKey, Transaction } from '@solana/web3.js';
+import { Transaction } from '@solana/web3.js';
 import { Edition, MetadataProgram } from '@metaplex-foundation/mpl-token-metadata';
 import { TOKEN_PROGRAM_ID } from '@project-serum/anchor/dist/cjs/utils/token';
 
+import { PaybackLoan } from '../../types';
 import { returnAnchorProgram } from '../../contract_model/accounts';
-import { findAssociatedTokenAddress } from '../../../common/utils';
+import { findAssociatedTokenAddress } from '../../../common';
 
-export interface PaybackLoan {
-  programId: PublicKey;
-  provider: anchor.Provider;
-  user: PublicKey;
-  admin: PublicKey;
-  loan: PublicKey;
-  nftMint: PublicKey;
-  liquidityPool: PublicKey;
-  collectionInfo: PublicKey;
-  royaltyAddress: PublicKey;
-  sendTxn: (transaction: Transaction) => Promise<void>;
-}
-
-const paybackLoan = async (params: PaybackLoan): Promise<any> => {
+export const paybackLoan = async (params: PaybackLoan): Promise<any> => {
   const { programId, provider, user, admin, loan, nftMint, liquidityPool, collectionInfo, royaltyAddress, sendTxn } =
     params;
 
@@ -63,5 +51,3 @@ const paybackLoan = async (params: PaybackLoan): Promise<any> => {
 
   await sendTxn(transaction);
 };
-
-export default paybackLoan;

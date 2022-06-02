@@ -150,19 +150,20 @@ export const deriveMetadataPubkeyFromMint = async (nftMint: PublicKey): Promise<
 export const decodeSplTokenAccountData = (tokenAccountDataEncoded: Buffer): AccountInfoData =>
   SPL_ACCOUNT_LAYOUT.decode(tokenAccountDataEncoded);
 
-export const parseTokenAccount: ParseTokenAccount = ({ tokenAccountPubkey, tokenAccountEncoded }) =>
+export const parseTokenAccount: ParseTokenAccount = ({ tokenAccountPubkey, tokenAccountEncoded }) => (
   tokenAccountEncoded
     ? {
-        publicKey: tokenAccountPubkey,
-        accountInfo: decodeSplTokenAccountData(tokenAccountEncoded.data),
-      }
-    : null;
+      publicKey: tokenAccountPubkey,
+      accountInfo: decodeSplTokenAccountData(tokenAccountEncoded.data),
+    }
+    : null
+);
 
 export const getTokenAccount = async ({
   tokenMint,
   owner,
   connection,
-}: GetTokenAccount): Promise<{ pubkey: PublicKey; accountInfo: any } | null> => {
+}: GetTokenAccount): Promise<AccountInfoParsed | null> => {
   const tokenAccountPubkey = await Spl.getAssociatedTokenAccount({
     mint: tokenMint,
     owner,
@@ -170,12 +171,7 @@ export const getTokenAccount = async ({
 
   const tokenAccountEncoded = await connection.getAccountInfo(tokenAccountPubkey);
 
-  return tokenAccountEncoded
-    ? {
-        pubkey: tokenAccountPubkey,
-        accountInfo: SPL_ACCOUNT_LAYOUT.decode(tokenAccountEncoded.data),
-      }
-    : null;
+  return parseTokenAccount({ tokenAccountPubkey, tokenAccountEncoded });
 };
 
 export const getTokenAccountBalance = (lpTokenAccountInfo: AccountInfoParsed, lpDecimals: number): number =>
@@ -224,5 +220,6 @@ export const getAllUserTokens: GetAllUserTokens = async ({ connection, walletPub
 export const shortenAddress = (address: string, chars = 4): string =>
   `${address.slice(0, chars)}...${address.slice(-chars)}`;
 
-export const getNftCreators = (nft: UserNFT): string[] =>
-  nft?.metadata?.properties?.creators?.filter(({ verified }) => verified)?.map(({ address }) => address) || [];
+export const getNftCreators = (nft: UserNFT): string[] => (
+  nft?.metadata?.properties?.creators?.filter(({ verified }) => verified)?.map(({ address }) => address) || []
+);

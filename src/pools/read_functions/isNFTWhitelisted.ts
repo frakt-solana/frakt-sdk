@@ -1,8 +1,8 @@
 import { Dictionary } from 'lodash';
 
 import { UserNFT } from '../../common/types';
-import isNFTWhitelistedByMint from './isNFTWhitelistedByMint';
-import isNFTWhitelistedByCreator from './isNFTWhitelistedByCreator';
+import { isNFTWhitelistedByMint } from './isNFTWhitelistedByMint';
+import { isNFTWhitelistedByCreator } from './isNFTWhitelistedByCreator';
 
 export const isNFTWhitelisted = (
   nft: UserNFT,

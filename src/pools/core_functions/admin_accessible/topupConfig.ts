@@ -1,20 +1,12 @@
 import anchor from '@project-serum/anchor';
 import { TOKEN_PROGRAM_ID, ASSOCIATED_TOKEN_PROGRAM_ID } from '@solana/spl-token';
-import { PublicKey, Transaction } from '@solana/web3.js';
+import { Transaction } from '@solana/web3.js';
 
 import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
-import { findAssociatedTokenAddress } from '../../../common/utils';
+import { findAssociatedTokenAddress } from '../../../common';
+import { TopupConfig } from '../../types';
 
-export interface TopupConfig {
-  programId: PublicKey;
-  provider: anchor.Provider;
-  admin: PublicKey;
-  tokenMint: PublicKey;
-  inputAmount: anchor.BN;
-  sendTxn: (transaction: Transaction) => Promise<void>;
-}
-
-const topupConfig = async (params: TopupConfig) => {
+export const topupConfig = async (params: TopupConfig) => {
   const { programId, provider, admin, tokenMint, inputAmount, sendTxn } = params;
 
   const encoder = new TextEncoder();
@@ -52,5 +44,3 @@ const topupConfig = async (params: TopupConfig) => {
 
   await sendTxn(transaction);
 };
-
-export default topupConfig;

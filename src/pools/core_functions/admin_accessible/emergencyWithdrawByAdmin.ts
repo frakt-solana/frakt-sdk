@@ -1,23 +1,13 @@
 import anchor from '@project-serum/anchor';
 import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
-import { PublicKey, Keypair, Transaction, SystemProgram, TransactionInstruction } from '@solana/web3.js';
+import { Transaction, SystemProgram, TransactionInstruction } from '@solana/web3.js';
 
-import { findAssociatedTokenAddress, createAssociatedTokenAccountInstruction } from '../../../common/utils';
+import { findAssociatedTokenAddress, createAssociatedTokenAccountInstruction } from '../../../common';
 import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
 import { ACCOUNT_PREFIX } from '../../constants';
+import { EmergencyWithdrawByAdmin } from '../../types';
 
-export interface EmergencyWithdrawByAdmin {
-  communityPool: PublicKey;
-  safetyDepositBox: PublicKey;
-  nftMint: PublicKey;
-  storeNftTokenAccount: PublicKey;
-  programId: PublicKey;
-  admin: PublicKey;
-  provider: anchor.Provider;
-  sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>;
-}
-
-const emergencyWithdrawByAdmin = async (params: EmergencyWithdrawByAdmin) => {
+export const emergencyWithdrawByAdmin = async (params: EmergencyWithdrawByAdmin) => {
   const { communityPool, safetyDepositBox, nftMint, storeNftTokenAccount, programId, admin, provider, sendTxn } =
     params;
 
@@ -68,5 +58,3 @@ const emergencyWithdrawByAdmin = async (params: EmergencyWithdrawByAdmin) => {
 
   await sendTxn(transaction, signers);
 };
-
-export default emergencyWithdrawByAdmin;

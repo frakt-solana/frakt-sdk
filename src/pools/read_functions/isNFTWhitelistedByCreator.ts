@@ -2,7 +2,7 @@ import { Dictionary } from 'lodash';
 
 import { UserNFT } from '../../common/types';
 
-const isNFTWhitelistedByCreator = (nft: UserNFT, whitelistedCreatorsDictionary: Dictionary<boolean>): string | null => {
+export const isNFTWhitelistedByCreator = (nft: UserNFT, whitelistedCreatorsDictionary: Dictionary<boolean>): string | null => {
   const { metadata } = nft;
 
   const nftCreatorAddresses =
@@ -14,5 +14,3 @@ const isNFTWhitelistedByCreator = (nft: UserNFT, whitelistedCreatorsDictionary: 
 
   return whitelistedCreator || null;
 };
-
-export default isNFTWhitelistedByCreator;

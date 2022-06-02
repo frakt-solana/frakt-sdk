@@ -1,19 +1,9 @@
-import anchor from '@project-serum/anchor';
-import { PublicKey, Keypair, Transaction } from '@solana/web3.js';
+import { Transaction } from '@solana/web3.js';
 
 import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
+import { RevealLotteryTicket } from '../../types';
 
-export interface RevealLotteryTicket {
-  communityPool: PublicKey;
-  lotteryTicket: PublicKey;
-  safetyDepositBox: PublicKey;
-  programId: PublicKey;
-  userPubkey: PublicKey;
-  provider: anchor.Provider;
-  sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>;
-}
-
-const revealLotteryTicket = async (params: RevealLotteryTicket) => {
+export const revealLotteryTicket = async (params: RevealLotteryTicket) => {
   const { communityPool, lotteryTicket, safetyDepositBox, programId, userPubkey, provider, sendTxn } = params;
 
   const signers = [];
@@ -33,5 +23,3 @@ const revealLotteryTicket = async (params: RevealLotteryTicket) => {
 
   await sendTxn(transaction, signers);
 };
-
-export default revealLotteryTicket;

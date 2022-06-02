@@ -1,14 +1,9 @@
 import { Liquidity, WSOL } from '@raydium-io/raydium-sdk';
-import { Connection } from '@solana/web3.js';
-
-import { PoolData, PoolDataByMint, TokenInfo } from '../../common/types';
+import { PoolData } from '../../common/types';
 import { BLOCKED_POOLS_IDS } from '../../common/constants';
+import { FetchPoolDataByMint } from '../types';
 
-export interface FetchPoolDataByMint {
-  ({ connection, tokensMap }: { connection: Connection; tokensMap: Map<string, TokenInfo> }): Promise<PoolDataByMint>;
-}
-
-const fetchPoolDataByMint: FetchPoolDataByMint = async ({ connection, tokensMap }) => {
+export const fetchPoolDataByMint: FetchPoolDataByMint = async ({ connection, tokensMap }) => {
   const allRaydiumConfigs = await Liquidity.fetchAllPoolKeys(connection);
 
   return allRaydiumConfigs.reduce((acc, raydiumPoolConfig) => {
@@ -26,5 +21,3 @@ const fetchPoolDataByMint: FetchPoolDataByMint = async ({ connection, tokensMap 
     return acc;
   }, new Map<string, PoolData>());
 };
-
-export default fetchPoolDataByMint;

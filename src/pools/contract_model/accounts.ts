@@ -1,7 +1,8 @@
 import { Program, Provider } from '@project-serum/anchor';
 import { PublicKey } from '@solana/web3.js';
 
-import { CommunityPoolsAnchor, IDL, BoardEntryView, PoolConfigView, PermissionView } from './types';
+import { CommunityPoolsAnchor, BoardEntryView, PoolConfigView, PermissionView } from '../types';
+import { IDL } from '../constants';
 
 export const returnCommunityPoolsAnchorProgram = async (
   programId: PublicKey,

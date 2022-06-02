@@ -1,25 +1,10 @@
 import anchor from '@project-serum/anchor';
-import { Keypair, PublicKey, Transaction } from '@solana/web3.js';
+import { Keypair, Transaction } from '@solana/web3.js';
+
+import { InitializeCollectionInfo } from '../../types';
 import { returnAnchorProgram } from '../../contract_model/accounts';
 
-export interface InitializeCollectionInfo {
-  programId: PublicKey;
-  provider: anchor.Provider;
-  liquidityPool: PublicKey;
-  admin: PublicKey;
-  creatorAddress: PublicKey;
-  pricingLookupAddress: PublicKey;
-  loanToValue: number | anchor.BN;
-  collaterizationRate: number | anchor.BN;
-  royaltyAddress: PublicKey;
-  royaltyFeeTime: number | anchor.BN;
-  royaltyFeePrice: number | anchor.BN;
-  expirationTime: number | anchor.BN;
-  isPriceBased: boolean;
-  sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>;
-}
-
-const initializeCollectionInfo = async (params: InitializeCollectionInfo): Promise<any> => {
+export const initializeCollectionInfo = async (params: InitializeCollectionInfo): Promise<any> => {
   const {
     programId,
     provider,
@@ -69,5 +54,3 @@ const initializeCollectionInfo = async (params: InitializeCollectionInfo): Promi
 
   return collectionInfo.publicKey;
 };
-
-export default initializeCollectionInfo;

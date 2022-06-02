@@ -1,23 +1,10 @@
 import anchor from '@project-serum/anchor';
 import { TOKEN_PROGRAM_ID, ASSOCIATED_TOKEN_PROGRAM_ID } from '@solana/spl-token';
-import { PublicKey, Keypair, Transaction, SystemProgram, TransactionInstruction } from '@solana/web3.js';
+import { PublicKey, Transaction, SystemProgram, TransactionInstruction } from '@solana/web3.js';
 
 import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
-import { findAssociatedTokenAddress } from '../../../common/utils';
-
-export interface GetLotteryTicket {
-  communityPool: PublicKey;
-  fractionMint: PublicKey;
-  userFractionsTokenAccount: PublicKey;
-  fusionProgramId: PublicKey;
-  tokenMintInputFusion: PublicKey;
-  feeConfig: PublicKey;
-  adminAddress: PublicKey;
-  programId: PublicKey;
-  userPubkey: PublicKey;
-  provider: anchor.Provider;
-  sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>;
-}
+import { findAssociatedTokenAddress } from '../../../common';
+import { GetLotteryTicket, GetLotteryTicketIx } from '../../types';
 
 export const getLotteryTicket = async (params: GetLotteryTicket) => {
   const {
@@ -109,19 +96,6 @@ export const getLotteryTicket = async (params: GetLotteryTicket) => {
 
   return { lotteryTicketPubkey: lotteryTicketAccount.publicKey };
 };
-
-export interface GetLotteryTicketIx {
-  communityPool: PublicKey;
-  fractionMint: PublicKey;
-  userFractionsTokenAccount: PublicKey;
-  fusionProgramId: PublicKey;
-  tokenMintInputFusion: PublicKey;
-  feeConfig: PublicKey;
-  adminAddress: PublicKey;
-  programId: PublicKey;
-  userPubkey: PublicKey;
-  provider: anchor.Provider;
-}
 
 export const getLotteryTicketIx = async (params: GetLotteryTicketIx) => {
   const {

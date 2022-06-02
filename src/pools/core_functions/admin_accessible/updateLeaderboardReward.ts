@@ -1,21 +1,11 @@
 import anchor from '@project-serum/anchor';
 import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
-import { PublicKey, Keypair, Transaction, SystemProgram } from '@solana/web3.js';
+import { Transaction, SystemProgram } from '@solana/web3.js';
 
 import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
+import { UpdateLeaderboardReward } from '../../types';
 
-export interface UpdateLeaderboardReward {
-  communityPool: PublicKey;
-  fractionMint: PublicKey;
-  depositReward: anchor.BN;
-  withdrawReward: anchor.BN;
-  programId: PublicKey;
-  admin: PublicKey;
-  provider: anchor.Provider;
-  sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>;
-}
-
-const updateLeaderboardReward = async (params: UpdateLeaderboardReward) => {
+export const updateLeaderboardReward = async (params: UpdateLeaderboardReward) => {
   const { communityPool, fractionMint, depositReward, withdrawReward, programId, admin, provider, sendTxn } = params;
 
   const encoder = new TextEncoder();
@@ -42,5 +32,3 @@ const updateLeaderboardReward = async (params: UpdateLeaderboardReward) => {
 
   await sendTxn(transaction, []);
 };
-
-export default updateLeaderboardReward;

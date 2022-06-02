@@ -1,6 +1,6 @@
 import { ORACLE_URL_BASE } from '../../common/constants';
 
-const getNftMarketLowerPricesByCreators = async (creatorsAddresses = []) => {
+export const getNftMarketLowerPricesByCreators = async (creatorsAddresses: string[] = []) => {
   try {
     const res = await fetch(`${ORACLE_URL_BASE}/creators`, {
       method: 'POST',
@@ -15,5 +15,3 @@ const getNftMarketLowerPricesByCreators = async (creatorsAddresses = []) => {
 
   return {};
 };
-
-export default getNftMarketLowerPricesByCreators;

@@ -1,22 +1,10 @@
 import anchor from '@project-serum/anchor';
+import { Keypair, Transaction } from '@solana/web3.js';
 
-import { Keypair, PublicKey, Transaction } from '@solana/web3.js';
+import { InitializeLiquidityPool } from '../../types';
 import { returnAnchorProgram } from '../../contract_model/accounts';
 
-export interface InitializeLiquidityPool {
-  programId: PublicKey;
-  provider: anchor.Provider;
-  admin: PublicKey;
-  rewardInterestRateTime: number | anchor.BN;
-  feeInterestRateTime: number | anchor.BN;
-  rewardInterestRatePrice: number | anchor.BN;
-  feeInterestRatePrice: number | anchor.BN;
-  id: number | anchor.BN;
-  period: number | anchor.BN;
-  sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>;
-}
-
-const initializeLiquidityPool = async (params: InitializeLiquidityPool): Promise<any> => {
+export const initializeLiquidityPool = async (params: InitializeLiquidityPool): Promise<any> => {
   const {
     programId,
     provider,
@@ -66,5 +54,3 @@ const initializeLiquidityPool = async (params: InitializeLiquidityPool): Promise
 
   return liquidityPool.publicKey;
 };
-
-export default initializeLiquidityPool;

@@ -1,25 +1,13 @@
 import anchor from '@project-serum/anchor';
 import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
-import { PublicKey, Keypair, Transaction, SystemProgram, TransactionInstruction } from '@solana/web3.js';
+import { Transaction, SystemProgram, TransactionInstruction } from '@solana/web3.js';
 
-import { findAssociatedTokenAddress, createAssociatedTokenAccountInstruction } from '../../../common/utils';
+import { findAssociatedTokenAddress, createAssociatedTokenAccountInstruction } from '../../../common';
 import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
 import { ACCOUNT_PREFIX } from '../../constants';
+import { WithdrawNftByAdmin } from '../../types';
 
-export interface WithdrawNftByAdmin {
-  communityPool: PublicKey;
-  lotteryTicket: PublicKey;
-  ticketHolder: PublicKey;
-  safetyDepositBox: PublicKey;
-  nftMint: PublicKey;
-  storeNftTokenAccount: PublicKey;
-  programId: PublicKey;
-  admin: PublicKey;
-  provider: anchor.Provider;
-  sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>;
-}
-
-const withdrawNftByAdmin = async (params: WithdrawNftByAdmin) => {
+export const withdrawNftByAdmin = async (params: WithdrawNftByAdmin) => {
   const {
     communityPool,
     lotteryTicket,
@@ -81,5 +69,3 @@ const withdrawNftByAdmin = async (params: WithdrawNftByAdmin) => {
 
   await sendTxn(transaction, signers);
 };
-
-export default withdrawNftByAdmin;

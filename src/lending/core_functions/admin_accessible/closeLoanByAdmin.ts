@@ -1,17 +1,10 @@
 import anchor from '@project-serum/anchor';
-import { PublicKey, Transaction } from '@solana/web3.js';
+import { Transaction } from '@solana/web3.js';
 
+import { CloseLoanByAdmin } from '../../types';
 import { returnAnchorProgram } from '../../contract_model/accounts';
 
-export interface CloseLoanByAdmin {
-  programId: PublicKey;
-  provider: anchor.Provider;
-  loan: PublicKey;
-  admin: PublicKey;
-  sendTxn: (transaction: Transaction) => Promise<void>;
-}
-
-const closeLoanByAdmin = async (params: CloseLoanByAdmin): Promise<any> => {
+export const closeLoanByAdmin = async (params: CloseLoanByAdmin): Promise<any> => {
   const { programId, provider, loan, admin, sendTxn } = params;
 
   const encoder = new TextEncoder();
@@ -35,5 +28,3 @@ const closeLoanByAdmin = async (params: CloseLoanByAdmin): Promise<any> => {
 
   await sendTxn(transaction);
 };
-
-export default closeLoanByAdmin;

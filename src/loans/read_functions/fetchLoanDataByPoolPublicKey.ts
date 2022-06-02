@@ -1,12 +1,10 @@
 import { Connection, PublicKey } from '@solana/web3.js';
 import { groupBy } from 'lodash';
 
-import { LoanData } from '../../common/types';
-import getAllProgramAccounts from '../../lending/read_functions/getAllProgramAccounts';
+import { LoanDataByPoolPublicKey } from '../types';
+import { getAllProgramAccounts } from '../../lending';
 
-export type LoanDataByPoolPublicKey = Map<string, LoanData>;
-
-const fetchLoanDataByPoolPublicKey = async (
+export const fetchLoanDataByPoolPublicKey = async (
   connection: Connection,
   loansProgramPubkey: string,
 ): Promise<LoanDataByPoolPublicKey> => {
@@ -28,7 +26,5 @@ const fetchLoanDataByPoolPublicKey = async (
       liquidityPool: liquidityPool,
       loans: loansByPoolPublicKey[liquidityPoolPubkey] || [],
     });
-  }, new Map<string, LoanData>());
+  }, new Map());
 };
-
-export default fetchLoanDataByPoolPublicKey;

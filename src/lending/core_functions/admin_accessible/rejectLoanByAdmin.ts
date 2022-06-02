@@ -1,22 +1,12 @@
 import anchor from '@project-serum/anchor';
-import { PublicKey, Transaction } from '@solana/web3.js';
+import { Transaction } from '@solana/web3.js';
 import { Edition, MetadataProgram } from '@metaplex-foundation/mpl-token-metadata';
 import { TOKEN_PROGRAM_ID } from '@project-serum/anchor/dist/cjs/utils/token';
 
+import { RejectLoanByAdmin } from '../../types';
 import { returnAnchorProgram } from '../../contract_model/accounts';
 
-export interface RejectLoanByAdmin {
-  programId: PublicKey;
-  provider: anchor.Provider;
-  loan: PublicKey;
-  nftUserTokenAccount: PublicKey;
-  admin: PublicKey;
-  user: PublicKey;
-  nftMint: PublicKey;
-  sendTxn: (transaction: Transaction) => Promise<void>;
-}
-
-const rejectLoanByAdmin = async (params: RejectLoanByAdmin): Promise<any> => {
+export const rejectLoanByAdmin = async (params: RejectLoanByAdmin): Promise<any> => {
   const { programId, provider, loan, nftUserTokenAccount, admin, user, nftMint, sendTxn } = params;
 
   const encoder = new TextEncoder();
@@ -47,5 +37,3 @@ const rejectLoanByAdmin = async (params: RejectLoanByAdmin): Promise<any> => {
 
   await sendTxn(transaction);
 };
-
-export default rejectLoanByAdmin;

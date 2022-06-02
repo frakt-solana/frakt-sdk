@@ -1,8 +1,8 @@
 import { Connection } from '@solana/web3.js';
 import { Liquidity, LiquidityPoolInfo, LiquidityPoolKeysV4 } from '@raydium-io/raydium-sdk';
-import { RaydiumPoolInfoMap } from '../../common/types';
+import { RaydiumPoolInfoMap } from '../types';
 
-const fetchRaydiumPoolsInfoMap = async (
+export const fetchRaydiumPoolsInfoMap = async (
   connection: Connection,
   raydiumPoolConfigs: LiquidityPoolKeysV4[],
 ): Promise<RaydiumPoolInfoMap> => {
@@ -18,5 +18,3 @@ const fetchRaydiumPoolsInfoMap = async (
 
   return raydiumPoolInfoMap;
 };
-
-export default fetchRaydiumPoolsInfoMap;

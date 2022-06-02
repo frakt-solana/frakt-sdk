@@ -1,22 +1,13 @@
 import anchor from '@project-serum/anchor';
-import { PublicKey, Transaction } from '@solana/web3.js';
+import { Transaction } from '@solana/web3.js';
 import { Edition, MetadataProgram } from '@metaplex-foundation/mpl-token-metadata';
 import { ASSOCIATED_PROGRAM_ID, TOKEN_PROGRAM_ID } from '@project-serum/anchor/dist/cjs/utils/token';
 
+import { LiquidateLoanByAdmin } from '../../types';
 import { returnAnchorProgram } from '../../contract_model/accounts';
-import { findAssociatedTokenAddress } from '../../../common/utils';
+import { findAssociatedTokenAddress } from '../../../common';
 
-export interface LiquidateLoanByAdmin {
-  programId: PublicKey;
-  provider: anchor.Provider;
-  liquidator: PublicKey;
-  user: PublicKey;
-  loan: PublicKey;
-  nftMint: PublicKey;
-  sendTxn: (transaction: Transaction) => Promise<void>;
-}
-
-const liquidateLoanByAdmin = async (params: LiquidateLoanByAdmin): Promise<any> => {
+export const liquidateLoanByAdmin = async (params: LiquidateLoanByAdmin): Promise<any> => {
   const { programId, provider, liquidator, user, loan, nftMint, sendTxn } = params;
 
   const encoder = new TextEncoder();
@@ -51,5 +42,3 @@ const liquidateLoanByAdmin = async (params: LiquidateLoanByAdmin): Promise<any> 
   const transaction = new Transaction().add(instruction);
   await sendTxn(transaction);
 };
-
-export default liquidateLoanByAdmin;

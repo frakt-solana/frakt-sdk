@@ -7,7 +7,7 @@ import {
   decodedLiquidityPool,
   decodedLoan,
 } from '../contract_model/accounts';
-import { createFakeWallet } from '../../common/utils';
+import { createFakeWallet } from '../../common';
 
 interface IReturn {
   collectionInfos: any[];
@@ -16,7 +16,7 @@ interface IReturn {
   loans: any[];
 }
 
-const getAllProgramAccounts = async (programId: PublicKey, connection: Connection): Promise<IReturn> => {
+export const getAllProgramAccounts = async (programId: PublicKey, connection: Connection): Promise<IReturn> => {
   const provider = new anchor.Provider(connection, createFakeWallet(), anchor.Provider.defaultOptions());
   const program = returnAnchorProgram(programId, provider);
 
@@ -32,5 +32,3 @@ const getAllProgramAccounts = async (programId: PublicKey, connection: Connectio
 
   return { collectionInfos, deposits, liquidityPools, loans };
 };
-
-export default getAllProgramAccounts;

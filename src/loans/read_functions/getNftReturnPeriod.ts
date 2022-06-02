@@ -1,12 +1,8 @@
-import { LoanData, UserNFT } from '../../common/types';
-import { getNftCreators } from '../../common/utils';
+import { GetNftReturnPeriod } from '../types';
+import { getNftCreators } from '../../common';
 
-export type GetNftReturnPeriod = (props: { nft: UserNFT; loanData: LoanData }) => number;
-
-const getNftReturnPeriod: GetNftReturnPeriod = ({ loanData, nft }) => {
+export const getNftReturnPeriod: GetNftReturnPeriod = ({ loanData, nft }) => {
   const nftCreators = getNftCreators(nft);
 
   return loanData?.collectionsInfo?.find(({ creator }) => nftCreators.includes(creator))?.expirationTime || 0;
 };
-
-export default getNftReturnPeriod;

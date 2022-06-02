@@ -6,9 +6,9 @@ import {
   decodedPoolConfig,
   returnCommunityPoolsAnchorProgram,
 } from '../contract_model/accounts';
-import { createFakeWallet } from '../../common/utils';
+import { createFakeWallet } from '../../common';
 
-const getAllProgramAccounts = async (programId: PublicKey, connection: Connection) => {
+export const getAllProgramAccounts = async (programId: PublicKey, connection: Connection) => {
   const provider = new anchor.Provider(connection, createFakeWallet(), anchor.Provider.defaultOptions());
   const program = await returnCommunityPoolsAnchorProgram(programId, provider);
 
@@ -37,5 +37,3 @@ const getAllProgramAccounts = async (programId: PublicKey, connection: Connectio
     feeConfig,
   };
 };
-
-export default getAllProgramAccounts;

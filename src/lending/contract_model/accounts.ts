@@ -1,9 +1,9 @@
 import anchor from '@project-serum/anchor';
 import { Connection, PublicKey } from '@solana/web3.js';
 
-import { IDL } from './constants';
-import { CollectionInfoView, DepositView, LiquidityPoolView, LoanView, NftLendingV2 } from './types';
-import { createFakeWallet } from '../../common/utils';
+import { IDL } from '../constants';
+import { CollectionInfoView, DepositView, LiquidityPoolView, LoanView, NftLendingV2 } from '../../common/types';
+import { createFakeWallet } from '../../common';
 
 export const returnAnchorProgram = (programId: PublicKey, provider: anchor.Provider): anchor.Program<NftLendingV2> =>
   new anchor.Program<NftLendingV2>(IDL as any, programId, provider);
