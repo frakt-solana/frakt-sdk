@@ -12,7 +12,7 @@ import {
   GetAllUserTokens,
   GetTokenAccount,
   ParseTokenAccount,
-  UserNFT
+  UserNFT,
 } from './types';
 
 //when we only want to view vaults, no need to connect a real wallet.
@@ -30,14 +30,13 @@ export const createFakeWallet = () => {
 export const findAssociatedTokenAddress = async (
   walletAddress: PublicKey,
   tokenMintAddress: PublicKey,
-): Promise<PublicKey> => (
+): Promise<PublicKey> =>
   (
     await PublicKey.findProgramAddress(
       [walletAddress.toBuffer(), TOKEN_PROGRAM_ID.toBuffer(), tokenMintAddress.toBuffer()],
       SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID,
     )
-  )[0]
-);
+  )[0];
 
 export const getTokenBalance = async (pubkey: PublicKey, connection: Connection) => {
   const balance = await connection.getTokenAccountBalance(pubkey);
@@ -148,20 +147,22 @@ export const deriveMetadataPubkeyFromMint = async (nftMint: PublicKey): Promise<
   return metadataPubkey;
 };
 
-export const decodeSplTokenAccountData = (tokenAccountDataEncoded: Buffer): AccountInfoData => (
-  SPL_ACCOUNT_LAYOUT.decode(tokenAccountDataEncoded)
-);
+export const decodeSplTokenAccountData = (tokenAccountDataEncoded: Buffer): AccountInfoData =>
+  SPL_ACCOUNT_LAYOUT.decode(tokenAccountDataEncoded);
 
-export const parseTokenAccount: ParseTokenAccount = ({ tokenAccountPubkey, tokenAccountEncoded }) => (
+export const parseTokenAccount: ParseTokenAccount = ({ tokenAccountPubkey, tokenAccountEncoded }) =>
   tokenAccountEncoded
     ? {
-      publicKey: tokenAccountPubkey,
-      accountInfo: decodeSplTokenAccountData(tokenAccountEncoded.data),
-    }
-    : null
-);
+        publicKey: tokenAccountPubkey,
+        accountInfo: decodeSplTokenAccountData(tokenAccountEncoded.data),
+      }
+    : null;
 
-export const getTokenAccount = async ({ tokenMint, owner, connection}: GetTokenAccount): Promise<{ pubkey: PublicKey; accountInfo: any; } | null> => {
+export const getTokenAccount = async ({
+  tokenMint,
+  owner,
+  connection,
+}: GetTokenAccount): Promise<{ pubkey: PublicKey; accountInfo: any } | null> => {
   const tokenAccountPubkey = await Spl.getAssociatedTokenAccount({
     mint: tokenMint,
     owner,
@@ -171,18 +172,16 @@ export const getTokenAccount = async ({ tokenMint, owner, connection}: GetTokenA
 
   return tokenAccountEncoded
     ? {
-      pubkey: tokenAccountPubkey,
-      accountInfo: SPL_ACCOUNT_LAYOUT.decode(tokenAccountEncoded.data),
-    }
+        pubkey: tokenAccountPubkey,
+        accountInfo: SPL_ACCOUNT_LAYOUT.decode(tokenAccountEncoded.data),
+      }
     : null;
 };
 
-export const getTokenAccountBalance = (lpTokenAccountInfo: AccountInfoParsed, lpDecimals: number): number => (
-  lpTokenAccountInfo?.accountInfo?.amount.toNumber() / 10 ** lpDecimals || 0
-);
+export const getTokenAccountBalance = (lpTokenAccountInfo: AccountInfoParsed, lpDecimals: number): number =>
+  lpTokenAccountInfo?.accountInfo?.amount.toNumber() / 10 ** lpDecimals || 0;
 
 export const getAllUserTokens: GetAllUserTokens = async ({ connection, walletPublicKey }) => {
-
   const { value: tokenAccounts } = await connection.getTokenAccountsByOwner(
     walletPublicKey,
     { programId: TOKEN_PROGRAM_ID },
@@ -214,11 +213,7 @@ export const getAllUserTokens: GetAllUserTokens = async ({ connection, walletPub
         state: parsedData.state,
         isNativeOption: !!parsedData.isNativeOption,
         isNative: new BN(parsedData.isNative, 10, 'le').toNumber(),
-        delegatedAmount: new BN(
-          parsedData.delegatedAmount,
-          10,
-          'le',
-        ).toNumber(),
+        delegatedAmount: new BN(parsedData.delegatedAmount, 10, 'le').toNumber(),
         closeAuthorityOption: !!parsedData.closeAuthorityOption,
         closeAuthority: new PublicKey(parsedData.closeAuthority).toBase58(),
       };
@@ -226,10 +221,8 @@ export const getAllUserTokens: GetAllUserTokens = async ({ connection, walletPub
   );
 };
 
-export const shortenAddress = (address: string, chars = 4): string => (
-  `${address.slice(0, chars)}...${address.slice(-chars)}`
-);
+export const shortenAddress = (address: string, chars = 4): string =>
+  `${address.slice(0, chars)}...${address.slice(-chars)}`;
 
-export const getNftCreators = (nft: UserNFT): string[] => (
-  nft?.metadata?.properties?.creators?.filter(({ verified }) => verified)?.map(({ address }) => address) || []
-);
+export const getNftCreators = (nft: UserNFT): string[] =>
+  nft?.metadata?.properties?.creators?.filter(({ verified }) => verified)?.map(({ address }) => address) || [];

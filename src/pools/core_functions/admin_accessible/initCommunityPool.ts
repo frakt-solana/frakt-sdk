@@ -7,19 +7,14 @@ import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts
 import { ACCOUNT_PREFIX } from '../../constants';
 
 interface InitCommunityPool {
-  programId: PublicKey,
-  userPubkey: PublicKey,
-  provider: anchor.Provider,
-  sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>
+  programId: PublicKey;
+  userPubkey: PublicKey;
+  provider: anchor.Provider;
+  sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>;
 }
 
 const initCommunityPool = async (params: InitCommunityPool) => {
-  const {
-    programId,
-    userPubkey,
-    provider,
-    sendTxn
-  } = params;
+  const { programId, userPubkey, provider, sendTxn } = params;
 
   const encoder = new TextEncoder();
   const program = await returnCommunityPoolsAnchorProgram(programId, provider);
@@ -47,6 +42,6 @@ const initCommunityPool = async (params: InitCommunityPool) => {
   const transaction = new Transaction().add(instruction);
 
   await sendTxn(transaction, [communityPool, fractionMint]);
-}
+};
 
 export default initCommunityPool;

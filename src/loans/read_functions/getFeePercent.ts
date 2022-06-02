@@ -11,18 +11,13 @@ const getFeePercent: GetFeePercent = ({ loanData, nft }) => {
   const nftCreators = getNftCreators(nft);
 
   const royaltyFeeRaw =
-    loanData?.collectionsInfo?.find(({ creator }) =>
-      nftCreators.includes(creator),
-    )?.royaltyFeeTime || 0;
+    loanData?.collectionsInfo?.find(({ creator }) => nftCreators.includes(creator))?.royaltyFeeTime || 0;
 
-  const rewardInterestRateRaw =
-    loanData?.liquidityPool?.rewardInterestRateTime || 0;
+  const rewardInterestRateRaw = loanData?.liquidityPool?.rewardInterestRateTime || 0;
 
   const feeInterestRateRaw = loanData?.liquidityPool?.feeInterestRateTime || 0;
 
-  const feesPercent =
-    (royaltyFeeRaw + rewardInterestRateRaw + feeInterestRateRaw) /
-    (100 * PERCENT_PRECISION);
+  const feesPercent = (royaltyFeeRaw + rewardInterestRateRaw + feeInterestRateRaw) / (100 * PERCENT_PRECISION);
 
   return feesPercent || 0;
 };

@@ -1,4 +1,11 @@
-import { Liquidity, LiquidityPoolInfo, LiquidityPoolKeysV4, Percent, Token, TokenAmount } from '@raydium-io/raydium-sdk';
+import {
+  Liquidity,
+  LiquidityPoolInfo,
+  LiquidityPoolKeysV4,
+  Percent,
+  Token,
+  TokenAmount,
+} from '@raydium-io/raydium-sdk';
 import { TokenInfo } from '../../common/types';
 
 export interface GetInputAmount {
@@ -11,12 +18,12 @@ export interface GetInputAmount {
 }
 
 const getInputAmount = ({
- poolKeys,
- poolInfo,
- receiveToken,
- receiveAmount,
- payToken,
- slippage = new Percent(1, 100),
+  poolKeys,
+  poolInfo,
+  receiveToken,
+  receiveAmount,
+  payToken,
+  slippage = new Percent(1, 100),
 }: GetInputAmount): {
   amountIn: string;
   maxAmountIn: string;
@@ -24,12 +31,7 @@ const getInputAmount = ({
 } => {
   try {
     const amountOut = new TokenAmount(
-      new Token(
-        receiveToken.address,
-        receiveToken.decimals,
-        receiveToken.symbol,
-        receiveToken.name,
-      ),
+      new Token(receiveToken.address, receiveToken.decimals, receiveToken.symbol, receiveToken.name),
       receiveAmount,
       false,
     );

@@ -3,20 +3,20 @@ import { Keypair, PublicKey, Transaction } from '@solana/web3.js';
 import { returnAnchorProgram } from '../../contract_model/accounts';
 
 export interface InitializeCollectionInfo {
-  programId: PublicKey,
-  provider: anchor.Provider,
-  liquidityPool: PublicKey,
-  admin: PublicKey,
-  creatorAddress: PublicKey,
-  pricingLookupAddress: PublicKey,
-  loanToValue: number | anchor.BN,
-  collaterizationRate: number | anchor.BN,
-  royaltyAddress: PublicKey,
-  royaltyFeeTime: number | anchor.BN,
-  royaltyFeePrice: number | anchor.BN,
-  expirationTime: number | anchor.BN,
-  isPriceBased: boolean,
-  sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>
+  programId: PublicKey;
+  provider: anchor.Provider;
+  liquidityPool: PublicKey;
+  admin: PublicKey;
+  creatorAddress: PublicKey;
+  pricingLookupAddress: PublicKey;
+  loanToValue: number | anchor.BN;
+  collaterizationRate: number | anchor.BN;
+  royaltyAddress: PublicKey;
+  royaltyFeeTime: number | anchor.BN;
+  royaltyFeePrice: number | anchor.BN;
+  expirationTime: number | anchor.BN;
+  isPriceBased: boolean;
+  sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>;
 }
 
 const initializeCollectionInfo = async (params: InitializeCollectionInfo): Promise<any> => {
@@ -34,7 +34,7 @@ const initializeCollectionInfo = async (params: InitializeCollectionInfo): Promi
     royaltyFeePrice,
     expirationTime,
     isPriceBased,
-    sendTxn
+    sendTxn,
   } = params;
 
   const program = await returnAnchorProgram(programId, provider);

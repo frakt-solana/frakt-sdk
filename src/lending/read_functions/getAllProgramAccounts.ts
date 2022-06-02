@@ -1,6 +1,12 @@
 import anchor from '@project-serum/anchor';
 import { Connection, PublicKey } from '@solana/web3.js';
-import { returnAnchorProgram, decodedCollectionInfo, decodedDeposit, decodedLiquidityPool, decodedLoan } from '../contract_model/accounts';
+import {
+  returnAnchorProgram,
+  decodedCollectionInfo,
+  decodedDeposit,
+  decodedLiquidityPool,
+  decodedLoan,
+} from '../contract_model/accounts';
 import { createFakeWallet } from '../../common/utils';
 
 interface IReturn {

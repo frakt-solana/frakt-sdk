@@ -36,6 +36,6 @@ const getAllProgramAccounts = async (programId: PublicKey, connection: Connectio
     permissions,
     feeConfig,
   };
-}
+};
 
 export default getAllProgramAccounts;

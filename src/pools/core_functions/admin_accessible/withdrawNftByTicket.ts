@@ -7,15 +7,15 @@ import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts
 import { ACCOUNT_PREFIX } from '../../constants';
 
 export interface WithdrawNftByTicket {
-  communityPool: PublicKey,
-  lotteryTicket: PublicKey,
-  safetyDepositBox: PublicKey,
-  nftMint: PublicKey,
-  storeNftTokenAccount: PublicKey,
-  programId: PublicKey,
-  userPubkey: PublicKey,
-  provider: anchor.Provider,
-  sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>
+  communityPool: PublicKey;
+  lotteryTicket: PublicKey;
+  safetyDepositBox: PublicKey;
+  nftMint: PublicKey;
+  storeNftTokenAccount: PublicKey;
+  programId: PublicKey;
+  userPubkey: PublicKey;
+  provider: anchor.Provider;
+  sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>;
 }
 
 const withdrawNftByTicket = async (params: WithdrawNftByTicket) => {
@@ -28,7 +28,7 @@ const withdrawNftByTicket = async (params: WithdrawNftByTicket) => {
     programId,
     userPubkey,
     provider,
-    sendTxn
+    sendTxn,
   } = params;
 
   let instructions: TransactionInstruction[] = [];
@@ -77,6 +77,6 @@ const withdrawNftByTicket = async (params: WithdrawNftByTicket) => {
   transaction.add(instruction);
 
   await sendTxn(transaction, signers);
-}
+};
 
 export default withdrawNftByTicket;

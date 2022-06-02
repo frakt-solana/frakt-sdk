@@ -6,23 +6,16 @@ import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts
 import { findAssociatedTokenAddress } from '../../../common/utils';
 
 export interface TopupConfig {
-  programId: PublicKey,
-  provider: anchor.Provider,
-  admin: PublicKey,
-  tokenMint: PublicKey,
-  inputAmount: anchor.BN,
-  sendTxn: (transaction: Transaction) => Promise<void>
+  programId: PublicKey;
+  provider: anchor.Provider;
+  admin: PublicKey;
+  tokenMint: PublicKey;
+  inputAmount: anchor.BN;
+  sendTxn: (transaction: Transaction) => Promise<void>;
 }
 
 const topupConfig = async (params: TopupConfig) => {
-  const {
-    programId,
-    provider,
-    admin,
-    tokenMint,
-    inputAmount,
-    sendTxn
-  } = params;
+  const { programId, provider, admin, tokenMint, inputAmount, sendTxn } = params;
 
   const encoder = new TextEncoder();
   const program = await returnCommunityPoolsAnchorProgram(programId, provider);
@@ -52,12 +45,12 @@ const topupConfig = async (params: TopupConfig) => {
       systemProgram: anchor.web3.SystemProgram.programId,
       tokenProgram: TOKEN_PROGRAM_ID,
       associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
-    }
+    },
   });
 
   const transaction = new Transaction().add(instruction);
 
   await sendTxn(transaction);
-}
+};
 
 export default topupConfig;

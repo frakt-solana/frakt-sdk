@@ -5,21 +5,15 @@ export { Provider, Program } from '@project-serum/anchor';
 import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
 
 export interface ActivateCommunityPool {
-  communityPool: PublicKey,
-  programId: PublicKey,
-  userPubkey: PublicKey,
-  provider: anchor.Provider,
-  sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>
+  communityPool: PublicKey;
+  programId: PublicKey;
+  userPubkey: PublicKey;
+  provider: anchor.Provider;
+  sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>;
 }
 
 const activateCommunityPool = async (params: ActivateCommunityPool): Promise<any> => {
-  const {
-    communityPool,
-    programId,
-    userPubkey,
-    provider,
-    sendTxn
-  } = params;
+  const { communityPool, programId, userPubkey, provider, sendTxn } = params;
 
   const signers = [];
 
@@ -37,6 +31,6 @@ const activateCommunityPool = async (params: ActivateCommunityPool): Promise<any
   const transaction = new Transaction().add(instruction);
 
   await sendTxn(transaction, signers);
-}
+};
 
 export default activateCommunityPool;

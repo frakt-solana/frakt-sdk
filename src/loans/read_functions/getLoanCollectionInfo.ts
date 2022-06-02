@@ -14,8 +14,10 @@ export interface GetLoanCollectionInfo {
   expirationTime: number;
 }
 
-const getLoanCollectionInfo = (loanData: LoanData, collectionInfoPublicKey: string): GetLoanCollectionInfo | undefined => (
-  loanData.collectionsInfo?.find(({ collectionInfoPubkey }) => collectionInfoPubkey === collectionInfoPublicKey)
-);
+const getLoanCollectionInfo = (
+  loanData: LoanData,
+  collectionInfoPublicKey: string,
+): GetLoanCollectionInfo | undefined =>
+  loanData.collectionsInfo?.find(({ collectionInfoPubkey }) => collectionInfoPubkey === collectionInfoPublicKey);
 
 export default getLoanCollectionInfo;

@@ -7,31 +7,21 @@ import { returnAnchorProgram } from '../../contract_model/accounts';
 import { findAssociatedTokenAddress } from '../../../common/utils';
 
 export interface PaybackLoan {
-  programId: PublicKey,
-  provider: anchor.Provider,
-  user: PublicKey,
-  admin: PublicKey,
-  loan: PublicKey,
-  nftMint: PublicKey,
-  liquidityPool: PublicKey,
-  collectionInfo: PublicKey,
-  royaltyAddress: PublicKey,
-  sendTxn: (transaction: Transaction) => Promise<void>
+  programId: PublicKey;
+  provider: anchor.Provider;
+  user: PublicKey;
+  admin: PublicKey;
+  loan: PublicKey;
+  nftMint: PublicKey;
+  liquidityPool: PublicKey;
+  collectionInfo: PublicKey;
+  royaltyAddress: PublicKey;
+  sendTxn: (transaction: Transaction) => Promise<void>;
 }
 
 const paybackLoan = async (params: PaybackLoan): Promise<any> => {
-  const {
-    programId,
-    provider,
-    user,
-    admin,
-    loan,
-    nftMint,
-    liquidityPool,
-    collectionInfo,
-    royaltyAddress,
-    sendTxn
-  } = params;
+  const { programId, provider, user, admin, loan, nftMint, liquidityPool, collectionInfo, royaltyAddress, sendTxn } =
+    params;
 
   const encoder = new TextEncoder();
   const program = await returnAnchorProgram(programId, provider);

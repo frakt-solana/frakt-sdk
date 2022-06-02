@@ -4,21 +4,15 @@ import { PublicKey, Transaction } from '@solana/web3.js';
 import { returnAnchorProgram } from '../../contract_model/accounts';
 
 export interface HarvestLiquidity {
-  programId: PublicKey,
-  provider: anchor.Provider,
-  liquidityPool: PublicKey,
-  user: PublicKey,
-  sendTxn: (transaction: Transaction) => Promise<void>
+  programId: PublicKey;
+  provider: anchor.Provider;
+  liquidityPool: PublicKey;
+  user: PublicKey;
+  sendTxn: (transaction: Transaction) => Promise<void>;
 }
 
 const harvestLiquidity = async (params: HarvestLiquidity): Promise<any> => {
-  const {
-    programId,
-    provider,
-    liquidityPool,
-    user,
-    sendTxn
-  } = params;
+  const { programId, provider, liquidityPool, user, sendTxn } = params;
 
   const encoder = new TextEncoder();
   const program = await returnAnchorProgram(programId, provider);

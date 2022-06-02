@@ -5,27 +5,18 @@ import { PublicKey, Keypair, Transaction, SystemProgram } from '@solana/web3.js'
 import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
 
 export interface UpdateLeaderboardReward {
-  communityPool: PublicKey,
-  fractionMint: PublicKey,
-  depositReward: anchor.BN,
-  withdrawReward: anchor.BN,
-  programId: PublicKey,
-  admin: PublicKey,
-  provider: anchor.Provider,
-  sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>
+  communityPool: PublicKey;
+  fractionMint: PublicKey;
+  depositReward: anchor.BN;
+  withdrawReward: anchor.BN;
+  programId: PublicKey;
+  admin: PublicKey;
+  provider: anchor.Provider;
+  sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>;
 }
 
 const updateLeaderboardReward = async (params: UpdateLeaderboardReward) => {
-  const {
-    communityPool,
-    fractionMint,
-    depositReward,
-    withdrawReward,
-    programId,
-    admin,
-    provider,
-    sendTxn
-  } = params;
+  const { communityPool, fractionMint, depositReward, withdrawReward, programId, admin, provider, sendTxn } = params;
 
   const encoder = new TextEncoder();
   const program = await returnCommunityPoolsAnchorProgram(programId, provider);
@@ -50,6 +41,6 @@ const updateLeaderboardReward = async (params: UpdateLeaderboardReward) => {
   transaction.add(instruction);
 
   await sendTxn(transaction, []);
-}
+};
 
 export default updateLeaderboardReward;

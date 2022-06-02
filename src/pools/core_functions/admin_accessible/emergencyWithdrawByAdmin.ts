@@ -7,27 +7,19 @@ import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts
 import { ACCOUNT_PREFIX } from '../../constants';
 
 export interface EmergencyWithdrawByAdmin {
-  communityPool: PublicKey,
-  safetyDepositBox: PublicKey,
-  nftMint: PublicKey,
-  storeNftTokenAccount: PublicKey,
-  programId: PublicKey,
-  admin: PublicKey,
-  provider: anchor.Provider,
-  sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>
+  communityPool: PublicKey;
+  safetyDepositBox: PublicKey;
+  nftMint: PublicKey;
+  storeNftTokenAccount: PublicKey;
+  programId: PublicKey;
+  admin: PublicKey;
+  provider: anchor.Provider;
+  sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>;
 }
 
 const emergencyWithdrawByAdmin = async (params: EmergencyWithdrawByAdmin) => {
-  const {
-    communityPool,
-    safetyDepositBox,
-    nftMint,
-    storeNftTokenAccount,
-    programId,
-    admin,
-    provider,
-    sendTxn
-  } = params;
+  const { communityPool, safetyDepositBox, nftMint, storeNftTokenAccount, programId, admin, provider, sendTxn } =
+    params;
 
   let instructions: TransactionInstruction[] = [];
   const signers = [];
@@ -75,6 +67,6 @@ const emergencyWithdrawByAdmin = async (params: EmergencyWithdrawByAdmin) => {
   transaction.add(instruction);
 
   await sendTxn(transaction, signers);
-}
+};
 
 export default emergencyWithdrawByAdmin;

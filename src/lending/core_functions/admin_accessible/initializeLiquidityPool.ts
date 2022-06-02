@@ -4,16 +4,16 @@ import { Keypair, PublicKey, Transaction } from '@solana/web3.js';
 import { returnAnchorProgram } from '../../contract_model/accounts';
 
 export interface InitializeLiquidityPool {
-  programId: PublicKey,
-  provider: anchor.Provider,
-  admin: PublicKey,
-  rewardInterestRateTime: number | anchor.BN,
-  feeInterestRateTime: number | anchor.BN,
-  rewardInterestRatePrice: number | anchor.BN,
-  feeInterestRatePrice: number | anchor.BN,
-  id: number | anchor.BN,
-  period: number | anchor.BN,
-  sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>
+  programId: PublicKey;
+  provider: anchor.Provider;
+  admin: PublicKey;
+  rewardInterestRateTime: number | anchor.BN;
+  feeInterestRateTime: number | anchor.BN;
+  rewardInterestRatePrice: number | anchor.BN;
+  feeInterestRatePrice: number | anchor.BN;
+  id: number | anchor.BN;
+  period: number | anchor.BN;
+  sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>;
 }
 
 const initializeLiquidityPool = async (params: InitializeLiquidityPool): Promise<any> => {
@@ -27,7 +27,7 @@ const initializeLiquidityPool = async (params: InitializeLiquidityPool): Promise
     feeInterestRatePrice,
     id,
     period,
-    sendTxn
+    sendTxn,
   } = params;
 
   const encoder = new TextEncoder();
@@ -65,6 +65,6 @@ const initializeLiquidityPool = async (params: InitializeLiquidityPool): Promise
   await sendTxn(transaction, [liquidityPool]);
 
   return liquidityPool.publicKey;
-}
+};
 
 export default initializeLiquidityPool;

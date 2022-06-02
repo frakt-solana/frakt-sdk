@@ -1224,4 +1224,3 @@ export interface CollectionInfoView {
   availableLoanTypes: string;
   expirationTime: number;
 }
-

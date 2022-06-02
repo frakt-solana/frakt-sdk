@@ -7,20 +7,20 @@ import { ACCOUNT_PREFIX } from '../../constants';
 import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
 
 export interface DepositNftToCommunityPool {
-  communityPool: PublicKey,
-  nftMint: PublicKey,
-  nftUserTokenAccount: PublicKey,
-  fractionMint: PublicKey,
-  poolWhitelist: PublicKey,
-  metadataInfo: PublicKey,
-  fusionProgramId: PublicKey,
-  tokenMintInputFusion: PublicKey,
-  feeConfig: PublicKey,
-  adminAddress: PublicKey,
-  programId: PublicKey,
-  userPubkey: PublicKey,
-  provider: anchor.Provider,
-  sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>
+  communityPool: PublicKey;
+  nftMint: PublicKey;
+  nftUserTokenAccount: PublicKey;
+  fractionMint: PublicKey;
+  poolWhitelist: PublicKey;
+  metadataInfo: PublicKey;
+  fusionProgramId: PublicKey;
+  tokenMintInputFusion: PublicKey;
+  feeConfig: PublicKey;
+  adminAddress: PublicKey;
+  programId: PublicKey;
+  userPubkey: PublicKey;
+  provider: anchor.Provider;
+  sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>;
 }
 
 export const depositNftToCommunityPool = async (params: DepositNftToCommunityPool) => {
@@ -38,7 +38,7 @@ export const depositNftToCommunityPool = async (params: DepositNftToCommunityPoo
     programId,
     userPubkey,
     provider,
-    sendTxn
+    sendTxn,
   } = params;
 
   let instructions: TransactionInstruction[] = [];
@@ -64,12 +64,7 @@ export const depositNftToCommunityPool = async (params: DepositNftToCommunityPoo
   if (!user) {
     instructions = [
       ...instructions,
-      ...createAssociatedTokenAccountInstruction(
-          userFractionsTokenAccount,
-          userPubkey,
-          userPubkey,
-          fractionMint,
-      )
+      ...createAssociatedTokenAccountInstruction(userFractionsTokenAccount, userPubkey, userPubkey, fractionMint),
     ];
   }
 
@@ -141,22 +136,22 @@ export const depositNftToCommunityPool = async (params: DepositNftToCommunityPoo
   transaction.add(instruction);
 
   await sendTxn(transaction, signers);
-}
+};
 
 export interface DepositNftToCommunityPoolIx {
-  communityPool: PublicKey,
-  nftMint: PublicKey,
-  nftUserTokenAccount: PublicKey,
-  fractionMint: PublicKey,
-  poolWhitelist: PublicKey,
-  metadataInfo: PublicKey,
-  fusionProgramId: PublicKey,
-  tokenMintInputFusion: PublicKey,
-  feeConfig: PublicKey,
-  adminAddress: PublicKey,
-  programId: PublicKey,
-  userPubkey: PublicKey,
-  provider: anchor.Provider
+  communityPool: PublicKey;
+  nftMint: PublicKey;
+  nftUserTokenAccount: PublicKey;
+  fractionMint: PublicKey;
+  poolWhitelist: PublicKey;
+  metadataInfo: PublicKey;
+  fusionProgramId: PublicKey;
+  tokenMintInputFusion: PublicKey;
+  feeConfig: PublicKey;
+  adminAddress: PublicKey;
+  programId: PublicKey;
+  userPubkey: PublicKey;
+  provider: anchor.Provider;
 }
 
 export const depositNftToCommunityPoolIx = async (params: DepositNftToCommunityPoolIx) => {
@@ -173,7 +168,7 @@ export const depositNftToCommunityPoolIx = async (params: DepositNftToCommunityP
     adminAddress,
     programId,
     userPubkey,
-    provider
+    provider,
   } = params;
 
   let instructions: TransactionInstruction[] = [];
@@ -197,12 +192,7 @@ export const depositNftToCommunityPoolIx = async (params: DepositNftToCommunityP
   if (!user) {
     instructions = [
       ...instructions,
-      ...createAssociatedTokenAccountInstruction(
-          userFractionsTokenAccount,
-          userPubkey,
-          userPubkey,
-          fractionMint,
-      ),
+      ...createAssociatedTokenAccountInstruction(userFractionsTokenAccount, userPubkey, userPubkey, fractionMint),
     ];
   }
 
@@ -275,4 +265,4 @@ export const depositNftToCommunityPoolIx = async (params: DepositNftToCommunityP
   instructions.push(instruction);
 
   return { instructions, signers };
-}
+};

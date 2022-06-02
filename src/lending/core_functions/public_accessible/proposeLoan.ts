@@ -7,13 +7,13 @@ import { returnAnchorProgram } from '../../contract_model/accounts';
 import { findAssociatedTokenAddress } from '../../../common/utils';
 
 export interface ProposeLoan {
-  programId: PublicKey,
-  provider: anchor.Provider,
-  user: PublicKey,
-  nftMint: PublicKey,
-  proposedNftPrice: number | anchor.BN,
-  isPriceBased: boolean,
-  sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>
+  programId: PublicKey;
+  provider: anchor.Provider;
+  user: PublicKey;
+  nftMint: PublicKey;
+  proposedNftPrice: number | anchor.BN;
+  isPriceBased: boolean;
+  sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>;
 }
 
 interface IReturn {
@@ -21,15 +21,7 @@ interface IReturn {
 }
 
 const proposeLoan = async (params: ProposeLoan): Promise<IReturn> => {
-  const {
-    programId,
-    provider,
-    user,
-    nftMint,
-    proposedNftPrice,
-    isPriceBased,
-    sendTxn
-  } = params;
+  const { programId, provider, user, nftMint, proposedNftPrice, isPriceBased, sendTxn } = params;
 
   const encoder = new TextEncoder();
   const program = await returnAnchorProgram(programId, provider);

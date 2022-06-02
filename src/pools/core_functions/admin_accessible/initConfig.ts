@@ -7,21 +7,15 @@ import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts
 import { findAssociatedTokenAddress } from '../../../common/utils';
 
 export interface InitConfig {
-  programId: PublicKey,
-  provider: anchor.Provider,
-  admin: PublicKey,
-  tokenMint: PublicKey,
-  sendTxn: (transaction: Transaction) => Promise<void>
+  programId: PublicKey;
+  provider: anchor.Provider;
+  admin: PublicKey;
+  tokenMint: PublicKey;
+  sendTxn: (transaction: Transaction) => Promise<void>;
 }
 
 const initConfig = async (params: InitConfig) => {
-  const {
-    programId,
-    provider,
-    admin,
-    tokenMint,
-    sendTxn
-  } = params;
+  const { programId, provider, admin, tokenMint, sendTxn } = params;
 
   const encoder = new TextEncoder();
   const program = await returnCommunityPoolsAnchorProgram(programId, provider);
@@ -55,6 +49,6 @@ const initConfig = async (params: InitConfig) => {
   const transaction = new Transaction().add(instruction);
 
   await sendTxn(transaction);
-}
+};
 
 export default initConfig;

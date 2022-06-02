@@ -6,21 +6,15 @@ import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts
 import { findAssociatedTokenAddress } from '../../../common/utils';
 
 export interface HarvestScore {
-  programId: PublicKey,
-  provider: anchor.Provider,
-  userPublicKey: PublicKey,
-  tokenMint: PublicKey,
-  sendTxn: (transaction: Transaction) => Promise<void>
+  programId: PublicKey;
+  provider: anchor.Provider;
+  userPublicKey: PublicKey;
+  tokenMint: PublicKey;
+  sendTxn: (transaction: Transaction) => Promise<void>;
 }
 
 const harvestScore = async (params: HarvestScore) => {
-  const {
-    programId,
-    provider,
-    userPublicKey,
-    tokenMint,
-    sendTxn
-  } = params;
+  const { programId, provider, userPublicKey, tokenMint, sendTxn } = params;
 
   const encoder = new TextEncoder();
   const program = await returnCommunityPoolsAnchorProgram(programId, provider);
@@ -62,6 +56,6 @@ const harvestScore = async (params: HarvestScore) => {
   const transaction = new Transaction().add(instruction);
 
   await sendTxn(transaction);
-}
+};
 
 export default harvestScore;

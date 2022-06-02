@@ -4,21 +4,21 @@ import { PublicKey, Transaction } from '@solana/web3.js';
 import { returnAnchorProgram } from '../../contract_model/accounts';
 
 export interface UpdateCollectionInfo {
-  programId: PublicKey,
-  provider: anchor.Provider,
-  liquidityPool: PublicKey,
-  admin: PublicKey,
-  creatorAddress: PublicKey,
-  collectionInfo: PublicKey,
-  pricingLookupAddress: PublicKey,
-  loanToValue: number | anchor.BN,
-  collaterizationRate: number | anchor.BN,
-  royaltyAddress: PublicKey,
-  royaltyFeeTime: number | anchor.BN,
-  royaltyFeePrice: number | anchor.BN,
-  expirationTime: number | anchor.BN,
-  isPriceBased: boolean,
-  sendTxn: (transaction: Transaction) => Promise<void>
+  programId: PublicKey;
+  provider: anchor.Provider;
+  liquidityPool: PublicKey;
+  admin: PublicKey;
+  creatorAddress: PublicKey;
+  collectionInfo: PublicKey;
+  pricingLookupAddress: PublicKey;
+  loanToValue: number | anchor.BN;
+  collaterizationRate: number | anchor.BN;
+  royaltyAddress: PublicKey;
+  royaltyFeeTime: number | anchor.BN;
+  royaltyFeePrice: number | anchor.BN;
+  expirationTime: number | anchor.BN;
+  isPriceBased: boolean;
+  sendTxn: (transaction: Transaction) => Promise<void>;
 }
 
 const updateCollectionInfo = async (params: UpdateCollectionInfo): Promise<any> => {
@@ -37,7 +37,7 @@ const updateCollectionInfo = async (params: UpdateCollectionInfo): Promise<any> 
     royaltyFeePrice,
     expirationTime,
     isPriceBased,
-    sendTxn
+    sendTxn,
   } = params;
 
   const program = await returnAnchorProgram(programId, provider);
@@ -59,8 +59,8 @@ const updateCollectionInfo = async (params: UpdateCollectionInfo): Promise<any> 
         creatorAddress: creatorAddress,
         royaltyAddress,
         pricingLookupAddress: pricingLookupAddress,
-      }
-    }
+      },
+    },
   );
 
   const transaction = new Transaction().add(instruction);

@@ -23,7 +23,6 @@ export interface PermissionView {
   canHarvestScore: string;
 }
 
-
 export type CommunityPoolsAnchor = {
   version: '0.1.0';
   name: 'community_pools_anchor';

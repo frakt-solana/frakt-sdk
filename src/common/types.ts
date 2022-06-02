@@ -32,17 +32,17 @@ export interface TokenInfo {
 }
 
 export interface AccountInfoData {
-    owner: PublicKey;
-    state: number;
-    mint: PublicKey;
-    amount: BN;
-    delegateOption: number;
-    delegate: PublicKey;
-    isNativeOption: number;
-    isNative: BN;
-    delegatedAmount: BN;
-    closeAuthorityOption: number;
-    closeAuthority: PublicKey;
+  owner: PublicKey;
+  state: number;
+  mint: PublicKey;
+  amount: BN;
+  delegateOption: number;
+  delegate: PublicKey;
+  isNativeOption: number;
+  isNative: BN;
+  delegatedAmount: BN;
+  closeAuthorityOption: number;
+  closeAuthority: PublicKey;
 }
 
 export interface AccountInfoParsed {
@@ -51,14 +51,14 @@ export interface AccountInfoParsed {
 }
 
 export type ParseTokenAccount = (params: {
-    tokenAccountPubkey: PublicKey;
-    tokenAccountEncoded: AccountInfo<Buffer>;
+  tokenAccountPubkey: PublicKey;
+  tokenAccountEncoded: AccountInfo<Buffer>;
 }) => AccountInfoParsed | null;
 
 export interface GetTokenAccount {
-    tokenMint: PublicKey;
-    owner: PublicKey;
-    connection: Connection;
+  tokenMint: PublicKey;
+  owner: PublicKey;
+  connection: Connection;
 }
 
 export interface AccountInfoParsed {
@@ -82,10 +82,7 @@ export interface TokenView {
   closeAuthority: string;
 }
 
-export type GetAllUserTokens = (props: {
-  connection: Connection;
-  walletPublicKey: PublicKey;
-}) => Promise<TokenView[]>;
+export type GetAllUserTokens = (props: { connection: Connection; walletPublicKey: PublicKey }) => Promise<TokenView[]>;
 
 export interface DepositView {
   depositPubkey: string;

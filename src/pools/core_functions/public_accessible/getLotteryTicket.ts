@@ -6,17 +6,17 @@ import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts
 import { findAssociatedTokenAddress } from '../../../common/utils';
 
 export interface GetLotteryTicket {
-  communityPool: PublicKey,
-  fractionMint: PublicKey,
-  userFractionsTokenAccount: PublicKey,
-  fusionProgramId: PublicKey,
-  tokenMintInputFusion: PublicKey,
-  feeConfig: PublicKey,
-  adminAddress: PublicKey,
-  programId: PublicKey,
-  userPubkey: PublicKey,
-  provider: anchor.Provider,
-  sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>
+  communityPool: PublicKey;
+  fractionMint: PublicKey;
+  userFractionsTokenAccount: PublicKey;
+  fusionProgramId: PublicKey;
+  tokenMintInputFusion: PublicKey;
+  feeConfig: PublicKey;
+  adminAddress: PublicKey;
+  programId: PublicKey;
+  userPubkey: PublicKey;
+  provider: anchor.Provider;
+  sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>;
 }
 
 export const getLotteryTicket = async (params: GetLotteryTicket) => {
@@ -31,7 +31,7 @@ export const getLotteryTicket = async (params: GetLotteryTicket) => {
     programId,
     userPubkey,
     provider,
-    sendTxn
+    sendTxn,
   } = params;
 
   const encoder = new TextEncoder();
@@ -108,19 +108,19 @@ export const getLotteryTicket = async (params: GetLotteryTicket) => {
   await sendTxn(transaction, signers);
 
   return { lotteryTicketPubkey: lotteryTicketAccount.publicKey };
-}
+};
 
 export interface GetLotteryTicketIx {
-  communityPool: PublicKey,
-  fractionMint: PublicKey,
-  userFractionsTokenAccount: PublicKey,
-  fusionProgramId: PublicKey,
-  tokenMintInputFusion: PublicKey,
-  feeConfig: PublicKey,
-  adminAddress: PublicKey,
-  programId: PublicKey,
-  userPubkey: PublicKey,
-  provider: anchor.Provider
+  communityPool: PublicKey;
+  fractionMint: PublicKey;
+  userFractionsTokenAccount: PublicKey;
+  fusionProgramId: PublicKey;
+  tokenMintInputFusion: PublicKey;
+  feeConfig: PublicKey;
+  adminAddress: PublicKey;
+  programId: PublicKey;
+  userPubkey: PublicKey;
+  provider: anchor.Provider;
 }
 
 export const getLotteryTicketIx = async (params: GetLotteryTicketIx) => {
@@ -134,7 +134,7 @@ export const getLotteryTicketIx = async (params: GetLotteryTicketIx) => {
     adminAddress,
     programId,
     userPubkey,
-    provider
+    provider,
   } = params;
 
   const encoder = new TextEncoder();
@@ -209,4 +209,4 @@ export const getLotteryTicketIx = async (params: GetLotteryTicketIx) => {
   instructions.push(instruction);
 
   return { lotteryTicketPubkey: lotteryTicketAccount.publicKey, instructions, signers };
-}
+};
