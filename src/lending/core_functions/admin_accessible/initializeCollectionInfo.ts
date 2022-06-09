@@ -1,4 +1,4 @@
-import anchor from '@project-serum/anchor';
+import * as anchor from '@project-serum/anchor';
 import { Keypair, Transaction } from '@solana/web3.js';
 
 import { InitializeCollectionInfo } from '../../types';

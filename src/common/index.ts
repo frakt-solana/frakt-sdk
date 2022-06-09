@@ -1,4 +1,4 @@
-import anchor from '@project-serum/anchor';
+import * as anchor from '@project-serum/anchor';
 import { Connection, Keypair, PublicKey, SystemProgram, TransactionInstruction } from '@solana/web3.js';
 import { AccountLayout, Token as SplToken, TOKEN_PROGRAM_ID } from '@solana/spl-token';
 import { NodeWallet } from '@metaplex/js';

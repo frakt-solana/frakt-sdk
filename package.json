@@ -1,6 +1,6 @@
 {
   "name": "@frakt-protocol/frakt-sdk",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Frakt SDK for interacting with frakt.xyz protocols",
   "keywords": [
     "Frakt",
@@ -15,7 +15,8 @@
   "scripts": {
     "build": "tsc",
     "test": "jest --config jestconfig.json",
-    "format": "prettier --write \"src/**/*.ts\""
+    "format": "prettier --write \"src/**/*.ts\"",
+    "docs": "typedoc src/index.ts"
   },
   "dependencies": {
     "@metaplex-foundation/mpl-token-metadata": "1.2.3",

@@ -1,4 +1,4 @@
-import anchor from '@project-serum/anchor';
+import * as anchor from '@project-serum/anchor';
 import { PublicKey, Transaction, Keypair } from '@solana/web3.js';
 export { Provider, Program } from '@project-serum/anchor';
 

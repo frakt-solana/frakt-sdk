@@ -1,4 +1,4 @@
-import anchor from '@project-serum/anchor';
+import * as anchor from '@project-serum/anchor';
 import { Keypair, Transaction } from '@solana/web3.js';
 import { Edition, MetadataProgram } from '@metaplex-foundation/mpl-token-metadata';
 import { TOKEN_PROGRAM_ID } from '@project-serum/anchor/dist/cjs/utils/token';

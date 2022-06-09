@@ -1,4 +1,4 @@
-import anchor from '@project-serum/anchor';
+import * as anchor from '@project-serum/anchor';
 import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
 export { Provider, Program } from '@project-serum/anchor';
 import { Transaction, SystemProgram } from '@solana/web3.js';

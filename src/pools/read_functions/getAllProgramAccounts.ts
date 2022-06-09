@@ -1,4 +1,4 @@
-import anchor from '@project-serum/anchor';
+import * as anchor from '@project-serum/anchor';
 import { PublicKey, Connection } from '@solana/web3.js';
 import {
   decodedBoardEntry,

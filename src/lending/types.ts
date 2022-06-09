@@ -1,5 +1,5 @@
 import { Keypair, PublicKey, Transaction } from '@solana/web3.js';
-import anchor from '@project-serum/anchor';
+import * as anchor from '@project-serum/anchor';
 
 export interface ApproveLoanByAdmin {
   programId: PublicKey;
