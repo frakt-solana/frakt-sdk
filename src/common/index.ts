@@ -153,7 +153,7 @@ export const decodeSplTokenAccountData = (tokenAccountDataEncoded: Buffer): Acco
 export const parseTokenAccount: ParseTokenAccount = ({ tokenAccountPubkey, tokenAccountEncoded }) => (
   tokenAccountEncoded
     ? {
-      publicKey: tokenAccountPubkey,
+      pubkey: tokenAccountPubkey,
       accountInfo: decodeSplTokenAccountData(tokenAccountEncoded.data),
     }
     : null

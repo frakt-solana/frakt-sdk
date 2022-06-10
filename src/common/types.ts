@@ -46,7 +46,7 @@ export interface AccountInfoData {
 }
 
 export interface AccountInfoParsed {
-  publicKey: PublicKey;
+  pubkey: PublicKey;
   accountInfo: AccountInfoData;
 }
 
@@ -59,11 +59,6 @@ export interface GetTokenAccount {
   tokenMint: PublicKey;
   owner: PublicKey;
   connection: Connection;
-}
-
-export interface AccountInfoParsed {
-  publicKey: PublicKey;
-  accountInfo: AccountInfoData;
 }
 
 export interface TokenView {
