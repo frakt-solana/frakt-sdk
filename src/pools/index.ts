@@ -32,3 +32,9 @@ export * from './read_functions/isNFTWhitelisted';
 export * from './read_functions/isNFTWhitelistedByCreator';
 export * from './read_functions/isNFTWhitelistedByMint';
 
+export * from './new/unstakeInFusion';
+export * from './new/harvestInFusion';
+export * from './new/harvestSecondaryReward';
+export * from './new/stakeInFusion';
+export * from './new/getAllRewardProgramAccounts';
+

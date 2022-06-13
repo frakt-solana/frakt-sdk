@@ -1815,3 +1815,123 @@ export type CommunityPoolsAnchor = {
     },
   ];
 };
+
+export interface MainRouterView {
+  mainRouterPubkey: string,
+  tokenMintInput: string,
+  tokenMintOutput: string,
+  poolConfigInput: string,
+  poolConfigOutput: string,
+  amountOfStaked: string,
+  amountToReturn: string,
+  apr: string,
+  cumulative: string,
+  lastTime: string,
+  decimalsInput: string,
+  decimalsOutput: string,
+  oldCumulative: string,
+  endTime: string,
+  startTime: string,
+}
+
+export interface SecondaryRewardView {
+  secondaryRewardaccount: string,
+  routerPubkey: string,
+  tokenMint: string,
+  poolVaultBalance: string,
+  tokensPerSecondPerPoint: string,
+  decimalsOutput: string,
+  startTime: string,
+  endTime: string
+}
+
+export interface StakeAccountView {
+  stakeAccountPubkey: string,
+  stakeOwner: string,
+  tokenMintInput: string,
+  tokenMintOutput: string,
+  routerPubkey: string,
+  amount: string,
+  stakedAt: string,
+  stakeEnd: string,
+  stakedAtCumulative: string,
+  unstakedAtCumulative: string,
+  lastHarvestedAt: string,
+  isStaked: boolean,
+}
+
+export interface StakeAccountView {
+  stakeAccountPubkey: string,
+  stakeOwner: string,
+  tokenMintInput: string,
+  tokenMintOutput: string,
+  routerPubkey: string,
+  amount: string,
+  stakedAt: string,
+  stakeEnd: string,
+  stakedAtCumulative: string,
+  unstakedAtCumulative: string,
+  lastHarvestedAt: string,
+  isStaked: boolean,
+}
+
+export interface MainPoolConfigView {
+  mainPoolPubkey: string,
+  vaultOwnerPda: string,
+  tokenMint: string,
+  vaultTokenAccount: string,
+  poolVaultBalance: string,
+}
+
+export interface StakeAccountView {
+  stakeAccountPubkey: string,
+  stakeOwner: string,
+  tokenMintInput: string,
+  tokenMintOutput: string,
+  routerPubkey: string,
+  amount: string,
+  stakedAt: string,
+  stakeEnd: string,
+  stakedAtCumulative: string,
+  unstakedAtCumulative: string,
+  lastHarvestedAt: string,
+  isStaked: boolean,
+}
+
+export interface MainRouterView {
+  mainRouterPubkey: string,
+  tokenMintInput: string,
+  tokenMintOutput: string,
+  poolConfigInput: string,
+  poolConfigOutput: string,
+  amountOfStaked: string,
+  amountToReturn: string,
+  apr: string,
+  cumulative: string,
+  lastTime: string,
+  decimalsInput: string,
+  decimalsOutput: string,
+  oldCumulative: string,
+  endTime: string,
+  startTime: string,
+}
+
+export interface SecondStakeAccountView {
+  secondStakeAccount: string,
+  rewardOwner: string,
+  stakeAccount: string,
+  secondaryReward: string,
+  startTime: string,
+  lastHarvestedAt: string
+}
+
+export interface SecondaryRewardView {
+  secondaryRewardaccount: string,
+  routerPubkey: string,
+  tokenMint: string,
+  poolVaultBalance: string,
+  tokensPerSecondPerPoint: string,
+  decimalsOutput: string,
+  startTime: string,
+  endTime: string
+}

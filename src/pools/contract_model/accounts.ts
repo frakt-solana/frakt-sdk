@@ -1,14 +1,24 @@
 import { Program, Provider } from '@project-serum/anchor';
 import { PublicKey } from '@solana/web3.js';
 
-import { CommunityPoolsAnchor, BoardEntryView, PoolConfigView, PermissionView } from '../types';
-import { IDL } from '../constants';
+import {
+  CommunityPoolsAnchor,
+  BoardEntryView,
+  PoolConfigView,
+  PermissionView,
+  MainPoolConfigView,
+  StakeAccountView,
+  MainRouterView,
+  SecondStakeAccountView,
+  SecondaryRewardView
+} from '../types';
+import idl from '../../common/idl/multi_reward_staking.json';
 
 export const returnCommunityPoolsAnchorProgram = async (
   programId: PublicKey,
   provider: Provider,
 ): Promise<Program<CommunityPoolsAnchor>> => {
-  return new Program<CommunityPoolsAnchor>(IDL as any, programId, provider);
+  return new Program<CommunityPoolsAnchor>(idl as any, programId, provider);
 };
 
 export const decodedBoardEntry = (decodedPoolState: any, stateAddress: PublicKey): BoardEntryView => ({
@@ -34,4 +44,65 @@ export const decodedPermission = (decodedState: any, permissionAddress: PublicKe
   expiration: decodedState.expiration.toString(),
   canAddScore: decodedState.canAddScore.toString(),
   canHarvestScore: decodedState.canHarvestScore.toString(),
+});
+
+export const decodedPoolBufferToUI = (decodedPoolState: any, poolAddress: PublicKey): MainPoolConfigView => ({
+  mainPoolPubkey: poolAddress.toBase58(),
+  vaultOwnerPda: decodedPoolState.vaultOwnerPda.toBase58(),
+  tokenMint: decodedPoolState.tokenMint.toBase58(),
+  vaultTokenAccount: decodedPoolState.vaultTokenAccount.toBase58(),
+  poolVaultBalance: decodedPoolState.poolVaultBalance.toString(),
+});
+
+export const decodedStakeAccountAddressToUI = (decodedStakeState: any, stakeAddress: PublicKey): StakeAccountView => ({
+  stakeAccountPubkey: stakeAddress.toBase58(),
+  stakeOwner: decodedStakeState.stakeOwner.toBase58(),
+  tokenMintInput: decodedStakeState.tokenMintInput.toBase58(),
+  tokenMintOutput: decodedStakeState.tokenMintOutput.toBase58(),
+  routerPubkey: decodedStakeState.router.toBase58(),
+  amount: decodedStakeState.amount.toString(),
+  stakedAt: decodedStakeState.stakedAt.toString(),
+  stakedAtCumulative: decodedStakeState.stakedAtCumulative.toString(),
+  stakeEnd: decodedStakeState.stakeEnd.toString(),
+  unstakedAtCumulative: decodedStakeState.unstakedAtCumulative.toString(),
+  lastHarvestedAt: decodedStakeState.lastHarvestedAt.toString(),
+  isStaked: Boolean(decodedStakeState.isStaked),
+});
+
+export const decodedRouterToUI = (decodedState: any, mainRouterAddress: PublicKey): MainRouterView => ({
+  mainRouterPubkey: mainRouterAddress.toBase58(),
+  tokenMintInput: decodedState.tokenMintInput.toBase58(),
+  tokenMintOutput: decodedState.tokenMintOutput.toBase58(),
+  poolConfigInput: decodedState.poolConfigInput.toBase58(),
+  poolConfigOutput: decodedState.poolConfigOutput.toBase58(),
+  amountOfStaked: decodedState.amountOfStaked.toString(),
+  amountToReturn: decodedState.amountToReturn.toString(),
+  apr: decodedState.apr.toString(),
+  cumulative: decodedState.cumulative.toString(),
+  lastTime: decodedState.lastTime.toString(),
+  decimalsInput: decodedState.decimalsInput.toString(),
+  decimalsOutput: decodedState.decimalsOutput.toString(),
+  oldCumulative: decodedState.oldCumulative.toString(),
+  endTime: decodedState.endTime.toString(),
+  startTime: decodedState.startTime.toString(),
+});
+
+export const decodedSecondStakeToUI = (decodedState: any, secondStakeAccount: PublicKey): SecondStakeAccountView => ({
+  secondStakeAccount: secondStakeAccount.toBase58(),
+  rewardOwner: decodedState.rewardOwner.toBase58(),
+  stakeAccount: decodedState.stakeAccount.toBase58(),
+  secondaryReward: decodedState.secondaryReward.toBase58(),
+  startTime: decodedState.startTime.toString(),
+  lastHarvestedAt: decodedState.lastHarvestedAt.toString(),
+});
+
+export const decodedSecondaryRewardToUI = (decodedState: any, secondaryRewardaccount: PublicKey): SecondaryRewardView => ({
+  secondaryRewardaccount: secondaryRewardaccount.toBase58(),
+  routerPubkey: decodedState.routerPubkey.toBase58(),
+  tokenMint: decodedState.tokenMint.toBase58(),
+  poolVaultBalance: decodedState.poolVaultBalance.toString(),
+  tokensPerSecondPerPoint: decodedState.tokensPerSecondPerPoint.toString(),
+  decimalsOutput: decodedState.decimalsOutput.toString(),
+  startTime: decodedState.startTime.toString(),
+  endTime: decodedState.endTime.toString()
 });

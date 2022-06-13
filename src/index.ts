@@ -9,3 +9,4 @@ export * as lending from './lending';
 export * as loans from './loans';
 export * as pools from './pools';
 export * as swaps from './swaps';
+export * as raydium from '@raydium-io/raydium-sdk';

@@ -1,0 +1,1089 @@
+{
+  "version": "0.0.1",
+  "name": "multi_reward_staking",
+  "instructions": [
+    {
+      "name": "initNewMainRout",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenMintInput",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMintOutput",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vaultOwnerPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultTokenAccountInput",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultTokenAccountOutput",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mainRouter",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "configInput",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "configOutput",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bumpAuth",
+          "type": "u8"
+        },
+        {
+          "name": "bumpConfigInput",
+          "type": "u8"
+        },
+        {
+          "name": "bumpConfigOutput",
+          "type": "u8"
+        },
+        {
+          "name": "bumpMainRouter",
+          "type": "u8"
+        },
+        {
+          "name": "endTime",
+          "type": "u64"
+        },
+        {
+          "name": "decimalsInput",
+          "type": "u64"
+        },
+        {
+          "name": "decimalsOutput",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "topupMain",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "adminTokenAccountOutput",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMintInput",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMintOutput",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultOwnerPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultTokenAccountOutput",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mainRouter",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "configOutput",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bumpAuth",
+          "type": "u8"
+        },
+        {
+          "name": "inputAmount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "stakeSingle",
+      "accounts": [
+        {
+          "name": "initializer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "userTokenAccountInput",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMintInput",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultTokenAccountInput",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMintOutput",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultOwnerPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "configInput",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stakeAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mainRouter",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bumpAuth",
+          "type": "u8"
+        },
+        {
+          "name": "bumpConfigInput",
+          "type": "u8"
+        },
+        {
+          "name": "bumpMainRouter",
+          "type": "u8"
+        },
+        {
+          "name": "bumpStake",
+          "type": "u8"
+        },
+        {
+          "name": "stakeAmount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "unstakeSingle",
+      "accounts": [
+        {
+          "name": "initializer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "userTokenAccountInput",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMintInput",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultTokenAccountInput",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMintOutput",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultOwnerPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "configInput",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stakeAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mainRouter",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bumpAuth",
+          "type": "u8"
+        },
+        {
+          "name": "bumpConfigInput",
+          "type": "u8"
+        },
+        {
+          "name": "bumpMainRouter",
+          "type": "u8"
+        },
+        {
+          "name": "bumpStake",
+          "type": "u8"
+        },
+        {
+          "name": "unstakeAmount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "harvestMainReward",
+      "accounts": [
+        {
+          "name": "initializer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenMintInput",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userTokenAccountOutput",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMintOutput",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultTokenAccountOutput",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultOwnerPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "configOutput",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "stakeAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mainRouter",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bumpAuth",
+          "type": "u8"
+        },
+        {
+          "name": "bumpConfigOutput",
+          "type": "u8"
+        },
+        {
+          "name": "bumpRouter",
+          "type": "u8"
+        },
+        {
+          "name": "bumpStake",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "initSecondaryRewards",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "adminRewardAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMintInput",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMintOutput",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMintRewards",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultOwnerPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultTokenAccountReward",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mainRouter",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "secondaryReward",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bumpAuth",
+          "type": "u8"
+        },
+        {
+          "name": "bumpMainRouter",
+          "type": "u8"
+        },
+        {
+          "name": "bumpSecondaryReward",
+          "type": "u8"
+        },
+        {
+          "name": "inputAmount",
+          "type": "u64"
+        },
+        {
+          "name": "tokensPerSecondPerPoint",
+          "type": "u64"
+        },
+        {
+          "name": "endTime",
+          "type": "u64"
+        },
+        {
+          "name": "decimalsOutput",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "harvestSecondaryRewards",
+      "accounts": [
+        {
+          "name": "initializer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "userTokenAccountRewards",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMintInput",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMintOutput",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMintRewards",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultOwnerPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultTokenAccountRewards",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mainRouter",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "stakeAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "secondaryReward",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "secondaryStakeAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bumpAuth",
+          "type": "u8"
+        },
+        {
+          "name": "bumpMainRouter",
+          "type": "u8"
+        },
+        {
+          "name": "bumpSecondaryReward",
+          "type": "u8"
+        },
+        {
+          "name": "bumpSecondaryStake",
+          "type": "u8"
+        },
+        {
+          "name": "bumpStake",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "updateSpeedSecondaryRewards",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenMintInput",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMintOutput",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMintRewards",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultOwnerPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mainRouter",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "secondaryReward",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bumpAuth",
+          "type": "u8"
+        },
+        {
+          "name": "bumpMainRouter",
+          "type": "u8"
+        },
+        {
+          "name": "bumpSecondaryReward",
+          "type": "u8"
+        },
+        {
+          "name": "tokensPerSecondPerPoint",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "topupSecondaryReward",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "adminRewardAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMintInput",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMintOutput",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMintRewards",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultOwnerPda",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultTokenAccountReward",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mainRouter",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "secondaryReward",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bumpAuth",
+          "type": "u8"
+        },
+        {
+          "name": "bumpMainRouter",
+          "type": "u8"
+        },
+        {
+          "name": "bumpSecondaryReward",
+          "type": "u8"
+        },
+        {
+          "name": "inputAmount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "updateEndTimeMain",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenMintInput",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMintOutput",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "mainRouter",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bumpMainRouter",
+          "type": "u8"
+        },
+        {
+          "name": "endTime",
+          "type": "u64"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "mainConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "vaultOwnerPda",
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "vaultTokenAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "poolVaultBalance",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "mainRouter",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "tokenMintInput",
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenMintOutput",
+            "type": "publicKey"
+          },
+          {
+            "name": "poolConfigInput",
+            "type": "publicKey"
+          },
+          {
+            "name": "poolConfigOutput",
+            "type": "publicKey"
+          },
+          {
+            "name": "amountOfStaked",
+            "type": "u64"
+          },
+          {
+            "name": "amountToReturn",
+            "type": "u64"
+          },
+          {
+            "name": "apr",
+            "type": "u64"
+          },
+          {
+            "name": "cumulative",
+            "type": "u64"
+          },
+          {
+            "name": "lastTime",
+            "type": "u64"
+          },
+          {
+            "name": "decimalsInput",
+            "type": "u64"
+          },
+          {
+            "name": "decimalsOutput",
+            "type": "u64"
+          },
+          {
+            "name": "oldCumulative",
+            "type": "u64"
+          },
+          {
+            "name": "endTime",
+            "type": "u64"
+          },
+          {
+            "name": "startTime",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "secondStakeAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "rewardOwner",
+            "type": "publicKey"
+          },
+          {
+            "name": "stakeAccount",
+            "type": "publicKey"
+          },
+          {
+            "name": "secondaryReward",
+            "type": "publicKey"
+          },
+          {
+            "name": "startTime",
+            "type": "u64"
+          },
+          {
+            "name": "lastHarvestedAt",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "secondaryReward",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "routerPubkey",
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "poolVaultBalance",
+            "type": "u64"
+          },
+          {
+            "name": "tokensPerSecondPerPoint",
+            "type": "u64"
+          },
+          {
+            "name": "decimalsOutput",
+            "type": "u64"
+          },
+          {
+            "name": "startTime",
+            "type": "u64"
+          },
+          {
+            "name": "endTime",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "stakeAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "stakeOwner",
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenMintInput",
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenMintOutput",
+            "type": "publicKey"
+          },
+          {
+            "name": "router",
+            "type": "publicKey"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "stakedAt",
+            "type": "u64"
+          },
+          {
+            "name": "stakeEnd",
+            "type": "u64"
+          },
+          {
+            "name": "stakedAtCumulative",
+            "type": "u64"
+          },
+          {
+            "name": "unstakedAtCumulative",
+            "type": "u64"
+          },
+          {
+            "name": "lastHarvestedAt",
+            "type": "u64"
+          },
+          {
+            "name": "isStaked",
+            "type": "bool"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "ArithmeticError",
+      "msg": "failed to perform some math operation safely"
+    },
+    {
+      "code": 6001,
+      "name": "UnknownInstruction",
+      "msg": "unknown instruction called"
+    },
+    {
+      "code": 6002,
+      "name": "InvalidParameter",
+      "msg": "invalid parameter passed"
+    },
+    {
+      "code": 6003,
+      "name": "AnchorSerializationIssue",
+      "msg": "anchor serialization issue"
+    },
+    {
+      "code": 6004,
+      "name": "ExpectedAmountMismatch",
+      "msg": "problems with pool, check msgs"
+    },
+    {
+      "code": 6005,
+      "name": "ZeroReturn",
+      "msg": "no return amount"
+    },
+    {
+      "code": 6006,
+      "name": "TimeIsUp",
+      "msg": "time Is up"
+    },
+    {
+      "code": 6007,
+      "name": "CannotHarvest",
+      "msg": "cannot harvest anymore on unstaked account"
+    }
+  ]
+}

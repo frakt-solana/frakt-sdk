@@ -14,6 +14,7 @@ import {
   ParseTokenAccount,
   UserNFT,
 } from './types';
+import idl from './idl/multi_reward_staking.json';
 
 //when we only want to view vaults, no need to connect a real wallet.
 export const createFakeWallet = () => {
@@ -223,3 +224,11 @@ export const shortenAddress = (address: string, chars = 4): string =>
 export const getNftCreators = (nft: UserNFT): string[] => (
   nft?.metadata?.properties?.creators?.filter(({ verified }) => verified)?.map(({ address }) => address) || []
 );
+
+export const returnAnchorMultiRewardStaking = async (programId: PublicKey, provider: anchor.Provider): Promise<anchor.Program> => {
+  return new anchor.Program(
+    idl as any,
+    programId,
+    provider
+  );
+}
