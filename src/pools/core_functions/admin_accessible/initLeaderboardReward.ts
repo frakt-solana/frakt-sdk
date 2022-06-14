@@ -1,7 +1,5 @@
-import * as anchor from '@project-serum/anchor';
+import { web3 } from '@project-serum/anchor';
 import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
-export { Provider, Program } from '@project-serum/anchor';
-import { Transaction, SystemProgram } from '@solana/web3.js';
 
 import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
 import { InitLeaderboardReward } from '../../types';
@@ -11,7 +9,7 @@ export const initLeaderboardReward = async (params: InitLeaderboardReward) => {
 
   const encoder = new TextEncoder();
   const program = await returnCommunityPoolsAnchorProgram(programId, provider);
-  const [leaderboardAccount] = await anchor.web3.PublicKey.findProgramAddress(
+  const [leaderboardAccount] = await web3.PublicKey.findProgramAddress(
     [communityPool.toBuffer(), encoder.encode('leaderBoard')],
     program.programId,
   );
@@ -21,14 +19,14 @@ export const initLeaderboardReward = async (params: InitLeaderboardReward) => {
       communityPool,
       fractionMint,
       admin,
-      systemProgram: SystemProgram.programId,
-      rent: anchor.web3.SYSVAR_RENT_PUBKEY,
+      systemProgram: web3.SystemProgram.programId,
+      rent: web3.SYSVAR_RENT_PUBKEY,
       tokenProgram: TOKEN_PROGRAM_ID,
       leaderboardAccount,
     },
   });
 
-  const transaction = new Transaction();
+  const transaction = new web3.Transaction();
   transaction.add(instruction);
 
   await sendTxn(transaction, []);

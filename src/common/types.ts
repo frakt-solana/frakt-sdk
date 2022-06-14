@@ -1,6 +1,5 @@
-import { LiquidityPoolInfo, LiquidityPoolKeysV4, Percent } from '@raydium-io/raydium-sdk';
-import { AccountInfo, Connection, PublicKey } from '@solana/web3.js';
-import BN from 'bn.js';
+import { BN, web3 } from'@project-serum/anchor';
+import { LiquidityPoolKeysV4 } from '@raydium-io/raydium-sdk';
 
 export interface TokenExtensions {
   readonly website?: string;
@@ -32,33 +31,33 @@ export interface TokenInfo {
 }
 
 export interface AccountInfoData {
-  owner: PublicKey;
+  owner: web3.PublicKey;
   state: number;
-  mint: PublicKey;
+  mint: web3.PublicKey;
   amount: BN;
   delegateOption: number;
-  delegate: PublicKey;
+  delegate: web3.PublicKey;
   isNativeOption: number;
   isNative: BN;
   delegatedAmount: BN;
   closeAuthorityOption: number;
-  closeAuthority: PublicKey;
+  closeAuthority: web3.PublicKey;
 }
 
 export interface AccountInfoParsed {
-  pubkey: PublicKey;
+  pubkey: web3.PublicKey;
   accountInfo: AccountInfoData;
 }
 
 export type ParseTokenAccount = (params: {
-  tokenAccountPubkey: PublicKey;
-  tokenAccountEncoded: AccountInfo<Buffer> | null;
+  tokenAccountPubkey: web3.PublicKey;
+  tokenAccountEncoded: web3.AccountInfo<Buffer> | null;
 }) => AccountInfoParsed | null;
 
 export interface GetTokenAccount {
-  tokenMint: PublicKey;
-  owner: PublicKey;
-  connection: Connection;
+  tokenMint: web3.PublicKey;
+  owner: web3.PublicKey;
+  connection: web3.Connection;
 }
 
 export interface TokenView {
@@ -77,7 +76,7 @@ export interface TokenView {
   closeAuthority: string;
 }
 
-export type GetAllUserTokens = (props: { connection: Connection; walletPublicKey: PublicKey }) => Promise<TokenView[]>;
+export type GetAllUserTokens = (props: { connection: web3.Connection; walletPublicKey: web3.PublicKey }) => Promise<TokenView[]>;
 
 export interface DepositView {
   depositPubkey: string;

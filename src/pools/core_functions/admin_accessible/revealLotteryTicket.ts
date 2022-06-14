@@ -1,4 +1,4 @@
-import { Transaction } from '@solana/web3.js';
+import { web3 } from'@project-serum/anchor';
 
 import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
 import { RevealLotteryTicket } from '../../types';
@@ -19,7 +19,7 @@ export const revealLotteryTicket = async (params: RevealLotteryTicket) => {
     signers: signers,
   });
 
-  const transaction = new Transaction().add(instruction);
+  const transaction = new web3.Transaction().add(instruction);
 
   await sendTxn(transaction, signers);
 };

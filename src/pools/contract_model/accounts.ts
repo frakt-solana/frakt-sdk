@@ -1,8 +1,6 @@
-import { Program, Provider } from '@project-serum/anchor';
-import { PublicKey } from '@solana/web3.js';
+import { web3, Program, AnchorProvider } from '@project-serum/anchor';
 
 import {
-  CommunityPoolsAnchor,
   BoardEntryView,
   PoolConfigView,
   PermissionView,
@@ -15,13 +13,13 @@ import {
 import idl from '../../common/idl/multi_reward_staking.json';
 
 export const returnCommunityPoolsAnchorProgram = async (
-  programId: PublicKey,
-  provider: Provider,
-): Promise<Program<CommunityPoolsAnchor>> => {
-  return new Program<CommunityPoolsAnchor>(idl as any, programId, provider);
+  programId: web3.PublicKey,
+  provider: AnchorProvider,
+): Promise<Program> => {
+  return new Program(idl as any, programId, provider);
 };
 
-export const decodedBoardEntry = (decodedPoolState: any, stateAddress: PublicKey): BoardEntryView => ({
+export const decodedBoardEntry = (decodedPoolState: any, stateAddress: web3.PublicKey): BoardEntryView => ({
   boardEntryPubkey: stateAddress.toBase58(),
   entryholder: decodedPoolState.entryholder.toBase58(),
   totaScore: decodedPoolState.totaScore.toString(),
@@ -30,7 +28,7 @@ export const decodedBoardEntry = (decodedPoolState: any, stateAddress: PublicKey
   message: decodedPoolState.message,
 });
 
-export const decodedPoolConfig = (decodedStakeState: any, poolAddress: PublicKey): PoolConfigView => ({
+export const decodedPoolConfig = (decodedStakeState: any, poolAddress: web3.PublicKey): PoolConfigView => ({
   poolConfigPubkey: poolAddress.toString(),
   vaultOwnerPda: decodedStakeState.vaultOwnerPda.toBase58(),
   tokenMint: decodedStakeState.tokenMint.toBase58(),
@@ -38,7 +36,7 @@ export const decodedPoolConfig = (decodedStakeState: any, poolAddress: PublicKey
   poolVaultBalance: decodedStakeState.poolVaultBalance.toString(),
 });
 
-export const decodedPermission = (decodedState: any, permissionAddress: PublicKey): PermissionView => ({
+export const decodedPermission = (decodedState: any, permissionAddress: web3.PublicKey): PermissionView => ({
   permissionPubkey: permissionAddress.toBase58(),
   programPubkey: decodedState.programPubkey.toBase58(),
   expiration: decodedState.expiration.toString(),
@@ -46,7 +44,7 @@ export const decodedPermission = (decodedState: any, permissionAddress: PublicKe
   canHarvestScore: decodedState.canHarvestScore.toString(),
 });
 
-export const decodedPoolBufferToUI = (decodedPoolState: any, poolAddress: PublicKey): MainPoolConfigView => ({
+export const decodedPoolBufferToUI = (decodedPoolState: any, poolAddress: web3.PublicKey): MainPoolConfigView => ({
   mainPoolPubkey: poolAddress.toBase58(),
   vaultOwnerPda: decodedPoolState.vaultOwnerPda.toBase58(),
   tokenMint: decodedPoolState.tokenMint.toBase58(),
@@ -54,7 +52,7 @@ export const decodedPoolBufferToUI = (decodedPoolState: any, poolAddress: Public
   poolVaultBalance: decodedPoolState.poolVaultBalance.toString(),
 });
 
-export const decodedStakeAccountAddressToUI = (decodedStakeState: any, stakeAddress: PublicKey): StakeAccountView => ({
+export const decodedStakeAccountAddressToUI = (decodedStakeState: any, stakeAddress: web3.PublicKey): StakeAccountView => ({
   stakeAccountPubkey: stakeAddress.toBase58(),
   stakeOwner: decodedStakeState.stakeOwner.toBase58(),
   tokenMintInput: decodedStakeState.tokenMintInput.toBase58(),
@@ -69,7 +67,7 @@ export const decodedStakeAccountAddressToUI = (decodedStakeState: any, stakeAddr
   isStaked: Boolean(decodedStakeState.isStaked),
 });
 
-export const decodedRouterToUI = (decodedState: any, mainRouterAddress: PublicKey): MainRouterView => ({
+export const decodedRouterToUI = (decodedState: any, mainRouterAddress: web3.PublicKey): MainRouterView => ({
   mainRouterPubkey: mainRouterAddress.toBase58(),
   tokenMintInput: decodedState.tokenMintInput.toBase58(),
   tokenMintOutput: decodedState.tokenMintOutput.toBase58(),
@@ -87,7 +85,7 @@ export const decodedRouterToUI = (decodedState: any, mainRouterAddress: PublicKe
   startTime: decodedState.startTime.toString(),
 });
 
-export const decodedSecondStakeToUI = (decodedState: any, secondStakeAccount: PublicKey): SecondStakeAccountView => ({
+export const decodedSecondStakeToUI = (decodedState: any, secondStakeAccount: web3.PublicKey): SecondStakeAccountView => ({
   secondStakeAccount: secondStakeAccount.toBase58(),
   rewardOwner: decodedState.rewardOwner.toBase58(),
   stakeAccount: decodedState.stakeAccount.toBase58(),
@@ -96,7 +94,7 @@ export const decodedSecondStakeToUI = (decodedState: any, secondStakeAccount: Pu
   lastHarvestedAt: decodedState.lastHarvestedAt.toString(),
 });
 
-export const decodedSecondaryRewardToUI = (decodedState: any, secondaryRewardaccount: PublicKey): SecondaryRewardView => ({
+export const decodedSecondaryRewardToUI = (decodedState: any, secondaryRewardaccount: web3.PublicKey): SecondaryRewardView => ({
   secondaryRewardaccount: secondaryRewardaccount.toBase58(),
   routerPubkey: decodedState.routerPubkey.toBase58(),
   tokenMint: decodedState.tokenMint.toBase58(),

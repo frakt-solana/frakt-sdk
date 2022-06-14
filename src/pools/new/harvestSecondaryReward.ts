@@ -1,29 +1,28 @@
-import * as anchor from '@project-serum/anchor';
-import { PublicKey, TransactionInstruction } from '@solana/web3.js';
+import { AnchorProvider, web3 } from '@project-serum/anchor';
 import { ASSOCIATED_TOKEN_PROGRAM_ID, TOKEN_PROGRAM_ID } from '@solana/spl-token';
 
 import { findAssociatedTokenAddress, returnAnchorMultiRewardStaking } from '../../common';
 
-export const harvestSecondaryReward = async (programId: PublicKey, provider: anchor.Provider, userPublicKey: PublicKey, mintToStake: PublicKey, mintToHarvest: PublicKey, mintsToReward: PublicKey[]) => {
+export const harvestSecondaryReward = async (programId: web3.PublicKey, provider: AnchorProvider, userPublicKey: web3.PublicKey, mintToStake: web3.PublicKey, mintToHarvest: web3.PublicKey, mintsToReward: web3.PublicKey[]) => {
   const encoder = new TextEncoder();
 
   const program = await returnAnchorMultiRewardStaking(programId, provider)
 
   // const transaction = new Transaction()
-  const ixs: TransactionInstruction[] = []
+  const ixs: web3.TransactionInstruction[] = []
   const [vaultOwnerPda, bump] =
-    await anchor.web3.PublicKey.findProgramAddress(
+    await web3.PublicKey.findProgramAddress(
       [encoder.encode('vaultownerpda'), programId.toBuffer()],
       program.programId
     );
 
   const [mainRouter, bumpRouter] =
-    await anchor.web3.PublicKey.findProgramAddress(
+    await web3.PublicKey.findProgramAddress(
       [encoder.encode('mainRouter'), mintToStake.toBuffer(), mintToHarvest.toBuffer()],
       program.programId
     );
   const [stakeAccount, bumpStake] =
-    await anchor.web3.PublicKey.findProgramAddress(
+    await web3.PublicKey.findProgramAddress(
       [userPublicKey.toBuffer(), mainRouter.toBuffer()],
       program.programId
     );
@@ -31,7 +30,7 @@ export const harvestSecondaryReward = async (programId: PublicKey, provider: anc
   for(let i = 0; i < mintsToReward.length; i++){
 
     const [secondaryReward, bumpReward] =
-      await anchor.web3.PublicKey.findProgramAddress(
+      await web3.PublicKey.findProgramAddress(
         [encoder.encode('SecondaryRewards'), mintsToReward[i].toBuffer(), mainRouter.toBuffer()],
         program.programId
       );
@@ -39,7 +38,7 @@ export const harvestSecondaryReward = async (programId: PublicKey, provider: anc
 
     const vaultTokenAccountRewards = await findAssociatedTokenAddress(vaultOwnerPda, mintsToReward[i])
     const [secondaryStakeAccount, bumpSecondary] =
-      await anchor.web3.PublicKey.findProgramAddress(
+      await web3.PublicKey.findProgramAddress(
         [encoder.encode('SecondaryStakeAccount'), secondaryReward.toBuffer(), stakeAccount.toBuffer()],
         program.programId
       );
@@ -64,8 +63,8 @@ export const harvestSecondaryReward = async (programId: PublicKey, provider: anc
           mainRouter,
           secondaryReward,
           secondaryStakeAccount,
-          rent: anchor.web3.SYSVAR_RENT_PUBKEY,
-          systemProgram: anchor.web3.SystemProgram.programId,
+          rent: web3.SYSVAR_RENT_PUBKEY,
+          systemProgram: web3.SystemProgram.programId,
           tokenProgram: TOKEN_PROGRAM_ID,
           associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
         },

@@ -1,5 +1,5 @@
-import * as anchor from '@project-serum/anchor';
-import { Transaction } from '@solana/web3.js';
+import { web3 } from'@project-serum/anchor';
+
 
 import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
 import { UpdateFee } from '../../types';
@@ -17,7 +17,7 @@ export const updateFee = async (params: UpdateFee) => {
     sendTxn,
   } = params;
 
-  const transaction = new Transaction();
+  const transaction = new web3.Transaction();
   const program = await returnCommunityPoolsAnchorProgram(programId, provider);
 
   const instruction = await program.instruction.updateFee(
@@ -29,8 +29,8 @@ export const updateFee = async (params: UpdateFee) => {
       accounts: {
         admin: userPubkey,
         config: config,
-        rent: anchor.web3.SYSVAR_RENT_PUBKEY,
-        systemProgram: anchor.web3.SystemProgram.programId,
+        rent: web3.SYSVAR_RENT_PUBKEY,
+        systemProgram: web3.SystemProgram.programId,
       },
     },
   );

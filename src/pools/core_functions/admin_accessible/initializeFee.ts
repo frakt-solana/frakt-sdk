@@ -1,6 +1,4 @@
-import * as anchor from '@project-serum/anchor';
-import { PublicKey, Transaction, Keypair } from '@solana/web3.js';
-export { Provider, Program } from '@project-serum/anchor';
+import { web3 } from'@project-serum/anchor';
 
 import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
 import { InitializeFee } from '../../types';
@@ -15,11 +13,11 @@ export const initializeFee = async (params: InitializeFee): Promise<any> => {
     getLotteryFeeAdmin,
     getLotteryFeePool,
     sendTxn,
-    communityPool = new PublicKey('11111111111111111111111111111111'),
+    communityPool = new web3.PublicKey('11111111111111111111111111111111'),
   } = params;
 
-  const config = anchor.web3.Keypair.generate();
-  const transaction = new Transaction();
+  const config = web3.Keypair.generate();
+  const transaction = new web3.Transaction();
   const signers = [config];
 
   const program = await returnCommunityPoolsAnchorProgram(programId, provider);
@@ -34,8 +32,8 @@ export const initializeFee = async (params: InitializeFee): Promise<any> => {
         config: config.publicKey,
         admin: userPubkey,
         communityPool,
-        rent: anchor.web3.SYSVAR_RENT_PUBKEY,
-        systemProgram: anchor.web3.SystemProgram.programId,
+        rent: web3.SYSVAR_RENT_PUBKEY,
+        systemProgram: web3.SystemProgram.programId,
       },
       signers: [config],
     },

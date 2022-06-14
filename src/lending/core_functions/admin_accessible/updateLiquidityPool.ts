@@ -1,5 +1,4 @@
-import * as anchor from '@project-serum/anchor';
-import { Transaction } from '@solana/web3.js';
+import { BN, web3 } from '@project-serum/anchor';
 
 import { UpdateLiquidityPool } from '../../types';
 import { returnAnchorProgram } from '../../contract_model/accounts';
@@ -23,24 +22,24 @@ export const updateLiquidityPool = async (params: UpdateLiquidityPool): Promise<
 
   const instruction = program.instruction.updateLiquidityPool(
     {
-      rewardInterestRateTime: new anchor.BN(rewardInterestRateTime),
-      rewardInterestRatePrice: new anchor.BN(rewardInterestRatePrice),
-      feeInterestRateTime: new anchor.BN(feeInterestRateTime),
-      feeInterestRatePrice: new anchor.BN(feeInterestRatePrice),
-      id: new anchor.BN(id),
-      period: new anchor.BN(period),
+      rewardInterestRateTime: new BN(rewardInterestRateTime),
+      rewardInterestRatePrice: new BN(rewardInterestRatePrice),
+      feeInterestRateTime: new BN(feeInterestRateTime),
+      feeInterestRatePrice: new BN(feeInterestRatePrice),
+      id: new BN(id),
+      period: new BN(period),
     },
     {
       accounts: {
         liquidityPool: liquidityPool,
         admin: admin,
-        rent: anchor.web3.SYSVAR_RENT_PUBKEY,
-        systemProgram: anchor.web3.SystemProgram.programId,
+        rent: web3.SYSVAR_RENT_PUBKEY,
+        systemProgram: web3.SystemProgram.programId,
       },
     },
   );
 
-  const transaction = new Transaction().add(instruction);
+  const transaction = new web3.Transaction().add(instruction);
 
   await sendTxn(transaction);
 };

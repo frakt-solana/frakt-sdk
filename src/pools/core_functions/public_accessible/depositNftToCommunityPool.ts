@@ -1,6 +1,5 @@
-import * as anchor from '@project-serum/anchor';
+import { web3 } from '@project-serum/anchor';
 import { TOKEN_PROGRAM_ID, ASSOCIATED_TOKEN_PROGRAM_ID } from '@solana/spl-token';
-import { PublicKey, Transaction, SystemProgram, TransactionInstruction } from '@solana/web3.js';
 
 import { createAssociatedTokenAccountInstruction, findAssociatedTokenAddress } from '../../../common';
 import { ACCOUNT_PREFIX } from '../../constants';
@@ -25,22 +24,22 @@ export const depositNftToCommunityPool = async (params: DepositNftToCommunityPoo
     sendTxn,
   } = params;
 
-  let instructions: TransactionInstruction[] = [];
+  let instructions: web3.TransactionInstruction[] = [];
   const encoder = new TextEncoder();
   const program = await returnCommunityPoolsAnchorProgram(programId, provider);
 
-  const [community_pools_authority, bump] = await anchor.web3.PublicKey.findProgramAddress(
+  const [community_pools_authority, bump] = await web3.PublicKey.findProgramAddress(
     [encoder.encode(ACCOUNT_PREFIX), program.programId.toBuffer(), communityPool.toBuffer()],
     program.programId,
   );
 
-  const [leaderboardAccount] = await anchor.web3.PublicKey.findProgramAddress(
+  const [leaderboardAccount] = await web3.PublicKey.findProgramAddress(
     [communityPool.toBuffer(), encoder.encode('leaderBoard')],
     program.programId,
   );
 
-  const safetyDepositBox = anchor.web3.Keypair.generate();
-  const storeNftTokenAccount = anchor.web3.Keypair.generate();
+  const safetyDepositBox = web3.Keypair.generate();
+  const storeNftTokenAccount = web3.Keypair.generate();
 
   const userFractionsTokenAccount = await findAssociatedTokenAddress(userPubkey, fractionMint);
   const user = await provider.connection.getAccountInfo(userFractionsTokenAccount);
@@ -52,27 +51,27 @@ export const depositNftToCommunityPool = async (params: DepositNftToCommunityPoo
     ];
   }
 
-  const [vaultOwnerPda, bumpPda] = await anchor.web3.PublicKey.findProgramAddress(
+  const [vaultOwnerPda, bumpPda] = await web3.PublicKey.findProgramAddress(
     [encoder.encode('vaultownerpda'), fusionProgramId.toBuffer()],
     fusionProgramId,
   );
 
   const vaultTokenAccountOutput = await findAssociatedTokenAddress(vaultOwnerPda, fractionMint);
 
-  const admin = new PublicKey(adminAddress);
+  const admin = new web3.PublicKey(adminAddress);
   const adminTokenAccount = await findAssociatedTokenAddress(admin, fractionMint);
 
-  const [mainRouter] = await anchor.web3.PublicKey.findProgramAddress(
+  const [mainRouter] = await web3.PublicKey.findProgramAddress(
     [encoder.encode('mainRouter'), tokenMintInputFusion.toBuffer(), fractionMint.toBuffer()],
     fusionProgramId,
   );
 
-  const [configOutput] = await anchor.web3.PublicKey.findProgramAddress(
+  const [configOutput] = await web3.PublicKey.findProgramAddress(
     [encoder.encode('mainConfigAccountOutput'), fractionMint.toBuffer(), mainRouter.toBuffer()],
     fusionProgramId,
   );
 
-  const [boardEntry] = await anchor.web3.PublicKey.findProgramAddress(
+  const [boardEntry] = await web3.PublicKey.findProgramAddress(
     [encoder.encode('BoardEntry'), userPubkey.toBuffer()],
     program.programId,
   );
@@ -84,12 +83,12 @@ export const depositNftToCommunityPool = async (params: DepositNftToCommunityPoo
       safetyDepositBox: safetyDepositBox.publicKey,
       nftMint,
       communityPool,
-      systemProgram: SystemProgram.programId,
+      systemProgram: web3.SystemProgram.programId,
       nftUserTokenAccount,
       storeNftTokenAccount: storeNftTokenAccount.publicKey,
       communityPoolsAuthority: community_pools_authority,
       user: userPubkey,
-      rent: anchor.web3.SYSVAR_RENT_PUBKEY,
+      rent: web3.SYSVAR_RENT_PUBKEY,
       tokenProgram: TOKEN_PROGRAM_ID,
       fractionMint,
       userFractionsTokenAccount,
@@ -111,7 +110,7 @@ export const depositNftToCommunityPool = async (params: DepositNftToCommunityPoo
     signers: signers,
   });
 
-  const transaction = new Transaction();
+  const transaction = new web3.Transaction();
 
   for (const instruction of instructions) {
     transaction.add(instruction);
@@ -139,20 +138,20 @@ export const depositNftToCommunityPoolIx = async (params: DepositNftToCommunityP
     provider,
   } = params;
 
-  let instructions: TransactionInstruction[] = [];
+  let instructions: web3.TransactionInstruction[] = [];
   const encoder = new TextEncoder();
   const program = await returnCommunityPoolsAnchorProgram(programId, provider);
 
-  const [community_pools_authority, bump] = await anchor.web3.PublicKey.findProgramAddress(
+  const [community_pools_authority, bump] = await web3.PublicKey.findProgramAddress(
     [encoder.encode(ACCOUNT_PREFIX), program.programId.toBuffer(), communityPool.toBuffer()],
     program.programId,
   );
-  const [leaderboardAccount, _bump] = await anchor.web3.PublicKey.findProgramAddress(
+  const [leaderboardAccount, _bump] = await web3.PublicKey.findProgramAddress(
     [communityPool.toBuffer(), encoder.encode('leaderBoard')],
     program.programId,
   );
-  const safetyDepositBox = anchor.web3.Keypair.generate();
-  const storeNftTokenAccount = anchor.web3.Keypair.generate();
+  const safetyDepositBox = web3.Keypair.generate();
+  const storeNftTokenAccount = web3.Keypair.generate();
 
   const userFractionsTokenAccount = await findAssociatedTokenAddress(userPubkey, fractionMint);
   const user = await provider.connection.getAccountInfo(userFractionsTokenAccount);
@@ -164,17 +163,17 @@ export const depositNftToCommunityPoolIx = async (params: DepositNftToCommunityP
     ];
   }
 
-  let [vaultOwnerPda, bumpPda] = await anchor.web3.PublicKey.findProgramAddress(
+  let [vaultOwnerPda, bumpPda] = await web3.PublicKey.findProgramAddress(
     [encoder.encode('vaultownerpda'), fusionProgramId.toBuffer()],
     fusionProgramId,
   );
 
   let vaultTokenAccountOutput = await findAssociatedTokenAddress(vaultOwnerPda, fractionMint);
 
-  const admin = new PublicKey(adminAddress);
+  const admin = new web3.PublicKey(adminAddress);
   const adminTokenAccount = await findAssociatedTokenAddress(admin, fractionMint);
 
-  let [mainRouter] = await anchor.web3.PublicKey.findProgramAddress(
+  let [mainRouter] = await web3.PublicKey.findProgramAddress(
     [encoder.encode('mainRouter'), tokenMintInputFusion.toBuffer(), fractionMint.toBuffer()],
     fusionProgramId,
   );
@@ -186,12 +185,12 @@ export const depositNftToCommunityPoolIx = async (params: DepositNftToCommunityP
     vaultOwnerPda = tokenMintInputFusion;
   }
 
-  let [configOutput] = await anchor.web3.PublicKey.findProgramAddress(
+  let [configOutput] = await web3.PublicKey.findProgramAddress(
     [encoder.encode('mainConfigAccountOutput'), fractionMint.toBuffer(), mainRouter.toBuffer()],
     fusionProgramId,
   );
 
-  let [boardEntry] = await anchor.web3.PublicKey.findProgramAddress(
+  let [boardEntry] = await web3.PublicKey.findProgramAddress(
     [encoder.encode('BoardEntry'), userPubkey.toBuffer()],
     program.programId,
   );
@@ -203,12 +202,12 @@ export const depositNftToCommunityPoolIx = async (params: DepositNftToCommunityP
       safetyDepositBox: safetyDepositBox.publicKey,
       nftMint,
       communityPool,
-      systemProgram: SystemProgram.programId,
+      systemProgram: web3.SystemProgram.programId,
       nftUserTokenAccount,
       storeNftTokenAccount: storeNftTokenAccount.publicKey,
       communityPoolsAuthority: community_pools_authority,
       user: userPubkey,
-      rent: anchor.web3.SYSVAR_RENT_PUBKEY,
+      rent: web3.SYSVAR_RENT_PUBKEY,
       tokenProgram: TOKEN_PROGRAM_ID,
       fractionMint,
       userFractionsTokenAccount,

@@ -1,5 +1,4 @@
-import * as anchor from '@project-serum/anchor';
-import { Keypair, Transaction } from '@solana/web3.js';
+import { BN, web3 } from '@project-serum/anchor';
 
 import { InitializeCollectionInfo } from '../../types';
 import { returnAnchorProgram } from '../../contract_model/accounts';
@@ -23,15 +22,15 @@ export const initializeCollectionInfo = async (params: InitializeCollectionInfo)
   } = params;
 
   const program = await returnAnchorProgram(programId, provider);
-  const collectionInfo = Keypair.generate();
+  const collectionInfo = web3.Keypair.generate();
 
   const instruction = await program.instruction.initializeCollectionInfo(
     {
-      loanToValue: new anchor.BN(loanToValue),
-      collaterizationRate: new anchor.BN(collaterizationRate),
-      royaltyFeeTime: new anchor.BN(royaltyFeeTime),
-      royaltyFeePrice: new anchor.BN(royaltyFeePrice),
-      expirationTime: new anchor.BN(expirationTime),
+      loanToValue: new BN(loanToValue),
+      collaterizationRate: new BN(collaterizationRate),
+      royaltyFeeTime: new BN(royaltyFeeTime),
+      royaltyFeePrice: new BN(royaltyFeePrice),
+      expirationTime: new BN(expirationTime),
       isPriceBased,
     },
     {
@@ -42,13 +41,13 @@ export const initializeCollectionInfo = async (params: InitializeCollectionInfo)
         creatorAddress: creatorAddress,
         royaltyAddress,
         pricingLookupAddress: pricingLookupAddress,
-        rent: anchor.web3.SYSVAR_RENT_PUBKEY,
-        systemProgram: anchor.web3.SystemProgram.programId,
+        rent: web3.SYSVAR_RENT_PUBKEY,
+        systemProgram: web3.SystemProgram.programId,
       },
     },
   );
 
-  const transaction = new Transaction().add(instruction);
+  const transaction = new web3.Transaction().add(instruction);
 
   await sendTxn(transaction, [collectionInfo]);
 

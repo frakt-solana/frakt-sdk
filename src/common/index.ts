@@ -1,11 +1,9 @@
-import * as anchor from '@project-serum/anchor';
-import { Connection, Keypair, PublicKey, SystemProgram, TransactionInstruction } from '@solana/web3.js';
+import { BN, AnchorProvider, web3, Program } from '@project-serum/anchor';
 import { AccountLayout, Token as SplToken, TOKEN_PROGRAM_ID } from '@solana/spl-token';
-import { NodeWallet } from '@metaplex/js';
-import BN from 'bn.js';
 import { Spl, SPL_ACCOUNT_LAYOUT } from '@raydium-io/raydium-sdk';
 
 import { SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID } from './constants';
+import { NodeWallet } from './classes/nodewallet';
 import {
   AccountInfoData,
   AccountInfoParsed,
@@ -18,7 +16,7 @@ import idl from './idl/multi_reward_staking.json';
 
 //when we only want to view vaults, no need to connect a real wallet.
 export const createFakeWallet = () => {
-  const leakedKp = Keypair.fromSecretKey(
+  const leakedKp = web3.Keypair.fromSecretKey(
     Uint8Array.from([
       208, 175, 150, 242, 88, 34, 108, 88, 177, 16, 168, 75, 115, 181, 199, 242, 120, 4, 78, 75, 19, 227, 13, 215, 184,
       108, 226, 53, 111, 149, 179, 84, 137, 121, 79, 1, 160, 223, 124, 241, 202, 203, 220, 237, 50, 242, 57, 158, 226,
@@ -29,30 +27,30 @@ export const createFakeWallet = () => {
 };
 
 export const findAssociatedTokenAddress = async (
-  walletAddress: PublicKey,
-  tokenMintAddress: PublicKey,
-): Promise<PublicKey> =>
+  walletAddress: web3.PublicKey,
+  tokenMintAddress: web3.PublicKey,
+): Promise<web3.PublicKey> =>
   (
-    await PublicKey.findProgramAddress(
+    await web3.PublicKey.findProgramAddress(
       [walletAddress.toBuffer(), TOKEN_PROGRAM_ID.toBuffer(), tokenMintAddress.toBuffer()],
       SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID,
     )
   )[0];
 
-export const getTokenBalance = async (pubkey: PublicKey, connection: Connection) => {
+export const getTokenBalance = async (pubkey: web3.PublicKey, connection: web3.Connection) => {
   const balance = await connection.getTokenAccountBalance(pubkey);
 
   return parseInt(balance.value.amount);
 };
 
 export const createUninitializedAccount = (
-  payer: PublicKey,
+  payer: web3.PublicKey,
   amount: number,
-): { instructions: TransactionInstruction[]; signers: Keypair[]; accountPubkey: PublicKey } => {
-  const account = Keypair.generate();
+): { instructions: web3.TransactionInstruction[]; signers: web3.Keypair[]; accountPubkey: web3.PublicKey } => {
+  const account = web3.Keypair.generate();
 
   const instructions = [
-    SystemProgram.createAccount({
+    web3.SystemProgram.createAccount({
       fromPubkey: payer,
       newAccountPubkey: account.publicKey,
       lamports: amount,
@@ -67,11 +65,11 @@ export const createUninitializedAccount = (
 };
 
 export const createTokenAccount = (
-  payer: PublicKey,
+  payer: web3.PublicKey,
   accountRentExempt: number,
-  mint: PublicKey,
-  owner: PublicKey,
-): { instructions: TransactionInstruction[]; signers: Keypair[]; accountPubkey: PublicKey } => {
+  mint: web3.PublicKey,
+  owner: web3.PublicKey,
+): { instructions: web3.TransactionInstruction[]; signers: web3.Keypair[]; accountPubkey: web3.PublicKey } => {
   const {
     instructions: newInstructions,
     signers: newSigners,
@@ -84,11 +82,11 @@ export const createTokenAccount = (
 };
 
 export const createAssociatedTokenAccountInstruction = (
-  associatedTokenAddress: PublicKey,
-  payer: PublicKey,
-  walletAddress: PublicKey,
-  splTokenMintAddress: PublicKey,
-): TransactionInstruction[] => {
+  associatedTokenAddress: web3.PublicKey,
+  payer: web3.PublicKey,
+  walletAddress: web3.PublicKey,
+  splTokenMintAddress: web3.PublicKey,
+): web3.TransactionInstruction[] => {
   const keys = [
     {
       pubkey: payer,
@@ -111,7 +109,7 @@ export const createAssociatedTokenAccountInstruction = (
       isWritable: false,
     },
     {
-      pubkey: SystemProgram.programId,
+      pubkey: web3.SystemProgram.programId,
       isSigner: false,
       isWritable: false,
     },
@@ -121,14 +119,14 @@ export const createAssociatedTokenAccountInstruction = (
       isWritable: false,
     },
     {
-      pubkey: anchor.web3.SYSVAR_RENT_PUBKEY,
+      pubkey: web3.SYSVAR_RENT_PUBKEY,
       isSigner: false,
       isWritable: false,
     },
   ];
 
   return [
-    new TransactionInstruction({
+    new web3.TransactionInstruction({
       keys,
       programId: SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID,
       data: Buffer.from([]),
@@ -136,11 +134,11 @@ export const createAssociatedTokenAccountInstruction = (
   ];
 };
 
-export const deriveMetadataPubkeyFromMint = async (nftMint: PublicKey): Promise<PublicKey> => {
-  let metadata_program = new PublicKey('metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s');
+export const deriveMetadataPubkeyFromMint = async (nftMint: web3.PublicKey): Promise<web3.PublicKey> => {
+  let metadata_program = new web3.PublicKey('metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s');
 
   const encoder = new TextEncoder();
-  const [metadataPubkey] = await anchor.web3.PublicKey.findProgramAddress(
+  const [metadataPubkey] = await web3.PublicKey.findProgramAddress(
     [encoder.encode('metadata'), metadata_program.toBuffer(), nftMint.toBuffer()],
     metadata_program,
   );
@@ -201,18 +199,18 @@ export const getAllUserTokens: GetAllUserTokens = async ({ connection, walletPub
 
       return {
         tokenAccountPubkey: pubkey.toBase58(),
-        mint: new PublicKey(parsedData.mint).toBase58(),
-        owner: new PublicKey(parsedData.owner).toBase58(),
+        mint: new web3.PublicKey(parsedData.mint).toBase58(),
+        owner: new web3.PublicKey(parsedData.owner).toBase58(),
         amount: amountNum,
         amountBN: new BN(parsedData.amount, 10, 'le'),
         delegateOption: !!parsedData.delegateOption,
-        delegate: new PublicKey(parsedData.delegate).toBase58(),
+        delegate: new web3.PublicKey(parsedData.delegate).toBase58(),
         state: parsedData.state,
         isNativeOption: !!parsedData.isNativeOption,
         isNative: new BN(parsedData.isNative, 10, 'le').toNumber(),
         delegatedAmount: new BN(parsedData.delegatedAmount, 10, 'le').toNumber(),
         closeAuthorityOption: !!parsedData.closeAuthorityOption,
-        closeAuthority: new PublicKey(parsedData.closeAuthority).toBase58(),
+        closeAuthority: new web3.PublicKey(parsedData.closeAuthority).toBase58(),
       };
     }) || []
   );
@@ -225,8 +223,8 @@ export const getNftCreators = (nft: UserNFT): string[] => (
   nft?.metadata?.properties?.creators?.filter(({ verified }) => verified)?.map(({ address }) => address) || []
 );
 
-export const returnAnchorMultiRewardStaking = async (programId: PublicKey, provider: anchor.Provider): Promise<anchor.Program> => {
-  return new anchor.Program(
+export const returnAnchorMultiRewardStaking = async (programId: web3.PublicKey, provider: AnchorProvider): Promise<Program> => {
+  return new Program(
     idl as any,
     programId,
     provider

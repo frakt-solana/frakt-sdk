@@ -1,16 +1,15 @@
-import * as anchor from '@project-serum/anchor';
-import { PublicKey } from '@solana/web3.js';
+import { AnchorProvider, web3 } from '@project-serum/anchor';
 import { ASSOCIATED_TOKEN_PROGRAM_ID, TOKEN_PROGRAM_ID } from '@solana/spl-token';
 
 import { findAssociatedTokenAddress, returnAnchorMultiRewardStaking } from '../../common';
 
-export const harvestInFusion = async (programId: PublicKey, provider: anchor.Provider, userPublicKey: PublicKey, mintToStake: PublicKey, mintToHarvest: PublicKey) =>{
+export const harvestInFusion = async (programId: web3.PublicKey, provider: AnchorProvider, userPublicKey: web3.PublicKey, mintToStake: web3.PublicKey, mintToHarvest: web3.PublicKey) =>{
   const encoder = new TextEncoder();
 
   const program = await returnAnchorMultiRewardStaking(programId, provider)
 
   const [vaultOwnerPda, bump] =
-    await anchor.web3.PublicKey.findProgramAddress(
+    await web3.PublicKey.findProgramAddress(
       [encoder.encode("vaultownerpda"), programId.toBuffer()],
       program.programId
     );
@@ -18,18 +17,18 @@ export const harvestInFusion = async (programId: PublicKey, provider: anchor.Pro
 
   const vaultTokenAccountOutput = await findAssociatedTokenAddress(vaultOwnerPda, mintToHarvest)
   const [mainRouter, bumpRouter] =
-    await anchor.web3.PublicKey.findProgramAddress(
+    await web3.PublicKey.findProgramAddress(
       [encoder.encode("mainRouter"), mintToStake.toBuffer(), mintToHarvest.toBuffer()],
       program.programId
     );
 
   const [configOutput, bumpConfigOutput] =
-    await anchor.web3.PublicKey.findProgramAddress(
+    await web3.PublicKey.findProgramAddress(
       [encoder.encode("mainConfigAccountOutput"), mintToHarvest.toBuffer(), mainRouter.toBuffer()],
       program.programId
     );
   const [stakeAccount, bumpStake] =
-    await anchor.web3.PublicKey.findProgramAddress(
+    await web3.PublicKey.findProgramAddress(
       [userPublicKey.toBuffer(), mainRouter.toBuffer()],
       program.programId
     );
@@ -51,8 +50,8 @@ export const harvestInFusion = async (programId: PublicKey, provider: anchor.Pro
         stakeAccount: stakeAccount,
         mainRouter,
         configOutput,
-        rent: anchor.web3.SYSVAR_RENT_PUBKEY,
-        systemProgram: anchor.web3.SystemProgram.programId,
+        rent: web3.SYSVAR_RENT_PUBKEY,
+        systemProgram: web3.SystemProgram.programId,
         tokenProgram: TOKEN_PROGRAM_ID,
         associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
       },

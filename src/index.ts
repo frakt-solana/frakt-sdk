@@ -10,3 +10,6 @@ export * as loans from './loans';
 export * as pools from './pools';
 export * as swaps from './swaps';
 export * as raydium from '@raydium-io/raydium-sdk';
+export { AnchorProvider } from '@project-serum/anchor';
+export { BN } from '@project-serum/anchor';
+export { web3 } from '@project-serum/anchor';

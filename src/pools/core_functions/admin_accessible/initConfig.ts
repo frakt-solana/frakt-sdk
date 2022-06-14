@@ -1,7 +1,5 @@
-import * as anchor from '@project-serum/anchor';
+import { web3 } from'@project-serum/anchor';
 import { TOKEN_PROGRAM_ID, ASSOCIATED_TOKEN_PROGRAM_ID } from '@solana/spl-token';
-import { Transaction } from '@solana/web3.js';
-export { Provider, Program } from '@project-serum/anchor';
 
 import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
 import { findAssociatedTokenAddress } from '../../../common';
@@ -13,14 +11,14 @@ export const initConfig = async (params: InitConfig) => {
   const encoder = new TextEncoder();
   const program = await returnCommunityPoolsAnchorProgram(programId, provider);
 
-  const [vaultOwnerPda, bump] = await anchor.web3.PublicKey.findProgramAddress(
+  const [vaultOwnerPda, bump] = await web3.PublicKey.findProgramAddress(
     [encoder.encode('vaultownerpda'), programId.toBuffer()],
     program.programId,
   );
 
   const vaultTokenAccount = await findAssociatedTokenAddress(vaultOwnerPda, tokenMint);
 
-  const [config] = await anchor.web3.PublicKey.findProgramAddress(
+  const [config] = await web3.PublicKey.findProgramAddress(
     [encoder.encode('poolConfig'), tokenMint.toBuffer()],
     program.programId,
   );
@@ -32,14 +30,14 @@ export const initConfig = async (params: InitConfig) => {
       vaultOwnerPda,
       vaultTokenAccount,
       config,
-      rent: anchor.web3.SYSVAR_RENT_PUBKEY,
-      systemProgram: anchor.web3.SystemProgram.programId,
+      rent: web3.SYSVAR_RENT_PUBKEY,
+      systemProgram: web3.SystemProgram.programId,
       tokenProgram: TOKEN_PROGRAM_ID,
       associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
     },
   });
 
-  const transaction = new Transaction().add(instruction);
+  const transaction = new web3.Transaction().add(instruction);
 
   await sendTxn(transaction);
 };

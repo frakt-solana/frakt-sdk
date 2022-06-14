@@ -1,5 +1,4 @@
-import * as anchor from '@project-serum/anchor';
-import { Transaction } from '@solana/web3.js';
+import { web3 } from'@project-serum/anchor';
 
 import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
 import { InitPermission } from '../../types';
@@ -10,7 +9,7 @@ export const initPermission = async (params: InitPermission) => {
   const encoder = new TextEncoder();
   const program = await returnCommunityPoolsAnchorProgram(programId, provider);
 
-  const [permission] = await anchor.web3.PublicKey.findProgramAddress(
+  const [permission] = await web3.PublicKey.findProgramAddress(
     [encoder.encode('Permission'), programPubkey.toBuffer()],
     program.programId,
   );
@@ -20,12 +19,12 @@ export const initPermission = async (params: InitPermission) => {
       admin,
       programPubkey,
       permission,
-      rent: anchor.web3.SYSVAR_RENT_PUBKEY,
-      systemProgram: anchor.web3.SystemProgram.programId,
+      rent: web3.SYSVAR_RENT_PUBKEY,
+      systemProgram: web3.SystemProgram.programId,
     },
   });
 
-  const transaction = new Transaction().add(instruction);
+  const transaction = new web3.Transaction().add(instruction);
 
   await sendTxn(transaction);
 };

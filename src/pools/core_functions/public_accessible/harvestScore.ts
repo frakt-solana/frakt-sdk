@@ -1,6 +1,5 @@
-import * as anchor from '@project-serum/anchor';
+import { web3 } from'@project-serum/anchor';
 import { TOKEN_PROGRAM_ID, ASSOCIATED_TOKEN_PROGRAM_ID } from '@solana/spl-token';
-import { Transaction } from '@solana/web3.js';
 
 import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
 import { findAssociatedTokenAddress } from '../../../common';
@@ -12,17 +11,17 @@ export const harvestScore = async (params: HarvestScore) => {
   const encoder = new TextEncoder();
   const program = await returnCommunityPoolsAnchorProgram(programId, provider);
 
-  const [boardEntry, bumpBoard] = await anchor.web3.PublicKey.findProgramAddress(
+  const [boardEntry, bumpBoard] = await web3.PublicKey.findProgramAddress(
     [encoder.encode('BoardEntry'), userPublicKey.toBuffer()],
     program.programId,
   );
 
-  const [config, bumpConfig] = await anchor.web3.PublicKey.findProgramAddress(
+  const [config, bumpConfig] = await web3.PublicKey.findProgramAddress(
     [encoder.encode('poolConfig'), tokenMint.toBuffer()],
     program.programId,
   );
 
-  const [vaultOwnerPda, bumpAuth] = await anchor.web3.PublicKey.findProgramAddress(
+  const [vaultOwnerPda, bumpAuth] = await web3.PublicKey.findProgramAddress(
     [encoder.encode('vaultownerpda'), program.programId.toBuffer()],
     program.programId,
   );
@@ -39,14 +38,14 @@ export const harvestScore = async (params: HarvestScore) => {
       vaultTokenAccount,
       config,
       boardEntry,
-      rent: anchor.web3.SYSVAR_RENT_PUBKEY,
-      systemProgram: anchor.web3.SystemProgram.programId,
+      rent: web3.SYSVAR_RENT_PUBKEY,
+      systemProgram: web3.SystemProgram.programId,
       tokenProgram: TOKEN_PROGRAM_ID,
       associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
     },
   });
 
-  const transaction = new Transaction().add(instruction);
+  const transaction = new web3.Transaction().add(instruction);
 
   await sendTxn(transaction);
 };

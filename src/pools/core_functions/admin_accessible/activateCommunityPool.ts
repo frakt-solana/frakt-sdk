@@ -1,5 +1,4 @@
-import { Transaction, SystemProgram } from '@solana/web3.js';
-export { Provider, Program } from '@project-serum/anchor';
+import { web3 } from'@project-serum/anchor';
 
 import { ActivateCommunityPool } from '../../types';
 import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
@@ -15,12 +14,12 @@ export const activateCommunityPool = async (params: ActivateCommunityPool): Prom
     accounts: {
       communityPool: communityPool,
       authority: userPubkey,
-      systemProgram: SystemProgram.programId,
+      systemProgram: web3.SystemProgram.programId,
     },
     signers: signers,
   });
 
-  const transaction = new Transaction().add(instruction);
+  const transaction = new web3.Transaction().add(instruction);
 
   await sendTxn(transaction, signers);
 };

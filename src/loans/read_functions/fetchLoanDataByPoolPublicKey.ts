@@ -1,15 +1,15 @@
-import { Connection, PublicKey } from '@solana/web3.js';
+import { web3 } from'@project-serum/anchor';
 import { groupBy } from 'lodash';
 
 import { LoanDataByPoolPublicKey } from '../types';
 import { getAllProgramAccounts } from '../../lending';
 
 export const fetchLoanDataByPoolPublicKey = async (
-  connection: Connection,
+  connection: web3.Connection,
   loansProgramPubkey: string,
 ): Promise<LoanDataByPoolPublicKey> => {
   const { collectionInfos, deposits, liquidityPools, loans } = await getAllProgramAccounts(
-    new PublicKey(loansProgramPubkey),
+    new web3.PublicKey(loansProgramPubkey),
     connection,
   );
 

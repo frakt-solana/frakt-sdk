@@ -1,5 +1,4 @@
-import * as anchor from '@project-serum/anchor';
-import { Transaction } from '@solana/web3.js';
+import { web3 } from '@project-serum/anchor';
 import { Edition, MetadataProgram } from '@metaplex-foundation/mpl-token-metadata';
 import { TOKEN_PROGRAM_ID } from '@project-serum/anchor/dist/cjs/utils/token';
 
@@ -13,7 +12,7 @@ export const rejectLoanByAdmin = async (params: RejectLoanByAdmin): Promise<any>
   const program = await returnAnchorProgram(programId, provider);
   const editionId = await Edition.getPDA(nftMint);
 
-  const [communityPoolsAuthority, bumpPoolsAuth] = await anchor.web3.PublicKey.findProgramAddress(
+  const [communityPoolsAuthority, bumpPoolsAuth] = await web3.PublicKey.findProgramAddress(
     [encoder.encode('nftlendingv2'), programId.toBuffer()],
     programId,
   );
@@ -27,13 +26,13 @@ export const rejectLoanByAdmin = async (params: RejectLoanByAdmin): Promise<any>
       user: user,
       communityPoolsAuthority,
       tokenProgram: TOKEN_PROGRAM_ID,
-      systemProgram: anchor.web3.SystemProgram.programId,
+      systemProgram: web3.SystemProgram.programId,
       metadataProgram: MetadataProgram.PUBKEY,
       editionInfo: editionId,
     },
   });
 
-  const transaction = new Transaction().add(instruction);
+  const transaction = new web3.Transaction().add(instruction);
 
   await sendTxn(transaction);
 };

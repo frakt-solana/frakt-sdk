@@ -1,6 +1,5 @@
-import * as anchor from '@project-serum/anchor';
+import { web3 } from'@project-serum/anchor';
 import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
-import { Transaction, SystemProgram, TransactionInstruction } from '@solana/web3.js';
 
 import { findAssociatedTokenAddress, createAssociatedTokenAccountInstruction } from '../../../common';
 import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
@@ -11,14 +10,14 @@ export const emergencyWithdrawByAdmin = async (params: EmergencyWithdrawByAdmin)
   const { communityPool, safetyDepositBox, nftMint, storeNftTokenAccount, programId, admin, provider, sendTxn } =
     params;
 
-  let instructions: TransactionInstruction[] = [];
+  let instructions: web3.TransactionInstruction[] = [];
   const signers = [];
 
   const encoder = new TextEncoder();
   const program = await returnCommunityPoolsAnchorProgram(programId, provider);
   const nftAdminTokenAccount = await findAssociatedTokenAddress(admin, nftMint);
 
-  const [community_pools_authority, bump] = await anchor.web3.PublicKey.findProgramAddress(
+  const [community_pools_authority, bump] = await web3.PublicKey.findProgramAddress(
     [encoder.encode(ACCOUNT_PREFIX), program.programId.toBuffer(), communityPool.toBuffer()],
     program.programId,
   );
@@ -41,14 +40,14 @@ export const emergencyWithdrawByAdmin = async (params: EmergencyWithdrawByAdmin)
       storeNftTokenAccount: storeNftTokenAccount,
       communityPoolsAuthority: community_pools_authority,
       admin: admin,
-      systemProgram: SystemProgram.programId,
-      rent: anchor.web3.SYSVAR_RENT_PUBKEY,
+      systemProgram: web3.SystemProgram.programId,
+      rent: web3.SYSVAR_RENT_PUBKEY,
       tokenProgram: TOKEN_PROGRAM_ID,
     },
     signers: signers,
   });
 
-  const transaction = new Transaction();
+  const transaction = new web3.Transaction();
 
   for (const instruction of instructions) {
     transaction.add(instruction);

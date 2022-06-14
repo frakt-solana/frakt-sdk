@@ -1,5 +1,4 @@
-import * as anchor from '@project-serum/anchor';
-import { Transaction } from '@solana/web3.js';
+import { BN, web3 } from '@project-serum/anchor';
 
 import { UpdateCollectionInfo } from '../../types';
 import { returnAnchorProgram } from '../../contract_model/accounts';
@@ -27,11 +26,11 @@ export const updateCollectionInfo = async (params: UpdateCollectionInfo): Promis
 
   const instruction = await program.instruction.updateCollectionInfo(
     {
-      loanToValue: new anchor.BN(loanToValue),
-      collaterizationRate: new anchor.BN(collaterizationRate),
-      royaltyFeeTime: new anchor.BN(royaltyFeeTime),
-      royaltyFeePrice: new anchor.BN(royaltyFeePrice),
-      expirationTime: new anchor.BN(expirationTime),
+      loanToValue: new BN(loanToValue),
+      collaterizationRate: new BN(collaterizationRate),
+      royaltyFeeTime: new BN(royaltyFeeTime),
+      royaltyFeePrice: new BN(royaltyFeePrice),
+      expirationTime: new BN(expirationTime),
       isPriceBased,
     },
     {
@@ -46,7 +45,7 @@ export const updateCollectionInfo = async (params: UpdateCollectionInfo): Promis
     },
   );
 
-  const transaction = new Transaction().add(instruction);
+  const transaction = new web3.Transaction().add(instruction);
 
   await sendTxn(transaction);
 };

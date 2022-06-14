@@ -1,5 +1,4 @@
-import * as anchor from '@project-serum/anchor';
-import { Transaction } from '@solana/web3.js';
+import { web3 } from'@project-serum/anchor';
 
 import { HarvestLiquidity } from '../../types';
 import { returnAnchorProgram } from '../../contract_model/accounts';
@@ -10,12 +9,12 @@ export const harvestLiquidity = async (params: HarvestLiquidity): Promise<any> =
   const encoder = new TextEncoder();
   const program = await returnAnchorProgram(programId, provider);
 
-  const [liqOwner] = await anchor.web3.PublicKey.findProgramAddress(
+  const [liqOwner] = await web3.PublicKey.findProgramAddress(
     [encoder.encode('nftlendingv2'), liquidityPool.toBuffer()],
     program.programId,
   );
 
-  const [deposit, depositBump] = await anchor.web3.PublicKey.findProgramAddress(
+  const [deposit, depositBump] = await web3.PublicKey.findProgramAddress(
     [encoder.encode('deposit'), liquidityPool.toBuffer(), user.toBuffer()],
     program.programId,
   );
@@ -26,11 +25,11 @@ export const harvestLiquidity = async (params: HarvestLiquidity): Promise<any> =
       user,
       deposit,
       liqOwner,
-      systemProgram: anchor.web3.SystemProgram.programId,
+      systemProgram: web3.SystemProgram.programId,
     },
   });
 
-  const transaction = new Transaction().add(instruction);
+  const transaction = new web3.Transaction().add(instruction);
 
   await sendTxn(transaction);
 };

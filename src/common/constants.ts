@@ -1,8 +1,8 @@
-import { PublicKey } from '@solana/web3.js';
+import { web3 } from '@project-serum/anchor';
 import { WSOL } from '@raydium-io/raydium-sdk';
 import { TokenInfo } from './types';
 
-export const SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID: PublicKey = new PublicKey(
+export const SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID: web3.PublicKey = new web3.PublicKey(
   'ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL',
 );
 

@@ -1,9 +1,9 @@
-import { Connection } from '@solana/web3.js';
+import { web3 } from'@project-serum/anchor';
 import { Liquidity, LiquidityPoolInfo, LiquidityPoolKeysV4 } from '@raydium-io/raydium-sdk';
 import { RaydiumPoolInfoMap } from '../types';
 
 export const fetchRaydiumPoolsInfoMap = async (
-  connection: Connection,
+  connection: web3.Connection,
   raydiumPoolConfigs: LiquidityPoolKeysV4[],
 ): Promise<RaydiumPoolInfoMap> => {
   const raydiumPoolInfoMap = new Map<string, LiquidityPoolInfo>();

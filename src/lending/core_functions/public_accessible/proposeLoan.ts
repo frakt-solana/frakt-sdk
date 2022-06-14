@@ -1,5 +1,4 @@
-import * as anchor from '@project-serum/anchor';
-import { Keypair, Transaction } from '@solana/web3.js';
+import { BN, web3 } from '@project-serum/anchor';
 import { Edition, MetadataProgram } from '@metaplex-foundation/mpl-token-metadata';
 import { TOKEN_PROGRAM_ID } from '@project-serum/anchor/dist/cjs/utils/token';
 
@@ -16,9 +15,9 @@ export const proposeLoan = async (params: ProposeLoan): Promise<IReturn> => {
 
   const encoder = new TextEncoder();
   const program = await returnAnchorProgram(programId, provider);
-  const loan = Keypair.generate();
+  const loan = web3.Keypair.generate();
 
-  const [communityPoolsAuthority, bumpPoolsAuth] = await anchor.web3.PublicKey.findProgramAddress(
+  const [communityPoolsAuthority, bumpPoolsAuth] = await web3.PublicKey.findProgramAddress(
     [encoder.encode('nftlendingv2'), programId.toBuffer()],
     programId,
   );
@@ -26,7 +25,7 @@ export const proposeLoan = async (params: ProposeLoan): Promise<IReturn> => {
   const editionId = await Edition.getPDA(nftMint);
   const nftUserTokenAccount = await findAssociatedTokenAddress(user, nftMint);
 
-  const instruction = program.instruction.proposeLoan(bumpPoolsAuth, isPriceBased, new anchor.BN(proposedNftPrice), {
+  const instruction = program.instruction.proposeLoan(bumpPoolsAuth, isPriceBased, new BN(proposedNftPrice), {
     accounts: {
       loan: loan.publicKey,
       user: user,
@@ -34,13 +33,13 @@ export const proposeLoan = async (params: ProposeLoan): Promise<IReturn> => {
       nftMint: nftMint,
       communityPoolsAuthority,
       tokenProgram: TOKEN_PROGRAM_ID,
-      rent: anchor.web3.SYSVAR_RENT_PUBKEY,
-      systemProgram: anchor.web3.SystemProgram.programId,
+      rent: web3.SYSVAR_RENT_PUBKEY,
+      systemProgram: web3.SystemProgram.programId,
       metadataProgram: MetadataProgram.PUBKEY,
       editionInfo: editionId,
     },
   });
-  const transaction = new Transaction().add(instruction);
+  const transaction = new web3.Transaction().add(instruction);
 
   await sendTxn(transaction, [loan]);
 

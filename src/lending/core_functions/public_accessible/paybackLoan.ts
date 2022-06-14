@@ -1,5 +1,4 @@
-import * as anchor from '@project-serum/anchor';
-import { Transaction } from '@solana/web3.js';
+import { web3 } from '@project-serum/anchor';
 import { Edition, MetadataProgram } from '@metaplex-foundation/mpl-token-metadata';
 import { TOKEN_PROGRAM_ID } from '@project-serum/anchor/dist/cjs/utils/token';
 
@@ -14,12 +13,12 @@ export const paybackLoan = async (params: PaybackLoan): Promise<any> => {
   const encoder = new TextEncoder();
   const program = await returnAnchorProgram(programId, provider);
 
-  const [communityPoolsAuthority, bumpPoolsAuth] = await anchor.web3.PublicKey.findProgramAddress(
+  const [communityPoolsAuthority, bumpPoolsAuth] = await web3.PublicKey.findProgramAddress(
     [encoder.encode('nftlendingv2'), programId.toBuffer()],
     program.programId,
   );
 
-  const [liqOwner] = await anchor.web3.PublicKey.findProgramAddress(
+  const [liqOwner] = await web3.PublicKey.findProgramAddress(
     [encoder.encode('nftlendingv2'), liquidityPool.toBuffer()],
     program.programId,
   );
@@ -39,7 +38,7 @@ export const paybackLoan = async (params: PaybackLoan): Promise<any> => {
       royaltyAddress,
       liqOwner,
       communityPoolsAuthority,
-      systemProgram: anchor.web3.SystemProgram.programId,
+      systemProgram: web3.SystemProgram.programId,
       tokenProgram: TOKEN_PROGRAM_ID,
       // associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
       metadataProgram: MetadataProgram.PUBKEY,
@@ -47,7 +46,7 @@ export const paybackLoan = async (params: PaybackLoan): Promise<any> => {
     },
   });
 
-  const transaction = new Transaction().add(instruction);
+  const transaction = new web3.Transaction().add(instruction);
 
   await sendTxn(transaction);
 };

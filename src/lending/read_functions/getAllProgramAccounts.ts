@@ -1,5 +1,4 @@
-import * as anchor from '@project-serum/anchor';
-import { Connection, PublicKey } from '@solana/web3.js';
+import { AnchorProvider, web3 } from '@project-serum/anchor';
 import {
   returnAnchorProgram,
   decodedCollectionInfo,
@@ -17,8 +16,8 @@ interface IReturn {
   loans: LoanView[];
 }
 
-export const getAllProgramAccounts = async (programId: PublicKey, connection: Connection): Promise<IReturn> => {
-  const provider = new anchor.Provider(connection, createFakeWallet(), anchor.Provider.defaultOptions());
+export const getAllProgramAccounts = async (programId: web3.PublicKey, connection: web3.Connection): Promise<IReturn> => {
+  const provider = new AnchorProvider(connection, createFakeWallet(), AnchorProvider.defaultOptions());
   const program = returnAnchorProgram(programId, provider);
 
   const collectionInfoRaws = await program.account.collectionInfo.all();

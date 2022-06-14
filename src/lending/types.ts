@@ -1,155 +1,154 @@
-import { Keypair, PublicKey, Transaction } from '@solana/web3.js';
-import * as anchor from '@project-serum/anchor';
+import { BN, AnchorProvider, web3 } from '@project-serum/anchor';
 
 export interface ApproveLoanByAdmin {
-  programId: PublicKey;
-  provider: anchor.Provider;
-  admin: PublicKey;
-  loan: PublicKey;
-  liquidityPool: PublicKey;
-  collectionInfo: PublicKey;
-  nftPrice: number | anchor.BN;
-  discount: number | anchor.BN;
-  user: PublicKey;
-  sendTxn: (transaction: Transaction) => Promise<void>;
+  programId: web3.PublicKey;
+  provider: AnchorProvider;
+  admin: web3.PublicKey;
+  loan: web3.PublicKey;
+  liquidityPool: web3.PublicKey;
+  collectionInfo: web3.PublicKey;
+  nftPrice: number | BN;
+  discount: number | BN;
+  user: web3.PublicKey;
+  sendTxn: (transaction: web3.Transaction) => Promise<void>;
 }
 
 export interface CloseLoanByAdmin {
-  programId: PublicKey;
-  provider: anchor.Provider;
-  loan: PublicKey;
-  admin: PublicKey;
-  sendTxn: (transaction: Transaction) => Promise<void>;
+  programId: web3.PublicKey;
+  provider: AnchorProvider;
+  loan: web3.PublicKey;
+  admin: web3.PublicKey;
+  sendTxn: (transaction: web3.Transaction) => Promise<void>;
 }
 
 export interface InitializeCollectionInfo {
-  programId: PublicKey;
-  provider: anchor.Provider;
-  liquidityPool: PublicKey;
-  admin: PublicKey;
-  creatorAddress: PublicKey;
-  pricingLookupAddress: PublicKey;
-  loanToValue: number | anchor.BN;
-  collaterizationRate: number | anchor.BN;
-  royaltyAddress: PublicKey;
-  royaltyFeeTime: number | anchor.BN;
-  royaltyFeePrice: number | anchor.BN;
-  expirationTime: number | anchor.BN;
+  programId: web3.PublicKey;
+  provider: AnchorProvider;
+  liquidityPool: web3.PublicKey;
+  admin: web3.PublicKey;
+  creatorAddress: web3.PublicKey;
+  pricingLookupAddress: web3.PublicKey;
+  loanToValue: number | BN;
+  collaterizationRate: number | BN;
+  royaltyAddress: web3.PublicKey;
+  royaltyFeeTime: number | BN;
+  royaltyFeePrice: number | BN;
+  expirationTime: number | BN;
   isPriceBased: boolean;
-  sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>;
+  sendTxn: (transaction: web3.Transaction, signers: web3.Keypair[]) => Promise<void>;
 }
 
 export interface InitializeLiquidityPool {
-  programId: PublicKey;
-  provider: anchor.Provider;
-  admin: PublicKey;
-  rewardInterestRateTime: number | anchor.BN;
-  feeInterestRateTime: number | anchor.BN;
-  rewardInterestRatePrice: number | anchor.BN;
-  feeInterestRatePrice: number | anchor.BN;
-  id: number | anchor.BN;
-  period: number | anchor.BN;
-  sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>;
+  programId: web3.PublicKey;
+  provider: AnchorProvider;
+  admin: web3.PublicKey;
+  rewardInterestRateTime: number | BN;
+  feeInterestRateTime: number | BN;
+  rewardInterestRatePrice: number | BN;
+  feeInterestRatePrice: number | BN;
+  id: number | BN;
+  period: number | BN;
+  sendTxn: (transaction: web3.Transaction, signers: web3.Keypair[]) => Promise<void>;
 }
 
 export interface LiquidateLoanByAdmin {
-  programId: PublicKey;
-  provider: anchor.Provider;
-  liquidator: PublicKey;
-  user: PublicKey;
-  loan: PublicKey;
-  nftMint: PublicKey;
-  sendTxn: (transaction: Transaction) => Promise<void>;
+  programId: web3.PublicKey;
+  provider: AnchorProvider;
+  liquidator: web3.PublicKey;
+  user: web3.PublicKey;
+  loan: web3.PublicKey;
+  nftMint: web3.PublicKey;
+  sendTxn: (transaction: web3.Transaction) => Promise<void>;
 }
 
 export interface RejectLoanByAdmin {
-  programId: PublicKey;
-  provider: anchor.Provider;
-  loan: PublicKey;
-  nftUserTokenAccount: PublicKey;
-  admin: PublicKey;
-  user: PublicKey;
-  nftMint: PublicKey;
-  sendTxn: (transaction: Transaction) => Promise<void>;
+  programId: web3.PublicKey;
+  provider: AnchorProvider;
+  loan: web3.PublicKey;
+  nftUserTokenAccount: web3.PublicKey;
+  admin: web3.PublicKey;
+  user: web3.PublicKey;
+  nftMint: web3.PublicKey;
+  sendTxn: (transaction: web3.Transaction) => Promise<void>;
 }
 
 export interface UpdateCollectionInfo {
-  programId: PublicKey;
-  provider: anchor.Provider;
-  liquidityPool: PublicKey;
-  admin: PublicKey;
-  creatorAddress: PublicKey;
-  collectionInfo: PublicKey;
-  pricingLookupAddress: PublicKey;
-  loanToValue: number | anchor.BN;
-  collaterizationRate: number | anchor.BN;
-  royaltyAddress: PublicKey;
-  royaltyFeeTime: number | anchor.BN;
-  royaltyFeePrice: number | anchor.BN;
-  expirationTime: number | anchor.BN;
+  programId: web3.PublicKey;
+  provider: AnchorProvider;
+  liquidityPool: web3.PublicKey;
+  admin: web3.PublicKey;
+  creatorAddress: web3.PublicKey;
+  collectionInfo: web3.PublicKey;
+  pricingLookupAddress: web3.PublicKey;
+  loanToValue: number | BN;
+  collaterizationRate: number | BN;
+  royaltyAddress: web3.PublicKey;
+  royaltyFeeTime: number | BN;
+  royaltyFeePrice: number | BN;
+  expirationTime: number | BN;
   isPriceBased: boolean;
-  sendTxn: (transaction: Transaction) => Promise<void>;
+  sendTxn: (transaction: web3.Transaction) => Promise<void>;
 }
 
 export interface UpdateLiquidityPool {
-  programId: PublicKey;
-  provider: anchor.Provider;
-  admin: PublicKey;
-  liquidityPool: PublicKey;
-  rewardInterestRateTime: number | anchor.BN;
-  feeInterestRateTime: number | anchor.BN;
-  rewardInterestRatePrice: number | anchor.BN;
-  feeInterestRatePrice: number | anchor.BN;
-  id: number | anchor.BN;
-  period: number | anchor.BN;
-  sendTxn: (transaction: Transaction) => Promise<void>;
+  programId: web3.PublicKey;
+  provider: AnchorProvider;
+  admin: web3.PublicKey;
+  liquidityPool: web3.PublicKey;
+  rewardInterestRateTime: number | BN;
+  feeInterestRateTime: number | BN;
+  rewardInterestRatePrice: number | BN;
+  feeInterestRatePrice: number | BN;
+  id: number | BN;
+  period: number | BN;
+  sendTxn: (transaction: web3.Transaction) => Promise<void>;
 }
 
 export interface DepositLiquidity {
-  programId: PublicKey;
-  provider: anchor.Provider;
-  liquidityPool: PublicKey;
-  user: PublicKey;
+  programId: web3.PublicKey;
+  provider: AnchorProvider;
+  liquidityPool: web3.PublicKey;
+  user: web3.PublicKey;
   amount: number;
-  sendTxn: (transaction: Transaction) => Promise<void>;
+  sendTxn: (transaction: web3.Transaction) => Promise<void>;
 }
 
 export interface HarvestLiquidity {
-  programId: PublicKey;
-  provider: anchor.Provider;
-  liquidityPool: PublicKey;
-  user: PublicKey;
-  sendTxn: (transaction: Transaction) => Promise<void>;
+  programId: web3.PublicKey;
+  provider: AnchorProvider;
+  liquidityPool: web3.PublicKey;
+  user: web3.PublicKey;
+  sendTxn: (transaction: web3.Transaction) => Promise<void>;
 }
 
 export interface PaybackLoan {
-  programId: PublicKey;
-  provider: anchor.Provider;
-  user: PublicKey;
-  admin: PublicKey;
-  loan: PublicKey;
-  nftMint: PublicKey;
-  liquidityPool: PublicKey;
-  collectionInfo: PublicKey;
-  royaltyAddress: PublicKey;
-  sendTxn: (transaction: Transaction) => Promise<void>;
+  programId: web3.PublicKey;
+  provider: AnchorProvider;
+  user: web3.PublicKey;
+  admin: web3.PublicKey;
+  loan: web3.PublicKey;
+  nftMint: web3.PublicKey;
+  liquidityPool: web3.PublicKey;
+  collectionInfo: web3.PublicKey;
+  royaltyAddress: web3.PublicKey;
+  sendTxn: (transaction: web3.Transaction) => Promise<void>;
 }
 
 export interface ProposeLoan {
-  programId: PublicKey;
-  provider: anchor.Provider;
-  user: PublicKey;
-  nftMint: PublicKey;
-  proposedNftPrice: number | anchor.BN;
+  programId: web3.PublicKey;
+  provider: AnchorProvider;
+  user: web3.PublicKey;
+  nftMint: web3.PublicKey;
+  proposedNftPrice: number | BN;
   isPriceBased: boolean;
-  sendTxn: (transaction: Transaction, signers: Keypair[]) => Promise<void>;
+  sendTxn: (transaction: web3.Transaction, signers: web3.Keypair[]) => Promise<void>;
 }
 
 export interface UnstakeLiquidity {
-  programId: PublicKey;
-  provider: anchor.Provider;
-  liquidityPool: PublicKey;
-  user: PublicKey;
-  amount: anchor.BN | number;
-  sendTxn: (transaction: Transaction) => Promise<void>;
+  programId: web3.PublicKey;
+  provider: AnchorProvider;
+  liquidityPool: web3.PublicKey;
+  user: web3.PublicKey;
+  amount: BN | number;
+  sendTxn: (transaction: web3.Transaction) => Promise<void>;
 }

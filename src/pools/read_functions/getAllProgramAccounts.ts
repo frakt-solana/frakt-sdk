@@ -1,5 +1,4 @@
-import * as anchor from '@project-serum/anchor';
-import { PublicKey, Connection } from '@solana/web3.js';
+import { AnchorProvider, web3 } from '@project-serum/anchor';
 import {
   decodedBoardEntry,
   decodedPermission,
@@ -8,8 +7,8 @@ import {
 } from '../contract_model/accounts';
 import { createFakeWallet } from '../../common';
 
-export const getAllProgramAccounts = async (programId: PublicKey, connection: Connection) => {
-  const provider = new anchor.Provider(connection, createFakeWallet(), anchor.Provider.defaultOptions());
+export const getAllProgramAccounts = async (programId: web3.PublicKey, connection: web3.Connection) => {
+  const provider = new AnchorProvider(connection, createFakeWallet(), AnchorProvider.defaultOptions());
   const program = await returnCommunityPoolsAnchorProgram(programId, provider);
 
   const communityPools = await program.account.communityPool.all();

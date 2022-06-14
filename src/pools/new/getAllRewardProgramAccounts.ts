@@ -1,12 +1,11 @@
-import * as anchor from '@project-serum/anchor';
-import { Connection, PublicKey } from '@solana/web3.js';
+import { AnchorProvider, web3 } from '@project-serum/anchor';
 
 import { createFakeWallet, returnAnchorMultiRewardStaking } from '../../common';
 import { decodedPoolBufferToUI, decodedRouterToUI, decodedSecondaryRewardToUI, decodedStakeAccountAddressToUI, decodedSecondStakeToUI } from '../contract_model/accounts';
 
-export const getAllRewardProgramAccounts = async (programId: PublicKey, connection: Connection) => {
+export const getAllRewardProgramAccounts = async (programId: web3.PublicKey, connection: web3.Connection) => {
 
-  const provider = new anchor.Provider(connection, createFakeWallet(), anchor.Provider.defaultOptions());
+  const provider = new AnchorProvider(connection, createFakeWallet(), AnchorProvider.defaultOptions());
   const program = await returnAnchorMultiRewardStaking(programId, provider);
 
   const mainPoolConfigsRaw = await program.account.mainConfig.all();
