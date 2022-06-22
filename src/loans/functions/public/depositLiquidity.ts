@@ -1,13 +1,26 @@
-import { BN, web3 } from '@project-serum/anchor';
+import { AnchorProvider, BN, web3 } from '@project-serum/anchor';
 
-import { DepositLiquidity } from '../../types';
-import { returnAnchorProgram } from '../../contract_model/accounts';
+import { returnAnchorProgram } from '../../helpers';
 
-export const depositLiquidity = async (params: DepositLiquidity): Promise<any> => {
-  const { programId, provider, liquidityPool, user, amount, sendTxn } = params;
+type DepositLiquidity = (params: {
+  programId: web3.PublicKey;
+  provider: AnchorProvider;
+  liquidityPool: web3.PublicKey;
+  user: web3.PublicKey;
+  amount: number;
+  sendTxn: (transaction: web3.Transaction) => Promise<void>;
+}) => Promise<void>;
 
+export const depositLiquidity: DepositLiquidity = async ({
+  programId,
+  provider,
+  liquidityPool,
+  user,
+  amount,
+  sendTxn,
+}): Promise<void> => {
   const encoder = new TextEncoder();
-  const program = await returnAnchorProgram(programId, provider);
+  const program = returnAnchorProgram(programId, provider);
 
   const [liqOwner] = await web3.PublicKey.findProgramAddress(
     [encoder.encode('nftlendingv2'), liquidityPool.toBuffer()],

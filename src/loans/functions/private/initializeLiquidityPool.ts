@@ -1,24 +1,34 @@
-import { BN, web3 } from '@project-serum/anchor';
+import { AnchorProvider, BN, web3 } from '@project-serum/anchor';
 
-import { InitializeLiquidityPool } from '../../types';
-import { returnAnchorProgram } from '../../contract_model/accounts';
+import { returnAnchorProgram } from '../../helpers';
 
-export const initializeLiquidityPool = async (params: InitializeLiquidityPool): Promise<any> => {
-  const {
-    programId,
-    provider,
-    admin,
-    rewardInterestRateTime,
-    feeInterestRateTime,
-    rewardInterestRatePrice,
-    feeInterestRatePrice,
-    id,
-    period,
-    sendTxn,
-  } = params;
+type InitializeLiquidityPool = (params: {
+  programId: web3.PublicKey;
+  provider: AnchorProvider;
+  admin: web3.PublicKey;
+  rewardInterestRateTime: number | BN;
+  feeInterestRateTime: number | BN;
+  rewardInterestRatePrice: number | BN;
+  feeInterestRatePrice: number | BN;
+  id: number | BN;
+  period: number | BN;
+  sendTxn: (transaction: web3.Transaction, signers: web3.Keypair[]) => Promise<void>;
+}) => Promise<web3.PublicKey>;
 
+export const initializeLiquidityPool: InitializeLiquidityPool = async ({
+  programId,
+  provider,
+  admin,
+  rewardInterestRateTime,
+  feeInterestRateTime,
+  rewardInterestRatePrice,
+  feeInterestRatePrice,
+  id,
+  period,
+  sendTxn,
+}) => {
   const encoder = new TextEncoder();
-  const program = await returnAnchorProgram(programId, provider);
+  const program = returnAnchorProgram(programId, provider);
   const liquidityPool = web3.Keypair.generate();
 
   const [liqOwner, liqOwnerBump] = await web3.PublicKey.findProgramAddress(

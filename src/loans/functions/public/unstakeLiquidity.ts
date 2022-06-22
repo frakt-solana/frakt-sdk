@@ -1,11 +1,24 @@
-import { BN, web3 } from '@project-serum/anchor';
+import { AnchorProvider, BN, web3 } from '@project-serum/anchor';
 
-import { UnstakeLiquidity } from '../../types';
-import { returnAnchorProgram } from '../../contract_model/accounts';
+import { returnAnchorProgram } from '../../helpers';
 
-export const unstakeLiquidity = async (params: UnstakeLiquidity): Promise<any> => {
-  const { programId, provider, liquidityPool, user, amount, sendTxn } = params;
+type UnstakeLiquidity = (params: {
+  programId: web3.PublicKey;
+  provider: AnchorProvider;
+  liquidityPool: web3.PublicKey;
+  user: web3.PublicKey;
+  amount: BN | number;
+  sendTxn: (transaction: web3.Transaction) => Promise<void>;
+}) => Promise<void>;
 
+export const unstakeLiquidity: UnstakeLiquidity = async ({
+  programId,
+  provider,
+  liquidityPool,
+  user,
+  amount,
+  sendTxn,
+}) => {
   const encoder = new TextEncoder();
   const program = await returnAnchorProgram(programId, provider);
 

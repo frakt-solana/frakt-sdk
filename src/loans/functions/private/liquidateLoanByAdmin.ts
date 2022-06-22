@@ -1,16 +1,31 @@
-import { web3 } from '@project-serum/anchor';
+import { AnchorProvider, web3 } from '@project-serum/anchor';
 import { Edition, MetadataProgram } from '@metaplex-foundation/mpl-token-metadata';
-import { ASSOCIATED_PROGRAM_ID, TOKEN_PROGRAM_ID } from '@project-serum/anchor/dist/cjs/utils/token';
+import { ASSOCIATED_PROGRAM_ID, TOKEN_PROGRAM_ID } from '@project-serum/anchor/src/utils/token';
 
-import { LiquidateLoanByAdmin } from '../../types';
-import { returnAnchorProgram } from '../../contract_model/accounts';
+import { returnAnchorProgram } from '../../helpers';
 import { findAssociatedTokenAddress } from '../../../common';
 
-export const liquidateLoanByAdmin = async (params: LiquidateLoanByAdmin): Promise<any> => {
-  const { programId, provider, liquidator, user, loan, nftMint, sendTxn } = params;
+type LiquidateLoanByAdmin = (params: {
+  programId: web3.PublicKey;
+  provider: AnchorProvider;
+  liquidator: web3.PublicKey;
+  user: web3.PublicKey;
+  loan: web3.PublicKey;
+  nftMint: web3.PublicKey;
+  sendTxn: (transaction: web3.Transaction) => Promise<void>;
+}) => Promise<void>;
 
+export const liquidateLoanByAdmin: LiquidateLoanByAdmin = async ({
+  programId,
+  provider,
+  liquidator,
+  user,
+  loan,
+  nftMint,
+  sendTxn,
+}) => {
   const encoder = new TextEncoder();
-  const program = await returnAnchorProgram(programId, provider);
+  const program = returnAnchorProgram(programId, provider);
   const nftUserTokenAccount = await findAssociatedTokenAddress(user, nftMint);
   const nftLiquidatorTokenAccount = await findAssociatedTokenAddress(liquidator, nftMint);
   const editionId = await Edition.getPDA(nftMint);

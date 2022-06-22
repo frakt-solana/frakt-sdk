@@ -1,22 +1,26 @@
 import { AnchorProvider, web3 } from '@project-serum/anchor';
+
+import { createFakeWallet } from '../../../common';
 import {
   returnAnchorProgram,
   decodedCollectionInfo,
   decodedDeposit,
   decodedLiquidityPool,
   decodedLoan,
-} from '../contract_model/accounts';
-import { createFakeWallet } from '../../common';
-import { CollectionInfoView, DepositView, LiquidityPoolView, LoanView } from '../../common/types';
+} from '../../helpers';
+import { CollectionInfoView, DepositView, LiquidityPoolView, LoanView } from '../../types';
 
-interface IReturn {
+type GetAllProgramAccounts = (
+  programId: web3.PublicKey,
+  connection: web3.Connection,
+) => Promise<{
   collectionInfos: CollectionInfoView[];
   deposits: DepositView[];
   liquidityPools: LiquidityPoolView[];
   loans: LoanView[];
-}
+}>;
 
-export const getAllProgramAccounts = async (programId: web3.PublicKey, connection: web3.Connection): Promise<IReturn> => {
+export const getAllProgramAccounts: GetAllProgramAccounts = async (programId, connection) => {
   const provider = new AnchorProvider(connection, createFakeWallet(), AnchorProvider.defaultOptions());
   const program = returnAnchorProgram(programId, provider);
 

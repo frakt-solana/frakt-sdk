@@ -1,20 +1,31 @@
-import { BN, web3 } from '@project-serum/anchor';
+import { AnchorProvider, BN, web3 } from '@project-serum/anchor';
 import { Edition, MetadataProgram } from '@metaplex-foundation/mpl-token-metadata';
-import { TOKEN_PROGRAM_ID } from '@project-serum/anchor/dist/cjs/utils/token';
+import { TOKEN_PROGRAM_ID } from '@project-serum/anchor/src/utils/token';
 
-import { ProposeLoan } from '../../types';
-import { returnAnchorProgram } from '../../contract_model/accounts';
 import { findAssociatedTokenAddress } from '../../../common';
+import { returnAnchorProgram } from '../../helpers';
 
-interface IReturn {
-  loanPubkey: any;
-}
+type ProposeLoan = (params: {
+  programId: web3.PublicKey;
+  provider: AnchorProvider;
+  user: web3.PublicKey;
+  nftMint: web3.PublicKey;
+  proposedNftPrice: number | BN;
+  isPriceBased: boolean;
+  sendTxn: (transaction: web3.Transaction, signers: web3.Keypair[]) => Promise<void>;
+}) => Promise<{ loanPubkey: web3.PublicKey }>;
 
-export const proposeLoan = async (params: ProposeLoan): Promise<IReturn> => {
-  const { programId, provider, user, nftMint, proposedNftPrice, isPriceBased, sendTxn } = params;
-
+export const proposeLoan: ProposeLoan = async ({
+  programId,
+  provider,
+  user,
+  nftMint,
+  proposedNftPrice,
+  isPriceBased,
+  sendTxn,
+}) => {
   const encoder = new TextEncoder();
-  const program = await returnAnchorProgram(programId, provider);
+  const program = returnAnchorProgram(programId, provider);
   const loan = web3.Keypair.generate();
 
   const [communityPoolsAuthority, bumpPoolsAuth] = await web3.PublicKey.findProgramAddress(

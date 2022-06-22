@@ -1,13 +1,15 @@
-import { BN, Program, AnchorProvider, web3 } from '@project-serum/anchor';
+import { Program, AnchorProvider, web3, BN } from '@project-serum/anchor';
 
-import { IDL } from '../constants';
-import { CollectionInfoView, DepositView, LiquidityPoolView, LoanView, NftLendingV2 } from '../../common/types';
-import { createFakeWallet } from '../../common';
+import { LoansIDL } from './idl';
+import { CollectionInfoView, DepositView, LiquidityPoolView, LoanView } from './types';
+import { createFakeWallet } from '../common';
 
-export const returnAnchorProgram = (programId: web3.PublicKey, provider: AnchorProvider): Program<NftLendingV2> =>
-  new Program<NftLendingV2>(IDL as any, programId, provider);
+type ReturnAnchorProgram = (programId: web3.PublicKey, provider: AnchorProvider) => Program<typeof LoansIDL>;
+export const returnAnchorProgram: ReturnAnchorProgram = (programId, provider) =>
+  new Program(LoansIDL, programId, provider);
 
-export const decodedCollectionInfo = (decodedCollection: any, address: web3.PublicKey): CollectionInfoView => ({
+type DecodedCollectionInfo = (decodedCollection: any, address: web3.PublicKey) => CollectionInfoView;
+export const decodedCollectionInfo: DecodedCollectionInfo = (decodedCollection, address) => ({
   collectionInfoPubkey: address.toBase58(),
   creator: decodedCollection.creator.toBase58(),
   liquidityPool: decodedCollection.liquidityPool.toBase58(),
@@ -21,7 +23,8 @@ export const decodedCollectionInfo = (decodedCollection: any, address: web3.Publ
   expirationTime: decodedCollection.expirationTime.toNumber(),
 });
 
-export const decodedLiquidityPool = (decodedLiquidityPool: any, address: web3.PublicKey): LiquidityPoolView => ({
+type DecodedLiquidityPool = (decodedLiquidityPool: any, address: web3.PublicKey) => LiquidityPoolView;
+export const decodedLiquidityPool: DecodedLiquidityPool = (decodedLiquidityPool, address) => ({
   liquidityPoolPubkey: address.toBase58(),
   id: decodedLiquidityPool.id.toNumber(),
   rewardInterestRateTime: decodedLiquidityPool.rewardInterestRateTime.toNumber(),
@@ -39,7 +42,8 @@ export const decodedLiquidityPool = (decodedLiquidityPool: any, address: web3.Pu
   period: decodedLiquidityPool.period.toNumber(),
 });
 
-export const decodedDeposit = (decodedDeposit: any, address: web3.PublicKey): DepositView => ({
+type decodedDeposit = (decodedDeposit: any, address: web3.PublicKey) => DepositView;
+export const decodedDeposit: decodedDeposit = (decodedDeposit, address) => ({
   depositPubkey: address.toBase58(),
   liquidityPool: decodedDeposit.liquidityPool.toBase58(),
   user: decodedDeposit.user.toBase58(),
@@ -48,7 +52,8 @@ export const decodedDeposit = (decodedDeposit: any, address: web3.PublicKey): De
   stakedAtCumulative: decodedDeposit.stakedAtCumulative.toNumber(),
 });
 
-export const decodedLoan = (decodedLoan: any, address: web3.PublicKey): LoanView => ({
+type DecodedLoan = (decodedLoan: any, address: web3.PublicKey) => LoanView;
+export const decodedLoan: DecodedLoan = (decodedLoan, address) => ({
   loanPubkey: address.toBase58(),
   user: decodedLoan.user.toBase58(),
   nftMint: decodedLoan.nftMint.toBase58(),
@@ -71,7 +76,8 @@ export const decodedLoan = (decodedLoan: any, address: web3.PublicKey): LoanView
   loanType: Object.keys(decodedLoan.loanType)[0],
 });
 
-export const decodeLoan = (buffer: Buffer, connection: web3.Connection, programId: web3.PublicKey) => {
+type DecodeLoan = (buffer: Buffer, connection: web3.Connection, programId: web3.PublicKey) => any;
+export const decodeLoan: DecodeLoan = (buffer, connection, programId) => {
   const program = returnAnchorProgram(
     programId,
     new AnchorProvider(connection, createFakeWallet(), AnchorProvider.defaultOptions()),
