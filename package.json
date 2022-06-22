@@ -17,7 +17,7 @@
     "test": "jest --config jestconfig.json",
     "format": "prettier --write \"src/**/*.ts\"",
     "docs": "typedoc src/index.ts",
-    "publish": "npm run build && npm publish"
+    "upload": "npm version patch && npm run build && npm publish"
   },
   "dependencies": {
     "@metaplex-foundation/mpl-token-metadata": "1.2.5",
