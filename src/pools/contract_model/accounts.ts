@@ -10,7 +10,7 @@ import {
   SecondStakeAccountView,
   SecondaryRewardView
 } from '../types';
-import idl from '../../common/idl/multi_reward_staking.json';
+import idl from '../contract_model/idl/community_pools_anchor.json';
 
 export const returnCommunityPoolsAnchorProgram = async (
   programId: web3.PublicKey,
