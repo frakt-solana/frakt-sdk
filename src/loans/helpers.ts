@@ -1,7 +1,7 @@
 import { Program, AnchorProvider, web3, BN } from '@project-serum/anchor';
 import { findProgramAddressSync } from '@project-serum/anchor/src/utils/pubkey';
 
-import idl from './idl.json';
+import idl from './idl/nft_lending_v2.json';
 import {
   CollectionInfoView,
   DepositView,
