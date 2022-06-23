@@ -1,8 +1,8 @@
 import { AnchorProvider, web3 } from '@project-serum/anchor';
-import { Edition, MetadataProgram } from '@metaplex-foundation/mpl-token-metadata';
 import { TOKEN_PROGRAM_ID } from '@project-serum/anchor/src/utils/token';
 
-import { returnAnchorProgram } from '../../helpers';
+import { METADATA_PROGRAM_PUBKEY } from '../../constants';
+import { getMetaplexEditionPda, returnAnchorProgram } from '../../helpers';
 
 type RejectLoanByAdmin = (params: {
   programId: web3.PublicKey;
@@ -27,7 +27,7 @@ export const rejectLoanByAdmin: RejectLoanByAdmin = async ({
 }) => {
   const encoder = new TextEncoder();
   const program = returnAnchorProgram(programId, provider);
-  const editionId = await Edition.getPDA(nftMint);
+  const editionId = getMetaplexEditionPda(nftMint);
 
   const [communityPoolsAuthority, bumpPoolsAuth] = await web3.PublicKey.findProgramAddress(
     [encoder.encode('nftlendingv2'), programId.toBuffer()],
@@ -44,7 +44,7 @@ export const rejectLoanByAdmin: RejectLoanByAdmin = async ({
       communityPoolsAuthority,
       tokenProgram: TOKEN_PROGRAM_ID,
       systemProgram: web3.SystemProgram.programId,
-      metadataProgram: MetadataProgram.PUBKEY,
+      metadataProgram: METADATA_PROGRAM_PUBKEY,
       editionInfo: editionId,
     },
   });

@@ -1,9 +1,9 @@
 import { AnchorProvider, web3 } from '@project-serum/anchor';
-import { Edition, MetadataProgram } from '@metaplex-foundation/mpl-token-metadata';
 import { ASSOCIATED_PROGRAM_ID, TOKEN_PROGRAM_ID } from '@project-serum/anchor/src/utils/token';
 
-import { returnAnchorProgram } from '../../helpers';
+import { getMetaplexEditionPda, returnAnchorProgram } from '../../helpers';
 import { findAssociatedTokenAddress } from '../../../common';
+import { METADATA_PROGRAM_PUBKEY } from '../../constants';
 
 type LiquidateLoanByAdmin = (params: {
   programId: web3.PublicKey;
@@ -28,7 +28,7 @@ export const liquidateLoanByAdmin: LiquidateLoanByAdmin = async ({
   const program = returnAnchorProgram(programId, provider);
   const nftUserTokenAccount = await findAssociatedTokenAddress(user, nftMint);
   const nftLiquidatorTokenAccount = await findAssociatedTokenAddress(liquidator, nftMint);
-  const editionId = await Edition.getPDA(nftMint);
+  const editionId = getMetaplexEditionPda(nftMint);
 
   const [communityPoolsAuthority, bumpPoolsAuth] = await web3.PublicKey.findProgramAddress(
     [encoder.encode('nftlendingv2'), programId.toBuffer()],
@@ -48,7 +48,7 @@ export const liquidateLoanByAdmin: LiquidateLoanByAdmin = async ({
       systemProgram: web3.SystemProgram.programId,
       tokenProgram: TOKEN_PROGRAM_ID,
       associatedTokenProgram: ASSOCIATED_PROGRAM_ID,
-      metadataProgram: MetadataProgram.PUBKEY,
+      metadataProgram: METADATA_PROGRAM_PUBKEY,
       editionInfo: editionId,
     },
   });

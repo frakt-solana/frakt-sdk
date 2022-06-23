@@ -1,9 +1,9 @@
 import { AnchorProvider, BN, web3 } from '@project-serum/anchor';
-import { Edition, MetadataProgram } from '@metaplex-foundation/mpl-token-metadata';
 import { TOKEN_PROGRAM_ID } from '@project-serum/anchor/src/utils/token';
 
 import { findAssociatedTokenAddress } from '../../../common';
-import { returnAnchorProgram } from '../../helpers';
+import { METADATA_PROGRAM_PUBKEY } from '../../constants';
+import { getMetaplexEditionPda, returnAnchorProgram } from '../../helpers';
 
 type ProposeLoan = (params: {
   programId: web3.PublicKey;
@@ -36,7 +36,7 @@ export const proposeLoan: ProposeLoan = async ({
     programId,
   );
 
-  const editionId = await Edition.getPDA(nftMint);
+  const editionId = getMetaplexEditionPda(nftMint);
 
   const nftUserTokenAccount = await findAssociatedTokenAddress(user, nftMint);
   const ix = program.instruction.proposeLoan(bumpPoolsAuth, isPriceBased, proposedNftPrice, loanToValue, {
@@ -49,7 +49,7 @@ export const proposeLoan: ProposeLoan = async ({
       tokenProgram: TOKEN_PROGRAM_ID,
       rent: web3.SYSVAR_RENT_PUBKEY,
       systemProgram: web3.SystemProgram.programId,
-      metadataProgram: MetadataProgram.PUBKEY,
+      metadataProgram: METADATA_PROGRAM_PUBKEY,
       admin,
       editionInfo: editionId,
     },

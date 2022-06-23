@@ -1,4 +1,5 @@
 import { Program, AnchorProvider, web3, BN } from '@project-serum/anchor';
+import { findProgramAddressSync } from '@project-serum/anchor/src/utils/pubkey';
 
 import idl from './idl.json';
 import {
@@ -9,6 +10,7 @@ import {
   PriceBasedLiquidityPoolView,
 } from './types';
 import { createFakeWallet } from '../common';
+import { EDITION_PREFIX, METADATA_PREFIX, METADATA_PROGRAM_PUBKEY } from './constants';
 
 type ReturnAnchorProgram = (programId: web3.PublicKey, provider: AnchorProvider) => Program;
 export const returnAnchorProgram: ReturnAnchorProgram = (programId, provider) =>
@@ -113,4 +115,18 @@ export const decodeLoan: DecodeLoan = (buffer, connection, programId) => {
     new AnchorProvider(connection, createFakeWallet(), AnchorProvider.defaultOptions()),
   );
   return program.coder.accounts.decode('loan', buffer);
+};
+
+type GetMetaplexEditionPda = (mintPubkey: web3.PublicKey) => web3.PublicKey;
+export const getMetaplexEditionPda: GetMetaplexEditionPda = (mintPubkey) => {
+  const editionPda = findProgramAddressSync(
+    [
+      Buffer.from(METADATA_PREFIX),
+      METADATA_PROGRAM_PUBKEY.toBuffer(),
+      new web3.PublicKey(mintPubkey).toBuffer(),
+      Buffer.from(EDITION_PREFIX),
+    ],
+    METADATA_PROGRAM_PUBKEY,
+  );
+  return editionPda[0];
 };

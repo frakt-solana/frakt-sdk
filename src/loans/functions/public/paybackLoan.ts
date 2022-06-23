@@ -1,9 +1,9 @@
 import { AnchorProvider, web3 } from '@project-serum/anchor';
-import { Edition, MetadataProgram } from '@metaplex-foundation/mpl-token-metadata';
 import { TOKEN_PROGRAM_ID } from '@project-serum/anchor/src/utils/token';
 
-import { returnAnchorProgram } from '../../helpers';
+import { getMetaplexEditionPda, returnAnchorProgram } from '../../helpers';
 import { findAssociatedTokenAddress } from '../../../common';
+import { METADATA_PROGRAM_PUBKEY } from '../../constants';
 
 type PaybackLoan = (params: {
   programId: web3.PublicKey;
@@ -44,7 +44,7 @@ export const paybackLoan: PaybackLoan = async ({
   );
 
   const nftUserTokenAccount = await findAssociatedTokenAddress(user, nftMint);
-  const editionId = await Edition.getPDA(nftMint);
+  const editionId = getMetaplexEditionPda(nftMint);
 
   const instruction = program.instruction.paybackLoan(bumpPoolsAuth, {
     accounts: {
@@ -61,7 +61,7 @@ export const paybackLoan: PaybackLoan = async ({
       systemProgram: web3.SystemProgram.programId,
       tokenProgram: TOKEN_PROGRAM_ID,
       // associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
-      metadataProgram: MetadataProgram.PUBKEY,
+      metadataProgram: METADATA_PROGRAM_PUBKEY,
       editionInfo: editionId,
     },
   });
