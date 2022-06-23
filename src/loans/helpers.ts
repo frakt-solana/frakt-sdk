@@ -1,12 +1,18 @@
 import { Program, AnchorProvider, web3, BN } from '@project-serum/anchor';
 
-import { LoansIDL } from './idl';
-import { CollectionInfoView, DepositView, LiquidityPoolView, LoanView } from './types';
+import idl from './idl.json';
+import {
+  CollectionInfoView,
+  DepositView,
+  LoanView,
+  TimeBasedLiquidityPoolView,
+  PriceBasedLiquidityPoolView,
+} from './types';
 import { createFakeWallet } from '../common';
 
-type ReturnAnchorProgram = (programId: web3.PublicKey, provider: AnchorProvider) => Program<typeof LoansIDL>;
+type ReturnAnchorProgram = (programId: web3.PublicKey, provider: AnchorProvider) => Program;
 export const returnAnchorProgram: ReturnAnchorProgram = (programId, provider) =>
-  new Program(LoansIDL, programId, provider);
+  new Program(idl as any, programId, provider);
 
 type DecodedCollectionInfo = (decodedCollection: any, address: web3.PublicKey) => CollectionInfoView;
 export const decodedCollectionInfo: DecodedCollectionInfo = (decodedCollection, address) => ({
@@ -23,8 +29,8 @@ export const decodedCollectionInfo: DecodedCollectionInfo = (decodedCollection, 
   expirationTime: decodedCollection.expirationTime.toNumber(),
 });
 
-type DecodedLiquidityPool = (decodedLiquidityPool: any, address: web3.PublicKey) => LiquidityPoolView;
-export const decodedLiquidityPool: DecodedLiquidityPool = (decodedLiquidityPool, address) => ({
+type DecodedTimeBasedLiquidityPool = (decodedLiquidityPool: any, address: web3.PublicKey) => TimeBasedLiquidityPoolView;
+export const decodedTimeBasedLiquidityPool: DecodedTimeBasedLiquidityPool = (decodedLiquidityPool, address) => ({
   liquidityPoolPubkey: address.toBase58(),
   id: decodedLiquidityPool.id.toNumber(),
   rewardInterestRateTime: decodedLiquidityPool.rewardInterestRateTime.toNumber(),
@@ -40,6 +46,31 @@ export const decodedLiquidityPool: DecodedLiquidityPool = (decodedLiquidityPool,
   lastTime: decodedLiquidityPool.lastTime.toNumber(),
   oldCumulative: decodedLiquidityPool.oldCumulative.toNumber(),
   period: decodedLiquidityPool.period.toNumber(),
+});
+
+type DecodedPriceBasedLiquidityPool = (
+  decodedLiquidityPool: any,
+  address: web3.PublicKey,
+) => PriceBasedLiquidityPoolView;
+export const decodedPriceBasedLiquidityPool: DecodedPriceBasedLiquidityPool = (decodedLiquidityPool, address) => ({
+  liquidityPoolPubkey: address.toBase58(),
+  id: decodedLiquidityPool.id.toNumber(),
+  baseBorrowRate: decodedLiquidityPool.baseBorrowRate,
+  variableSlope1: decodedLiquidityPool.variableSlope1,
+  variableSlope2: decodedLiquidityPool.variableSlope2,
+  utilizationRateOptimal: decodedLiquidityPool.utilizationRateOptimal,
+  reserveFactor: decodedLiquidityPool.reserveFactor,
+  reserveAmount: decodedLiquidityPool.reserveAmount.toNumber(),
+  liquidityAmount: decodedLiquidityPool.liquidityAmount.toNumber(),
+  liqOwner: decodedLiquidityPool.liqOwner.toBase58(),
+  amountOfStaked: decodedLiquidityPool.amountOfStaked.toNumber(),
+  depositApr: decodedLiquidityPool.depositApr.toNumber(),
+  depositCumulative: decodedLiquidityPool.depositCumulative.toNumber(),
+  borrowApr: decodedLiquidityPool.borrowApr.toNumber(),
+  borrowCumulative: decodedLiquidityPool.borrowCumulative.toNumber(),
+  lastTime: decodedLiquidityPool.lastTime.toNumber(),
+  depositCommission: decodedLiquidityPool.depositCommission,
+  borrowCommission: decodedLiquidityPool.borrowCommission,
 });
 
 type decodedDeposit = (decodedDeposit: any, address: web3.PublicKey) => DepositView;
@@ -69,9 +100,8 @@ export const decodedLoan: DecodedLoan = (decodedLoan, address) => ({
   rewardAmount: decodedLoan.rewardAmount.toNumber(),
   feeAmount: decodedLoan.feeAmount.toNumber(),
   royaltyAmount: decodedLoan.royaltyAmount.toNumber(),
-  rewardInterestRate: new BN(decodedLoan.rewardInterestRate || 0).toNumber(),
-  feeInterestRate: new BN(decodedLoan.feeInterestRate || 0).toNumber(),
-  royaltyInterestRate: new BN(decodedLoan.royaltyInterestRate || 0).toNumber(),
+  borrowedAtCumulative: new BN(decodedLoan.rewardInterestRate || 0).toNumber(),
+
   loanStatus: Object.keys(decodedLoan.loanStatus)[0],
   loanType: Object.keys(decodedLoan.loanType)[0],
 });

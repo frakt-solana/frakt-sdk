@@ -12,7 +12,7 @@ export interface CollectionInfoView {
   expirationTime: number;
 }
 
-export interface LiquidityPoolView {
+export interface TimeBasedLiquidityPoolView {
   liquidityPoolPubkey: string;
   id: number;
   rewardInterestRateTime: number;
@@ -28,6 +28,27 @@ export interface LiquidityPoolView {
   lastTime: number;
   oldCumulative: number;
   period: number;
+}
+
+export interface PriceBasedLiquidityPoolView {
+  liquidityPoolPubkey: string;
+  id: number;
+  baseBorrowRate: number;
+  variableSlope1: number;
+  variableSlope2: number;
+  utilizationRateOptimal: number;
+  reserveFactor: number;
+  reserveAmount: number;
+  liquidityAmount: number;
+  liqOwner: string;
+  amountOfStaked: number;
+  depositApr: number;
+  borrowApr: number;
+  borrowCumulative: number;
+  depositCumulative: number;
+  lastTime: number;
+  depositCommission: number;
+  borrowCommission: number;
 }
 
 export interface DepositView {
@@ -46,18 +67,22 @@ export interface LoanView {
   nftUserTokenAccount: string;
   liquidityPool: string;
   collectionInfo: string;
+
   startedAt: number;
   expiredAt: number;
   finishedAt: number;
+
   originalPrice: number;
-  amountToGet: number;
+
+  amountToGet: number; // If created, then min amount to receive
+  // amountToReturn: number; // If created, then min amount to receive
   rewardAmount: number;
   feeAmount: number;
   royaltyAmount: number;
-  rewardInterestRate: number;
-  feeInterestRate: number;
-  royaltyInterestRate: number;
-  loanStatus: string;
+
+  borrowedAtCumulative: number;
+
+  loanStatus: string; // If created, then min amount to receive
   loanType: string;
 }
 

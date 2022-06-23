@@ -2,25 +2,23 @@ import { AnchorProvider, BN, web3 } from '@project-serum/anchor';
 
 import { returnAnchorProgram } from '../../helpers';
 
-type UpdateLiquidityPool = (params: {
+type InitializeTimeBasedLiquidityPool = (params: {
   programId: web3.PublicKey;
   provider: AnchorProvider;
   admin: web3.PublicKey;
-  liquidityPool: web3.PublicKey;
   rewardInterestRateTime: number | BN;
   feeInterestRateTime: number | BN;
   rewardInterestRatePrice: number | BN;
   feeInterestRatePrice: number | BN;
   id: number | BN;
   period: number | BN;
-  sendTxn: (transaction: web3.Transaction) => Promise<void>;
-}) => Promise<void>;
+  sendTxn: (transaction: web3.Transaction, signers: web3.Keypair[]) => Promise<void>;
+}) => Promise<web3.PublicKey>;
 
-export const updateLiquidityPool: UpdateLiquidityPool = async ({
+export const initializeTimeBasedLiquidityPool: InitializeTimeBasedLiquidityPool = async ({
   programId,
   provider,
   admin,
-  liquidityPool,
   rewardInterestRateTime,
   feeInterestRateTime,
   rewardInterestRatePrice,
@@ -29,9 +27,17 @@ export const updateLiquidityPool: UpdateLiquidityPool = async ({
   period,
   sendTxn,
 }) => {
+  const encoder = new TextEncoder();
   const program = returnAnchorProgram(programId, provider);
+  const liquidityPool = web3.Keypair.generate();
 
-  const instruction = program.instruction.updateLiquidityPool(
+  const [liqOwner, liqOwnerBump] = await web3.PublicKey.findProgramAddress(
+    [encoder.encode('nftlendingv2'), liquidityPool.publicKey.toBuffer()],
+    program.programId,
+  );
+
+  const instruction = program.instruction.initializeLiquidityPool(
+    liqOwnerBump,
     {
       rewardInterestRateTime: new BN(rewardInterestRateTime),
       rewardInterestRatePrice: new BN(rewardInterestRatePrice),
@@ -42,7 +48,8 @@ export const updateLiquidityPool: UpdateLiquidityPool = async ({
     },
     {
       accounts: {
-        liquidityPool: liquidityPool,
+        liquidityPool: liquidityPool.publicKey,
+        liqOwner,
         admin: admin,
         rent: web3.SYSVAR_RENT_PUBKEY,
         systemProgram: web3.SystemProgram.programId,
@@ -52,5 +59,7 @@ export const updateLiquidityPool: UpdateLiquidityPool = async ({
 
   const transaction = new web3.Transaction().add(instruction);
 
-  await sendTxn(transaction);
+  await sendTxn(transaction, [liquidityPool]);
+
+  return liquidityPool.publicKey;
 };
