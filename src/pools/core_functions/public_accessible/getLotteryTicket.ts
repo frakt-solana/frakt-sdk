@@ -1,6 +1,6 @@
 import { web3 } from '@project-serum/anchor';
-import { TOKEN_PROGRAM_ID, ASSOCIATED_TOKEN_PROGRAM_ID } from '../../constants';
 
+import { TOKEN_PROGRAM_ID, ASSOCIATED_TOKEN_PROGRAM_ID } from '../../../common/constants';
 import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
 import { findAssociatedTokenAddress } from '../../../common';
 import { GetLotteryTicket, GetLotteryTicketIx } from '../../types';
@@ -118,7 +118,10 @@ export const getLotteryTicketIx = async (params: GetLotteryTicketIx) => {
     [communityPool.toBuffer(), encoder.encode('leaderBoard')],
     program.programId,
   );
-
+  const [leaderboardAuthority, bumpLead] = await web3.PublicKey.findProgramAddress(
+    [encoder.encode('leaderBoardProgramAuthority'), programId.toBuffer()],
+    program.programId,
+  );
   let [vaultOwnerPda, bumpPda] = await web3.PublicKey.findProgramAddress(
     [encoder.encode('vaultownerpda'), fusionProgramId.toBuffer()],
     fusionProgramId,

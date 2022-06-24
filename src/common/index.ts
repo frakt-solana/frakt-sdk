@@ -1,8 +1,8 @@
 import { BN, AnchorProvider, web3, Program } from '@project-serum/anchor';
-import { AccountLayout, Token as SplToken, TOKEN_PROGRAM_ID } from '@solana/spl-token';
+import { AccountLayout, Token as SplToken } from '@solana/spl-token';
 import { Spl, SPL_ACCOUNT_LAYOUT } from '@raydium-io/raydium-sdk';
 
-import { SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID } from './constants';
+import { SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID, TOKEN_PROGRAM_ID } from './constants';
 import { NodeWallet } from './classes/nodewallet';
 import {
   AccountInfoData,
