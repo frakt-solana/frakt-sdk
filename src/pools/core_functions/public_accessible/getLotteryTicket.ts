@@ -126,7 +126,7 @@ export const getLotteryTicketIx = async (params: GetLotteryTicketIx) => {
 
   const instructions: web3.TransactionInstruction[] = [];
 
-  const vaultTokenAccountOutput = await findAssociatedTokenAddress(vaultOwnerPda, fractionMint);
+  let vaultTokenAccountOutput = await findAssociatedTokenAddress(vaultOwnerPda, fractionMint);
 
   const [mainRouter] = await web3.PublicKey.findProgramAddress(
     [encoder.encode('mainRouter'), tokenMintInputFusion.toBuffer(), fractionMint.toBuffer()],
@@ -143,6 +143,7 @@ export const getLotteryTicketIx = async (params: GetLotteryTicketIx) => {
   const main = await provider.connection.getAccountInfo(mainRouter);
 
   if (!main) {
+    vaultTokenAccountOutput = adminTokenAccount;
     vaultOwnerPda = tokenMintInputFusion;
   }
 
