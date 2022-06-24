@@ -1,5 +1,4 @@
-import { AnchorProvider, web3 } from '@project-serum/anchor';
-import { ASSOCIATED_PROGRAM_ID, TOKEN_PROGRAM_ID } from '@project-serum/anchor/src/utils/token';
+import { AnchorProvider, web3, utils } from '@project-serum/anchor';
 
 import { getMetaplexEditionPda, returnAnchorProgram } from '../../helpers';
 import { findAssociatedTokenAddress } from '../../../common';
@@ -46,8 +45,8 @@ export const liquidateLoanByAdmin: LiquidateLoanByAdmin = async ({
       communityPoolsAuthority,
       rent: web3.SYSVAR_RENT_PUBKEY,
       systemProgram: web3.SystemProgram.programId,
-      tokenProgram: TOKEN_PROGRAM_ID,
-      associatedTokenProgram: ASSOCIATED_PROGRAM_ID,
+      tokenProgram: utils.token.TOKEN_PROGRAM_ID,
+      associatedTokenProgram: utils.token.ASSOCIATED_PROGRAM_ID,
       metadataProgram: METADATA_PROGRAM_PUBKEY,
       editionInfo: editionId,
     },

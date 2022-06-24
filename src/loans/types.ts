@@ -157,3 +157,28 @@ export interface Loan {
   valuation?: number; //? 1.23456 (SOL)
   health?: number; //? 80(%) 0-100%
 }
+
+export interface LiquidityPoolView {
+  liquidityPoolPubkey: string;
+  id: number;
+  rewardInterestRateTime: number;
+  feeInterestRateTime: number;
+  rewardInterestRatePrice: number;
+  feeInterestRatePrice: number;
+  liquidityAmount: number;
+  liqOwner: string;
+  amountOfStaked: number;
+  userRewardsAmount: number;
+  apr: number;
+  cumulative: number;
+  lastTime: number;
+  oldCumulative: number;
+  period: number;
+}
+
+export interface LoanData {
+  collectionsInfo: CollectionInfoView[];
+  deposits: DepositView[];
+  liquidityPool: LiquidityPoolView;
+  loans: LoanView[];
+}

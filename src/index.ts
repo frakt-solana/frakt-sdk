@@ -1,4 +1,5 @@
 export * from './common/types';
+export * from './loans/types';
 export * from './pools/types';
 export * from './swaps/types';
 

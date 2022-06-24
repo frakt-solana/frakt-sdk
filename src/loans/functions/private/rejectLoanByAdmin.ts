@@ -1,5 +1,4 @@
-import { AnchorProvider, web3 } from '@project-serum/anchor';
-import { TOKEN_PROGRAM_ID } from '@project-serum/anchor/src/utils/token';
+import { AnchorProvider, web3, utils } from '@project-serum/anchor';
 
 import { METADATA_PROGRAM_PUBKEY } from '../../constants';
 import { getMetaplexEditionPda, returnAnchorProgram } from '../../helpers';
@@ -42,7 +41,7 @@ export const rejectLoanByAdmin: RejectLoanByAdmin = async ({
       nftUserTokenAccount: nftUserTokenAccount,
       user: user,
       communityPoolsAuthority,
-      tokenProgram: TOKEN_PROGRAM_ID,
+      tokenProgram: utils.token.TOKEN_PROGRAM_ID,
       systemProgram: web3.SystemProgram.programId,
       metadataProgram: METADATA_PROGRAM_PUBKEY,
       editionInfo: editionId,

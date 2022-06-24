@@ -1,5 +1,4 @@
-import { Program, AnchorProvider, web3, BN } from '@project-serum/anchor';
-import { findProgramAddressSync } from '@project-serum/anchor/src/utils/pubkey';
+import { Program, AnchorProvider, web3, BN, utils } from '@project-serum/anchor';
 
 import idl from './idl/nft_lending_v2.json';
 import {
@@ -119,7 +118,7 @@ export const decodeLoan: DecodeLoan = (buffer, connection, programId) => {
 
 type GetMetaplexEditionPda = (mintPubkey: web3.PublicKey) => web3.PublicKey;
 export const getMetaplexEditionPda: GetMetaplexEditionPda = (mintPubkey) => {
-  const editionPda = findProgramAddressSync(
+  const editionPda = utils.publicKey.findProgramAddressSync(
     [
       Buffer.from(METADATA_PREFIX),
       METADATA_PROGRAM_PUBKEY.toBuffer(),

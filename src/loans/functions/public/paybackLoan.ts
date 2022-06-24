@@ -1,5 +1,4 @@
-import { AnchorProvider, web3 } from '@project-serum/anchor';
-import { TOKEN_PROGRAM_ID } from '@project-serum/anchor/src/utils/token';
+import { AnchorProvider, web3, utils } from '@project-serum/anchor';
 
 import { getMetaplexEditionPda, returnAnchorProgram } from '../../helpers';
 import { findAssociatedTokenAddress } from '../../../common';
@@ -59,7 +58,7 @@ export const paybackLoan: PaybackLoan = async ({
       liqOwner,
       communityPoolsAuthority,
       systemProgram: web3.SystemProgram.programId,
-      tokenProgram: TOKEN_PROGRAM_ID,
+      tokenProgram: utils.token.TOKEN_PROGRAM_ID,
       // associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
       metadataProgram: METADATA_PROGRAM_PUBKEY,
       editionInfo: editionId,

@@ -19,22 +19,18 @@ export * from './core_functions/public_accessible/depositNftToCommunityPool';
 export * from './core_functions/public_accessible/getLotteryTicket';
 export * from './core_functions/public_accessible/harvestScore';
 export * from './read_functions/fetchPoolDataByMint';
-export * from '../swaps/read_functions/fetchRaydiumPoolsInfo';
-export * from '../swaps/read_functions/fetchRaydiumPoolsInfoMap';
 export * from './read_functions/filterWhitelistedNFTs';
 export * from './read_functions/getAllProgramAccounts';
 export * from './read_functions/getCurrencyAmount';
-export * from '../swaps/read_functions/getInputAmount';
-export * from '../swaps/read_functions/getOutputAmount';
 export * from './read_functions/getWhitelistedCreatorsDictionary';
 export * from './read_functions/getWhitelistedMintsDictionary';
 export * from './read_functions/isNFTWhitelisted';
 export * from './read_functions/isNFTWhitelistedByCreator';
 export * from './read_functions/isNFTWhitelistedByMint';
 
-export * from './new/unstakeInFusion';
-export * from './new/harvestInFusion';
-export * from './new/harvestSecondaryReward';
-export * from './new/stakeInFusion';
-export * from './new/getAllRewardProgramAccounts';
+export * from './staking/unstakeInFusion';
+export * from './staking/harvestInFusion';
+export * from './staking/harvestSecondaryReward';
+export * from './staking/stakeInFusion';
+export * from './staking/getAllProgramStakingAccounts';
 

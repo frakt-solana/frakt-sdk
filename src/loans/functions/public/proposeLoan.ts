@@ -1,5 +1,4 @@
-import { AnchorProvider, BN, web3 } from '@project-serum/anchor';
-import { TOKEN_PROGRAM_ID } from '@project-serum/anchor/src/utils/token';
+import { AnchorProvider, BN, web3, utils } from '@project-serum/anchor';
 
 import { findAssociatedTokenAddress } from '../../../common';
 import { METADATA_PROGRAM_PUBKEY } from '../../constants';
@@ -46,7 +45,7 @@ export const proposeLoan: ProposeLoan = async ({
       nftUserTokenAccount,
       nftMint: nftMint,
       communityPoolsAuthority,
-      tokenProgram: TOKEN_PROGRAM_ID,
+      tokenProgram: utils.token.TOKEN_PROGRAM_ID,
       rent: web3.SYSVAR_RENT_PUBKEY,
       systemProgram: web3.SystemProgram.programId,
       metadataProgram: METADATA_PROGRAM_PUBKEY,
