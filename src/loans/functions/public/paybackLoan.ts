@@ -47,13 +47,13 @@ export const paybackLoan: PaybackLoan = async ({
 
   const instruction = program.instruction.paybackLoan(bumpPoolsAuth, {
     accounts: {
-      loan,
-      liquidityPool,
+      loan: loan,
+      liquidityPool: liquidityPool,
       collectionInfo,
-      user,
+      user: user,
       admin,
-      nftMint,
-      nftUserTokenAccount,
+      nftMint: nftMint,
+      nftUserTokenAccount: nftUserTokenAccount,
       royaltyAddress,
       liqOwner,
       communityPoolsAuthority,
