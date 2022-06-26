@@ -36,7 +36,7 @@ export const initializeTimeBasedLiquidityPool: InitializeTimeBasedLiquidityPool 
     program.programId,
   );
 
-  const instruction = program.instruction.initializeLiquidityPool(
+  const instruction = program.instruction.initializeTimeBasedLiquidityPool(
     liqOwnerBump,
     {
       rewardInterestRateTime: new BN(rewardInterestRateTime),
