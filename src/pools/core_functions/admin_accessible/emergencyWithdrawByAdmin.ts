@@ -25,10 +25,7 @@ export const emergencyWithdrawByAdmin = async (params: EmergencyWithdrawByAdmin)
   const nftAdmin = await provider.connection.getAccountInfo(nftAdminTokenAccount);
 
   if (!nftAdmin) {
-    instructions = [
-      ...instructions,
-      ...createAssociatedTokenAccountInstruction(nftAdminTokenAccount, admin, admin, nftMint),
-    ];
+    instructions = instructions.concat(createAssociatedTokenAccountInstruction(nftAdminTokenAccount, admin, admin, nftMint));
   }
 
   const instruction = program.instruction.emergencyWithdrawByAdmin(bump, {

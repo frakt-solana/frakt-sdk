@@ -33,10 +33,7 @@ export const withdrawNftByTicket = async (params: WithdrawNftByTicket) => {
   const nftUser = await provider.connection.getAccountInfo(nftUserTokenAccount);
 
   if (!nftUser) {
-    instructions = [
-      ...instructions,
-      ...createAssociatedTokenAccountInstruction(nftUserTokenAccount, userPubkey, userPubkey, nftMint),
-    ];
+    instructions = instructions.concat(createAssociatedTokenAccountInstruction(nftUserTokenAccount, userPubkey, userPubkey, nftMint));
   }
 
   const instruction = program.instruction.withdrawNftByTicket(bump, {
