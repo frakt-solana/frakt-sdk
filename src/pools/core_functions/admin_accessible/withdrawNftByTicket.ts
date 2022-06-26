@@ -1,10 +1,10 @@
-import { web3 } from'@project-serum/anchor';
-import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
+import { web3 } from '@project-serum/anchor';
 
 import { findAssociatedTokenAddress, createAssociatedTokenAccountInstruction } from '../../../common';
 import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
 import { ACCOUNT_PREFIX } from '../../constants';
 import { WithdrawNftByTicket } from '../../types';
+import { TOKEN_PROGRAM_ID } from '../../../common/constants';
 
 export const withdrawNftByTicket = async (params: WithdrawNftByTicket) => {
   const {

@@ -1,6 +1,6 @@
-import { web3 } from'@project-serum/anchor';
-import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
+import { web3 } from '@project-serum/anchor';
 
+import { TOKEN_PROGRAM_ID } from '../../../common/constants';
 import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
 import { UpdateLeaderboardReward } from '../../types';
 

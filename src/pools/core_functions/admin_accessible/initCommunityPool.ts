@@ -1,9 +1,9 @@
-import { web3 } from'@project-serum/anchor';
-import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
+import { web3 } from '@project-serum/anchor';
 
 import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
 import { ACCOUNT_PREFIX } from '../../constants';
 import { InitCommunityPool } from '../../types';
+import { TOKEN_PROGRAM_ID } from '../../../common/constants';
 
 export const initCommunityPool = async (params: InitCommunityPool) => {
   const { programId, userPubkey, provider, sendTxn } = params;

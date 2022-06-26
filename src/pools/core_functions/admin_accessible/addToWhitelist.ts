@@ -1,8 +1,8 @@
-import { web3 } from'@project-serum/anchor';
-import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
+import { web3 } from '@project-serum/anchor';
 
 import { AddToWhitelist } from '../../types';
 import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
+import { TOKEN_PROGRAM_ID } from '../../../common/constants';
 
 export const addToWhitelist = async (params: AddToWhitelist): Promise<any> => {
   const { isCreator, communityPool, whitelistedAddress, programId, userPubkey, provider, sendTxn } = params;

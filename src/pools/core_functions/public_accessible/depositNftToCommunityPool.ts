@@ -1,7 +1,7 @@
 import { web3 } from '@project-serum/anchor';
-import { TOKEN_PROGRAM_ID, ASSOCIATED_TOKEN_PROGRAM_ID } from '@solana/spl-token';
 
 import { createAssociatedTokenAccountInstruction, findAssociatedTokenAddress } from '../../../common';
+import { ASSOCIATED_TOKEN_PROGRAM_ID, TOKEN_PROGRAM_ID } from '../../../common/constants';
 import { ACCOUNT_PREFIX } from '../../constants';
 import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
 import { DepositNftToCommunityPool, DepositNftToCommunityPoolIx } from '../../types';

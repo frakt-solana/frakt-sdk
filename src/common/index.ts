@@ -1,17 +1,9 @@
-import { BN, AnchorProvider, web3, Program } from '@project-serum/anchor';
-import { AccountLayout, Token as SplToken } from '@solana/spl-token';
+import { AnchorProvider, web3, Program } from '@project-serum/anchor';
 import { Spl, SPL_ACCOUNT_LAYOUT } from '@raydium-io/raydium-sdk';
 
 import { SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID, TOKEN_PROGRAM_ID } from './constants';
 import { NodeWallet } from './classes/nodewallet';
-import {
-  AccountInfoData,
-  AccountInfoParsed,
-  GetAllUserTokens,
-  GetTokenAccount,
-  ParseTokenAccount,
-  UserNFT,
-} from './types';
+import { AccountInfoData, AccountInfoParsed, GetTokenAccount, ParseTokenAccount, UserNFT } from './types';
 import idl from './idl/multi_reward_staking.json';
 
 //when we only want to view vaults, no need to connect a real wallet.
@@ -41,44 +33,6 @@ export const getTokenBalance = async (pubkey: web3.PublicKey, connection: web3.C
   const balance = await connection.getTokenAccountBalance(pubkey);
 
   return parseInt(balance.value.amount);
-};
-
-export const createUninitializedAccount = (
-  payer: web3.PublicKey,
-  amount: number,
-): { instructions: web3.TransactionInstruction[]; signers: web3.Keypair[]; accountPubkey: web3.PublicKey } => {
-  const account = web3.Keypair.generate();
-
-  const instructions = [
-    web3.SystemProgram.createAccount({
-      fromPubkey: payer,
-      newAccountPubkey: account.publicKey,
-      lamports: amount,
-      space: AccountLayout.span,
-      programId: TOKEN_PROGRAM_ID,
-    }),
-  ];
-
-  const signers = [account];
-
-  return { accountPubkey: account.publicKey, instructions, signers };
-};
-
-export const createTokenAccount = (
-  payer: web3.PublicKey,
-  accountRentExempt: number,
-  mint: web3.PublicKey,
-  owner: web3.PublicKey,
-): { instructions: web3.TransactionInstruction[]; signers: web3.Keypair[]; accountPubkey: web3.PublicKey } => {
-  const {
-    instructions: newInstructions,
-    signers: newSigners,
-    accountPubkey,
-  } = createUninitializedAccount(payer, accountRentExempt);
-
-  const initAccountInstruction = SplToken.createInitAccountInstruction(TOKEN_PROGRAM_ID, mint, accountPubkey, owner);
-
-  return { accountPubkey, signers: newSigners, instructions: [...newInstructions, initAccountInstruction] };
 };
 
 export const createAssociatedTokenAccountInstruction = (
@@ -149,14 +103,13 @@ export const deriveMetadataPubkeyFromMint = async (nftMint: web3.PublicKey): Pro
 export const decodeSplTokenAccountData = (tokenAccountDataEncoded: Buffer): AccountInfoData =>
   SPL_ACCOUNT_LAYOUT.decode(tokenAccountDataEncoded);
 
-export const parseTokenAccount: ParseTokenAccount = ({ tokenAccountPubkey, tokenAccountEncoded }) => (
+export const parseTokenAccount: ParseTokenAccount = ({ tokenAccountPubkey, tokenAccountEncoded }) =>
   tokenAccountEncoded
     ? {
-      pubkey: tokenAccountPubkey,
-      accountInfo: decodeSplTokenAccountData(tokenAccountEncoded.data),
-    }
-    : null
-);
+        pubkey: tokenAccountPubkey,
+        accountInfo: decodeSplTokenAccountData(tokenAccountEncoded.data),
+      }
+    : null;
 
 export const getTokenAccount = async ({
   tokenMint,
@@ -176,57 +129,15 @@ export const getTokenAccount = async ({
 export const getTokenAccountBalance = (lpTokenAccountInfo: AccountInfoParsed, lpDecimals: number): number =>
   lpTokenAccountInfo?.accountInfo?.amount.toNumber() / 10 ** lpDecimals || 0;
 
-export const getAllUserTokens: GetAllUserTokens = async ({ connection, walletPublicKey }) => {
-  const { value: tokenAccounts } = await connection.getTokenAccountsByOwner(
-    walletPublicKey,
-    { programId: TOKEN_PROGRAM_ID },
-    'singleGossip',
-  );
-
-  const parse = (parsedData) => {
-    try {
-      return new BN(parsedData.amount, 10, 'le')?.toNumber();
-    } catch (error) {
-      return -1;
-    }
-  };
-
-  return (
-    tokenAccounts?.map(({ pubkey, account }) => {
-      const parsedData = AccountLayout.decode(account.data);
-
-      const amountNum = parse(parsedData);
-
-      return {
-        tokenAccountPubkey: pubkey.toBase58(),
-        mint: new web3.PublicKey(parsedData.mint).toBase58(),
-        owner: new web3.PublicKey(parsedData.owner).toBase58(),
-        amount: amountNum,
-        amountBN: new BN(parsedData.amount, 10, 'le'),
-        delegateOption: !!parsedData.delegateOption,
-        delegate: new web3.PublicKey(parsedData.delegate).toBase58(),
-        state: parsedData.state,
-        isNativeOption: !!parsedData.isNativeOption,
-        isNative: new BN(parsedData.isNative, 10, 'le').toNumber(),
-        delegatedAmount: new BN(parsedData.delegatedAmount, 10, 'le').toNumber(),
-        closeAuthorityOption: !!parsedData.closeAuthorityOption,
-        closeAuthority: new web3.PublicKey(parsedData.closeAuthority).toBase58(),
-      };
-    }) || []
-  );
-};
-
 export const shortenAddress = (address: string, chars = 4): string =>
   `${address.slice(0, chars)}...${address.slice(-chars)}`;
 
-export const getNftCreators = (nft: UserNFT): string[] => (
-  nft?.metadata?.properties?.creators?.filter(({ verified }) => verified)?.map(({ address }) => address) || []
-);
+export const getNftCreators = (nft: UserNFT): string[] =>
+  nft?.metadata?.properties?.creators?.filter(({ verified }) => verified)?.map(({ address }) => address) || [];
 
-export const returnAnchorMultiRewardStaking = async (programId: web3.PublicKey, provider: AnchorProvider): Promise<Program> => {
-  return new Program(
-    idl as any,
-    programId,
-    provider
-  );
-}
+export const returnAnchorMultiRewardStaking = async (
+  programId: web3.PublicKey,
+  provider: AnchorProvider,
+): Promise<Program> => {
+  return new Program(idl as any, programId, provider);
+};

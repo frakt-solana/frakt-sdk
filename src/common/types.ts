@@ -1,4 +1,4 @@
-import { BN, web3 } from'@project-serum/anchor';
+import { BN, web3 } from '@project-serum/anchor';
 import { LiquidityPoolKeysV4 } from '@raydium-io/raydium-sdk';
 
 export interface TokenExtensions {
@@ -75,8 +75,6 @@ export interface TokenView {
   closeAuthorityOption: boolean;
   closeAuthority: string;
 }
-
-export type GetAllUserTokens = (props: { connection: web3.Connection; walletPublicKey: web3.PublicKey }) => Promise<TokenView[]>;
 
 export interface ArweaveAttribute {
   trait_type: string;
