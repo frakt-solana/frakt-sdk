@@ -953,11 +953,6 @@
       "name": "getLotTicket",
       "accounts": [
         {
-          "name": "loan",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
           "name": "liquidationLot",
           "isMut": true,
           "isSigner": false
@@ -1236,7 +1231,7 @@
   ],
   "accounts": [
     {
-      "name": "collectionInfo",
+      "name": "CollectionInfo",
       "type": {
         "kind": "struct",
         "fields": [
@@ -1286,7 +1281,7 @@
       }
     },
     {
-      "name": "deposit",
+      "name": "Deposit",
       "type": {
         "kind": "struct",
         "fields": [
@@ -1314,7 +1309,7 @@
       }
     },
     {
-      "name": "liquidationLot",
+      "name": "LiquidationLot",
       "type": {
         "kind": "struct",
         "fields": [
@@ -1368,7 +1363,7 @@
       }
     },
     {
-      "name": "loan",
+      "name": "Loan",
       "type": {
         "kind": "struct",
         "fields": [
@@ -1460,7 +1455,7 @@
       }
     },
     {
-      "name": "lotTicket",
+      "name": "LotTicket",
       "type": {
         "kind": "struct",
         "fields": [
@@ -1486,7 +1481,7 @@
       }
     },
     {
-      "name": "nftAttempts",
+      "name": "NftAttempts",
       "type": {
         "kind": "struct",
         "fields": [
@@ -1514,7 +1509,7 @@
       }
     },
     {
-      "name": "priceBasedLiquidityPool",
+      "name": "PriceBasedLiquidityPool",
       "type": {
         "kind": "struct",
         "fields": [
@@ -1594,7 +1589,7 @@
       }
     },
     {
-      "name": "liquidityPool",
+      "name": "LiquidityPool",
       "type": {
         "kind": "struct",
         "fields": [
@@ -2082,5 +2077,8 @@
       "name": "LotStateIsNotActive",
       "msg": "LotStateIsNotActive"
     }
-  ]
+  ],
+  "metadata": {
+    "address": "VEu1A9B1wErPiFwRpg8ecbrQM1UgGAYHwGSXUkLwvYt"
+  }
 }

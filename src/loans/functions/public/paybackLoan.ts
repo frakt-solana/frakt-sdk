@@ -1,8 +1,9 @@
-import { AnchorProvider, web3, utils } from '@project-serum/anchor';
+import { AnchorProvider, web3, utils, BN } from '@project-serum/anchor';
 
 import { getMetaplexEditionPda, returnAnchorProgram } from '../../helpers';
 import { findAssociatedTokenAddress } from '../../../common';
 import { METADATA_PROGRAM_PUBKEY } from '../../constants';
+import { TOKEN_PROGRAM_ID } from '@project-serum/anchor/dist/cjs/utils/token';
 
 type PaybackLoan = (params: {
   programId: web3.PublicKey;
@@ -45,7 +46,7 @@ export const paybackLoan: PaybackLoan = async ({
   const nftUserTokenAccount = await findAssociatedTokenAddress(user, nftMint);
   const editionId = getMetaplexEditionPda(nftMint);
 
-  const instruction = program.instruction.paybackLoan(bumpPoolsAuth, {
+  const instruction = program.instruction.paybackLoan(bumpPoolsAuth, new BN(0), {
     accounts: {
       loan: loan,
       liquidityPool: liquidityPool,
@@ -58,12 +59,32 @@ export const paybackLoan: PaybackLoan = async ({
       liqOwner,
       communityPoolsAuthority,
       systemProgram: web3.SystemProgram.programId,
-      tokenProgram: utils.token.TOKEN_PROGRAM_ID,
+      tokenProgram: TOKEN_PROGRAM_ID,
       // associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
       metadataProgram: METADATA_PROGRAM_PUBKEY,
       editionInfo: editionId,
     },
   });
+
+  // program.instruction.paybackLoan(bumpPoolsAuth, {
+  //   accounts: {
+  //     loan: loan,
+  //     liquidityPool: liquidityPool,
+  //     collectionInfo,
+  //     user: user,
+  //     admin,
+  //     nftMint: nftMint,
+  //     nftUserTokenAccount: nftUserTokenAccount,
+  //     royaltyAddress,
+  //     liqOwner,
+  //     communityPoolsAuthority,
+  //     systemProgram: web3.SystemProgram.programId,
+  //     tokenProgram: utils.token.TOKEN_PROGRAM_ID,
+  //     // associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
+  //     metadataProgram: METADATA_PROGRAM_PUBKEY,
+  //     editionInfo: editionId,
+  //   },
+  // });
 
   const transaction = new web3.Transaction().add(instruction);
 
