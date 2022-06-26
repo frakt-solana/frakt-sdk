@@ -4,7 +4,7 @@ import { returnAnchorProgram } from '../../helpers';
 
 type InitializeTimeBasedLiquidityPool = (params: {
   programId: web3.PublicKey;
-  provider: AnchorProvider;
+  connection: web3.Connection;
   admin: web3.PublicKey;
   rewardInterestRateTime: number | BN;
   feeInterestRateTime: number | BN;
@@ -17,7 +17,7 @@ type InitializeTimeBasedLiquidityPool = (params: {
 
 export const initializeTimeBasedLiquidityPool: InitializeTimeBasedLiquidityPool = async ({
   programId,
-  provider,
+  connection,
   admin,
   rewardInterestRateTime,
   feeInterestRateTime,
@@ -28,7 +28,7 @@ export const initializeTimeBasedLiquidityPool: InitializeTimeBasedLiquidityPool 
   sendTxn,
 }) => {
   const encoder = new TextEncoder();
-  const program = returnAnchorProgram(programId, provider);
+  const program = returnAnchorProgram(programId, connection);
   const liquidityPool = web3.Keypair.generate();
 
   const [liqOwner, liqOwnerBump] = await web3.PublicKey.findProgramAddress(

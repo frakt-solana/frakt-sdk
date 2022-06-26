@@ -7,7 +7,7 @@ import { getMetaplexEditionPda, returnAnchorProgram } from '../../helpers';
 type ProposeLoan = (params: {
   programId: web3.PublicKey;
   admin: web3.PublicKey;
-  provider: AnchorProvider;
+  connection: web3.Connection;
   user: web3.PublicKey;
   nftMint: web3.PublicKey;
   proposedNftPrice: number | BN;
@@ -19,7 +19,7 @@ type ProposeLoan = (params: {
 export const proposeLoan: ProposeLoan = async ({
   proposedNftPrice,
   programId,
-  provider,
+  connection,
   user,
   nftMint,
   isPriceBased,
@@ -27,7 +27,7 @@ export const proposeLoan: ProposeLoan = async ({
   admin,
   sendTxn,
 }) => {
-  const program = returnAnchorProgram(programId, provider);
+  const program = returnAnchorProgram(programId, connection);
   const loan = web3.Keypair.generate();
   const encoder = new TextEncoder();
   const [communityPoolsAuthority, bumpPoolsAuth] = await web3.PublicKey.findProgramAddress(

@@ -5,9 +5,9 @@ import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts
 import { TOKEN_PROGRAM_ID } from '../../../common/constants';
 
 export const addToWhitelist = async (params: AddToWhitelist): Promise<any> => {
-  const { isCreator, communityPool, whitelistedAddress, programId, userPubkey, provider, sendTxn } = params;
+  const { isCreator, communityPool, whitelistedAddress, programId, userPubkey, connection, sendTxn } = params;
 
-  const program = await returnCommunityPoolsAnchorProgram(programId, provider);
+  const program = await returnCommunityPoolsAnchorProgram(programId, connection);
   const poolWhitelistAccount = web3.Keypair.generate();
   const signers = [poolWhitelistAccount];
 

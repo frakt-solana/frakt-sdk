@@ -6,10 +6,10 @@ import { TopupConfig } from '../../types';
 import { ASSOCIATED_TOKEN_PROGRAM_ID, TOKEN_PROGRAM_ID } from '../../../common/constants';
 
 export const topupConfig = async (params: TopupConfig) => {
-  const { programId, provider, admin, tokenMint, inputAmount, sendTxn } = params;
+  const { programId, connection, admin, tokenMint, inputAmount, sendTxn } = params;
 
   const encoder = new TextEncoder();
-  const program = await returnCommunityPoolsAnchorProgram(programId, provider);
+  const program = await returnCommunityPoolsAnchorProgram(programId, connection);
   const adminTokenAccount = await findAssociatedTokenAddress(admin, tokenMint);
 
   const [vaultOwnerPda, bump] = await web3.PublicKey.findProgramAddress(

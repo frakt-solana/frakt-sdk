@@ -5,14 +5,14 @@ import { ASSOCIATED_TOKEN_PROGRAM_ID, TOKEN_PROGRAM_ID } from '../../common/cons
 
 export const harvestInFusion = async (
   programId: web3.PublicKey,
-  provider: AnchorProvider,
+  connection: web3.Connection,
   userPublicKey: web3.PublicKey,
   mintToStake: web3.PublicKey,
   mintToHarvest: web3.PublicKey,
 ) => {
   const encoder = new TextEncoder();
 
-  const program = await returnAnchorMultiRewardStaking(programId, provider);
+  const program = await returnAnchorMultiRewardStaking(programId, connection);
 
   const [vaultOwnerPda, bump] = await web3.PublicKey.findProgramAddress(
     [encoder.encode('vaultownerpda'), programId.toBuffer()],

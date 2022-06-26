@@ -137,7 +137,11 @@ export const getNftCreators = (nft: UserNFT): string[] =>
 
 export const returnAnchorMultiRewardStaking = async (
   programId: web3.PublicKey,
-  provider: AnchorProvider,
+  connection: web3.Connection,
 ): Promise<Program> => {
-  return new Program(idl as any, programId, provider);
+  return new Program(
+    idl as any,
+    programId,
+    new AnchorProvider(connection, createFakeWallet(), AnchorProvider.defaultOptions()),
+  );
 };

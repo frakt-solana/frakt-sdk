@@ -4,7 +4,7 @@ import { returnAnchorProgram } from '../../helpers';
 
 type InitializePriceBasedLiquidityPool = (params: {
   programId: web3.PublicKey;
-  provider: AnchorProvider;
+  connection: web3.Connection;
   admin: web3.PublicKey;
   baseBorrowRate: number;
   variableSlope1: number;
@@ -19,7 +19,7 @@ type InitializePriceBasedLiquidityPool = (params: {
 
 export const initializePriceBasedLiquidityPool: InitializePriceBasedLiquidityPool = async ({
   programId,
-  provider,
+  connection,
   admin,
   baseBorrowRate,
   variableSlope1,
@@ -31,7 +31,7 @@ export const initializePriceBasedLiquidityPool: InitializePriceBasedLiquidityPoo
   id,
   sendTxn,
 }) => {
-  const program = returnAnchorProgram(programId, provider);
+  const program = returnAnchorProgram(programId, connection);
   const encoder = new TextEncoder();
 
   const liquidityPool = web3.Keypair.generate();

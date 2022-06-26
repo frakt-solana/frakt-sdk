@@ -1,13 +1,13 @@
-import { web3 } from'@project-serum/anchor';
+import { web3 } from '@project-serum/anchor';
 
 import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
 import { InitPermission } from '../../types';
 
 export const initPermission = async (params: InitPermission) => {
-  const { programId, provider, admin, programPubkey, expiration, canAdd, canHarvest, sendTxn } = params;
+  const { programId, connection, admin, programPubkey, expiration, canAdd, canHarvest, sendTxn } = params;
 
   const encoder = new TextEncoder();
-  const program = await returnCommunityPoolsAnchorProgram(programId, provider);
+  const program = await returnCommunityPoolsAnchorProgram(programId, connection);
 
   const [permission] = await web3.PublicKey.findProgramAddress(
     [encoder.encode('Permission'), programPubkey.toBuffer()],

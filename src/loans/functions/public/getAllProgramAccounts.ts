@@ -30,7 +30,7 @@ type GetAllProgramAccounts = (
 
 export const getAllProgramAccounts: GetAllProgramAccounts = async (programId, connection) => {
   const provider = new AnchorProvider(connection, createFakeWallet(), AnchorProvider.defaultOptions());
-  let program = returnAnchorProgram(programId, provider);
+  let program = returnAnchorProgram(programId, connection);
 
   const collectionInfoRaws = await program.account.collectionInfo.all();
   const depositRaws = await program.account.deposit.all();

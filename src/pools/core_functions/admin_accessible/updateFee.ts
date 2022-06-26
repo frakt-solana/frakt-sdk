@@ -1,5 +1,4 @@
-import { web3 } from'@project-serum/anchor';
-
+import { web3 } from '@project-serum/anchor';
 
 import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
 import { UpdateFee } from '../../types';
@@ -7,7 +6,7 @@ import { UpdateFee } from '../../types';
 export const updateFee = async (params: UpdateFee) => {
   const {
     programId,
-    provider,
+    connection,
     userPubkey,
     config,
     depositFeeAdmin,
@@ -18,7 +17,7 @@ export const updateFee = async (params: UpdateFee) => {
   } = params;
 
   const transaction = new web3.Transaction();
-  const program = await returnCommunityPoolsAnchorProgram(programId, provider);
+  const program = await returnCommunityPoolsAnchorProgram(programId, connection);
 
   const instruction = await program.instruction.updateFee(
     depositFeeAdmin,

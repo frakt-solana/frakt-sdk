@@ -4,7 +4,7 @@ import { returnAnchorProgram } from '../../helpers';
 
 type UpdateTimeBasedLiquidityPool = (params: {
   programId: web3.PublicKey;
-  provider: AnchorProvider;
+  connection: web3.Connection;
   admin: web3.PublicKey;
   liquidityPool: web3.PublicKey;
   rewardInterestRateTime: number | BN;
@@ -18,7 +18,7 @@ type UpdateTimeBasedLiquidityPool = (params: {
 
 export const updateTimeBasedLiquidityPool: UpdateTimeBasedLiquidityPool = async ({
   programId,
-  provider,
+  connection,
   admin,
   liquidityPool,
   rewardInterestRateTime,
@@ -29,7 +29,7 @@ export const updateTimeBasedLiquidityPool: UpdateTimeBasedLiquidityPool = async 
   period,
   sendTxn,
 }) => {
-  const program = returnAnchorProgram(programId, provider);
+  const program = returnAnchorProgram(programId, connection);
 
   const instruction = program.instruction.updateLiquidityPool(
     {

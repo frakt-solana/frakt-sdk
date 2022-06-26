@@ -6,10 +6,10 @@ import { HarvestScore } from '../../types';
 import { ASSOCIATED_TOKEN_PROGRAM_ID, TOKEN_PROGRAM_ID } from '../../../common/constants';
 
 export const harvestScore = async (params: HarvestScore) => {
-  const { programId, provider, userPublicKey, tokenMint, sendTxn } = params;
+  const { programId, connection, userPublicKey, tokenMint, sendTxn } = params;
 
   const encoder = new TextEncoder();
-  const program = await returnCommunityPoolsAnchorProgram(programId, provider);
+  const program = await returnCommunityPoolsAnchorProgram(programId, connection);
 
   const [boardEntry, bumpBoard] = await web3.PublicKey.findProgramAddress(
     [encoder.encode('BoardEntry'), userPublicKey.toBuffer()],

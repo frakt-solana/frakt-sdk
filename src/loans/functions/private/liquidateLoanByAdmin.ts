@@ -6,7 +6,7 @@ import { METADATA_PROGRAM_PUBKEY } from '../../constants';
 
 type LiquidateLoanByAdmin = (params: {
   programId: web3.PublicKey;
-  provider: AnchorProvider;
+  connection: web3.Connection;
   liquidator: web3.PublicKey;
   user: web3.PublicKey;
   loan: web3.PublicKey;
@@ -16,7 +16,7 @@ type LiquidateLoanByAdmin = (params: {
 
 export const liquidateLoanByAdmin: LiquidateLoanByAdmin = async ({
   programId,
-  provider,
+  connection,
   liquidator,
   user,
   loan,
@@ -24,7 +24,7 @@ export const liquidateLoanByAdmin: LiquidateLoanByAdmin = async ({
   sendTxn,
 }) => {
   const encoder = new TextEncoder();
-  const program = returnAnchorProgram(programId, provider);
+  const program = returnAnchorProgram(programId, connection);
   const nftUserTokenAccount = await findAssociatedTokenAddress(user, nftMint);
   const nftLiquidatorTokenAccount = await findAssociatedTokenAddress(liquidator, nftMint);
   const editionId = getMetaplexEditionPda(nftMint);

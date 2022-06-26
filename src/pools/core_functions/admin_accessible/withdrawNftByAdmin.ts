@@ -16,7 +16,7 @@ export const withdrawNftByAdmin = async (params: WithdrawNftByAdmin) => {
     storeNftTokenAccount,
     programId,
     admin,
-    provider,
+    connection,
     sendTxn,
   } = params;
 
@@ -24,7 +24,7 @@ export const withdrawNftByAdmin = async (params: WithdrawNftByAdmin) => {
   const signers = [];
 
   const encoder = new TextEncoder();
-  const program = await returnCommunityPoolsAnchorProgram(programId, provider);
+  const program = await returnCommunityPoolsAnchorProgram(programId, connection);
 
   const [community_pools_authority, bump] = await web3.PublicKey.findProgramAddress(
     [encoder.encode(ACCOUNT_PREFIX), program.programId.toBuffer(), communityPool.toBuffer()],
@@ -32,7 +32,7 @@ export const withdrawNftByAdmin = async (params: WithdrawNftByAdmin) => {
   );
 
   const nftUserTokenAccount = await findAssociatedTokenAddress(ticketHolder, nftMint);
-  const nftUser = await provider.connection.getAccountInfo(nftUserTokenAccount);
+  const nftUser = await connection.getAccountInfo(nftUserTokenAccount);
 
   if (!nftUser) {
     instructions = [

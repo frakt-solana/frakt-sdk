@@ -11,9 +11,13 @@ import {
 import { createFakeWallet } from '../common';
 import { EDITION_PREFIX, METADATA_PREFIX, METADATA_PROGRAM_PUBKEY } from './constants';
 
-type ReturnAnchorProgram = (programId: web3.PublicKey, provider: AnchorProvider) => Program;
-export const returnAnchorProgram: ReturnAnchorProgram = (programId, provider) =>
-  new Program(idl as any, programId, provider);
+type ReturnAnchorProgram = (programId: web3.PublicKey, connection: web3.Connection) => Program;
+export const returnAnchorProgram: ReturnAnchorProgram = (programId, connection) =>
+  new Program(
+    idl as any,
+    programId,
+    new AnchorProvider(connection, createFakeWallet(), AnchorProvider.defaultOptions()),
+  );
 
 type DecodedCollectionInfo = (decodedCollection: any, address: web3.PublicKey) => CollectionInfoView;
 export const decodedCollectionInfo: DecodedCollectionInfo = (decodedCollection, address) => ({
@@ -109,10 +113,7 @@ export const decodedLoan: DecodedLoan = (decodedLoan, address) => ({
 
 type DecodeLoan = (buffer: Buffer, connection: web3.Connection, programId: web3.PublicKey) => any;
 export const decodeLoan: DecodeLoan = (buffer, connection, programId) => {
-  const program = returnAnchorProgram(
-    programId,
-    new AnchorProvider(connection, createFakeWallet(), AnchorProvider.defaultOptions()),
-  );
+  const program = returnAnchorProgram(programId, connection);
   return program.coder.accounts.decode('loan', buffer);
 };
 
