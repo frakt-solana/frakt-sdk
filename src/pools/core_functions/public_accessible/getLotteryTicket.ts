@@ -16,13 +16,13 @@ export const getLotteryTicket = async (params: GetLotteryTicket) => {
     adminAddress,
     programId,
     userPubkey,
-    provider,
+    connection,
     sendTxn,
   } = params;
 
   const encoder = new TextEncoder();
   const instructions = [];
-  const program = await returnCommunityPoolsAnchorProgram(programId, provider);
+  const program = await returnCommunityPoolsAnchorProgram(programId, connection);
 
   const lotteryTicketAccount = web3.Keypair.generate();
   const [leaderboardAccount] = await web3.PublicKey.findProgramAddress(
@@ -107,11 +107,11 @@ export const getLotteryTicketIx = async (params: GetLotteryTicketIx) => {
     adminAddress,
     programId,
     userPubkey,
-    provider,
+    connection,
   } = params;
 
   const encoder = new TextEncoder();
-  const program = await returnCommunityPoolsAnchorProgram(programId, provider);
+  const program = await returnCommunityPoolsAnchorProgram(programId, connection);
 
   const lotteryTicketAccount = web3.Keypair.generate();
   const [leaderboardAccount] = await web3.PublicKey.findProgramAddress(
@@ -143,7 +143,7 @@ export const getLotteryTicketIx = async (params: GetLotteryTicketIx) => {
 
   const admin = new web3.PublicKey(adminAddress);
   const adminTokenAccount = await findAssociatedTokenAddress(admin, fractionMint);
-  const main = await provider.connection.getAccountInfo(mainRouter);
+  const main = await connection.getAccountInfo(mainRouter);
 
   if (!main) {
     vaultTokenAccountOutput = adminTokenAccount;

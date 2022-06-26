@@ -1,4 +1,4 @@
-import { web3 } from'@project-serum/anchor';
+import { web3 } from '@project-serum/anchor';
 
 import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
 import { InitializeFee } from '../../types';
@@ -6,7 +6,7 @@ import { InitializeFee } from '../../types';
 export const initializeFee = async (params: InitializeFee): Promise<any> => {
   const {
     programId,
-    provider,
+    connection,
     userPubkey,
     depositFeeAdmin,
     depositFeePool,
@@ -20,7 +20,7 @@ export const initializeFee = async (params: InitializeFee): Promise<any> => {
   const transaction = new web3.Transaction();
   const signers = [config];
 
-  const program = await returnCommunityPoolsAnchorProgram(programId, provider);
+  const program = await returnCommunityPoolsAnchorProgram(programId, connection);
 
   const instruction = await program.instruction.initializeFee(
     depositFeeAdmin,

@@ -8,15 +8,20 @@ import {
   StakeAccountView,
   MainRouterView,
   SecondStakeAccountView,
-  SecondaryRewardView
+  SecondaryRewardView,
 } from '../types';
 import idl from '../idl/community_pools_anchor.json';
+import { createFakeWallet } from '../../common';
 
 export const returnCommunityPoolsAnchorProgram = async (
   programId: web3.PublicKey,
-  provider: AnchorProvider,
+  connection: web3.Connection,
 ): Promise<Program> => {
-  return new Program(idl as any, programId, provider);
+  return new Program(
+    idl as any,
+    programId,
+    new AnchorProvider(connection, createFakeWallet(), AnchorProvider.defaultOptions()),
+  );
 };
 
 export const decodedBoardEntry = (decodedPoolState: any, stateAddress: web3.PublicKey): BoardEntryView => ({
@@ -52,7 +57,10 @@ export const decodedPoolBufferToUI = (decodedPoolState: any, poolAddress: web3.P
   poolVaultBalance: decodedPoolState.poolVaultBalance.toString(),
 });
 
-export const decodedStakeAccountAddressToUI = (decodedStakeState: any, stakeAddress: web3.PublicKey): StakeAccountView => ({
+export const decodedStakeAccountAddressToUI = (
+  decodedStakeState: any,
+  stakeAddress: web3.PublicKey,
+): StakeAccountView => ({
   stakeAccountPubkey: stakeAddress.toBase58(),
   stakeOwner: decodedStakeState.stakeOwner.toBase58(),
   tokenMintInput: decodedStakeState.tokenMintInput.toBase58(),
@@ -85,7 +93,10 @@ export const decodedRouterToUI = (decodedState: any, mainRouterAddress: web3.Pub
   startTime: decodedState.startTime.toString(),
 });
 
-export const decodedSecondStakeToUI = (decodedState: any, secondStakeAccount: web3.PublicKey): SecondStakeAccountView => ({
+export const decodedSecondStakeToUI = (
+  decodedState: any,
+  secondStakeAccount: web3.PublicKey,
+): SecondStakeAccountView => ({
   secondStakeAccount: secondStakeAccount.toBase58(),
   rewardOwner: decodedState.rewardOwner.toBase58(),
   stakeAccount: decodedState.stakeAccount.toBase58(),
@@ -94,7 +105,10 @@ export const decodedSecondStakeToUI = (decodedState: any, secondStakeAccount: we
   lastHarvestedAt: decodedState.lastHarvestedAt.toString(),
 });
 
-export const decodedSecondaryRewardToUI = (decodedState: any, secondaryRewardaccount: web3.PublicKey): SecondaryRewardView => ({
+export const decodedSecondaryRewardToUI = (
+  decodedState: any,
+  secondaryRewardaccount: web3.PublicKey,
+): SecondaryRewardView => ({
   secondaryRewardaccount: secondaryRewardaccount.toBase58(),
   routerPubkey: decodedState.routerPubkey.toBase58(),
   tokenMint: decodedState.tokenMint.toBase58(),
@@ -102,5 +116,5 @@ export const decodedSecondaryRewardToUI = (decodedState: any, secondaryRewardacc
   tokensPerSecondPerPoint: decodedState.tokensPerSecondPerPoint.toString(),
   decimalsOutput: decodedState.decimalsOutput.toString(),
   startTime: decodedState.startTime.toString(),
-  endTime: decodedState.endTime.toString()
+  endTime: decodedState.endTime.toString(),
 });

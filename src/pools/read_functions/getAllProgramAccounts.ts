@@ -9,7 +9,7 @@ import { createFakeWallet } from '../../common';
 
 export const getAllProgramAccounts = async (programId: web3.PublicKey, connection: web3.Connection) => {
   const provider = new AnchorProvider(connection, createFakeWallet(), AnchorProvider.defaultOptions());
-  const program = await returnCommunityPoolsAnchorProgram(programId, provider);
+  const program = await returnCommunityPoolsAnchorProgram(programId, connection);
 
   const communityPools = await program.account.communityPool.all();
   const lotteryTickets = await program.account.lotteryTicket.all();

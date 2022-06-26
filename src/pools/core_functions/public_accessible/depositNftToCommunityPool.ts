@@ -1,7 +1,7 @@
 import { web3 } from '@project-serum/anchor';
-import { TOKEN_PROGRAM_ID, ASSOCIATED_TOKEN_PROGRAM_ID } from '@solana/spl-token';
 
 import { createAssociatedTokenAccountInstruction, findAssociatedTokenAddress } from '../../../common';
+import { ASSOCIATED_TOKEN_PROGRAM_ID, TOKEN_PROGRAM_ID } from '../../../common/constants';
 import { ACCOUNT_PREFIX } from '../../constants';
 import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
 import { DepositNftToCommunityPool, DepositNftToCommunityPoolIx } from '../../types';
@@ -20,13 +20,13 @@ export const depositNftToCommunityPool = async (params: DepositNftToCommunityPoo
     adminAddress,
     programId,
     userPubkey,
-    provider,
+    connection,
     sendTxn,
   } = params;
 
   let instructions: web3.TransactionInstruction[] = [];
   const encoder = new TextEncoder();
-  const program = await returnCommunityPoolsAnchorProgram(programId, provider);
+  const program = await returnCommunityPoolsAnchorProgram(programId, connection);
 
   const [community_pools_authority, bump] = await web3.PublicKey.findProgramAddress(
     [encoder.encode(ACCOUNT_PREFIX), program.programId.toBuffer(), communityPool.toBuffer()],
@@ -42,7 +42,7 @@ export const depositNftToCommunityPool = async (params: DepositNftToCommunityPoo
   const storeNftTokenAccount = web3.Keypair.generate();
 
   const userFractionsTokenAccount = await findAssociatedTokenAddress(userPubkey, fractionMint);
-  const user = await provider.connection.getAccountInfo(userFractionsTokenAccount);
+  const user = await connection.getAccountInfo(userFractionsTokenAccount);
 
   if (!user) {
     instructions = instructions.concat(createAssociatedTokenAccountInstruction(userFractionsTokenAccount, userPubkey, userPubkey, fractionMint));
@@ -132,12 +132,12 @@ export const depositNftToCommunityPoolIx = async (params: DepositNftToCommunityP
     adminAddress,
     programId,
     userPubkey,
-    provider,
+    connection,
   } = params;
 
   let instructions: web3.TransactionInstruction[] = [];
   const encoder = new TextEncoder();
-  const program = await returnCommunityPoolsAnchorProgram(programId, provider);
+  const program = await returnCommunityPoolsAnchorProgram(programId, connection);
 
   const [community_pools_authority, bump] = await web3.PublicKey.findProgramAddress(
     [encoder.encode(ACCOUNT_PREFIX), program.programId.toBuffer(), communityPool.toBuffer()],
@@ -151,7 +151,7 @@ export const depositNftToCommunityPoolIx = async (params: DepositNftToCommunityP
   const storeNftTokenAccount = web3.Keypair.generate();
 
   const userFractionsTokenAccount = await findAssociatedTokenAddress(userPubkey, fractionMint);
-  const user = await provider.connection.getAccountInfo(userFractionsTokenAccount);
+  const user = await connection.getAccountInfo(userFractionsTokenAccount);
 
   if (!user) {
     instructions = instructions.concat(createAssociatedTokenAccountInstruction(userFractionsTokenAccount, userPubkey, userPubkey, fractionMint));
@@ -172,7 +172,7 @@ export const depositNftToCommunityPoolIx = async (params: DepositNftToCommunityP
     fusionProgramId,
   );
 
-  const main = await provider.connection.getAccountInfo(mainRouter);
+  const main = await connection.getAccountInfo(mainRouter);
 
   if (!main) {
     vaultTokenAccountOutput = adminTokenAccount;

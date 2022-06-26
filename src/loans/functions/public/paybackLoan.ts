@@ -6,7 +6,7 @@ import { METADATA_PROGRAM_PUBKEY } from '../../constants';
 
 type PaybackLoan = (params: {
   programId: web3.PublicKey;
-  provider: AnchorProvider;
+  connection: web3.Connection;
   user: web3.PublicKey;
   admin: web3.PublicKey;
   loan: web3.PublicKey;
@@ -19,7 +19,7 @@ type PaybackLoan = (params: {
 
 export const paybackLoan: PaybackLoan = async ({
   programId,
-  provider,
+  connection,
   user,
   admin,
   loan,
@@ -30,7 +30,7 @@ export const paybackLoan: PaybackLoan = async ({
   sendTxn,
 }) => {
   const encoder = new TextEncoder();
-  const program = returnAnchorProgram(programId, provider);
+  const program = returnAnchorProgram(programId, connection);
 
   const [communityPoolsAuthority, bumpPoolsAuth] = await web3.PublicKey.findProgramAddress(
     [encoder.encode('nftlendingv2'), programId.toBuffer()],
@@ -47,13 +47,13 @@ export const paybackLoan: PaybackLoan = async ({
 
   const instruction = program.instruction.paybackLoan(bumpPoolsAuth, {
     accounts: {
-      loan,
-      liquidityPool,
+      loan: loan,
+      liquidityPool: liquidityPool,
       collectionInfo,
-      user,
+      user: user,
       admin,
-      nftMint,
-      nftUserTokenAccount,
+      nftMint: nftMint,
+      nftUserTokenAccount: nftUserTokenAccount,
       royaltyAddress,
       liqOwner,
       communityPoolsAuthority,

@@ -5,7 +5,7 @@ import { returnAnchorProgram } from '../../helpers';
 type UpdatePriceBasedLiquidityPool = (params: {
   programId: web3.PublicKey;
   liquidityPool: web3.PublicKey;
-  provider: AnchorProvider;
+  connection: web3.Connection;
   admin: web3.PublicKey;
   baseBorrowRate: number;
   variableSlope1: number;
@@ -21,7 +21,7 @@ type UpdatePriceBasedLiquidityPool = (params: {
 export const updatePriceBasedLiquidityPool: UpdatePriceBasedLiquidityPool = async ({
   programId,
   liquidityPool,
-  provider,
+  connection,
   admin,
   baseBorrowRate,
   variableSlope1,
@@ -33,7 +33,7 @@ export const updatePriceBasedLiquidityPool: UpdatePriceBasedLiquidityPool = asyn
   id,
   sendTxn,
 }) => {
-  const program = returnAnchorProgram(programId, provider);
+  const program = returnAnchorProgram(programId, connection);
 
   const ix = program.instruction.updatePriceBasedLiquidityPool(
     {

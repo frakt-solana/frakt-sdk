@@ -4,10 +4,10 @@ import { InitBoardEntry, InitBoardEntryInstruction } from '../../types';
 import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
 
 export const initBoardEntry = async (params: InitBoardEntry) => {
-  const { programId, provider, user, nftMint, message, sendTxn, initialBalance = new BN(0) } = params;
+  const { programId, connection, user, nftMint, message, sendTxn, initialBalance = new BN(0) } = params;
 
   const encoder = new TextEncoder();
-  const program = await returnCommunityPoolsAnchorProgram(programId, provider);
+  const program = await returnCommunityPoolsAnchorProgram(programId, connection);
 
   const [boardEntry] = await web3.PublicKey.findProgramAddress(
     [encoder.encode('BoardEntry'), user.toBuffer()],
@@ -30,10 +30,10 @@ export const initBoardEntry = async (params: InitBoardEntry) => {
 };
 
 export const initBoardEntryInstruction = async (params: InitBoardEntryInstruction) => {
-  const { programId, provider, user, nftMint, message, initialBalance = new BN(0) } = params;
+  const { programId, connection, user, nftMint, message, initialBalance = new BN(0) } = params;
 
   const encoder = new TextEncoder();
-  const program = await returnCommunityPoolsAnchorProgram(programId, provider);
+  const program = await returnCommunityPoolsAnchorProgram(programId, connection);
 
   const [boardEntry] = await web3.PublicKey.findProgramAddress(
     [encoder.encode('BoardEntry'), user.toBuffer()],

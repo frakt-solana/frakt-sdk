@@ -1,14 +1,14 @@
-import { web3 } from'@project-serum/anchor';
-import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
+import { web3 } from '@project-serum/anchor';
 
+import { TOKEN_PROGRAM_ID } from '../../../common/constants';
 import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
 import { UpdateLeaderboardReward } from '../../types';
 
 export const updateLeaderboardReward = async (params: UpdateLeaderboardReward) => {
-  const { communityPool, fractionMint, depositReward, withdrawReward, programId, admin, provider, sendTxn } = params;
+  const { communityPool, fractionMint, depositReward, withdrawReward, programId, admin, connection, sendTxn } = params;
 
   const encoder = new TextEncoder();
-  const program = await returnCommunityPoolsAnchorProgram(programId, provider);
+  const program = await returnCommunityPoolsAnchorProgram(programId, connection);
   const [leaderboardAccount, bump] = await web3.PublicKey.findProgramAddress(
     [communityPool.toBuffer(), encoder.encode('leaderBoard')],
     program.programId,

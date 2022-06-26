@@ -1,26 +1,27 @@
 import { AnchorProvider, BN, web3 } from '@project-serum/anchor';
+import { createFakeWallet } from '../../../common';
 
 import { returnAnchorProgram } from '../../helpers';
 
 type DepositLiquidity = (params: {
   programId: web3.PublicKey;
-  provider: AnchorProvider;
   liquidityPool: web3.PublicKey;
+  connection: web3.Connection;
   user: web3.PublicKey;
   amount: number;
   sendTxn: (transaction: web3.Transaction) => Promise<void>;
-}) => Promise<void>;
+}) => Promise<web3.PublicKey>;
 
 export const depositLiquidity: DepositLiquidity = async ({
   programId,
-  provider,
   liquidityPool,
+  connection,
   user,
   amount,
   sendTxn,
-}): Promise<void> => {
+}): Promise<web3.PublicKey> => {
   const encoder = new TextEncoder();
-  const program = returnAnchorProgram(programId, provider);
+  const program = returnAnchorProgram(programId, connection);
 
   const [liqOwner] = await web3.PublicKey.findProgramAddress(
     [encoder.encode('nftlendingv2'), liquidityPool.toBuffer()],
@@ -46,4 +47,5 @@ export const depositLiquidity: DepositLiquidity = async ({
   const transaction = new web3.Transaction().add(instruction);
 
   await sendTxn(transaction);
+  return deposit;
 };

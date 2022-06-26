@@ -2,9 +2,9 @@ import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts
 import { UpdateConnection } from '../../types';
 
 export const updateConnection = async (params: UpdateConnection) => {
-  const { programId, provider, userPubkey, communityPool, fractionMint, fusion, sendTxn } = params;
+  const { programId, connection, userPubkey, communityPool, fractionMint, fusion, sendTxn } = params;
 
-  const program = await returnCommunityPoolsAnchorProgram(programId, provider);
+  const program = await returnCommunityPoolsAnchorProgram(programId, connection);
 
   const transaction = await program.transaction.updateConnection({
     accounts: {

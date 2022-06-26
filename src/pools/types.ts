@@ -1,4 +1,4 @@
-import { BN, AnchorProvider, web3 } from'@project-serum/anchor';
+import { BN, AnchorProvider, web3 } from '@project-serum/anchor';
 
 import { PoolDataByMint, TokenInfo } from '../common/types';
 
@@ -31,7 +31,7 @@ export interface ActivateCommunityPool {
   communityPool: web3.PublicKey;
   programId: web3.PublicKey;
   userPubkey: web3.PublicKey;
-  provider: AnchorProvider;
+  connection: web3.Connection;
   sendTxn: (transaction: web3.Transaction, signers: web3.Keypair[]) => Promise<void>;
 }
 
@@ -41,7 +41,7 @@ export interface AddToWhitelist {
   whitelistedAddress: web3.PublicKey;
   programId: web3.PublicKey;
   userPubkey: web3.PublicKey;
-  provider: AnchorProvider;
+  connection: web3.Connection;
   sendTxn: (transaction: web3.Transaction, signers: web3.Keypair[]) => Promise<void>;
 }
 
@@ -52,13 +52,13 @@ export interface EmergencyWithdrawByAdmin {
   storeNftTokenAccount: web3.PublicKey;
   programId: web3.PublicKey;
   admin: web3.PublicKey;
-  provider: AnchorProvider;
+  connection: web3.Connection;
   sendTxn: (transaction: web3.Transaction, signers: web3.Keypair[]) => Promise<void>;
 }
 
 export interface InitBoardEntry {
   programId: web3.PublicKey;
-  provider: AnchorProvider;
+  connection: web3.Connection;
   user: web3.PublicKey;
   nftMint: web3.PublicKey;
   message: string;
@@ -68,7 +68,7 @@ export interface InitBoardEntry {
 
 export interface InitBoardEntryInstruction {
   programId: web3.PublicKey;
-  provider: AnchorProvider;
+  connection: web3.Connection;
   user: web3.PublicKey;
   nftMint: web3.PublicKey;
   message: string;
@@ -78,13 +78,13 @@ export interface InitBoardEntryInstruction {
 export interface InitCommunityPool {
   programId: web3.PublicKey;
   userPubkey: web3.PublicKey;
-  provider: AnchorProvider;
+  connection: web3.Connection;
   sendTxn: (transaction: web3.Transaction, signers: web3.Keypair[]) => Promise<void>;
 }
 
 export interface InitConfig {
   programId: web3.PublicKey;
-  provider: AnchorProvider;
+  connection: web3.Connection;
   admin: web3.PublicKey;
   tokenMint: web3.PublicKey;
   sendTxn: (transaction: web3.Transaction) => Promise<void>;
@@ -92,7 +92,7 @@ export interface InitConfig {
 
 export interface InitializeFee {
   programId: web3.PublicKey;
-  provider: AnchorProvider;
+  connection: web3.Connection;
   userPubkey: web3.PublicKey;
   depositFeeAdmin: number;
   depositFeePool: number;
@@ -109,13 +109,13 @@ export interface InitLeaderboardReward {
   withdrawReward: BN;
   programId: web3.PublicKey;
   admin: web3.PublicKey;
-  provider: AnchorProvider;
+  connection: web3.Connection;
   sendTxn: (transaction: web3.Transaction, signers: web3.Keypair[]) => Promise<void>;
 }
 
 export interface InitPermission {
   programId: web3.PublicKey;
-  provider: AnchorProvider;
+  connection: web3.Connection;
   admin: web3.PublicKey;
   programPubkey: web3.PublicKey;
   expiration: BN;
@@ -130,13 +130,13 @@ export interface RevealLotteryTicket {
   safetyDepositBox: web3.PublicKey;
   programId: web3.PublicKey;
   userPubkey: web3.PublicKey;
-  provider: AnchorProvider;
+  connection: web3.Connection;
   sendTxn: (transaction: web3.Transaction, signers: web3.Keypair[]) => Promise<void>;
 }
 
 export interface TopupConfig {
   programId: web3.PublicKey;
-  provider: AnchorProvider;
+  connection: web3.Connection;
   admin: web3.PublicKey;
   tokenMint: web3.PublicKey;
   inputAmount: BN;
@@ -145,7 +145,7 @@ export interface TopupConfig {
 
 export interface UpdateConnection {
   programId: web3.PublicKey;
-  provider: AnchorProvider;
+  connection: web3.Connection;
   userPubkey: web3.PublicKey;
   communityPool: web3.PublicKey;
   fractionMint: web3.PublicKey;
@@ -155,7 +155,7 @@ export interface UpdateConnection {
 
 export interface UpdateFee {
   programId: web3.PublicKey;
-  provider: AnchorProvider;
+  connection: web3.Connection;
   userPubkey: web3.PublicKey;
   config: web3.PublicKey;
   depositFeeAdmin: number;
@@ -172,7 +172,7 @@ export interface UpdateLeaderboardReward {
   withdrawReward: BN;
   programId: web3.PublicKey;
   admin: web3.PublicKey;
-  provider: AnchorProvider;
+  connection: web3.Connection;
   sendTxn: (transaction: web3.Transaction, signers: web3.Keypair[]) => Promise<void>;
 }
 
@@ -185,7 +185,7 @@ export interface WithdrawNftByAdmin {
   storeNftTokenAccount: web3.PublicKey;
   programId: web3.PublicKey;
   admin: web3.PublicKey;
-  provider: AnchorProvider;
+  connection: web3.Connection;
   sendTxn: (transaction: web3.Transaction, signers: web3.Keypair[]) => Promise<void>;
 }
 
@@ -197,7 +197,7 @@ export interface WithdrawNftByTicket {
   storeNftTokenAccount: web3.PublicKey;
   programId: web3.PublicKey;
   userPubkey: web3.PublicKey;
-  provider: AnchorProvider;
+  connection: web3.Connection;
   sendTxn: (transaction: web3.Transaction, signers: web3.Keypair[]) => Promise<void>;
 }
 
@@ -214,7 +214,7 @@ export interface DepositNftToCommunityPool {
   adminAddress: web3.PublicKey;
   programId: web3.PublicKey;
   userPubkey: web3.PublicKey;
-  provider: AnchorProvider;
+  connection: web3.Connection;
   sendTxn: (transaction: web3.Transaction, signers: web3.Keypair[]) => Promise<void>;
 }
 
@@ -228,20 +228,26 @@ export interface GetLotteryTicket {
   adminAddress: web3.PublicKey;
   programId: web3.PublicKey;
   userPubkey: web3.PublicKey;
-  provider: AnchorProvider;
+  connection: web3.Connection;
   sendTxn: (transaction: web3.Transaction, signers: web3.Keypair[]) => Promise<void>;
 }
 
 export interface HarvestScore {
   programId: web3.PublicKey;
-  provider: AnchorProvider;
+  connection: web3.Connection;
   userPublicKey: web3.PublicKey;
   tokenMint: web3.PublicKey;
   sendTxn: (transaction: web3.Transaction) => Promise<void>;
 }
 
 export interface FetchPoolDataByMint {
-  ({ connection, tokensMap }: { connection: web3.Connection; tokensMap: Map<string, TokenInfo> }): Promise<PoolDataByMint>;
+  ({
+    connection,
+    tokensMap,
+  }: {
+    connection: web3.Connection;
+    tokensMap: Map<string, TokenInfo>;
+  }): Promise<PoolDataByMint>;
 }
 
 export interface DepositNftToCommunityPoolIx {
@@ -257,7 +263,7 @@ export interface DepositNftToCommunityPoolIx {
   adminAddress: web3.PublicKey;
   programId: web3.PublicKey;
   userPubkey: web3.PublicKey;
-  provider: AnchorProvider;
+  connection: web3.Connection;
 }
 
 export interface GetLotteryTicketIx {
@@ -270,125 +276,125 @@ export interface GetLotteryTicketIx {
   adminAddress: web3.PublicKey;
   programId: web3.PublicKey;
   userPubkey: web3.PublicKey;
-  provider: AnchorProvider;
+  connection: web3.Connection;
 }
 
 export interface MainRouterView {
-  mainRouterPubkey: string,
-  tokenMintInput: string,
-  tokenMintOutput: string,
-  poolConfigInput: string,
-  poolConfigOutput: string,
-  amountOfStaked: string,
-  amountToReturn: string,
-  apr: string,
-  cumulative: string,
-  lastTime: string,
-  decimalsInput: string,
-  decimalsOutput: string,
-  oldCumulative: string,
-  endTime: string,
-  startTime: string,
+  mainRouterPubkey: string;
+  tokenMintInput: string;
+  tokenMintOutput: string;
+  poolConfigInput: string;
+  poolConfigOutput: string;
+  amountOfStaked: string;
+  amountToReturn: string;
+  apr: string;
+  cumulative: string;
+  lastTime: string;
+  decimalsInput: string;
+  decimalsOutput: string;
+  oldCumulative: string;
+  endTime: string;
+  startTime: string;
 }
 
 export interface SecondaryRewardView {
-  secondaryRewardaccount: string,
-  routerPubkey: string,
-  tokenMint: string,
-  poolVaultBalance: string,
-  tokensPerSecondPerPoint: string,
-  decimalsOutput: string,
-  startTime: string,
-  endTime: string
+  secondaryRewardaccount: string;
+  routerPubkey: string;
+  tokenMint: string;
+  poolVaultBalance: string;
+  tokensPerSecondPerPoint: string;
+  decimalsOutput: string;
+  startTime: string;
+  endTime: string;
 }
 
 export interface StakeAccountView {
-  stakeAccountPubkey: string,
-  stakeOwner: string,
-  tokenMintInput: string,
-  tokenMintOutput: string,
-  routerPubkey: string,
-  amount: string,
-  stakedAt: string,
-  stakeEnd: string,
-  stakedAtCumulative: string,
-  unstakedAtCumulative: string,
-  lastHarvestedAt: string,
-  isStaked: boolean,
+  stakeAccountPubkey: string;
+  stakeOwner: string;
+  tokenMintInput: string;
+  tokenMintOutput: string;
+  routerPubkey: string;
+  amount: string;
+  stakedAt: string;
+  stakeEnd: string;
+  stakedAtCumulative: string;
+  unstakedAtCumulative: string;
+  lastHarvestedAt: string;
+  isStaked: boolean;
 }
 
 export interface StakeAccountView {
-  stakeAccountPubkey: string,
-  stakeOwner: string,
-  tokenMintInput: string,
-  tokenMintOutput: string,
-  routerPubkey: string,
-  amount: string,
-  stakedAt: string,
-  stakeEnd: string,
-  stakedAtCumulative: string,
-  unstakedAtCumulative: string,
-  lastHarvestedAt: string,
-  isStaked: boolean,
+  stakeAccountPubkey: string;
+  stakeOwner: string;
+  tokenMintInput: string;
+  tokenMintOutput: string;
+  routerPubkey: string;
+  amount: string;
+  stakedAt: string;
+  stakeEnd: string;
+  stakedAtCumulative: string;
+  unstakedAtCumulative: string;
+  lastHarvestedAt: string;
+  isStaked: boolean;
 }
 
 export interface MainPoolConfigView {
-  mainPoolPubkey: string,
-  vaultOwnerPda: string,
-  tokenMint: string,
-  vaultTokenAccount: string,
-  poolVaultBalance: string,
+  mainPoolPubkey: string;
+  vaultOwnerPda: string;
+  tokenMint: string;
+  vaultTokenAccount: string;
+  poolVaultBalance: string;
 }
 
 export interface StakeAccountView {
-  stakeAccountPubkey: string,
-  stakeOwner: string,
-  tokenMintInput: string,
-  tokenMintOutput: string,
-  routerPubkey: string,
-  amount: string,
-  stakedAt: string,
-  stakeEnd: string,
-  stakedAtCumulative: string,
-  unstakedAtCumulative: string,
-  lastHarvestedAt: string,
-  isStaked: boolean,
+  stakeAccountPubkey: string;
+  stakeOwner: string;
+  tokenMintInput: string;
+  tokenMintOutput: string;
+  routerPubkey: string;
+  amount: string;
+  stakedAt: string;
+  stakeEnd: string;
+  stakedAtCumulative: string;
+  unstakedAtCumulative: string;
+  lastHarvestedAt: string;
+  isStaked: boolean;
 }
 
 export interface MainRouterView {
-  mainRouterPubkey: string,
-  tokenMintInput: string,
-  tokenMintOutput: string,
-  poolConfigInput: string,
-  poolConfigOutput: string,
-  amountOfStaked: string,
-  amountToReturn: string,
-  apr: string,
-  cumulative: string,
-  lastTime: string,
-  decimalsInput: string,
-  decimalsOutput: string,
-  oldCumulative: string,
-  endTime: string,
-  startTime: string,
+  mainRouterPubkey: string;
+  tokenMintInput: string;
+  tokenMintOutput: string;
+  poolConfigInput: string;
+  poolConfigOutput: string;
+  amountOfStaked: string;
+  amountToReturn: string;
+  apr: string;
+  cumulative: string;
+  lastTime: string;
+  decimalsInput: string;
+  decimalsOutput: string;
+  oldCumulative: string;
+  endTime: string;
+  startTime: string;
 }
 
 export interface SecondStakeAccountView {
-  secondStakeAccount: string,
-  rewardOwner: string,
-  stakeAccount: string,
-  secondaryReward: string,
-  startTime: string,
-  lastHarvestedAt: string
+  secondStakeAccount: string;
+  rewardOwner: string;
+  stakeAccount: string;
+  secondaryReward: string;
+  startTime: string;
+  lastHarvestedAt: string;
 }
 
 export interface SecondaryRewardView {
-  secondaryRewardaccount: string,
-  routerPubkey: string,
-  tokenMint: string,
-  poolVaultBalance: string,
-  tokensPerSecondPerPoint: string,
-  decimalsOutput: string,
-  startTime: string,
-  endTime: string
+  secondaryRewardaccount: string;
+  routerPubkey: string;
+  tokenMint: string;
+  poolVaultBalance: string;
+  tokensPerSecondPerPoint: string;
+  decimalsOutput: string;
+  startTime: string;
+  endTime: string;
 }

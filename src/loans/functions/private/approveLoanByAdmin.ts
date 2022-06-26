@@ -4,7 +4,7 @@ import { returnAnchorProgram } from '../../helpers';
 
 type ApproveLoanByAdmin = (params: {
   programId: web3.PublicKey;
-  provider: AnchorProvider;
+  connection: web3.Connection;
   admin: web3.PublicKey;
   loan: web3.PublicKey;
   liquidityPool: web3.PublicKey;
@@ -17,7 +17,7 @@ type ApproveLoanByAdmin = (params: {
 
 export const approveLoanByAdmin: ApproveLoanByAdmin = async ({
   programId,
-  provider,
+  connection,
   admin,
   loan,
   liquidityPool,
@@ -28,7 +28,7 @@ export const approveLoanByAdmin: ApproveLoanByAdmin = async ({
   sendTxn,
 }) => {
   const encoder = new TextEncoder();
-  const program = returnAnchorProgram(programId, provider);
+  const program = returnAnchorProgram(programId, connection);
 
   const [liqOwner] = await web3.PublicKey.findProgramAddress(
     [encoder.encode('nftlendingv2'), liquidityPool.toBuffer()],

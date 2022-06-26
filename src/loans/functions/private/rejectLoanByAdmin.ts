@@ -5,7 +5,7 @@ import { getMetaplexEditionPda, returnAnchorProgram } from '../../helpers';
 
 type RejectLoanByAdmin = (params: {
   programId: web3.PublicKey;
-  provider: AnchorProvider;
+  connection: web3.Connection;
   loan: web3.PublicKey;
   nftUserTokenAccount: web3.PublicKey;
   admin: web3.PublicKey;
@@ -16,7 +16,7 @@ type RejectLoanByAdmin = (params: {
 
 export const rejectLoanByAdmin: RejectLoanByAdmin = async ({
   programId,
-  provider,
+  connection,
   loan,
   nftUserTokenAccount,
   admin,
@@ -25,7 +25,7 @@ export const rejectLoanByAdmin: RejectLoanByAdmin = async ({
   sendTxn,
 }) => {
   const encoder = new TextEncoder();
-  const program = returnAnchorProgram(programId, provider);
+  const program = returnAnchorProgram(programId, connection);
   const editionId = getMetaplexEditionPda(nftMint);
 
   const [communityPoolsAuthority, bumpPoolsAuth] = await web3.PublicKey.findProgramAddress(

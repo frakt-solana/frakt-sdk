@@ -1,15 +1,15 @@
-import { web3 } from'@project-serum/anchor';
-import { TOKEN_PROGRAM_ID, ASSOCIATED_TOKEN_PROGRAM_ID } from '@solana/spl-token';
+import { web3 } from '@project-serum/anchor';
 
 import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
 import { findAssociatedTokenAddress } from '../../../common';
 import { TopupConfig } from '../../types';
+import { ASSOCIATED_TOKEN_PROGRAM_ID, TOKEN_PROGRAM_ID } from '../../../common/constants';
 
 export const topupConfig = async (params: TopupConfig) => {
-  const { programId, provider, admin, tokenMint, inputAmount, sendTxn } = params;
+  const { programId, connection, admin, tokenMint, inputAmount, sendTxn } = params;
 
   const encoder = new TextEncoder();
-  const program = await returnCommunityPoolsAnchorProgram(programId, provider);
+  const program = await returnCommunityPoolsAnchorProgram(programId, connection);
   const adminTokenAccount = await findAssociatedTokenAddress(admin, tokenMint);
 
   const [vaultOwnerPda, bump] = await web3.PublicKey.findProgramAddress(

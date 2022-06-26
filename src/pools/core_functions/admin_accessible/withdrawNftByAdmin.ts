@@ -1,10 +1,10 @@
-import { web3 } from'@project-serum/anchor';
-import { TOKEN_PROGRAM_ID } from '@solana/spl-token';
+import { web3 } from '@project-serum/anchor';
 
 import { findAssociatedTokenAddress, createAssociatedTokenAccountInstruction } from '../../../common';
 import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
 import { ACCOUNT_PREFIX } from '../../constants';
 import { WithdrawNftByAdmin } from '../../types';
+import { TOKEN_PROGRAM_ID } from '../../../common/constants';
 
 export const withdrawNftByAdmin = async (params: WithdrawNftByAdmin) => {
   const {
@@ -16,7 +16,7 @@ export const withdrawNftByAdmin = async (params: WithdrawNftByAdmin) => {
     storeNftTokenAccount,
     programId,
     admin,
-    provider,
+    connection,
     sendTxn,
   } = params;
 
@@ -24,7 +24,7 @@ export const withdrawNftByAdmin = async (params: WithdrawNftByAdmin) => {
   const signers = [];
 
   const encoder = new TextEncoder();
-  const program = await returnCommunityPoolsAnchorProgram(programId, provider);
+  const program = await returnCommunityPoolsAnchorProgram(programId, connection);
 
   const [community_pools_authority, bump] = await web3.PublicKey.findProgramAddress(
     [encoder.encode(ACCOUNT_PREFIX), program.programId.toBuffer(), communityPool.toBuffer()],
@@ -32,7 +32,7 @@ export const withdrawNftByAdmin = async (params: WithdrawNftByAdmin) => {
   );
 
   const nftUserTokenAccount = await findAssociatedTokenAddress(ticketHolder, nftMint);
-  const nftUser = await provider.connection.getAccountInfo(nftUserTokenAccount);
+  const nftUser = await connection.getAccountInfo(nftUserTokenAccount);
 
   if (!nftUser) {
     instructions = instructions.concat(createAssociatedTokenAccountInstruction(nftUserTokenAccount, admin, ticketHolder, nftMint));

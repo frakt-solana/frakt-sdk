@@ -1,14 +1,14 @@
-import { web3 } from'@project-serum/anchor';
+import { web3 } from '@project-serum/anchor';
 
 import { ActivateCommunityPool } from '../../types';
 import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
 
 export const activateCommunityPool = async (params: ActivateCommunityPool): Promise<any> => {
-  const { communityPool, programId, userPubkey, provider, sendTxn } = params;
+  const { communityPool, programId, userPubkey, connection, sendTxn } = params;
 
   const signers = [];
 
-  const program = await returnCommunityPoolsAnchorProgram(programId, provider);
+  const program = await returnCommunityPoolsAnchorProgram(programId, connection);
 
   const instruction = program.instruction.activatePool({
     accounts: {

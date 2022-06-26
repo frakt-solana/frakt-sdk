@@ -1,13 +1,13 @@
-import { web3 } from'@project-serum/anchor';
+import { web3 } from '@project-serum/anchor';
 
 import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
 import { RevealLotteryTicket } from '../../types';
 
 export const revealLotteryTicket = async (params: RevealLotteryTicket) => {
-  const { communityPool, lotteryTicket, safetyDepositBox, programId, userPubkey, provider, sendTxn } = params;
+  const { communityPool, lotteryTicket, safetyDepositBox, programId, userPubkey, connection, sendTxn } = params;
 
   const signers = [];
-  const program = await returnCommunityPoolsAnchorProgram(programId, provider);
+  const program = await returnCommunityPoolsAnchorProgram(programId, connection);
 
   const instruction = program.instruction.revealLotteryTicket({
     accounts: {

@@ -4,7 +4,7 @@ import { returnAnchorProgram } from '../../helpers';
 
 type InitializeCollectionInfo = (params: {
   programId: web3.PublicKey;
-  provider: AnchorProvider;
+  connection: web3.Connection;
   liquidityPool: web3.PublicKey;
   admin: web3.PublicKey;
   creatorAddress: web3.PublicKey;
@@ -21,7 +21,7 @@ type InitializeCollectionInfo = (params: {
 
 export const initializeCollectionInfo: InitializeCollectionInfo = async ({
   programId,
-  provider,
+  connection,
   liquidityPool,
   admin,
   creatorAddress,
@@ -35,7 +35,7 @@ export const initializeCollectionInfo: InitializeCollectionInfo = async ({
   isPriceBased,
   sendTxn,
 }) => {
-  const program = returnAnchorProgram(programId, provider);
+  const program = returnAnchorProgram(programId, connection);
   const collectionInfo = web3.Keypair.generate();
 
   const instruction = program.instruction.initializeCollectionInfo(

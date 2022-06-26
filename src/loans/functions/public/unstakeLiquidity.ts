@@ -4,7 +4,7 @@ import { returnAnchorProgram } from '../../helpers';
 
 type UnstakeLiquidity = (params: {
   programId: web3.PublicKey;
-  provider: AnchorProvider;
+  connection: web3.Connection;
   liquidityPool: web3.PublicKey;
   user: web3.PublicKey;
   amount: BN | number;
@@ -13,14 +13,14 @@ type UnstakeLiquidity = (params: {
 
 export const unstakeLiquidity: UnstakeLiquidity = async ({
   programId,
-  provider,
+  connection,
   liquidityPool,
   user,
   amount,
   sendTxn,
 }) => {
   const encoder = new TextEncoder();
-  const program = await returnAnchorProgram(programId, provider);
+  const program = await returnAnchorProgram(programId, connection);
 
   const [liqOwner] = await web3.PublicKey.findProgramAddress(
     [encoder.encode('nftlendingv2'), liquidityPool.toBuffer()],
