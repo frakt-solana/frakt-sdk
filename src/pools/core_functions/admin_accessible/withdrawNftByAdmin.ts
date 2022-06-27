@@ -35,10 +35,7 @@ export const withdrawNftByAdmin = async (params: WithdrawNftByAdmin) => {
   const nftUser = await connection.getAccountInfo(nftUserTokenAccount);
 
   if (!nftUser) {
-    instructions = [
-      ...instructions,
-      ...createAssociatedTokenAccountInstruction(nftUserTokenAccount, admin, ticketHolder, nftMint),
-    ];
+    instructions = instructions.concat(createAssociatedTokenAccountInstruction(nftUserTokenAccount, admin, ticketHolder, nftMint));
   }
 
   const instruction = program.instruction.withdrawNftByAdmin(bump, {
