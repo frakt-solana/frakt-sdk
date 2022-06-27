@@ -33,11 +33,6 @@ export const depositNftToCommunityPool = async (params: DepositNftToCommunityPoo
     program.programId,
   );
 
-  const [leaderboardAccount] = await web3.PublicKey.findProgramAddress(
-    [communityPool.toBuffer(), encoder.encode('leaderBoard')],
-    program.programId,
-  );
-
   const safetyDepositBox = web3.Keypair.generate();
   const storeNftTokenAccount = web3.Keypair.generate();
 
@@ -78,11 +73,6 @@ export const depositNftToCommunityPool = async (params: DepositNftToCommunityPoo
     fusionProgramId,
   );
 
-  const [boardEntry] = await web3.PublicKey.findProgramAddress(
-    [encoder.encode('BoardEntry'), userPubkey.toBuffer()],
-    program.programId,
-  );
-
   const signers = [safetyDepositBox, storeNftTokenAccount];
 
   const instruction = program.instruction.depositNft(bump, bumpPda, {
@@ -110,8 +100,6 @@ export const depositNftToCommunityPool = async (params: DepositNftToCommunityPoo
       configOutputIs,
       fusionId: fusionProgramId,
       associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
-      boardEntry,
-      leaderboardAccount,
       feeConfig,
       admin,
       adminTokenAccount,
@@ -155,10 +143,6 @@ export const depositNftToCommunityPoolIx = async (params: DepositNftToCommunityP
     [encoder.encode(ACCOUNT_PREFIX), program.programId.toBuffer(), communityPool.toBuffer()],
     program.programId,
   );
-  const [leaderboardAccount, _bump] = await web3.PublicKey.findProgramAddress(
-    [communityPool.toBuffer(), encoder.encode('leaderBoard')],
-    program.programId,
-  );
   const safetyDepositBox = web3.Keypair.generate();
   const storeNftTokenAccount = web3.Keypair.generate();
 
@@ -198,12 +182,6 @@ export const depositNftToCommunityPoolIx = async (params: DepositNftToCommunityP
     [encoder.encode('mainConfigAccountOutput'), fractionMint.toBuffer(), mainRouterIs.toBuffer()],
     fusionProgramId,
   );
-
-  let [boardEntry] = await web3.PublicKey.findProgramAddress(
-    [encoder.encode('BoardEntry'), userPubkey.toBuffer()],
-    program.programId,
-  );
-
   const signers = [safetyDepositBox, storeNftTokenAccount];
 
   const instruction = program.instruction.depositNft(bump, bumpPda, {
@@ -231,8 +209,6 @@ export const depositNftToCommunityPoolIx = async (params: DepositNftToCommunityP
       configOutputIs,
       fusionId: fusionProgramId,
       associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
-      boardEntry,
-      leaderboardAccount,
       feeConfig,
       admin,
       adminTokenAccount,
