@@ -239,16 +239,6 @@
           "isSigner": false
         },
         {
-          "name": "boardEntry",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "leaderboardAccount",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
           "name": "admin",
           "isMut": true,
           "isSigner": false
@@ -360,16 +350,6 @@
         },
         {
           "name": "feeConfig",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "boardEntry",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "leaderboardAccount",
           "isMut": true,
           "isSigner": false
         },

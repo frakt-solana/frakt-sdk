@@ -25,11 +25,6 @@ export const getLotteryTicket = async (params: GetLotteryTicket) => {
   const program = await returnCommunityPoolsAnchorProgram(programId, connection);
 
   const lotteryTicketAccount = web3.Keypair.generate();
-  const [leaderboardAccount] = await web3.PublicKey.findProgramAddress(
-    [communityPool.toBuffer(), encoder.encode('leaderBoard')],
-    program.programId,
-  );
-
   const [vaultOwnerPda, bumpPda] = await web3.PublicKey.findProgramAddress(
     [encoder.encode('vaultownerpda'), fusionProgramId.toBuffer()],
     fusionProgramId,
@@ -60,11 +55,6 @@ export const getLotteryTicket = async (params: GetLotteryTicket) => {
   const admin = new web3.PublicKey(adminAddress);
   const adminTokenAccount = await findAssociatedTokenAddress(admin, fractionMint);
 
-  const [boardEntry] = await web3.PublicKey.findProgramAddress(
-    [encoder.encode('BoardEntry'), userPubkey.toBuffer()],
-    programId,
-  );
-
   const signers = [lotteryTicketAccount];
 
   const instruction = program.instruction.getLotteryTicket(bumpPda, {
@@ -86,9 +76,7 @@ export const getLotteryTicket = async (params: GetLotteryTicket) => {
       configOutputIs,
       fusionId: fusionProgramId,
       associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
-      boardEntry,
       feeConfig: feeConfig,
-      leaderboardAccount,
       admin,
       adminTokenAccount,
     },
@@ -126,14 +114,6 @@ export const getLotteryTicketIx = async (params: GetLotteryTicketIx) => {
   const program = await returnCommunityPoolsAnchorProgram(programId, connection);
 
   const lotteryTicketAccount = web3.Keypair.generate();
-  const [leaderboardAccount] = await web3.PublicKey.findProgramAddress(
-    [communityPool.toBuffer(), encoder.encode('leaderBoard')],
-    program.programId,
-  );
-  const [leaderboardAuthority, bumpLead] = await web3.PublicKey.findProgramAddress(
-    [encoder.encode('leaderBoardProgramAuthority'), programId.toBuffer()],
-    program.programId,
-  );
   let [vaultOwnerPda, bumpPda] = await web3.PublicKey.findProgramAddress(
     [encoder.encode('vaultownerpda'), fusionProgramId.toBuffer()],
     fusionProgramId,
@@ -166,11 +146,6 @@ export const getLotteryTicketIx = async (params: GetLotteryTicketIx) => {
   const admin = new web3.PublicKey(adminAddress);
   const adminTokenAccount = await findAssociatedTokenAddress(admin, fractionMint);
 
-  const [boardEntry] = await web3.PublicKey.findProgramAddress(
-    [encoder.encode('BoardEntry'), userPubkey.toBuffer()],
-    programId,
-  );
-
   const signers = [lotteryTicketAccount];
 
   const instruction = program.instruction.getLotteryTicket(bumpPda, {
@@ -192,9 +167,7 @@ export const getLotteryTicketIx = async (params: GetLotteryTicketIx) => {
       configOutputIs,
       fusionId: fusionProgramId,
       associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
-      boardEntry,
       feeConfig: feeConfig,
-      leaderboardAccount,
       admin,
       adminTokenAccount,
     },
