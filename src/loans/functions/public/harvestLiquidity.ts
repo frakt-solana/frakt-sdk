@@ -7,10 +7,19 @@ type HarvestLiquidity = (params: {
   connection: web3.Connection;
   liquidityPool: web3.PublicKey;
   user: web3.PublicKey;
+  adminPubkey: web3.PublicKey;
+
   sendTxn: (transaction: web3.Transaction) => Promise<void>;
 }) => Promise<void>;
 
-export const harvestLiquidity: HarvestLiquidity = async ({ programId, connection, liquidityPool, user, sendTxn }) => {
+export const harvestLiquidity: HarvestLiquidity = async ({
+  programId,
+  adminPubkey,
+  connection,
+  liquidityPool,
+  user,
+  sendTxn,
+}) => {
   const encoder = new TextEncoder();
   const program = returnAnchorProgram(programId, connection);
 
@@ -31,6 +40,7 @@ export const harvestLiquidity: HarvestLiquidity = async ({ programId, connection
       deposit,
       liqOwner,
       systemProgram: web3.SystemProgram.programId,
+      admin: adminPubkey,
     },
   });
 

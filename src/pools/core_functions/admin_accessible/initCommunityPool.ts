@@ -34,4 +34,5 @@ export const initCommunityPool = async (params: InitCommunityPool) => {
   const transaction = new web3.Transaction().add(instruction);
 
   await sendTxn(transaction, [communityPool, fractionMint]);
+  return { communityPool: communityPool.publicKey, fractionMint: fractionMint.publicKey };
 };

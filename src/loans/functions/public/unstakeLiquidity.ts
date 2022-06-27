@@ -8,6 +8,7 @@ type UnstakeLiquidity = (params: {
   liquidityPool: web3.PublicKey;
   user: web3.PublicKey;
   amount: BN | number;
+  adminPubkey: web3.PublicKey;
   sendTxn: (transaction: web3.Transaction) => Promise<void>;
 }) => Promise<void>;
 
@@ -15,6 +16,7 @@ export const unstakeLiquidity: UnstakeLiquidity = async ({
   programId,
   connection,
   liquidityPool,
+  adminPubkey,
   user,
   amount,
   sendTxn,
@@ -39,6 +41,7 @@ export const unstakeLiquidity: UnstakeLiquidity = async ({
       deposit,
       liqOwner,
       systemProgram: web3.SystemProgram.programId,
+      admin: adminPubkey,
     },
   });
 

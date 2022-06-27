@@ -79,7 +79,10 @@ export interface InitCommunityPool {
   programId: web3.PublicKey;
   userPubkey: web3.PublicKey;
   connection: web3.Connection;
-  sendTxn: (transaction: web3.Transaction, signers: web3.Keypair[]) => Promise<void>;
+  sendTxn: (
+    transaction: web3.Transaction,
+    signers: web3.Keypair[],
+  ) => Promise<{ communityPool: web3.PublicKey; fractionMint: web3.PublicKey }>;
 }
 
 export interface InitConfig {
