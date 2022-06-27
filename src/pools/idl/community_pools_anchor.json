@@ -46,8 +46,7 @@
           "name": "bumpPoolsAuth",
           "type": "u8"
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "addToWhitelist",
@@ -93,8 +92,7 @@
           "name": "isCreator",
           "type": "bool"
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "activatePool",
@@ -115,8 +113,7 @@
           "isSigner": false
         }
       ],
-      "args": [],
-      "returns": null
+      "args": []
     },
     {
       "name": "depositNft",
@@ -207,12 +204,22 @@
           "isSigner": false
         },
         {
-          "name": "mainRouter",
+          "name": "mainRouterLp",
           "isMut": true,
           "isSigner": false
         },
         {
-          "name": "configOutput",
+          "name": "configOutputLp",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mainRouterIs",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "configOutputIs",
           "isMut": true,
           "isSigner": false
         },
@@ -261,8 +268,7 @@
           "name": "bumpTopupAuth",
           "type": "u8"
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "getLotteryTicket",
@@ -323,12 +329,22 @@
           "isSigner": false
         },
         {
-          "name": "mainRouter",
+          "name": "mainRouterLp",
           "isMut": true,
           "isSigner": false
         },
         {
-          "name": "configOutput",
+          "name": "configOutputLp",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mainRouterIs",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "configOutputIs",
           "isMut": true,
           "isSigner": false
         },
@@ -373,8 +389,7 @@
           "name": "bumpTopupAuth",
           "type": "u8"
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "revealLotteryTicket",
@@ -400,8 +415,7 @@
           "isSigner": true
         }
       ],
-      "args": [],
-      "returns": null
+      "args": []
     },
     {
       "name": "withdrawNftByTicket",
@@ -467,8 +481,7 @@
           "name": "bumpPoolsAuth",
           "type": "u8"
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "withdrawNftByAdmin",
@@ -534,8 +547,7 @@
           "name": "bumpPoolsAuth",
           "type": "u8"
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "initializeLeaderboard",
@@ -585,8 +597,7 @@
           "name": "withdrawReward",
           "type": "u64"
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "updateLeaderboard",
@@ -640,8 +651,7 @@
           "name": "withdrawReward",
           "type": "u64"
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "initializeFee",
@@ -678,7 +688,11 @@
           "type": "u32"
         },
         {
-          "name": "depositFeePool",
+          "name": "depositFeeLpool",
+          "type": "u32"
+        },
+        {
+          "name": "depositFeeIstaking",
           "type": "u32"
         },
         {
@@ -686,11 +700,14 @@
           "type": "u32"
         },
         {
-          "name": "getLotteryFeePool",
+          "name": "getLotteryFeeLpool",
+          "type": "u32"
+        },
+        {
+          "name": "getLotteryFeeIstaking",
           "type": "u32"
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "updateFee",
@@ -722,7 +739,11 @@
           "type": "u32"
         },
         {
-          "name": "depositFeePool",
+          "name": "depositFeeLpool",
+          "type": "u32"
+        },
+        {
+          "name": "depositFeeIstaking",
           "type": "u32"
         },
         {
@@ -730,11 +751,14 @@
           "type": "u32"
         },
         {
-          "name": "getLotteryFeePool",
+          "name": "getLotteryFeeLpool",
+          "type": "u32"
+        },
+        {
+          "name": "getLotteryFeeIstaking",
           "type": "u32"
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "addScore",
@@ -782,8 +806,7 @@
           "name": "toAdd",
           "type": "u64"
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "harvestScore",
@@ -857,8 +880,7 @@
           "name": "bumpConfig",
           "type": "u8"
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "initializeBoardEntry",
@@ -898,8 +920,7 @@
           "name": "message",
           "type": "string"
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "initializePermission",
@@ -943,8 +964,7 @@
           "name": "harvest",
           "type": "bool"
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "intializeConfig",
@@ -1000,8 +1020,7 @@
           "name": "bumpAuth",
           "type": "u8"
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "topupConfig",
@@ -1070,8 +1089,7 @@
           "name": "topupAmount",
           "type": "u64"
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "updateConnection",
@@ -1097,8 +1115,7 @@
           "isSigner": false
         }
       ],
-      "args": [],
-      "returns": null
+      "args": []
     },
     {
       "name": "emergencyWithdrawByAdmin",
@@ -1159,8 +1176,7 @@
           "name": "bumpPoolsAuth",
           "type": "u8"
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "removeFromWhitelistByAdmin",
@@ -1196,8 +1212,7 @@
           "isSigner": false
         }
       ],
-      "args": [],
-      "returns": null
+      "args": []
     }
   ],
   "accounts": [
@@ -1281,7 +1296,11 @@
             "type": "u64"
           },
           {
-            "name": "depositFeePool",
+            "name": "depositFeeLpool",
+            "type": "u64"
+          },
+          {
+            "name": "depositFeeIstaking",
             "type": "u64"
           },
           {
@@ -1289,7 +1308,11 @@
             "type": "u64"
           },
           {
-            "name": "getLotteryFeePool",
+            "name": "getLotteryFeeLpool",
+            "type": "u64"
+          },
+          {
+            "name": "getLotteryFeeIstaking",
             "type": "u64"
           }
         ]
@@ -1536,8 +1559,5 @@
       "name": "InvalidBoardEntry",
       "msg": "Invalid BoardEntry"
     }
-  ],
-  "metadata": {
-    "address": "6cuqS7YmKLGK5waU3KJU6xLF7KCh6KJLRs6icpYJfefe"
-  }
+  ]
 }

@@ -37,13 +37,23 @@ export const getLotteryTicket = async (params: GetLotteryTicket) => {
 
   const vaultTokenAccountOutput = await findAssociatedTokenAddress(vaultOwnerPda, fractionMint);
 
-  const [mainRouter] = await web3.PublicKey.findProgramAddress(
+  const [mainRouterLp] = await web3.PublicKey.findProgramAddress(
     [encoder.encode('mainRouter'), tokenMintInputFusion.toBuffer(), fractionMint.toBuffer()],
     fusionProgramId,
   );
 
-  const [configOutput] = await web3.PublicKey.findProgramAddress(
-    [encoder.encode('mainConfigAccountOutput'), fractionMint.toBuffer(), mainRouter.toBuffer()],
+  const [configOutputLp] = await web3.PublicKey.findProgramAddress(
+    [encoder.encode('mainConfigAccountOutput'), fractionMint.toBuffer(), mainRouterLp.toBuffer()],
+    fusionProgramId,
+  );
+
+  const [mainRouterIs] = await web3.PublicKey.findProgramAddress(
+    [encoder.encode('mainRouter'), fractionMint.toBuffer(), fractionMint.toBuffer()],
+    fusionProgramId,
+  );
+
+  const [configOutputIs] = await web3.PublicKey.findProgramAddress(
+    [encoder.encode('mainConfigAccountOutput'), fractionMint.toBuffer(), mainRouterIs.toBuffer()],
     fusionProgramId,
   );
 
@@ -70,8 +80,10 @@ export const getLotteryTicket = async (params: GetLotteryTicket) => {
       tokenMintInput: tokenMintInputFusion,
       fusionVaultOwnerPda: vaultOwnerPda,
       vaultTokenAccountOutput: vaultTokenAccountOutput,
-      mainRouter: mainRouter,
-      configOutput: configOutput,
+      mainRouterLp,
+      configOutputLp,
+      mainRouterIs,
+      configOutputIs,
       fusionId: fusionProgramId,
       associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
       boardEntry,
@@ -131,24 +143,28 @@ export const getLotteryTicketIx = async (params: GetLotteryTicketIx) => {
 
   let vaultTokenAccountOutput = await findAssociatedTokenAddress(vaultOwnerPda, fractionMint);
 
-  const [mainRouter] = await web3.PublicKey.findProgramAddress(
+  const [mainRouterLp] = await web3.PublicKey.findProgramAddress(
     [encoder.encode('mainRouter'), tokenMintInputFusion.toBuffer(), fractionMint.toBuffer()],
     fusionProgramId,
   );
 
-  const [configOutput] = await web3.PublicKey.findProgramAddress(
-    [encoder.encode('mainConfigAccountOutput'), fractionMint.toBuffer(), mainRouter.toBuffer()],
+  const [configOutputLp] = await web3.PublicKey.findProgramAddress(
+    [encoder.encode('mainConfigAccountOutput'), fractionMint.toBuffer(), mainRouterLp.toBuffer()],
+    fusionProgramId,
+  );
+
+  const [mainRouterIs] = await web3.PublicKey.findProgramAddress(
+    [encoder.encode('mainRouter'), fractionMint.toBuffer(), fractionMint.toBuffer()],
+    fusionProgramId,
+  );
+
+  const [configOutputIs] = await web3.PublicKey.findProgramAddress(
+    [encoder.encode('mainConfigAccountOutput'), fractionMint.toBuffer(), mainRouterIs.toBuffer()],
     fusionProgramId,
   );
 
   const admin = new web3.PublicKey(adminAddress);
   const adminTokenAccount = await findAssociatedTokenAddress(admin, fractionMint);
-  const main = await connection.getAccountInfo(mainRouter);
-
-  if (!main) {
-    vaultTokenAccountOutput = adminTokenAccount;
-    vaultOwnerPda = tokenMintInputFusion;
-  }
 
   const [boardEntry] = await web3.PublicKey.findProgramAddress(
     [encoder.encode('BoardEntry'), userPubkey.toBuffer()],
@@ -170,8 +186,10 @@ export const getLotteryTicketIx = async (params: GetLotteryTicketIx) => {
       tokenMintInput: tokenMintInputFusion,
       fusionVaultOwnerPda: vaultOwnerPda,
       vaultTokenAccountOutput: vaultTokenAccountOutput,
-      mainRouter: mainRouter,
-      configOutput: configOutput,
+      mainRouterLp,
+      configOutputLp,
+      mainRouterIs,
+      configOutputIs,
       fusionId: fusionProgramId,
       associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
       boardEntry,
