@@ -114,7 +114,7 @@ export const decodedLoan: DecodedLoan = (decodedLoan, address) => ({
 type DecodeLoan = (buffer: Buffer, connection: web3.Connection, programId: web3.PublicKey) => any;
 export const decodeLoan: DecodeLoan = (buffer, connection, programId) => {
   const program = returnAnchorProgram(programId, connection);
-  return program.coder.accounts.decode('loan', buffer);
+  return program.coder.accounts.decode('Loan', buffer);
 };
 
 type GetMetaplexEditionPda = (mintPubkey: web3.PublicKey) => web3.PublicKey;
