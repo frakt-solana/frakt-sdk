@@ -17,7 +17,7 @@
     "test": "jest --config jestconfig.json",
     "format": "prettier --write \"src/**/*.ts\"",
     "docs": "typedoc src/index.ts",
-    "update": "npm version patch && npm run build && npm run docs && npm publish",
+    "update": "npm version minor && npm run build && npm run docs && npm publish",
     "prepatch": "npm version prepatch && npm run build && npm publish"
   },
   "dependencies": {
