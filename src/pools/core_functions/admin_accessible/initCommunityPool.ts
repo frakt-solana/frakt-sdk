@@ -1,9 +1,8 @@
-import { web3 } from '@project-serum/anchor';
+import { web3, utils } from '@project-serum/anchor';
 
 import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
 import { ACCOUNT_PREFIX } from '../../constants';
 import { InitCommunityPool } from '../../types';
-import { TOKEN_PROGRAM_ID } from '../../../common/constants';
 
 export const initCommunityPool = async (params: InitCommunityPool) => {
   const { programId, userPubkey, connection, sendTxn } = params;
@@ -25,7 +24,7 @@ export const initCommunityPool = async (params: InitCommunityPool) => {
       systemProgram: web3.SystemProgram.programId,
       fractionMint: fractionMint.publicKey,
       rent: web3.SYSVAR_RENT_PUBKEY,
-      tokenProgram: TOKEN_PROGRAM_ID,
+      tokenProgram: utils.token.TOKEN_PROGRAM_ID,
       communityPoolsAuthority: community_pools_authority,
     },
     signers: [communityPool, fractionMint],
