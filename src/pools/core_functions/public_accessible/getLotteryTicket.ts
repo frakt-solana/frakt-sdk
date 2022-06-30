@@ -1,6 +1,5 @@
-import { web3 } from '@project-serum/anchor';
+import { web3, utils } from '@project-serum/anchor';
 
-import { TOKEN_PROGRAM_ID, ASSOCIATED_TOKEN_PROGRAM_ID } from '../../../common/constants';
 import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
 import { findAssociatedTokenAddress } from '../../../common';
 import { GetLotteryTicket, GetLotteryTicketIx } from '../../types';
@@ -66,7 +65,7 @@ export const getLotteryTicket = async (params: GetLotteryTicket) => {
       rent: web3.SYSVAR_RENT_PUBKEY,
       fractionMint: fractionMint,
       userFractionsTokenAccount: userFractionsTokenAccount,
-      tokenProgram: TOKEN_PROGRAM_ID,
+      tokenProgram: utils.token.TOKEN_PROGRAM_ID,
       tokenMintInput: tokenMintInputFusion,
       fusionVaultOwnerPda: vaultOwnerPda,
       vaultTokenAccountOutput: vaultTokenAccountOutput,
@@ -75,7 +74,7 @@ export const getLotteryTicket = async (params: GetLotteryTicket) => {
       mainRouterIs,
       configOutputIs,
       fusionId: fusionProgramId,
-      associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
+      associatedTokenProgram: utils.token.ASSOCIATED_PROGRAM_ID,
       feeConfig: feeConfig,
       admin,
       adminTokenAccount,
@@ -157,7 +156,7 @@ export const getLotteryTicketIx = async (params: GetLotteryTicketIx) => {
       rent: web3.SYSVAR_RENT_PUBKEY,
       fractionMint: fractionMint,
       userFractionsTokenAccount: userFractionsTokenAccount,
-      tokenProgram: TOKEN_PROGRAM_ID,
+      tokenProgram: utils.token.TOKEN_PROGRAM_ID,
       tokenMintInput: tokenMintInputFusion,
       fusionVaultOwnerPda: vaultOwnerPda,
       vaultTokenAccountOutput: vaultTokenAccountOutput,
@@ -166,7 +165,7 @@ export const getLotteryTicketIx = async (params: GetLotteryTicketIx) => {
       mainRouterIs,
       configOutputIs,
       fusionId: fusionProgramId,
-      associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
+      associatedTokenProgram: utils.token.ASSOCIATED_PROGRAM_ID,
       feeConfig: feeConfig,
       admin,
       adminTokenAccount,

@@ -1,7 +1,6 @@
-import { web3 } from '@project-serum/anchor';
+import { web3, utils } from '@project-serum/anchor';
 
 import { createAssociatedTokenAccountInstruction, findAssociatedTokenAddress } from '../../../common';
-import { ASSOCIATED_TOKEN_PROGRAM_ID, TOKEN_PROGRAM_ID } from '../../../common/constants';
 import { ACCOUNT_PREFIX } from '../../constants';
 import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
 import { DepositNftToCommunityPool, DepositNftToCommunityPoolIx } from '../../types';
@@ -86,7 +85,7 @@ export const depositNftToCommunityPool = async (params: DepositNftToCommunityPoo
       communityPoolsAuthority: community_pools_authority,
       user: userPubkey,
       rent: web3.SYSVAR_RENT_PUBKEY,
-      tokenProgram: TOKEN_PROGRAM_ID,
+      tokenProgram: utils.token.TOKEN_PROGRAM_ID,
       fractionMint,
       userFractionsTokenAccount,
       poolWhitelist,
@@ -99,7 +98,7 @@ export const depositNftToCommunityPool = async (params: DepositNftToCommunityPoo
       mainRouterIs,
       configOutputIs,
       fusionId: fusionProgramId,
-      associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
+      associatedTokenProgram: utils.token.ASSOCIATED_PROGRAM_ID,
       feeConfig,
       admin,
       adminTokenAccount,
@@ -195,7 +194,7 @@ export const depositNftToCommunityPoolIx = async (params: DepositNftToCommunityP
       communityPoolsAuthority: community_pools_authority,
       user: userPubkey,
       rent: web3.SYSVAR_RENT_PUBKEY,
-      tokenProgram: TOKEN_PROGRAM_ID,
+      tokenProgram: utils.token.TOKEN_PROGRAM_ID,
       fractionMint,
       userFractionsTokenAccount,
       poolWhitelist,
@@ -208,7 +207,7 @@ export const depositNftToCommunityPoolIx = async (params: DepositNftToCommunityP
       mainRouterIs,
       configOutputIs,
       fusionId: fusionProgramId,
-      associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
+      associatedTokenProgram: utils.token.ASSOCIATED_PROGRAM_ID,
       feeConfig,
       admin,
       adminTokenAccount,

@@ -1,9 +1,8 @@
-import { web3 } from '@project-serum/anchor';
+import { web3, utils } from '@project-serum/anchor';
 
 import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
 import { findAssociatedTokenAddress } from '../../../common';
 import { HarvestScore } from '../../types';
-import { ASSOCIATED_TOKEN_PROGRAM_ID, TOKEN_PROGRAM_ID } from '../../../common/constants';
 
 export const harvestScore = async (params: HarvestScore) => {
   const { programId, connection, userPublicKey, tokenMint, sendTxn } = params;
@@ -40,8 +39,8 @@ export const harvestScore = async (params: HarvestScore) => {
       boardEntry,
       rent: web3.SYSVAR_RENT_PUBKEY,
       systemProgram: web3.SystemProgram.programId,
-      tokenProgram: TOKEN_PROGRAM_ID,
-      associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
+      tokenProgram: utils.token.TOKEN_PROGRAM_ID,
+      associatedTokenProgram: utils.token.ASSOCIATED_PROGRAM_ID,
     },
   });
 
