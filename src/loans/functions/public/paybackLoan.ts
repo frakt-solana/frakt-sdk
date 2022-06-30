@@ -29,7 +29,7 @@ export const paybackLoan: PaybackLoan = async ({
   liquidityPool,
   collectionInfo,
   royaltyAddress,
-  paybackAmount,
+  paybackAmount = new BN(0),
   sendTxn,
 }) => {
   const encoder = new TextEncoder();
