@@ -1,7 +1,6 @@
-import { AnchorProvider, web3, Program } from '@project-serum/anchor';
+import { AnchorProvider, web3, Program, utils } from '@project-serum/anchor';
 import { Spl, SPL_ACCOUNT_LAYOUT } from '@raydium-io/raydium-sdk';
 
-import { SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID, TOKEN_PROGRAM_ID } from './constants';
 import { NodeWallet } from './classes/nodewallet';
 import { AccountInfoData, AccountInfoParsed, GetTokenAccount, ParseTokenAccount, UserNFT } from './types';
 import idl from './idl/multi_reward_staking.json';
@@ -24,8 +23,8 @@ export const findAssociatedTokenAddress = async (
 ): Promise<web3.PublicKey> =>
   (
     await web3.PublicKey.findProgramAddress(
-      [walletAddress.toBuffer(), TOKEN_PROGRAM_ID.toBuffer(), tokenMintAddress.toBuffer()],
-      SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID,
+      [walletAddress.toBuffer(), utils.token.TOKEN_PROGRAM_ID.toBuffer(), tokenMintAddress.toBuffer()],
+      utils.token.ASSOCIATED_PROGRAM_ID,
     )
   )[0];
 
@@ -68,7 +67,7 @@ export const createAssociatedTokenAccountInstruction = (
       isWritable: false,
     },
     {
-      pubkey: TOKEN_PROGRAM_ID,
+      pubkey: utils.token.TOKEN_PROGRAM_ID,
       isSigner: false,
       isWritable: false,
     },
@@ -82,7 +81,7 @@ export const createAssociatedTokenAccountInstruction = (
   return [
     new web3.TransactionInstruction({
       keys,
-      programId: SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID,
+      programId: utils.token.ASSOCIATED_PROGRAM_ID,
       data: Buffer.from([]),
     }),
   ];

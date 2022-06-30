@@ -1,6 +1,5 @@
-import { web3 } from '@project-serum/anchor';
+import { web3, utils } from '@project-serum/anchor';
 
-import { TOKEN_PROGRAM_ID } from '../../../common/constants';
 import { returnCommunityPoolsAnchorProgram } from '../../contract_model/accounts';
 import { UpdateLeaderboardReward } from '../../types';
 
@@ -21,7 +20,7 @@ export const updateLeaderboardReward = async (params: UpdateLeaderboardReward) =
       admin,
       systemProgram: web3.SystemProgram.programId,
       rent: web3.SYSVAR_RENT_PUBKEY,
-      tokenProgram: TOKEN_PROGRAM_ID,
+      tokenProgram: utils.token.TOKEN_PROGRAM_ID,
       leaderboardAccount,
     },
   });

@@ -1,10 +1,8 @@
-import { web3 } from '@project-serum/anchor';
+import { web3, utils } from '@project-serum/anchor';
 
 import { returnAnchorProgram } from '../../helpers';
 import { findAssociatedTokenAddress } from '../../../common';
 import { getMetaplexEditionPda } from '../..';
-import { TOKEN_PROGRAM_ID } from '@project-serum/anchor/dist/cjs/utils/token';
-import { SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID } from '../../../common/constants';
 import { METADATA_PROGRAM_PUBKEY } from '../../constants';
 
 type RedeemWinningLotTicket = (params: {
@@ -68,8 +66,8 @@ export const redeemWinningLotTicket: RedeemWinningLotTicket = async ({
       communityPoolsAuthority,
       vaultNftTokenAccount,
       systemProgram: web3.SystemProgram.programId,
-      tokenProgram: TOKEN_PROGRAM_ID,
-      associatedTokenProgram: SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID,
+      tokenProgram: utils.token.TOKEN_PROGRAM_ID,
+      associatedTokenProgram: utils.token.ASSOCIATED_PROGRAM_ID,
       metadataProgram: METADATA_PROGRAM_PUBKEY,
       editionInfo: editionId,
       rent: web3.SYSVAR_RENT_PUBKEY,

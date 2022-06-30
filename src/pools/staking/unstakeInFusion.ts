@@ -1,7 +1,6 @@
-import { AnchorProvider, BN, web3 } from '@project-serum/anchor';
+import { AnchorProvider, BN, web3, utils } from '@project-serum/anchor';
 
 import { findAssociatedTokenAddress, returnAnchorMultiRewardStaking } from '../../common';
-import { ASSOCIATED_TOKEN_PROGRAM_ID, TOKEN_PROGRAM_ID } from '../../common/constants';
 
 export const unstakeInFusion = async (
   programId: web3.PublicKey,
@@ -50,8 +49,8 @@ export const unstakeInFusion = async (
       configInput,
       rent: web3.SYSVAR_RENT_PUBKEY,
       systemProgram: web3.SystemProgram.programId,
-      tokenProgram: TOKEN_PROGRAM_ID,
-      associatedTokenProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
+      tokenProgram: utils.token.TOKEN_PROGRAM_ID,
+      associatedTokenProgram: utils.token.ASSOCIATED_PROGRAM_ID,
     },
   });
 };
