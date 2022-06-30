@@ -3,8 +3,7 @@ import { web3 } from '@project-serum/anchor';
 import { returnAnchorProgram } from '../../helpers';
 import { findAssociatedTokenAddress } from '../../../common';
 import { getMetaplexEditionPda } from '../..';
-import { TOKEN_PROGRAM_ID } from '@project-serum/anchor/dist/cjs/utils/token';
-import { SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID } from '../../../common/constants';
+import { SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID, TOKEN_PROGRAM_ID } from '../../../common/constants';
 import { METADATA_PROGRAM_PUBKEY } from '../../constants';
 
 type RedeemWinningLotTicket = (params: {

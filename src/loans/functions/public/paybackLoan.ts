@@ -15,6 +15,7 @@ type PaybackLoan = (params: {
   liquidityPool: web3.PublicKey;
   collectionInfo: web3.PublicKey;
   royaltyAddress: web3.PublicKey;
+  paybackAmount: BN;
   sendTxn: (transaction: web3.Transaction) => Promise<void>;
 }) => Promise<void>;
 
@@ -28,6 +29,7 @@ export const paybackLoan: PaybackLoan = async ({
   liquidityPool,
   collectionInfo,
   royaltyAddress,
+  paybackAmount,
   sendTxn,
 }) => {
   const encoder = new TextEncoder();
@@ -46,7 +48,7 @@ export const paybackLoan: PaybackLoan = async ({
   const nftUserTokenAccount = await findAssociatedTokenAddress(user, nftMint);
   const editionId = getMetaplexEditionPda(nftMint);
 
-  const instruction = program.instruction.paybackLoan(bumpPoolsAuth, new BN(0), {
+  const instruction = program.instruction.paybackLoan(bumpPoolsAuth, paybackAmount, {
     accounts: {
       loan: loan,
       liquidityPool: liquidityPool,
