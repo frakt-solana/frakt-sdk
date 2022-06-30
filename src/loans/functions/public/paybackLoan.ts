@@ -15,7 +15,7 @@ type PaybackLoan = (params: {
   liquidityPool: web3.PublicKey;
   collectionInfo: web3.PublicKey;
   royaltyAddress: web3.PublicKey;
-  paybackAmount: BN;
+  paybackAmount?: BN;
   sendTxn: (transaction: web3.Transaction) => Promise<void>;
 }) => Promise<void>;
 
