@@ -10,7 +10,7 @@ type ProposeLoan = (params: {
   connection: web3.Connection;
   user: web3.PublicKey;
   nftMint: web3.PublicKey;
-  proposedNftPrice: number | BN;
+  proposedNftPrice: BN;
   loanToValue: BN;
   isPriceBased: boolean;
   sendTxn: (transaction: web3.Transaction, signers: web3.Keypair[]) => Promise<void>;

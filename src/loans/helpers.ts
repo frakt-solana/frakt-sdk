@@ -101,12 +101,11 @@ export const decodedLoan: DecodedLoan = (decodedLoan, address) => ({
   finishedAt: decodedLoan.finishedAt.toNumber(),
   originalPrice: decodedLoan.originalPrice.toNumber(),
   amountToGet: decodedLoan.amountToGet.toNumber(),
-  // amountToReturn: decodedLoan.amountToReturn.toNumber(),
   rewardAmount: decodedLoan.rewardAmount.toNumber(),
   feeAmount: decodedLoan.feeAmount.toNumber(),
   royaltyAmount: decodedLoan.royaltyAmount.toNumber(),
   borrowedAtCumulative: new BN(decodedLoan.rewardInterestRate || 0).toNumber(),
-
+  alreadyPaidBack: new BN(decodedLoan.feeInterestRate || 0).toNumber(),
   loanStatus: Object.keys(decodedLoan.loanStatus)[0],
   loanType: Object.keys(decodedLoan.loanType)[0],
 });
