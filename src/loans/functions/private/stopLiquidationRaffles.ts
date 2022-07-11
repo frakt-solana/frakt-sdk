@@ -1,5 +1,4 @@
-import { web3 } from '@project-serum/anchor';
-import { ASSOCIATED_PROGRAM_ID, TOKEN_PROGRAM_ID } from '@project-serum/anchor/dist/cjs/utils/token';
+import { web3, utils } from '@project-serum/anchor';
 import { findAssociatedTokenAddress } from '../../../common';
 
 import { returnAnchorProgram } from '../../helpers';
@@ -65,8 +64,8 @@ export const stopLiquidationRaffles: RevealLotTicketByAdmin = async ({
       loan,
       vaultNftTokenAccount,
       nftAdminTokenAccount,
-      tokenProgram: TOKEN_PROGRAM_ID,
-      associatedTokenProgram: ASSOCIATED_PROGRAM_ID,
+      tokenProgram: utils.token.TOKEN_PROGRAM_ID,
+      associatedTokenProgram: utils.token.ASSOCIATED_PROGRAM_ID,
       systemProgram: web3.SystemProgram.programId,
       rent: web3.SYSVAR_RENT_PUBKEY,
     },
