@@ -10,6 +10,7 @@ export * from './functions/private/updateCollectionInfo';
 export * from './functions/private/updatePriceBasedLiquidityPool';
 export * from './functions/private/updateTimeBasedLiquidityPool';
 export * from './functions/private/liquidateLoanToRaffles';
+export * from './functions/private/stopLiquidationRaffles';
 
 export * from './functions/public/depositLiquidity';
 export * from './functions/public/getAllProgramAccounts';

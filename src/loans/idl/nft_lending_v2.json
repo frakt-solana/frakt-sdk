@@ -1227,6 +1227,73 @@
       ],
       "args": [],
       "returns": null
+    },
+    {
+      "name": "stopLiquidationRafflesByAdmin",
+      "accounts": [
+        {
+          "name": "loan",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "liquidationLot",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "nftMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vaultNftTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftAdminTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "communityPoolsAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bumpPoolsAuth",
+          "type": "u8"
+        }
+      ],
+      "returns": null
     }
   ],
   "accounts": [
@@ -2076,6 +2143,16 @@
       "code": 6039,
       "name": "LotStateIsNotActive",
       "msg": "LotStateIsNotActive"
+    },
+    {
+      "code": 6040,
+      "name": "WrongLoanToValue",
+      "msg": "WrongLoanToValue"
+    },
+    {
+      "code": 6041,
+      "name": "FunctionIsNotSupportedForNow",
+      "msg": "Function is not supported right now"
     }
   ],
   "metadata": {
