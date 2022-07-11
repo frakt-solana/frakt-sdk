@@ -65,7 +65,7 @@ export const decodedPriceBasedLiquidityPool: DecodedPriceBasedLiquidityPool = (d
   variableSlope2: decodedLiquidityPool.variableSlope2,
   utilizationRateOptimal: decodedLiquidityPool.utilizationRateOptimal,
   reserveFactor: decodedLiquidityPool.reserveFactor,
-  reserveAmount: decodedLiquidityPool.reserveAmount.toNumber(),
+  reserveAmount: decodedLiquidityPool.reserveAmount.toString(),
   liquidityAmount: decodedLiquidityPool.liquidityAmount.toNumber(),
   liqOwner: decodedLiquidityPool.liqOwner.toBase58(),
   amountOfStaked: decodedLiquidityPool.amountOfStaked.toNumber(),

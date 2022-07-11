@@ -1,5 +1,4 @@
 import { web3, utils } from '@project-serum/anchor';
-
 import { findAssociatedTokenAddress } from '../../../common';
 import { returnAnchorProgram } from '../../helpers';
 
