@@ -20,7 +20,7 @@ import { AnchorProvider, raydium, BN, web3 } from '@frakt-protocol/frakt-sdk';
 | Library                 | Version       |
 |-------------------------|---------------|
 | @project-serum/anchor   | 0.24.2        |
-| @raydium-io/raydium-sdk | 1.0.1-beta.46 |
+| @raydium-io/raydium-sdk | 1.1.0-beta.5  |
 | @solana/web3.js         | ^1.36.0       |
 | BN.js                   | ^5.1.2        |
 
