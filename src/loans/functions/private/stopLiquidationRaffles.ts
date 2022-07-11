@@ -14,27 +14,6 @@ type RevealLotTicketByAdmin = (params: {
   sendTxn: (transaction: web3.Transaction) => Promise<void>;
 }) => Promise<void>;
 
-// pub loan: Box<Account<'info, Loan>>,
-
-// pub liquidation_lot: Box<Account<'info, LiquidationLot>>,
-
-// pub admin: Signer<'info>,
-
-// pub nft_mint: Account<'info, Mint>,
-
-// pub vault_nft_token_account: Box<Account<'info, TokenAccount>>,
-
-// pub nft_admin_token_account: Box<Account<'info, TokenAccount>>,
-
-// pub community_pools_authority: AccountInfo<'info>,
-
-// pub token_program: Program<'info, Token>,
-
-// pub associated_token_program: Program<'info, AssociatedToken>,
-// pub system_program: Program<'info, System>,
-
-// pub rent: Sysvar<'info, Rent>,
-
 export const stopLiquidationRaffles: RevealLotTicketByAdmin = async ({
   programId,
   connection,
