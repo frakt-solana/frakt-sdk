@@ -17,13 +17,13 @@
     "test": "jest --config jestconfig.json",
     "format": "prettier --write \"src/**/*.ts\"",
     "docs": "typedoc src/index.ts",
-    "prepublish": "npm run build && npm run docs",
-    "minor": "npm version minor && npm run prepublish && npm publish",
-    "patch": "npm version patch && npm run prepublish && npm publish"
+    "prepub": "npm run build && npm run docs",
+    "minor": "npm version minor && npm run prepub && npm publish",
+    "patch": "npm version patch && npm run prepub && npm publish"
   },
   "dependencies": {
     "@project-serum/anchor": "0.24.2",
-    "@raydium-io/raydium-sdk": "1.0.1-beta.46",
+    "@raydium-io/raydium-sdk": "1.1.0-beta.5",
     "lodash": "^4.17.21"
   },
   "devDependencies": {
