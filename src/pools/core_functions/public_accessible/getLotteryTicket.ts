@@ -146,7 +146,11 @@ export const getLotteryTicketIx = async (params: GetLotteryTicketIx) => {
   const adminTokenAccount = await findAssociatedTokenAddress(admin, fractionMint);
 
   const signers = [lotteryTicketAccount];
-
+  const additionalComputeBudgetInstruction = web3.ComputeBudgetProgram.requestUnits({
+    units: 400000,
+    additionalFee: 0,
+  });
+  instructions.push(additionalComputeBudgetInstruction);
   const instruction = program.instruction.getLotteryTicket(bumpPda, {
     accounts: {
       lotteryTicket: lotteryTicketAccount.publicKey,
