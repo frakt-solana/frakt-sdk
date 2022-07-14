@@ -39,7 +39,9 @@ export const depositNftToCommunityPool = async (params: DepositNftToCommunityPoo
   const user = await connection.getAccountInfo(userFractionsTokenAccount);
 
   if (!user) {
-    instructions = instructions.concat(createAssociatedTokenAccountInstruction(userFractionsTokenAccount, userPubkey, userPubkey, fractionMint));
+    instructions = instructions.concat(
+      createAssociatedTokenAccountInstruction(userFractionsTokenAccount, userPubkey, userPubkey, fractionMint),
+    );
   }
 
   const [vaultOwnerPda, bumpPda] = await web3.PublicKey.findProgramAddress(
@@ -149,7 +151,9 @@ export const depositNftToCommunityPoolIx = async (params: DepositNftToCommunityP
   const user = await connection.getAccountInfo(userFractionsTokenAccount);
 
   if (!user) {
-    instructions = instructions.concat(createAssociatedTokenAccountInstruction(userFractionsTokenAccount, userPubkey, userPubkey, fractionMint));
+    instructions = instructions.concat(
+      createAssociatedTokenAccountInstruction(userFractionsTokenAccount, userPubkey, userPubkey, fractionMint),
+    );
   }
 
   let [vaultOwnerPda, bumpPda] = await web3.PublicKey.findProgramAddress(
@@ -182,7 +186,11 @@ export const depositNftToCommunityPoolIx = async (params: DepositNftToCommunityP
     fusionProgramId,
   );
   const signers = [safetyDepositBox, storeNftTokenAccount];
-
+  const additionalComputeBudgetInstruction = web3.ComputeBudgetProgram.requestUnits({
+    units: 400000,
+    additionalFee: 0,
+  });
+  instructions.push(additionalComputeBudgetInstruction);
   const instruction = program.instruction.depositNft(bump, bumpPda, {
     accounts: {
       safetyDepositBox: safetyDepositBox.publicKey,
