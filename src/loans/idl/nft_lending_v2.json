@@ -1365,6 +1365,90 @@
         }
       ],
       "returns": null
+    },
+    {
+      "name": "initializeNftAttemptsByStaking",
+      "accounts": [
+        {
+          "name": "nftAttempts",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "nftMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "fraktNftStakeAccount",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [],
+      "returns": null
+    },
+    {
+      "name": "getLotTicketByStaking",
+      "accounts": [
+        {
+          "name": "liquidationLot",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftAttempts",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "lotTicket",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "attemptsNftMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "fraktNftStakeAccount",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "nftAttemptsBump",
+          "type": "u8"
+        }
+      ],
+      "returns": null
     }
   ],
   "accounts": [
@@ -2224,6 +2308,21 @@
       "code": 6041,
       "name": "FunctionIsNotSupportedForNow",
       "msg": "Function is not supported right now"
+    },
+    {
+      "code": 6042,
+      "name": "FraktNftStakeNotInitialized",
+      "msg": "FraktNftStakeNotInitialized"
+    },
+    {
+      "code": 6043,
+      "name": "FraktNftNotStaked",
+      "msg": "FraktNftNotStaked"
+    },
+    {
+      "code": 6044,
+      "name": "FraktNftStakeOwnerDoesntMatch",
+      "msg": "FraktNftStakeOwnerDoesntMatch"
     }
   ]
 }

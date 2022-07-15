@@ -21,5 +21,7 @@ export * from './functions/public/proposeLoan';
 export * from './functions/public/unstakeLiquidity';
 export * from './functions/public/redeemWinningLotTicket';
 export * from './functions/public/getLotTicket';
+export * from './functions/public/initializeNftAttemptsByStaking';
+export * from './functions/public/getLotTicketByStaking';
 
 export * from './helpers';
