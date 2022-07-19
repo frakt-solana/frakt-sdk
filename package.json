@@ -19,6 +19,7 @@
     "docs": "typedoc src/index.ts",
     "minor": "npm version minor",
     "patch": "npm version patch",
+    "publish_prerelease": "npm version prerelease --preid beta && npm run build && npm publish --tag beta",
     "prepare": "husky install"
   },
   "dependencies": {
