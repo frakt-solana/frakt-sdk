@@ -182,3 +182,35 @@ export interface LoanData {
   liquidityPool: LiquidityPoolView;
   loans: LoanView[];
 }
+
+export interface LotTicketView {
+  liquidationLot: string;
+  user: string;
+  usedNftAttempts: string;
+  ticketState: string;
+  publicKey: string;
+}
+
+export interface NftAttemptView {
+  nftMint: string;
+  blockedUntil: number;
+  attempts: number;
+  cycleStartedAt: number;
+  lastTriedAt: number;
+  publicKey: string;
+}
+
+export interface LiquidationLotView {
+  loan: string;
+  nftMint: string;
+  vaultNftTokenAccount: string;
+  lotNoFeesPrice: number;
+  winningChanceInBasePoints: number;
+  startedAt: number;
+  endingAt: number;
+  lotState: string;
+  ticketsCount: number;
+  gracePeriod: number;
+  graceFee: number;
+  publicKey: string;
+}

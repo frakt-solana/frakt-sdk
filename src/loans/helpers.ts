@@ -10,6 +10,7 @@ import {
 } from './types';
 import { createFakeWallet } from '../common';
 import { EDITION_PREFIX, METADATA_PREFIX, METADATA_PROGRAM_PUBKEY } from './constants';
+import { LotTicketView } from '..';
 
 type ReturnAnchorProgram = (programId: web3.PublicKey, connection: web3.Connection) => Program;
 export const returnAnchorProgram: ReturnAnchorProgram = (programId, connection) =>
@@ -116,6 +117,13 @@ export const decodeLoan: DecodeLoan = (buffer, connection, programId) => {
   return program.coder.accounts.decode('Loan', buffer);
 };
 
+type DecodeLotTicket = (buffer: Buffer, connection: web3.Connection, programId: web3.PublicKey) => LotTicketView;
+export const decodeLotTicket: DecodeLotTicket = (buffer, connection, programId) => {
+  const program = returnAnchorProgram(programId, connection);
+  const rawAccount = program.coder.accounts.decode('LotTicket', buffer);
+  return anchorRawBNsAndPubkeysToNumsAndStrings(rawAccount);
+};
+
 type GetMetaplexEditionPda = (mintPubkey: web3.PublicKey) => web3.PublicKey;
 export const getMetaplexEditionPda: GetMetaplexEditionPda = (mintPubkey) => {
   const editionPda = utils.publicKey.findProgramAddressSync(
@@ -128,4 +136,22 @@ export const getMetaplexEditionPda: GetMetaplexEditionPda = (mintPubkey) => {
     METADATA_PROGRAM_PUBKEY,
   );
   return editionPda[0];
+};
+
+export const anchorRawBNsAndPubkeysToNumsAndStrings = (rawAccount: any) => {
+  const copyRawAccount = { ...rawAccount };
+  for (let key in copyRawAccount.account) {
+    if (copyRawAccount.account[key] === null) continue;
+    if (copyRawAccount.account[key].toNumber) {
+      copyRawAccount.account[key] = copyRawAccount.account[key].toNumber();
+    }
+
+    if (copyRawAccount.account[key].toBase58) {
+      copyRawAccount.account[key] = copyRawAccount.account[key].toBase58();
+    }
+    if (typeof copyRawAccount.account[key] === 'object') {
+      copyRawAccount.account[key] = Object.keys(copyRawAccount.account[key])[0];
+    }
+  }
+  return { ...copyRawAccount.account, publicKey: copyRawAccount.publicKey.toBase58() };
 };
