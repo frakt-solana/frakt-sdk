@@ -117,11 +117,19 @@ export const decodeLoan: DecodeLoan = (buffer, connection, programId) => {
   return program.coder.accounts.decode('Loan', buffer);
 };
 
-type DecodeLotTicket = (buffer: Buffer, connection: web3.Connection, programId: web3.PublicKey) => LotTicketView;
-export const decodeLotTicket: DecodeLotTicket = (buffer, connection, programId) => {
+type DecodeLotTicket = (
+  buffer: Buffer,
+  publicKey: web3.PublicKey,
+  connection: web3.Connection,
+  programId: web3.PublicKey,
+) => LotTicketView;
+export const decodeLotTicket: DecodeLotTicket = (buffer, publicKey, connection, programId) => {
   const program = returnAnchorProgram(programId, connection);
   const rawAccount = program.coder.accounts.decode('LotTicket', buffer);
-  return anchorRawBNsAndPubkeysToNumsAndStrings(rawAccount);
+  return anchorRawBNsAndPubkeysToNumsAndStrings({
+    account: rawAccount,
+    publicKey: publicKey,
+  });
 };
 
 type GetMetaplexEditionPda = (mintPubkey: web3.PublicKey) => web3.PublicKey;
