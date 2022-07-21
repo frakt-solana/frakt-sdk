@@ -1,4 +1,4 @@
-import { AnchorProvider, web3 } from '@project-serum/anchor';
+import { web3 } from '@project-serum/anchor';
 
 import { returnAnchorProgram } from '../../helpers';
 

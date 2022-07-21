@@ -1,6 +1,5 @@
-import { AnchorProvider, web3 } from '@project-serum/anchor';
+import { web3 } from '@project-serum/anchor';
 
-import { createFakeWallet } from '../../../common';
 import {
   returnAnchorProgram,
   decodedCollectionInfo,

@@ -1,4 +1,4 @@
-import { AnchorProvider, BN, web3, utils } from '@project-serum/anchor';
+import { BN, web3, utils } from '@project-serum/anchor';
 
 import { findAssociatedTokenAddress } from '../../../common';
 import { METADATA_PROGRAM_PUBKEY } from '../../constants';

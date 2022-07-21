@@ -1,7 +1,7 @@
 import { Dictionary } from 'lodash';
 
+import { UserNFT } from '../types';
 import { isNFTWhitelisted } from './isNFTWhitelisted';
-import { UserNFT } from '../../common/types';
 
 export const filterWhitelistedNFTs = (
   nfts: UserNFT[],

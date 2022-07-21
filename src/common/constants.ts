@@ -1,9 +1,8 @@
-import { WSOL } from '@raydium-io/raydium-sdk';
 import { TokenInfo } from './types';
 
 export const SOL_TOKEN: TokenInfo = {
   chainId: 101,
-  address: WSOL.mint,
+  address: '1111111111111111111111111111111111111112',
   name: 'SOL',
   decimals: 9,
   symbol: 'SOL',
@@ -13,7 +12,3 @@ export const SOL_TOKEN: TokenInfo = {
     coingeckoId: 'solana',
   },
 };
-
-export const ORACLE_URL_BASE = 'https://nft-price-aggregator.herokuapp.com';
-
-export const BLOCKED_POOLS_IDS = ['DqMPkcRT22dPTTsj2rxhCNxg44D93NXiSBWiACAAXd2Q'];

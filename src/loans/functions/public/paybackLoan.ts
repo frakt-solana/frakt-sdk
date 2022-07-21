@@ -1,4 +1,4 @@
-import { AnchorProvider, web3, utils, BN } from '@project-serum/anchor';
+import { web3, utils, BN } from '@project-serum/anchor';
 
 import { getMetaplexEditionPda, returnAnchorProgram } from '../../helpers';
 import { findAssociatedTokenAddress } from '../../../common';

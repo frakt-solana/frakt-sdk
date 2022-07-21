@@ -1,5 +1,4 @@
-import { AnchorProvider, BN, web3 } from '@project-serum/anchor';
-import { createFakeWallet } from '../../../common';
+import { BN, web3 } from '@project-serum/anchor';
 
 import { returnAnchorProgram } from '../../helpers';
 

@@ -1,5 +1,4 @@
-import { BN, web3 } from '@project-serum/anchor';
-import { LiquidityPoolKeysV4 } from '@raydium-io/raydium-sdk';
+import { BN } from '@project-serum/anchor';
 
 export interface TokenExtensions {
   readonly website?: string;
@@ -30,36 +29,6 @@ export interface TokenInfo {
   readonly extensions?: TokenExtensions;
 }
 
-export interface AccountInfoData {
-  owner: web3.PublicKey;
-  state: number;
-  mint: web3.PublicKey;
-  amount: BN;
-  delegateOption: number;
-  delegate: web3.PublicKey;
-  isNativeOption: number;
-  isNative: BN;
-  delegatedAmount: BN;
-  closeAuthorityOption: number;
-  closeAuthority: web3.PublicKey;
-}
-
-export interface AccountInfoParsed {
-  pubkey: web3.PublicKey;
-  accountInfo: AccountInfoData;
-}
-
-export type ParseTokenAccount = (params: {
-  tokenAccountPubkey: web3.PublicKey;
-  tokenAccountEncoded: web3.AccountInfo<Buffer> | null;
-}) => AccountInfoParsed | null;
-
-export interface GetTokenAccount {
-  tokenMint: web3.PublicKey;
-  owner: web3.PublicKey;
-  connection: web3.Connection;
-}
-
 export interface TokenView {
   tokenAccountPubkey: string;
   mint: string;
@@ -75,52 +44,3 @@ export interface TokenView {
   closeAuthorityOption: boolean;
   closeAuthority: string;
 }
-
-export interface ArweaveAttribute {
-  trait_type: string;
-  value: number | string;
-}
-
-export interface NFTCreator {
-  address: string;
-  share: number;
-  verified?: boolean;
-}
-
-interface NFTFile {
-  type: string;
-  uri: string;
-}
-
-export interface ArweaveMetadata {
-  name: string;
-  symbol: string;
-  description: string;
-  collectionName?: string;
-  seller_fee_basis_points?: number;
-  image: string;
-  animation_url?: string;
-  external_url?: string;
-  attributes: ArweaveAttribute[];
-  properties?: {
-    creators?: NFTCreator[];
-    files?: NFTFile[];
-  };
-}
-
-export interface UserNFT {
-  mint: string;
-  metadata: ArweaveMetadata;
-}
-
-export enum PoolWhitelistType {
-  SINGLE_NFT_WHITELIST = 'singleNftWhitelist',
-  CREATOR_WHITELIST = 'creatorWhitelist',
-}
-
-export interface PoolData {
-  tokenInfo: TokenInfo;
-  poolConfig: LiquidityPoolKeysV4;
-}
-
-export type PoolDataByMint = Map<string, PoolData>;

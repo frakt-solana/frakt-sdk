@@ -1,6 +1,7 @@
-import { AnchorProvider, web3, utils } from '@project-serum/anchor';
+import { web3, utils } from '@project-serum/anchor';
 
-import { findAssociatedTokenAddress, returnAnchorMultiRewardStaking } from '../../common';
+import { findAssociatedTokenAddress } from '../../common';
+import { returnAnchorMultiRewardStaking } from '../helpers';
 
 export const harvestSecondaryReward = async (
   programId: web3.PublicKey,
