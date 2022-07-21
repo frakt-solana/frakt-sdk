@@ -1,4 +1,4 @@
-import { AnchorProvider, web3, utils } from '@project-serum/anchor';
+import { web3, utils } from '@project-serum/anchor';
 
 import { METADATA_PROGRAM_PUBKEY } from '../../constants';
 import { getMetaplexEditionPda, returnAnchorProgram } from '../../helpers';

@@ -1,5 +1,6 @@
 import { Dictionary } from 'lodash';
-import { PoolWhitelistType } from '../../common/types';
+
+import { PoolWhitelistType } from '../types';
 
 export const getWhitelistedMintsDictionary = (pool): Dictionary<boolean> =>
   Object.fromEntries(
