@@ -7,7 +7,7 @@ import {
   LoanView,
   TimeBasedLiquidityPoolView,
   PriceBasedLiquidityPoolView,
-  LotTicketView
+  LotTicketView,
 } from './types';
 import { createFakeWallet } from '../common';
 import { EDITION_PREFIX, METADATA_PREFIX, METADATA_PROGRAM_PUBKEY } from './constants';
@@ -117,11 +117,16 @@ export const decodeLoan: DecodeLoan = (buffer, connection, programId) => {
   return program.coder.accounts.decode('Loan', buffer);
 };
 
-type DecodeLotTicket = (buffer: Buffer, connection: web3.Connection, programId: web3.PublicKey) => LotTicketView;
-export const decodeLotTicket: DecodeLotTicket = (buffer, connection, programId) => {
+type DecodeLotTicket = (
+  buffer: Buffer,
+  lotTicketPubkey: web3.PublicKey,
+  connection: web3.Connection,
+  programId: web3.PublicKey,
+) => LotTicketView;
+export const decodeLotTicket: DecodeLotTicket = (buffer, lotTicketPubkey, connection, programId) => {
   const program = returnAnchorProgram(programId, connection);
   const rawAccount = program.coder.accounts.decode('LotTicket', buffer);
-  return anchorRawBNsAndPubkeysToNumsAndStrings(rawAccount);
+  return anchorRawBNsAndPubkeysToNumsAndStrings({ account: rawAccount, publicKey: lotTicketPubkey });
 };
 
 type GetMetaplexEditionPda = (mintPubkey: web3.PublicKey) => web3.PublicKey;
