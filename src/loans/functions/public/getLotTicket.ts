@@ -1,4 +1,5 @@
 import { web3 } from '@project-serum/anchor';
+import { findAssociatedTokenAddress } from '../../../common';
 
 import { returnAnchorProgram } from '../../helpers';
 
@@ -43,6 +44,7 @@ export const getLotTicket: GetLotTicket = async ({
       }),
     );
   }
+  const nftUserTokenAccount = await findAssociatedTokenAddress(user, attemptsNftMint);
 
   instructions.push(
     program.instruction.getLotTicket(nftAttemptsBump, {
@@ -53,6 +55,7 @@ export const getLotTicket: GetLotTicket = async ({
         lotTicket: lotTicket.publicKey,
         attemptsNftMint: attemptsNftMint,
         systemProgram: web3.SystemProgram.programId,
+        nftUserTokenAccount,
       },
     }),
   );
