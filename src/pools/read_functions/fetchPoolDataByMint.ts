@@ -1,7 +1,7 @@
 import { Liquidity, WSOL } from '@raydium-io/raydium-sdk';
-import { PoolData } from '../../common/types';
-import { BLOCKED_POOLS_IDS } from '../../common/constants';
-import { FetchPoolDataByMint } from '../types';
+
+import { BLOCKED_POOLS_IDS } from '../constants';
+import { FetchPoolDataByMint, PoolData } from '../types';
 
 export const fetchPoolDataByMint: FetchPoolDataByMint = async ({ connection, tokensMap }) => {
   const allRaydiumConfigs = await Liquidity.fetchAllPoolKeys(connection);

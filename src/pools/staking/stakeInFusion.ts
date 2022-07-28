@@ -1,6 +1,7 @@
 import { web3, BN, utils } from '@project-serum/anchor';
 
-import { findAssociatedTokenAddress, returnAnchorMultiRewardStaking } from '../../common';
+import { findAssociatedTokenAddress } from '../../common';
+import { returnAnchorMultiRewardStaking } from '../helpers';
 
 export const stakeInFusion = async (
   programId: web3.PublicKey,

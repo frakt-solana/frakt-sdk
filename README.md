@@ -10,11 +10,11 @@ npm install @frakt-protocol/frakt-sdk --save
 
 ## Usage
 ```typescript
-import { utils, loans, pools, swaps } from '@frakt-protocol/frakt-sdk';
+import { utils, loans, pools } from '@frakt-protocol/frakt-sdk';
 ```
 Also `frakt-sdk` exports [AnchorProvider](https://github.com/project-serum/anchor), [BN.js](https://github.com/indutny/bn.js), [@raydium-io/raydium-sdk](https://sdk.raydium.io/) and [@solana/web3.js](https://solana-labs.github.io/solana-web3.js/).
 ```typescript
-import { AnchorProvider, raydium, BN, web3 } from '@frakt-protocol/frakt-sdk';
+import { AnchorProvider, BN, web3 } from '@frakt-protocol/frakt-sdk';
 ```
 ### Current versions in dependencies
 | Library                 | Version       |

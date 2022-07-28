@@ -1,6 +1,5 @@
-import { AnchorProvider, web3 } from '@project-serum/anchor';
+import { web3 } from '@project-serum/anchor';
 
-import { createFakeWallet, returnAnchorMultiRewardStaking } from '../../common';
 import {
   decodedPoolBufferToUI,
   decodedRouterToUI,
@@ -8,9 +7,9 @@ import {
   decodedStakeAccountAddressToUI,
   decodedSecondStakeToUI,
 } from '../contract_model/accounts';
+import { returnAnchorMultiRewardStaking } from '../helpers';
 
 export const getAllProgramStakingAccounts = async (programId: web3.PublicKey, connection: web3.Connection) => {
-  const provider = new AnchorProvider(connection, createFakeWallet(), AnchorProvider.defaultOptions());
   const program = await returnAnchorMultiRewardStaking(programId, connection);
 
   const mainPoolConfigsRaw = await program.account.mainConfig.all();
