@@ -981,6 +981,11 @@
           "name": "systemProgram",
           "isMut": false,
           "isSigner": false
+        },
+        {
+          "name": "nftUserTokenAccount",
+          "isMut": true,
+          "isSigner": false
         }
       ],
       "args": [
@@ -2311,18 +2316,28 @@
     },
     {
       "code": 6042,
+      "name": "CantSetLtvMoreThanNftValue",
+      "msg": "Can't set loan to value more than 100%"
+    },
+    {
+      "code": 6043,
       "name": "FraktNftStakeNotInitialized",
       "msg": "FraktNftStakeNotInitialized"
     },
     {
-      "code": 6043,
+      "code": 6044,
       "name": "FraktNftNotStaked",
       "msg": "FraktNftNotStaked"
     },
     {
-      "code": 6044,
+      "code": 6045,
       "name": "FraktNftStakeOwnerDoesntMatch",
       "msg": "FraktNftStakeOwnerDoesntMatch"
+    },
+    {
+      "code": 6046,
+      "name": "TokenAccountDoesntContainNft",
+      "msg": "TokenAccountDoesntContainNft"
     }
   ]
 }
