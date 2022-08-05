@@ -23,5 +23,6 @@ export * from './functions/public/redeemWinningLotTicket';
 export * from './functions/public/getLotTicket';
 export * from './functions/public/initializeNftAttemptsByStaking';
 export * from './functions/public/getLotTicketByStaking';
+export * from './functions/public/paybackLoanWithGrace';
 
 export * from './helpers';
