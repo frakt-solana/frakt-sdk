@@ -1,7 +1,7 @@
 import { web3, utils } from '@project-serum/anchor';
 
 import { getMetaplexEditionPda, returnAnchorProgram } from '../../helpers';
-import { findAssociatedTokenAddress } from '../../../common';
+import { createAssociatedTokenAccountInstruction, findAssociatedTokenAddress } from '../../../common';
 import { METADATA_PROGRAM_PUBKEY } from '../../constants';
 
 type PaybackLoan = (params: {
@@ -48,9 +48,15 @@ export const paybackLoanWithGrace: PaybackLoan = async ({
   const nftUserTokenAccount = await findAssociatedTokenAddress(user, nftMint);
   const vaultNftTokenAccount = await findAssociatedTokenAddress(communityPoolsAuthority, nftMint);
 
+  let instructions: web3.TransactionInstruction[] = [];
+  const nftUserTokenAccountInfo = await connection.getAccountInfo(nftUserTokenAccount);
+  if (!nftUserTokenAccountInfo)
+    instructions = instructions.concat(
+      createAssociatedTokenAccountInstruction(nftUserTokenAccount, user, user, nftMint),
+    );
   const editionId = getMetaplexEditionPda(nftMint);
 
-  const instruction = program.instruction.paybackWithGrace(bumpPoolsAuth, {
+  const mainIx = program.instruction.paybackWithGrace(bumpPoolsAuth, {
     accounts: {
       loan: loan,
       liquidityPool,
@@ -72,7 +78,9 @@ export const paybackLoanWithGrace: PaybackLoan = async ({
     },
   });
 
-  const transaction = new web3.Transaction().add(instruction);
+  instructions = instructions.concat(mainIx);
 
+  const transaction = new web3.Transaction();
+  for (let instruction of instructions) transaction.add(instruction);
   await sendTxn(transaction);
 };
