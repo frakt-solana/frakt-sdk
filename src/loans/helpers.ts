@@ -11,6 +11,7 @@ import {
 } from './types';
 import { createFakeWallet } from '../common';
 import { EDITION_PREFIX, METADATA_PREFIX, METADATA_PROGRAM_PUBKEY } from './constants';
+import { loans } from '..';
 
 type ReturnAnchorProgram = (programId: web3.PublicKey, connection: web3.Connection) => Program;
 export const returnAnchorProgram: ReturnAnchorProgram = (programId, connection) =>
@@ -159,4 +160,93 @@ export const anchorRawBNsAndPubkeysToNumsAndStrings = (rawAccount: any) => {
     }
   }
   return { ...copyRawAccount.account, publicKey: copyRawAccount.publicKey.toBase58() };
+};
+
+const knapsackAlgorithm = (
+  items: { v: number; w: number; loanValue: number; nftMint: string; interest: number }[],
+  capacity: number,
+): { maxValue: number; subset: { v: number; w: number; loanValue: number; nftMint: string; interest: number }[] } => {
+  const getLast = (memo) => {
+    let lastRow = memo[memo.length - 1];
+    return lastRow[lastRow.length - 1];
+  };
+  const getSolution = (row, cap, memo) => {
+    const NO_SOLUTION = { maxValue: 0, subset: [] };
+    // the column number starts from zero.
+    let col = cap - 1;
+    let lastItem = items[row];
+    // The remaining capacity for the sub-problem to solve.
+    let remaining = cap - lastItem.w;
+
+    // Refer to the last solution for this capacity,
+    // which is in the cell of the previous row with the same column
+    let lastSolution = row > 0 ? memo[row - 1][col] || NO_SOLUTION : NO_SOLUTION;
+    // Refer to the last solution for the remaining capacity,
+    // which is in the cell of the previous row with the corresponding column
+    let lastSubSolution = row > 0 ? memo[row - 1][remaining - 1] || NO_SOLUTION : NO_SOLUTION;
+
+    // If any one of the items weights greater than the 'cap', return the last solution
+    if (remaining < 0) {
+      return lastSolution;
+    }
+
+    // Compare the current best solution for the sub-problem with a specific capacity
+    // to a new solution trial with the lastItem(new item) added
+    let lastValue = lastSolution.maxValue;
+    let lastSubValue = lastSubSolution.maxValue;
+
+    let newValue = lastSubValue + lastItem.v;
+    if (newValue >= lastValue) {
+      // copy the subset of the last sub-problem solution
+      let _lastSubSet = lastSubSolution.subset.slice();
+      _lastSubSet.push(lastItem);
+      return { maxValue: newValue, subset: _lastSubSet };
+    } else {
+      return lastSolution;
+    }
+  };
+  // This implementation uses dynamic programming.
+  // Variable 'memo' is a grid(2-dimentional array) to store optimal solution for sub-problems,
+  // which will be later used as the code execution goes on.
+  // This is called memoization in programming.
+  // The cell will store best solution objects for different capacities and selectable items.
+  let memo: any[] = [];
+
+  // Filling the sub-problem solutions grid.
+  for (let i = 0; i < items.length; i++) {
+    // Variable 'cap' is the capacity for sub-problems. In this example, 'cap' ranges from 1 to 6.
+    let row: any[] = [];
+    for (let cap = 1; cap <= capacity; cap++) {
+      row.push(getSolution(i, cap, memo));
+    }
+    memo.push(row);
+  }
+
+  // The right-bottom-corner cell of the grid contains the final solution for the whole problem.
+  return getLast(memo);
+};
+
+/*
+  Returns most optimal loans by lowest interest using Knapsack Algorithm.
+*/
+export const getMostOptimalLoansClosestToNeededSolInBulk = ({
+  neededSol,
+  possibleLoans,
+}: {
+  possibleLoans: { nftMint: string; loanValue: number; interest: number }[];
+  neededSol: number;
+}) => {
+  const divider = 1e7;
+
+  const preparedItems = possibleLoans.map((loan) => ({
+    ...loan,
+    v: Math.ceil((loan.loanValue - loan.interest) / divider),
+    w: Math.ceil(loan.loanValue / divider),
+  }));
+
+  const preparedNeededSol = Math.ceil(neededSol / divider);
+  const { maxValue, subset } = knapsackAlgorithm(preparedItems, preparedNeededSol);
+
+  const result = subset.map((item) => ({ nftMint: item.nftMint, loanValue: item.loanValue, interest: item.interest }));
+  return result;
 };
