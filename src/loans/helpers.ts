@@ -11,7 +11,6 @@ import {
 } from './types';
 import { createFakeWallet } from '../common';
 import { EDITION_PREFIX, METADATA_PREFIX, METADATA_PROGRAM_PUBKEY } from './constants';
-import { loans } from '..';
 
 type ReturnAnchorProgram = (programId: web3.PublicKey, connection: web3.Connection) => Program;
 export const returnAnchorProgram: ReturnAnchorProgram = (programId, connection) =>
