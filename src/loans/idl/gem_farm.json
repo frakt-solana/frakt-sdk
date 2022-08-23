@@ -1,0 +1,331 @@
+{
+  "version": "0.1.0",
+  "name": "gem_farm",
+  "instructions": [
+    {
+      "name": "initFarmer",
+      "accounts": [
+        {
+          "name": "farm",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "farmer",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "identity",
+          "isMut": false,
+          "isSigner": true
+        },
+        {
+          "name": "bank",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gemBank",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "feeAcc",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "unstake",
+      "accounts": [
+        {
+          "name": "farm",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "farmAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "farmTreasury",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "farmer",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "identity",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "bank",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gemBank",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "feeAcc",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bumpAuth",
+          "type": "u8"
+        },
+        {
+          "name": "bumpTreasury",
+          "type": "u8"
+        },
+        {
+          "name": "bumpFarmer",
+          "type": "u8"
+        },
+        {
+          "name": "skipRewards",
+          "type": "bool"
+        }
+      ]
+    },
+    {
+      "name": "claim",
+      "accounts": [
+        {
+          "name": "farm",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "farmAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "farmer",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "identity",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "rewardAPot",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardAMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rewardADestination",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardBPot",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardBMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rewardBDestination",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bumpAuth",
+          "type": "u8"
+        },
+        {
+          "name": "bumpFarmer",
+          "type": "u8"
+        },
+        {
+          "name": "bumpPotA",
+          "type": "u8"
+        },
+        {
+          "name": "bumpPotB",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "flashDeposit",
+      "accounts": [
+        {
+          "name": "farm",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "farmAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "farmer",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "identity",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "bank",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vaultAuthority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "gemBox",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gemDepositReceipt",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gemSource",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gemMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "gemRarity",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "gemBank",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "feeAcc",
+          "isMut": true,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bumpFarmer",
+          "type": "u8"
+        },
+        {
+          "name": "bumpVaultAuth",
+          "type": "u8"
+        },
+        {
+          "name": "bumpRarity",
+          "type": "u8"
+        },
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    }
+  ]
+}

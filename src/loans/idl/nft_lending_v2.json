@@ -48,7 +48,10 @@
         {
           "name": "admin",
           "isMut": true,
-          "isSigner": false
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
         },
         {
           "name": "systemProgram",
@@ -78,8 +81,7 @@
           "name": "loanToValue",
           "type": "u64"
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "approveLoanByAdmin",
@@ -129,8 +131,7 @@
           "name": "discount",
           "type": "u64"
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "depositLiquidity",
@@ -171,8 +172,7 @@
           "name": "amount",
           "type": "u64"
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "initializeCollectionInfo",
@@ -225,8 +225,7 @@
             "defined": "CollectionInfoParams"
           }
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "updateCollectionInfo",
@@ -269,8 +268,7 @@
             "defined": "CollectionInfoParams"
           }
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "initializeTimeBasedLiquidityPool",
@@ -312,8 +310,7 @@
             "defined": "LiqPoolInputParams"
           }
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "initializePriceBasedLiquidityPool",
@@ -355,8 +352,7 @@
             "defined": "PriceBasedLiqPoolInputParams"
           }
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "updateTimeBasedLiquidityPool",
@@ -389,8 +385,7 @@
             "defined": "LiqPoolInputParams"
           }
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "updatePriceBasedLiquidityPool",
@@ -423,8 +418,7 @@
             "defined": "PriceBasedLiqPoolInputParams"
           }
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "liquidateLoanByAdmin",
@@ -500,8 +494,7 @@
           "name": "bumpPoolsAuth",
           "type": "u8"
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "paybackLoan",
@@ -524,7 +517,10 @@
         {
           "name": "admin",
           "isMut": true,
-          "isSigner": false
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
         },
         {
           "name": "user",
@@ -586,8 +582,7 @@
           "name": "amount",
           "type": "u64"
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "rejectLoanByAdmin",
@@ -648,8 +643,7 @@
           "name": "bumpPoolsAuth",
           "type": "u8"
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "unstakeLiquidity",
@@ -677,7 +671,10 @@
         {
           "name": "admin",
           "isMut": true,
-          "isSigner": false
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
         },
         {
           "name": "systemProgram",
@@ -694,8 +691,7 @@
           "name": "amount",
           "type": "u64"
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "harvestLiquidity",
@@ -723,7 +719,10 @@
         {
           "name": "admin",
           "isMut": true,
-          "isSigner": false
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
         },
         {
           "name": "systemProgram",
@@ -736,8 +735,7 @@
           "name": "depositBump",
           "type": "u8"
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "closeLoan",
@@ -750,7 +748,10 @@
         {
           "name": "admin",
           "isMut": true,
-          "isSigner": true
+          "isSigner": true,
+          "docs": [
+            "CHECK"
+          ]
         },
         {
           "name": "communityPoolsAuthority",
@@ -763,8 +764,7 @@
           "name": "bumpPoolsAuth",
           "type": "u8"
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "liquidateNftToRaffles",
@@ -849,8 +849,7 @@
           "name": "gracePeriod",
           "type": "u64"
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "paybackWithGrace",
@@ -878,7 +877,10 @@
         {
           "name": "admin",
           "isMut": true,
-          "isSigner": false
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
         },
         {
           "name": "user",
@@ -946,8 +948,7 @@
           "name": "bumpPoolsAuth",
           "type": "u8"
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "getLotTicket",
@@ -993,8 +994,7 @@
           "name": "nftAttemptsBump",
           "type": "u8"
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "initializeNftAttempts",
@@ -1025,8 +1025,7 @@
           "isSigner": false
         }
       ],
-      "args": [],
-      "returns": null
+      "args": []
     },
     {
       "name": "redeemWinningLotTicket",
@@ -1059,7 +1058,10 @@
         {
           "name": "admin",
           "isMut": true,
-          "isSigner": false
+          "isSigner": false,
+          "docs": [
+            "CHECK"
+          ]
         },
         {
           "name": "user",
@@ -1132,8 +1134,7 @@
           "name": "bumpPoolsAuth",
           "type": "u8"
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "rejectLotTicketByAdmin",
@@ -1149,8 +1150,7 @@
           "isSigner": true
         }
       ],
-      "args": [],
-      "returns": null
+      "args": []
     },
     {
       "name": "revealLotTicketByAdmin",
@@ -1171,8 +1171,7 @@
           "name": "isWinning",
           "type": "bool"
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "topupFromLiqLoans",
@@ -1203,8 +1202,7 @@
           "name": "amount",
           "type": "u64"
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "withdrawFromReserveFund",
@@ -1230,8 +1228,7 @@
           "isSigner": false
         }
       ],
-      "args": [],
-      "returns": null
+      "args": []
     },
     {
       "name": "stopLiquidationRafflesByAdmin",
@@ -1249,7 +1246,10 @@
         {
           "name": "admin",
           "isMut": true,
-          "isSigner": true
+          "isSigner": true,
+          "docs": [
+            "CHECK"
+          ]
         },
         {
           "name": "nftMint",
@@ -1297,8 +1297,7 @@
           "name": "bumpPoolsAuth",
           "type": "u8"
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "putLoanToLiquidationRaffles",
@@ -1368,8 +1367,7 @@
           "name": "gracePeriod",
           "type": "u64"
         }
-      ],
-      "returns": null
+      ]
     },
     {
       "name": "initializeNftAttemptsByStaking",
@@ -1405,8 +1403,7 @@
           "isSigner": false
         }
       ],
-      "args": [],
-      "returns": null
+      "args": []
     },
     {
       "name": "getLotTicketByStaking",
@@ -1452,8 +1449,615 @@
           "name": "nftAttemptsBump",
           "type": "u8"
         }
+      ]
+    },
+    {
+      "name": "stakeGemFarmStaking",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "lendingStake",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gemFarm",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "farm",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "farmAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "farmer",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "loan",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "identity",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bank",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gemBank",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "feeAcc",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "gemBox",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gemDepositReceipt",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gemSource",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gemMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "gemRarity",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "communityPoolsAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "editionInfo",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
       ],
-      "returns": null
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "StakeGemFarmParams"
+          }
+        }
+      ]
+    },
+    {
+      "name": "unstakeGemFarmStaking",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "gemFarm",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "lendingStake",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "farm",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "farmAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "farmer",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "farmTreasury",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "loan",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "identity",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bank",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gemBank",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "feeAcc",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "gemBox",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gemDepositReceipt",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gemSource",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gemMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "gemRarity",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "communityPoolsAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "editionInfo",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "UnstakeGemFarmParams"
+          }
+        }
+      ]
+    },
+    {
+      "name": "claimGemFarmStaking",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "gemFarm",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "farm",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "farmAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "farmer",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "loan",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gemMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "identity",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardAPot",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardAMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardADestinationIdentity",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardBPot",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardBMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardBDestinationIdentity",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "ClaimGemFarmParams"
+          }
+        }
+      ]
+    },
+    {
+      "name": "getClaimedGemFarmStaking",
+      "accounts": [
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "identity",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "lendingStake",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "loan",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gemMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rewardAMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardADestinationIdentity",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardADestination",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardBMint",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardBDestinationIdentity",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rewardBDestination",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "bumpAuth",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "unstakeGemFarmStakingByAdmin",
+      "accounts": [
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "gemFarm",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "lendingStake",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "farm",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "farmAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "farmer",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "farmTreasury",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "loan",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "identity",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "bank",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gemBank",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "feeAcc",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "vault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "gemBox",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gemDepositReceipt",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gemSource",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "gemMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "gemRarity",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "communityPoolsAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "editionInfo",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "params",
+          "type": {
+            "defined": "UnstakeGemFarmParams"
+          }
+        }
+      ]
     }
   ],
   "accounts": [
@@ -1530,6 +2134,70 @@
           },
           {
             "name": "stakedAtCumulative",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "LendingStake",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "stakeType",
+            "type": {
+              "defined": "StakeType"
+            }
+          },
+          {
+            "name": "loan",
+            "type": "publicKey"
+          },
+          {
+            "name": "stakeContract",
+            "type": "publicKey"
+          },
+          {
+            "name": "stakeContractOptional",
+            "type": "publicKey"
+          },
+          {
+            "name": "stakeState",
+            "type": {
+              "defined": "StakeState"
+            }
+          },
+          {
+            "name": "identity",
+            "type": "publicKey"
+          },
+          {
+            "name": "dataA",
+            "type": "publicKey"
+          },
+          {
+            "name": "dataB",
+            "type": "publicKey"
+          },
+          {
+            "name": "dataC",
+            "type": "publicKey"
+          },
+          {
+            "name": "dataD",
+            "type": "publicKey"
+          },
+          {
+            "name": "totalHarvested",
+            "type": "u64"
+          },
+          {
+            "name": "totalHarvestedOptional",
+            "type": "u64"
+          },
+          {
+            "name": "lastTime",
             "type": "u64"
           }
         ]
@@ -1886,6 +2554,38 @@
   ],
   "types": [
     {
+      "name": "ClaimGemFarmParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bumpAuth",
+            "type": "u8"
+          },
+          {
+            "name": "bumpAuthAuthority",
+            "type": "u8"
+          },
+          {
+            "name": "bumpFarmer",
+            "type": "u8"
+          },
+          {
+            "name": "bumpPotA",
+            "type": "u8"
+          },
+          {
+            "name": "bumpPotB",
+            "type": "u8"
+          },
+          {
+            "name": "isDegod",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
       "name": "CollectionInfoParams",
       "type": {
         "kind": "struct",
@@ -1990,6 +2690,98 @@
       }
     },
     {
+      "name": "StakeGemFarmParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bumpPoolsAuth",
+            "type": "u8"
+          },
+          {
+            "name": "bumpAuth",
+            "type": "u8"
+          },
+          {
+            "name": "bumpAuthVaultAuthority",
+            "type": "u8"
+          },
+          {
+            "name": "bumpRarity",
+            "type": "u8"
+          },
+          {
+            "name": "bumpFarmer",
+            "type": "u8"
+          },
+          {
+            "name": "bumpGdr",
+            "type": "u8"
+          },
+          {
+            "name": "bumpGemBox",
+            "type": "u8"
+          },
+          {
+            "name": "bumpVault",
+            "type": "u8"
+          },
+          {
+            "name": "isDegod",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "UnstakeGemFarmParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "bumpPoolsAuth",
+            "type": "u8"
+          },
+          {
+            "name": "bumpAuth",
+            "type": "u8"
+          },
+          {
+            "name": "bumpAuthAuthority",
+            "type": "u8"
+          },
+          {
+            "name": "bumpTreasury",
+            "type": "u8"
+          },
+          {
+            "name": "bumpFarmer",
+            "type": "u8"
+          },
+          {
+            "name": "bumpAuthVaultAuthority",
+            "type": "u8"
+          },
+          {
+            "name": "bumpGemBox",
+            "type": "u8"
+          },
+          {
+            "name": "bumpGdr",
+            "type": "u8"
+          },
+          {
+            "name": "bumpRarity",
+            "type": "u8"
+          },
+          {
+            "name": "isDegod",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
       "name": "AvailableLoanTypes",
       "type": {
         "kind": "enum",
@@ -1999,6 +2791,37 @@
           },
           {
             "name": "OnlyPriceBased"
+          }
+        ]
+      }
+    },
+    {
+      "name": "StakeType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "DeGods"
+          },
+          {
+            "name": "GemWorksNewest"
+          },
+          {
+            "name": "Cets"
+          }
+        ]
+      }
+    },
+    {
+      "name": "StakeState",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Unstaked"
+          },
+          {
+            "name": "Staked"
           }
         ]
       }
@@ -2316,28 +3139,28 @@
     },
     {
       "code": 6042,
-      "name": "CantSetLtvMoreThanNftValue",
-      "msg": "Can't set loan to value more than 100%"
-    },
-    {
-      "code": 6043,
       "name": "FraktNftStakeNotInitialized",
       "msg": "FraktNftStakeNotInitialized"
     },
     {
-      "code": 6044,
+      "code": 6043,
       "name": "FraktNftNotStaked",
       "msg": "FraktNftNotStaked"
     },
     {
-      "code": 6045,
+      "code": 6044,
       "name": "FraktNftStakeOwnerDoesntMatch",
       "msg": "FraktNftStakeOwnerDoesntMatch"
     },
     {
-      "code": 6046,
+      "code": 6045,
       "name": "TokenAccountDoesntContainNft",
       "msg": "TokenAccountDoesntContainNft"
+    },
+    {
+      "code": 6046,
+      "name": "StakingAccountDoesntMatchAttemptsNftMint",
+      "msg": "StakingAccountDoesntMatchAttemptsNftMint"
     }
   ]
 }
