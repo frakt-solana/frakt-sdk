@@ -12,19 +12,32 @@ export interface CollectionInfoView {
   expirationTime: number;
 }
 
+export interface LendingStakeView {
+  lendingStakePubkey: string;
+  stakeType: string;
+  loan: string;
+  stakeContract: string;
+  stakeConstractOptional: string;
+  stakeState: string;
+  identity: string;
+  dataA: string;
+  dataB: string;
+  dataC: string;
+  dataD: string;
+  totalHarvested: number;
+  totalHarvestedOptional: number;
+  lastTime: number
+}
+
 export interface FarmerView {
   farmerPubkey: string;
   farm: string;
   identity: string;
   vault: string;
   state: string;
-  gemsStaked: string;
+  gemsStaked: number;
   minStakingEndsTs: number;
   cooldownEndsTs: number;
-  loanToValue: number;
-  collaterizationRate: number;
-  availableLoanTypes: string;
-  expirationTime: number;
   rewardA: GemFarmRewardView;
   rewardB: GemFarmRewardView;
 }
@@ -32,15 +45,11 @@ export interface FarmerView {
 export interface GemFarmRewardView {
   paidOutReward: number;
   accruedReward: number;
-  variableRate: VariableRate;
-  fixedRate: FixedRate;
+  variableRate: number;
+  fixedRate: FixedRateView;
 }
 
-export interface VariableRate {
-  lastRecordedAccruedRewardPerRarityPoint: number;
-}
-
-export interface FixedRate {
+export interface FixedRateView {
   beginStakingTs: number;
   beginScheduleTs: number;
   lastUpdatedTs: number;

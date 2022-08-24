@@ -7,6 +7,7 @@ import {
   decodedLoan,
   decodedPriceBasedLiquidityPool,
   decodedTimeBasedLiquidityPool,
+  decodedLendingStake,
 } from '../../helpers';
 import {
   CollectionInfoView,
@@ -14,6 +15,7 @@ import {
   LoanView,
   PriceBasedLiquidityPoolView,
   TimeBasedLiquidityPoolView,
+  LendingStakeView,
 } from '../../types';
 
 type GetAllProgramAccounts = (
@@ -25,6 +27,7 @@ type GetAllProgramAccounts = (
   timeBasedLiquidityPools: TimeBasedLiquidityPoolView[];
   priceBasedLiquidityPools: PriceBasedLiquidityPoolView[];
   loans: LoanView[];
+  lendingStakes: LendingStakeView[];
 }>;
 
 export const getAllProgramAccounts: GetAllProgramAccounts = async (programId, connection) => {
@@ -35,6 +38,7 @@ export const getAllProgramAccounts: GetAllProgramAccounts = async (programId, co
   const liquidityPoolRaws = await program.account.liquidityPool.all();
   const priceBasedLiquidityPoolRaws = await program.account.priceBasedLiquidityPool.all();
   const loanRaws = await program.account.loan.all();
+  const stakesRaw = await program.account.lendingStake.all();
 
   const collectionInfos = collectionInfoRaws.map((raw) => decodedCollectionInfo(raw.account, raw.publicKey));
   const deposits = depositRaws.map((raw) => decodedDeposit(raw.account, raw.publicKey));
@@ -45,7 +49,9 @@ export const getAllProgramAccounts: GetAllProgramAccounts = async (programId, co
     decodedPriceBasedLiquidityPool(raw.account, raw.publicKey),
   );
   const loans = loanRaws.map((raw) => decodedLoan(raw.account, raw.publicKey));
+  const lendingStakes = stakesRaw.map((raw) => decodedLendingStake(raw.account, raw.publicKey));
+
 
   // return { collectionInfos, deposits, liquidityPools, loans };
-  return { collectionInfos, deposits, timeBasedLiquidityPools, priceBasedLiquidityPools, loans };
+  return { collectionInfos, deposits, timeBasedLiquidityPools, priceBasedLiquidityPools, loans, lendingStakes };
 };

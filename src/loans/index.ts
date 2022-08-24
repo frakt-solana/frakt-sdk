@@ -11,6 +11,7 @@ export * from './functions/private/updatePriceBasedLiquidityPool';
 export * from './functions/private/updateTimeBasedLiquidityPool';
 export * from './functions/private/liquidateLoanToRaffles';
 export * from './functions/private/stopLiquidationRaffles';
+export * from './functions/private/unstakeGemFarmByAdmin';
 export * from './functions/private/putLoanToLiquidationRaffles';
 
 export * from './functions/public/depositLiquidity';
@@ -24,5 +25,8 @@ export * from './functions/public/getLotTicket';
 export * from './functions/public/initializeNftAttemptsByStaking';
 export * from './functions/public/getLotTicketByStaking';
 export * from './functions/public/paybackLoanWithGrace';
+export * from './functions/public/stakeGemFarm';
+export * from './functions/public/unstakeGemFarm';
+export * from './functions/public/claimGemFarm';
 
 export * from './helpers';

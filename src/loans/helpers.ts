@@ -8,6 +8,11 @@ import {
   TimeBasedLiquidityPoolView,
   PriceBasedLiquidityPoolView,
   LotTicketView,
+  FarmerView,
+  LendingStakeView,
+  GemFarmRewardView,
+  FixedRateView,
+  PromisedSchedule,
 } from './types';
 import { createFakeWallet } from '../common';
 import { EDITION_PREFIX, METADATA_PREFIX, METADATA_PROGRAM_PUBKEY } from './constants';
@@ -34,6 +39,64 @@ export const decodedCollectionInfo: DecodedCollectionInfo = (decodedCollection, 
   availableLoanTypes: Object.keys(decodedCollection.availableLoanTypes)[0],
   expirationTime: decodedCollection.expirationTime.toNumber(),
 });
+
+type DecodedLendingStake = (decodedLendingStake: any, address: web3.PublicKey) => LendingStakeView;
+export const decodedLendingStake: DecodedLendingStake = (decodedStake, address) => ({
+    lendingStakePubkey: address.toBase58(),
+    stakeType: Object.keys(decodedStake.stakeType)[0],
+    loan: decodedStake.loan.toBase58(),
+    stakeContract: decodedStake.stakeContract.toBase58(),
+    stakeConstractOptional: decodedStake.stakeConstractOptional.toBase58(),
+    stakeState: Object.keys(decodedStake.stakeState)[0],
+    identity: decodedStake.identity.toBase58(),
+    dataA: decodedStake.dataA.toBase58(),
+    dataB: decodedStake.dataB.toBase58(),
+    dataC: decodedStake.dataC.toBase58(),
+    dataD: decodedStake.dataD.toBase58(),
+    totalHarvested: decodedStake.totalHarvested.toNumber(),
+    totalHarvestedOptional: decodedStake.totalHarvestedOptional.toNumber(),
+    lastTime: decodedStake.lastTime.toNumber()
+})
+
+type DecodedFarmer = (decodedFarmer: any, address: web3.PublicKey) => FarmerView;
+export const decodedFarmer: DecodedFarmer = (decodedFarmer, address) => ({
+  farmerPubkey: address.toBase58(),
+  farm: decodedFarmer.farm.toBase58(),
+  identity: decodedFarmer.identity.toBase58(),
+  vault: decodedFarmer.vault.toBase58(),
+  state: Object.keys(decodedFarmer.state)[0],
+  gemsStaked: decodedFarmer.gemsStaked.toNumber(),
+  minStakingEndsTs: decodedFarmer.minStakingEndsTs.toNumber(),
+  cooldownEndsTs: decodedFarmer.cooldownEndsTs.toNumber(),
+  rewardA: decodedReward(decodedFarmer.rewardA),
+  rewardB: decodedReward(decodedFarmer.rewardB),
+});
+
+type DecodedGemFarmReward = (decodedFarmer: any) => GemFarmRewardView;
+const decodedReward: DecodedGemFarmReward = (decodedReward) => ({
+  paidOutReward: decodedReward.paidOutReward.toNumber(),
+  accruedReward: decodedReward.accruedReward.toNumber(),
+  variableRate: decodedReward.lastRecordedAccruedRewardPerRarityPoint.n.toNumber(),
+  fixedRate: decodedFixedRate(decodedReward.fixedRate)
+});
+
+type DecodedFixedRate = (decodedFixedRate: any) => FixedRateView;
+const decodedFixedRate: DecodedFixedRate = (decodedFixedRate) => ({
+  beginScheduleTs: decodedFixedRate.beginScheduleTs.toNumber(),
+  beginStakingTs: decodedFixedRate.beginStakingTs.toNumber(),
+  lastUpdatedTs: decodedFixedRate.lastUpdatedTs.toNumber(),
+  promisedDuration: decodedFixedRate.promisedDuration.toNumber(),
+  promisedSchedule: decodedPromisedSchedule(decodedFixedRate.promisedSchedule)
+})
+
+type DecodedPromisedSchedule = (decodedPromisedSchedule: any) => PromisedSchedule;
+const decodedPromisedSchedule: DecodedPromisedSchedule = (decodedSchedule) => ({
+  baseRate: (decodedSchedule.baseRate || 0).toNumber(),
+  tier1: (decodedSchedule.tier1 || 0).toNumber(),
+  tier2: (decodedSchedule.tier2 || 0).toNumber(),
+  tier3: (decodedSchedule.tier3 || 0).toNumber(),
+  denominator: (decodedSchedule.denominator || 0).toNumber()
+})
 
 type DecodedTimeBasedLiquidityPool = (decodedLiquidityPool: any, address: web3.PublicKey) => TimeBasedLiquidityPoolView;
 export const decodedTimeBasedLiquidityPool: DecodedTimeBasedLiquidityPool = (decodedLiquidityPool, address) => ({
