@@ -12,6 +12,50 @@ export interface CollectionInfoView {
   expirationTime: number;
 }
 
+export interface FarmerView {
+  farmerPubkey: string;
+  farm: string;
+  identity: string;
+  vault: string;
+  state: string;
+  gemsStaked: string;
+  minStakingEndsTs: number;
+  cooldownEndsTs: number;
+  loanToValue: number;
+  collaterizationRate: number;
+  availableLoanTypes: string;
+  expirationTime: number;
+  rewardA: GemFarmRewardView;
+  rewardB: GemFarmRewardView;
+}
+
+export interface GemFarmRewardView {
+  paidOutReward: number;
+  accruedReward: number;
+  variableRate: VariableRate;
+  fixedRate: FixedRate;
+}
+
+export interface VariableRate {
+  lastRecordedAccruedRewardPerRarityPoint: number;
+}
+
+export interface FixedRate {
+  beginStakingTs: number;
+  beginScheduleTs: number;
+  lastUpdatedTs: number;
+  promisedSchedule: PromisedSchedule;
+  promisedDuration: number;  
+}
+
+export interface PromisedSchedule {
+  baseRate: number;
+  tier1: number;
+  tier2: number;
+  tier3: number;
+  denominator: number;
+}
+
 export interface TimeBasedLiquidityPoolView {
   liquidityPoolPubkey: string;
   id: number;
