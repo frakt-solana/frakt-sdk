@@ -1,6 +1,6 @@
 {
   "name": "@frakt-protocol/frakt-sdk",
-  "version": "0.7.4",
+  "version": "0.7.5",
   "description": "Frakt SDK for interacting with frakt.xyz protocols",
   "keywords": [
     "Frakt",
