@@ -51,7 +51,5 @@ export const getAllProgramAccounts: GetAllProgramAccounts = async (programId, co
   const loans = loanRaws.map((raw) => decodedLoan(raw.account, raw.publicKey));
   const lendingStakes = stakesRaw.map((raw) => decodedLendingStake(raw.account, raw.publicKey));
 
-
-  // return { collectionInfos, deposits, liquidityPools, loans };
   return { collectionInfos, deposits, timeBasedLiquidityPools, priceBasedLiquidityPools, loans, lendingStakes };
 };

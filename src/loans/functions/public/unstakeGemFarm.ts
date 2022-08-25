@@ -39,16 +39,19 @@ export const unstakeGemFarm: UnstakeGemFarm = async ({
     [encoder.encode('nftlendingv2'), programId.toBuffer()],
     program.programId,
   );
+
   const [identity, bumpAuth] = await web3.PublicKey.findProgramAddress(
     [encoder.encode('degod_stake'), nftMint.toBuffer(), loan.toBuffer()],
     programId,
   );
+
   const editionId = getMetaplexEditionPda(nftMint);
 
   const [farmer, bumpFarmer] = await web3.PublicKey.findProgramAddress(
     [encoder.encode('farmer'), farm.toBuffer(), identity.toBuffer()],
     gemFarm,
   );
+
   const [lendingStake] = await web3.PublicKey.findProgramAddress(
     [encoder.encode('stake_acc'), loan.toBuffer()],
     programId,
@@ -87,24 +90,27 @@ export const unstakeGemFarm: UnstakeGemFarm = async ({
     [farm.toBuffer()],
     gemFarm,
   );
+
   const nftUserTokenAccount = await findAssociatedTokenAddress(user, nftMint);
+
   const additionalComputeBudgetInstruction = web3.ComputeBudgetProgram.requestUnits({
     units: 400000,
     additionalFee: 0,
   });
-  
 
   const ix = program.instruction.unstakeGemFarmStaking(
-    {bumpPoolsAuth,
-    bumpAuth,
-    bumpAuthVaultAuthority,
-    bumpTreasury,
-    bumpFarmer,
-    bumpAuthAuthority,
-    bumpGemBox,
-    bumpGdr,
-    isDegod,
-    bumpRarity},
+    {
+      bumpPoolsAuth,
+      bumpAuth,
+      bumpAuthVaultAuthority,
+      bumpTreasury,
+      bumpFarmer,
+      bumpAuthAuthority,
+      bumpGemBox,
+      bumpGdr,
+      isDegod,
+      bumpRarity
+    },
     {
       accounts: {
         user,
@@ -114,13 +120,13 @@ export const unstakeGemFarm: UnstakeGemFarm = async ({
         farmer,
         farmTreasury,
         lendingStake,
-        loan, 
+        loan,
         identity,
         bank,
         gemBank,
         feeAcc,
         vault,
-        authority:bankAuthority,
+        authority: bankAuthority,
         gemBox,
         gemDepositReceipt,
         gemSource: nftUserTokenAccount,
@@ -135,7 +141,8 @@ export const unstakeGemFarm: UnstakeGemFarm = async ({
         associatedTokenProgram: utils.token.ASSOCIATED_PROGRAM_ID,
       }
     }
-  )
+  );
+
   const transaction = new web3.Transaction().add(additionalComputeBudgetInstruction).add(ix);
 
   await sendTxn(transaction);

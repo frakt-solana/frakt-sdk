@@ -1,7 +1,5 @@
 import { web3, utils } from '@project-serum/anchor';
-import { METADATA_PROGRAM_PUBKEY } from '../../constants';
-
-import { returnAnchorProgram, getMetaplexEditionPda } from '../../helpers';
+import { returnAnchorProgram } from '../../helpers';
 import { findAssociatedTokenAddress } from '../../../common';
 
 type ClaimGemFarm = (params: {
@@ -66,19 +64,15 @@ export const claimGemFarm: ClaimGemFarm = async ({
   const rewardBDestinationIdentity = await findAssociatedTokenAddress(identity, rewardBMint);
   const rewardADestination = await findAssociatedTokenAddress(user, rewardAMint);
   const rewardBDestination = await findAssociatedTokenAddress(user, rewardBMint);
-  // const additionalComputeBudgetInstruction = ComputeBudgetProgram.requestUnits({
-  //   units: 300000,
-  //   additionalFee: 0,
-  // });
-  
 
   const claim = program.instruction.claimGemFarmStaking(
-    {bumpAuth,
-    bumpFarmer,
-    bumpAuthAuthority,
-    bumpPotA,
-    bumpPotB,
-    isDegod
+    {
+      bumpAuth,
+      bumpFarmer,
+      bumpAuthAuthority,
+      bumpPotA,
+      bumpPotB,
+      isDegod
     },
     {
       accounts: {
@@ -87,7 +81,7 @@ export const claimGemFarm: ClaimGemFarm = async ({
         farm,
         farmAuthority,
         farmer,
-        loan, 
+        loan,
         identity,
         gemMint: nftMint,
         rewardADestinationIdentity,
@@ -102,13 +96,14 @@ export const claimGemFarm: ClaimGemFarm = async ({
         associatedTokenProgram: utils.token.ASSOCIATED_PROGRAM_ID,
       }
     }
-  )
+  );
+
   const claimed = program.instruction.getClaimedGemFarmStaking(
     bumpAuth,
     {
       accounts: {
         user,
-        loan, 
+        loan,
         identity,
         gemMint: nftMint,
         rewardADestinationIdentity,
@@ -124,7 +119,8 @@ export const claimGemFarm: ClaimGemFarm = async ({
         associatedTokenProgram: utils.token.ASSOCIATED_PROGRAM_ID,
       }
     }
-  )
+  );
+
   const transaction = new web3.Transaction().add(claim).add(claimed);
 
   await sendTxn(transaction);

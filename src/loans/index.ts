@@ -29,6 +29,6 @@ export * from './functions/public/stakeGemFarm';
 export * from './functions/public/unstakeGemFarm';
 export * from './functions/public/claimGemFarm';
 export * from './functions/public/calculateRewardDegod';
-export * from './functions/public/getGemFarmAccount';
+export * from './functions/public/getGemFarmAccounts';
 
 export * from './helpers';

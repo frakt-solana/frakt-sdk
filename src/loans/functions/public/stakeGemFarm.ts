@@ -1,6 +1,5 @@
-import { BN, web3, utils } from '@project-serum/anchor';
+import { web3, utils } from '@project-serum/anchor';
 import { METADATA_PREFIX, METADATA_PROGRAM_PUBKEY } from '../../constants';
-
 import { returnAnchorProgram, getMetaplexEditionPda } from '../../helpers';
 import { findAssociatedTokenAddress } from '../../../common';
 
@@ -38,7 +37,7 @@ export const stakeGemFarm: StakeGemFarm = async ({
   const encoder = new TextEncoder();
   const program = returnAnchorProgram(programId, connection);
 
-const [communityPoolsAuthority, bumpPoolsAuth] = await web3.PublicKey.findProgramAddress(
+  const [communityPoolsAuthority, bumpPoolsAuth] = await web3.PublicKey.findProgramAddress(
     [encoder.encode('nftlendingv2'), programId.toBuffer()],
     program.programId,
   );
@@ -87,6 +86,7 @@ const [communityPoolsAuthority, bumpPoolsAuth] = await web3.PublicKey.findProgra
     [farm.toBuffer()],
     gemFarm,
   );
+
   const [gemMetadata] = await web3.PublicKey.findProgramAddress(
     [
       Buffer.from(METADATA_PREFIX),
@@ -95,22 +95,25 @@ const [communityPoolsAuthority, bumpPoolsAuth] = await web3.PublicKey.findProgra
     ],
     METADATA_PROGRAM_PUBKEY,
   );
+
   const [mintWhitelistProof] = await web3.PublicKey.findProgramAddress(
     [Buffer.from("whitelist"), bank.toBuffer(), nftMint.toBuffer()],
     gemBank
   );
-  const nftUserTokenAccount = await findAssociatedTokenAddress(user, nftMint);  
 
-  const ix = program.instruction.stakeGemFarmStaking({
-    bumpPoolsAuth,
-    bumpAuth,
-    bumpAuthVaultAuthority,
-    bumpRarity,
-    bumpGdr,
-    bumpGemBox,
-    isDegod,
-    bumpVault,
-    bumpFarmer,
+  const nftUserTokenAccount = await findAssociatedTokenAddress(user, nftMint);
+
+  const ix = program.instruction.stakeGemFarmStaking(
+    {
+      bumpPoolsAuth,
+      bumpAuth,
+      bumpAuthVaultAuthority,
+      bumpRarity,
+      bumpGdr,
+      bumpGemBox,
+      isDegod,
+      bumpVault,
+      bumpFarmer,
     },
     {
       accounts: {
@@ -120,13 +123,13 @@ const [communityPoolsAuthority, bumpPoolsAuth] = await web3.PublicKey.findProgra
         farmAuthority,
         lendingStake,
         farmer,
-        loan, 
+        loan,
         identity,
         bank,
         gemBank,
         feeAcc,
         vault,
-        authority:bankAuthority,
+        authority: bankAuthority,
         gemBox,
         gemDepositReceipt,
         gemSource: nftUserTokenAccount,
@@ -139,7 +142,7 @@ const [communityPoolsAuthority, bumpPoolsAuth] = await web3.PublicKey.findProgra
         systemProgram: web3.SystemProgram.programId,
         tokenProgram: utils.token.TOKEN_PROGRAM_ID,
       },
-      remainingAccounts:[
+      remainingAccounts: [
         {
           pubkey: mintWhitelistProof,
           isSigner: false,
@@ -157,11 +160,13 @@ const [communityPoolsAuthority, bumpPoolsAuth] = await web3.PublicKey.findProgra
         },
       ]
     }
-  )
+  );
+
   const additionalComputeBudgetInstruction = web3.ComputeBudgetProgram.requestUnits({
     units: 400000,
     additionalFee: 0,
   });
+
   const transaction = new web3.Transaction().add(additionalComputeBudgetInstruction).add(ix);
 
   await sendTxn(transaction);
