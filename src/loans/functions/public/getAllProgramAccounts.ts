@@ -42,12 +42,8 @@ export const getAllProgramAccounts: GetAllProgramAccounts = async (programId, co
 
   const collectionInfos = collectionInfoRaws.map((raw) => decodedCollectionInfo(raw.account, raw.publicKey));
   const deposits = depositRaws.map((raw) => decodedDeposit(raw.account, raw.publicKey));
-  const timeBasedLiquidityPools = liquidityPoolRaws.map((raw) =>
-    decodedTimeBasedLiquidityPool(raw.account, raw.publicKey),
-  );
-  const priceBasedLiquidityPools = priceBasedLiquidityPoolRaws.map((raw) =>
-    decodedPriceBasedLiquidityPool(raw.account, raw.publicKey),
-  );
+  const timeBasedLiquidityPools = liquidityPoolRaws.map((raw) => decodedTimeBasedLiquidityPool(raw.account, raw.publicKey));
+  const priceBasedLiquidityPools = priceBasedLiquidityPoolRaws.map((raw) => decodedPriceBasedLiquidityPool(raw.account, raw.publicKey));
   const loans = loanRaws.map((raw) => decodedLoan(raw.account, raw.publicKey));
   const lendingStakes = stakesRaw.map((raw) => decodedLendingStake(raw.account, raw.publicKey));
 

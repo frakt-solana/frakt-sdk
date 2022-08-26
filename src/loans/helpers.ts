@@ -46,7 +46,7 @@ export const decodedLendingStake: DecodedLendingStake = (decodedStake, address) 
     stakeType: Object.keys(decodedStake.stakeType)[0],
     loan: decodedStake.loan.toBase58(),
     stakeContract: decodedStake.stakeContract.toBase58(),
-    stakeConstractOptional: decodedStake.stakeConstractOptional.toBase58(),
+    stakeConstractOptional: decodedStake.stakeConstractOptional?.toBase58(),
     stakeState: Object.keys(decodedStake.stakeState)[0],
     identity: decodedStake.identity.toBase58(),
     dataA: decodedStake.dataA.toBase58(),
@@ -56,7 +56,7 @@ export const decodedLendingStake: DecodedLendingStake = (decodedStake, address) 
     totalHarvested: decodedStake.totalHarvested.toNumber(),
     totalHarvestedOptional: decodedStake.totalHarvestedOptional.toNumber(),
     lastTime: decodedStake.lastTime.toNumber()
-})
+});
 
 type DecodedFarmer = (decodedFarmer: any, address: web3.PublicKey) => FarmerView;
 export const decodedFarmer: DecodedFarmer = (decodedFarmer, address) => ({
