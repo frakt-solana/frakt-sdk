@@ -8,6 +8,7 @@ import {
   decodedPriceBasedLiquidityPool,
   decodedTimeBasedLiquidityPool,
   decodedLendingStake,
+  objectBNsAndPubkeysToNums,
 } from '../../helpers';
 import {
   CollectionInfoView,
@@ -16,6 +17,9 @@ import {
   PriceBasedLiquidityPoolView,
   TimeBasedLiquidityPoolView,
   LendingStakeView,
+  LiquidationLotView,
+  LotTicketView,
+  NftAttemptView,
 } from '../../types';
 
 type GetAllProgramAccounts = (
@@ -28,6 +32,9 @@ type GetAllProgramAccounts = (
   priceBasedLiquidityPools: PriceBasedLiquidityPoolView[];
   loans: LoanView[];
   lendingStakes: LendingStakeView[];
+  liquidationLots: LiquidationLotView[];
+  lotTickets: LotTicketView[];
+  nftAttempts: NftAttemptView[];
 }>;
 
 export const getAllProgramAccounts: GetAllProgramAccounts = async (programId, connection) => {
@@ -38,7 +45,10 @@ export const getAllProgramAccounts: GetAllProgramAccounts = async (programId, co
   const liquidityPoolRaws = await program.account.liquidityPool.all();
   const priceBasedLiquidityPoolRaws = await program.account.priceBasedLiquidityPool.all();
   const loanRaws = await program.account.loan.all();
+  const liquidationLotRaws = await program.account.liquidationLot.all();
   const stakesRaw = await program.account.lendingStake.all();
+  const lotTicketRaws = await program.account.lotTicket.all();
+  const nftAttemptsRaws = await program.account.nftAttempts.all();
 
   const collectionInfos = collectionInfoRaws.map((raw) => decodedCollectionInfo(raw.account, raw.publicKey));
   const deposits = depositRaws.map((raw) => decodedDeposit(raw.account, raw.publicKey));
@@ -47,5 +57,19 @@ export const getAllProgramAccounts: GetAllProgramAccounts = async (programId, co
   const loans = loanRaws.map((raw) => decodedLoan(raw.account, raw.publicKey));
   const lendingStakes = stakesRaw.map((raw) => decodedLendingStake(raw.account, raw.publicKey));
 
-  return { collectionInfos, deposits, timeBasedLiquidityPools, priceBasedLiquidityPools, loans, lendingStakes };
+  const liquidationLots = liquidationLotRaws.map(objectBNsAndPubkeysToNums);
+  const lotTickets = lotTicketRaws.map(objectBNsAndPubkeysToNums);
+  const nftAttempts = nftAttemptsRaws.map(objectBNsAndPubkeysToNums);
+
+  return {
+    collectionInfos,
+    deposits,
+    timeBasedLiquidityPools,
+    priceBasedLiquidityPools,
+    loans,
+    lendingStakes,
+    liquidationLots,
+    lotTickets,
+    nftAttempts,
+  };
 };

@@ -2,15 +2,14 @@ import { AnchorProvider, Program, web3 } from '@project-serum/anchor';
 import { createFakeWallet } from '../../../common';
 import { decodedFarmer } from '../../helpers';
 import { FarmerView } from '../../types';
-import idl from '../../idl/gem_farm.json';
+import { idl } from '../../idl/idl-gem-farm';
 
-type GetGemFarmAccounts = (params: {
+type GetAllFarmAccounts = (params: {
   gemFarmProgramId: web3.PublicKey;
   connection: web3.Connection;
-  identity: web3.PublicKey;
 }) => Promise<FarmerView[]>;
 
-export const getGemFarmAccounts: GetGemFarmAccounts = async ({
+export const getAllFarmAccounts: GetAllFarmAccounts = async ({
     gemFarmProgramId,
     connection,
 }) => {    
@@ -22,4 +21,4 @@ export const getGemFarmAccounts: GetGemFarmAccounts = async ({
 
   const farmersRaw = await anchorProgram.account.farmer.all();
   return farmersRaw.map((raw) => decodedFarmer(raw.account, raw.publicKey));
-  }
+};

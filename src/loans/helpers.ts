@@ -76,7 +76,7 @@ type DecodedGemFarmReward = (decodedFarmer: any) => GemFarmRewardView;
 const decodedReward: DecodedGemFarmReward = (decodedReward) => ({
   paidOutReward: decodedReward.paidOutReward.toNumber(),
   accruedReward: decodedReward.accruedReward.toNumber(),
-  variableRate: decodedReward.lastRecordedAccruedRewardPerRarityPoint.n.toNumber(),
+  variableRate: decodedReward.lastRecordedAccruedRewardPerRarityPoint?.n?.toNumber(),
   fixedRate: decodedFixedRate(decodedReward.fixedRate)
 });
 
@@ -91,11 +91,11 @@ const decodedFixedRate: DecodedFixedRate = (decodedFixedRate) => ({
 
 type DecodedPromisedSchedule = (decodedPromisedSchedule: any) => PromisedSchedule;
 const decodedPromisedSchedule: DecodedPromisedSchedule = (decodedSchedule) => ({
-  baseRate: (decodedSchedule.baseRate || 0).toNumber(),
-  tier1: (decodedSchedule.tier1 || 0).toNumber(),
-  tier2: (decodedSchedule.tier2 || 0).toNumber(),
-  tier3: (decodedSchedule.tier3 || 0).toNumber(),
-  denominator: (decodedSchedule.denominator || 0).toNumber()
+  baseRate: decodedSchedule.baseRate?.toNumber(),
+  tier1: decodedSchedule.tier1?.toNumber(),
+  tier2: decodedSchedule.tier2?.toNumber(),
+  tier3: decodedSchedule.tier3?.toNumber(),
+  denominator: decodedSchedule.denominator?.toNumber()
 })
 
 type DecodedTimeBasedLiquidityPool = (decodedLiquidityPool: any, address: web3.PublicKey) => TimeBasedLiquidityPoolView;
@@ -312,3 +312,25 @@ export const getMostOptimalLoansClosestToNeededSolInBulk = ({
   const result = subset.map((item) => ({ nftMint: item.nftMint, loanValue: item.loanValue, interest: item.interest }));
   return result;
 };
+
+export function objectBNsAndPubkeysToNums(obj: any) {
+  const copyobj = { ...obj };
+
+  for (const key in copyobj.account) {
+    if (copyobj.account[key] === null) continue;
+
+    if (copyobj.account[key].toNumber) {
+      copyobj.account[key] = copyobj.account[key].toNumber();
+    }
+
+    if (copyobj.account[key].toBase58) {
+      copyobj.account[key] = copyobj.account[key].toBase58();
+    }
+
+    if (typeof copyobj.account[key] === 'object') {
+      copyobj.account[key] = Object.keys(copyobj.account[key])[0];
+    }
+  }
+
+  return { ...copyobj.account, publicKey: copyobj.publicKey.toBase58() };
+}
