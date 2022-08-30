@@ -16,7 +16,7 @@ type UnstakeGemFarmIx = (params: {
   nftMint: web3.PublicKey;
   loan: web3.PublicKey;
   isDegod: boolean;
-}) => Promise<web3.TransactionInstruction>;
+}) => Promise<web3.TransactionInstruction[]>;
 
 export const unstakeGemFarmIx: UnstakeGemFarmIx = async ({
   programId,
@@ -32,6 +32,7 @@ export const unstakeGemFarmIx: UnstakeGemFarmIx = async ({
   isDegod,
 }) => {
   const encoder = new TextEncoder();
+  const ixs: web3.TransactionInstruction[] = [];
   const program = returnAnchorProgram(programId, connection);
   const [communityPoolsAuthority, bumpPoolsAuth] = await web3.PublicKey.findProgramAddress(
     [encoder.encode('nftlendingv2'), programId.toBuffer()],
@@ -95,6 +96,7 @@ export const unstakeGemFarmIx: UnstakeGemFarmIx = async ({
     units: 400000,
     additionalFee: 0,
   });
+  ixs.push(additionalComputeBudgetInstruction)
 
   const ix = program.instruction.unstakeGemFarmStaking(
     {
@@ -140,6 +142,7 @@ export const unstakeGemFarmIx: UnstakeGemFarmIx = async ({
       }
     }
   );
+  ixs.push(ix)
   
-  return ix;
+  return ixs;
 };
