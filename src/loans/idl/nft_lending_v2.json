@@ -271,48 +271,6 @@
       ]
     },
     {
-      "name": "initializeTimeBasedLiquidityPool",
-      "accounts": [
-        {
-          "name": "liquidityPool",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "liqOwner",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "admin",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "rent",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": [
-        {
-          "name": "bumpPoolsAuth",
-          "type": "u8"
-        },
-        {
-          "name": "params",
-          "type": {
-            "defined": "LiqPoolInputParams"
-          }
-        }
-      ]
-    },
-    {
       "name": "initializePriceBasedLiquidityPool",
       "accounts": [
         {
@@ -417,82 +375,6 @@
           "type": {
             "defined": "PriceBasedLiqPoolInputParams"
           }
-        }
-      ]
-    },
-    {
-      "name": "liquidateLoanByAdmin",
-      "accounts": [
-        {
-          "name": "loan",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "user",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "liquidator",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "nftMint",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "nftLiquidatorTokenAccount",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "nftUserTokenAccount",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "communityPoolsAuthority",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "metadataProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "editionInfo",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "rent",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "associatedTokenProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": [
-        {
-          "name": "bumpPoolsAuth",
-          "type": "u8"
         }
       ]
     },
@@ -733,35 +615,6 @@
       "args": [
         {
           "name": "depositBump",
-          "type": "u8"
-        }
-      ]
-    },
-    {
-      "name": "closeLoan",
-      "accounts": [
-        {
-          "name": "loan",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "admin",
-          "isMut": true,
-          "isSigner": true,
-          "docs": [
-            "CHECK"
-          ]
-        },
-        {
-          "name": "communityPoolsAuthority",
-          "isMut": true,
-          "isSigner": false
-        }
-      ],
-      "args": [
-        {
-          "name": "bumpPoolsAuth",
           "type": "u8"
         }
       ]
@@ -1170,37 +1023,6 @@
         {
           "name": "isWinning",
           "type": "bool"
-        }
-      ]
-    },
-    {
-      "name": "topupFromLiqLoans",
-      "accounts": [
-        {
-          "name": "liquidityPool",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "liqOwner",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "admin",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": [
-        {
-          "name": "amount",
-          "type": "u64"
         }
       ]
     },
@@ -2658,38 +2480,6 @@
       }
     },
     {
-      "name": "LiqPoolInputParams",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "rewardInterestRateTime",
-            "type": "u64"
-          },
-          {
-            "name": "feeInterestRateTime",
-            "type": "u64"
-          },
-          {
-            "name": "id",
-            "type": "u64"
-          },
-          {
-            "name": "rewardInterestRatePrice",
-            "type": "u64"
-          },
-          {
-            "name": "feeInterestRatePrice",
-            "type": "u64"
-          },
-          {
-            "name": "period",
-            "type": "u64"
-          }
-        ]
-      }
-    },
-    {
       "name": "StakeGemFarmParams",
       "type": {
         "kind": "struct",
@@ -2777,6 +2567,38 @@
           {
             "name": "isDegod",
             "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "LiqPoolInputParams",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "rewardInterestRateTime",
+            "type": "u64"
+          },
+          {
+            "name": "feeInterestRateTime",
+            "type": "u64"
+          },
+          {
+            "name": "id",
+            "type": "u64"
+          },
+          {
+            "name": "rewardInterestRatePrice",
+            "type": "u64"
+          },
+          {
+            "name": "feeInterestRatePrice",
+            "type": "u64"
+          },
+          {
+            "name": "period",
+            "type": "u64"
           }
         ]
       }
@@ -3139,28 +2961,38 @@
     },
     {
       "code": 6042,
+      "name": "CantSetLtvMoreThanNftValue",
+      "msg": "Can't set loan to value more than 100%"
+    },
+    {
+      "code": 6043,
       "name": "FraktNftStakeNotInitialized",
       "msg": "FraktNftStakeNotInitialized"
     },
     {
-      "code": 6043,
+      "code": 6044,
       "name": "FraktNftNotStaked",
       "msg": "FraktNftNotStaked"
     },
     {
-      "code": 6044,
+      "code": 6045,
       "name": "FraktNftStakeOwnerDoesntMatch",
       "msg": "FraktNftStakeOwnerDoesntMatch"
     },
     {
-      "code": 6045,
+      "code": 6046,
       "name": "TokenAccountDoesntContainNft",
       "msg": "TokenAccountDoesntContainNft"
     },
     {
-      "code": 6046,
+      "code": 6047,
       "name": "StakingAccountDoesntMatchAttemptsNftMint",
       "msg": "StakingAccountDoesntMatchAttemptsNftMint"
+    },
+    {
+      "code": 6048,
+      "name": "UserDoesntOwnStake",
+      "msg": "UserDoesntOwnStake"
     }
   ]
 }
