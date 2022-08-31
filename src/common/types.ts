@@ -44,3 +44,12 @@ export interface TokenView {
   closeAuthorityOption: boolean;
   closeAuthority: string;
 }
+
+export interface BulkNft {
+  nftMint: string;
+  loanValue: number;
+  interest: number;
+  maxLoanValue: number;
+  minLoanValue: number;
+  amountOfDays: 0;
+}

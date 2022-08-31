@@ -1,6 +1,7 @@
 import { web3, utils } from '@project-serum/anchor';
 
 import { NodeWallet } from './classes/nodewallet';
+import { BulkNft } from './types';
 
 //when we only want to view vaults, no need to connect a real wallet.
 export const createFakeWallet = () => {
@@ -82,4 +83,110 @@ export const createAssociatedTokenAccountInstruction = (
       data: Buffer.from([]),
     }),
   ];
+};
+
+/*
+const flip = () => Math.random() < 0.5;
+
+for (const item of items) {
+  if (flip()) {
+    item.maxLoanValue = item.loanValue * 0.4;
+    item.minLoanValue = item.loanValue * 0.1;
+    item.amountOfDays = 0;
+  } else {
+    item.maxLoanValue = item.loanValue * 0.4;
+    item.minLoanValue = item.loanValue * 0.4;
+
+    if (flip()) {
+      item.amountOfDays = 14;
+    } else {
+      item.amountOfDays = 7;
+    }
+  }
+}
+*/
+
+export const getSuggestedLoans = (items: BulkNft[], minValue: number) => {
+  let sum = 0;
+  let i = 0;
+  const best: any = [];
+  const cheapest: any = [];
+  const safest: any = [];
+
+  const sortedElementsByValue = items.sort((a, b) => {
+    if (a.maxLoanValue !== b.maxLoanValue) {
+      return a.maxLoanValue - b.maxLoanValue;
+    }
+
+    return a.interest - b.interest;
+  });
+  const sortedElementsByInterest = items.sort((a, b) => {
+    if (a.interest !== b.interest) {
+      return a.interest - b.interest;
+    } else if (a.maxLoanValue !== b.maxLoanValue) {
+      return a.maxLoanValue - b.maxLoanValue;
+    }
+
+    return a.amountOfDays - b.amountOfDays;
+  });
+  const priceBased = sortedElementsByInterest.filter((element) => element.maxLoanValue !== element.minLoanValue);
+  const timeBased = sortedElementsByInterest.filter((element) => element.maxLoanValue === element.minLoanValue);
+
+  while (sum < minValue && i < sortedElementsByValue.length) {
+    best.push(sortedElementsByValue[i]);
+    sum += sortedElementsByValue[i].maxLoanValue;
+    i += 1;
+  }
+
+  if (sum < minValue) {
+    return {
+      best: best,
+      safest: best,
+      cheapest: best,
+    };
+  }
+
+  sum = 0;
+  i = 0;
+
+  while (sum < minValue && i < priceBased.length) {
+    cheapest.push(priceBased[i]);
+    sum += priceBased[i].maxLoanValue;
+    i += 1;
+  }
+
+  i = 0;
+
+  while (sum < minValue) {
+    cheapest.push(timeBased[i]);
+    sum += timeBased[i].maxLoanValue;
+    i += 1
+  }
+
+  sum = 0;
+  i = 0;
+
+  while (sum < minValue && i < priceBased.length) {
+    safest.push(priceBased[i]);
+    sum += priceBased[i].minLoanValue;
+    i += 1;
+  }
+
+  i = 0;
+
+  while (sum < minValue && i < timeBased.length) {
+    cheapest.push(timeBased[i]);
+    sum += timeBased[i].minLoanValue;
+    i += 1;
+  }
+
+  while (sum < minValue) {
+    sum += cheapest[i].minLoanValue - cheapest[i].max;
+  }
+
+  return {
+    best,
+    safest,
+    cheapest,
+  }
 };
