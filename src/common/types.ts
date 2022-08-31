@@ -45,11 +45,18 @@ export interface TokenView {
   closeAuthority: string;
 }
 
-export interface BulkNft {
+export interface BulkNftRaw {
   nftMint: string;
   loanValue: number;
   interest: number;
   maxLoanValue: number;
   minLoanValue: number;
-  amountOfDays: 0;
+  amountOfDays: number;
+}
+
+export interface BulkNft {
+  nftMint: string;
+  loanValue: number;
+  interest: number;
+  amountOfDays: number;
 }
