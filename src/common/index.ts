@@ -111,7 +111,7 @@ export const getSuggestedLoans = (items: BulkNftRaw[], minValue: number) => {
   const priceBased = sortedElementsByInterest.filter((element) => element.maxLoanValue !== element.minLoanValue);
   const timeBased = sortedElementsByInterest.filter((element) => element.maxLoanValue === element.minLoanValue);
 
-  const concated = priceBased.concat(timeBased)
+  const concated = priceBased.concat(timeBased);
 
   while (sum < minValue && i < sortedElementsByValue.length) {
     best.push({
