@@ -85,27 +85,6 @@ export const createAssociatedTokenAccountInstruction = (
   ];
 };
 
-/*
-const flip = () => Math.random() < 0.5;
-
-for (const item of items) {
-  if (flip()) {
-    item.maxLoanValue = item.loanValue * 0.4;
-    item.minLoanValue = item.loanValue * 0.1;
-    item.amountOfDays = 0;
-  } else {
-    item.maxLoanValue = item.loanValue * 0.4;
-    item.minLoanValue = item.loanValue * 0.4;
-
-    if (flip()) {
-      item.amountOfDays = 14;
-    } else {
-      item.amountOfDays = 7;
-    }
-  }
-}
-*/
-
 export const getSuggestedLoans = (items: BulkNft[], minValue: number) => {
   let sum = 0;
   let i = 0;
