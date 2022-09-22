@@ -16,6 +16,17 @@ type ProposeLoan = (params: {
   sendTxn: (transaction: web3.Transaction, signers: web3.Keypair[]) => Promise<void>;
 }) => Promise<{ loanPubkey: web3.PublicKey }>;
 
+type ProposeLoanIx = (params: {
+  programId: web3.PublicKey;
+  admin: web3.PublicKey;
+  connection: web3.Connection;
+  user: web3.PublicKey;
+  nftMint: web3.PublicKey;
+  proposedNftPrice: BN;
+  loanToValue: BN;
+  isPriceBased: boolean;
+}) => Promise<{ loan: web3.Keypair, ix: web3.TransactionInstruction }>;
+
 export const proposeLoan: ProposeLoan = async ({
   proposedNftPrice,
   programId,
@@ -59,4 +70,45 @@ export const proposeLoan: ProposeLoan = async ({
   await sendTxn(transaction, [loan]);
 
   return { loanPubkey: loan.publicKey };
+};
+
+export const proposeLoanIx: ProposeLoanIx = async ({
+  proposedNftPrice,
+  programId,
+  connection,
+  user,
+  nftMint,
+  isPriceBased,
+  loanToValue,
+  admin,
+}) => {
+  const program = returnAnchorProgram(programId, connection);
+  const loan = web3.Keypair.generate();
+  const encoder = new TextEncoder();
+  const [communityPoolsAuthority, bumpPoolsAuth] = await web3.PublicKey.findProgramAddress(
+    [encoder.encode('nftlendingv2'), programId.toBuffer()],
+    programId,
+  );
+
+  const editionId = getMetaplexEditionPda(nftMint);
+
+  const nftUserTokenAccount = await findAssociatedTokenAddress(user, nftMint);
+  const ix = program.instruction.proposeLoan(bumpPoolsAuth, isPriceBased, proposedNftPrice, loanToValue, {
+    accounts: {
+      loan: loan.publicKey,
+      user: user,
+      nftUserTokenAccount,
+      nftMint: nftMint,
+      communityPoolsAuthority,
+      tokenProgram: utils.token.TOKEN_PROGRAM_ID,
+      rent: web3.SYSVAR_RENT_PUBKEY,
+      systemProgram: web3.SystemProgram.programId,
+      metadataProgram: METADATA_PROGRAM_PUBKEY,
+      admin,
+      editionInfo: editionId,
+    },
+    signers: [loan]
+  });
+
+  return { ix, loan: loan };
 };
