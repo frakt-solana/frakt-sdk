@@ -163,8 +163,8 @@ export const getSuggestedLoans = (items: BulkNftRaw[], minValue: number) => {
   i = 0;
 
   while (sum < minValue) {
-    sum += (concated[i].maxLoanValue - cheapest[i].loanValue);
-    cheapest[i].loanValue = concated[i].maxLoanValue;
+    sum += (concated[i].maxLoanValue - safest[i].loanValue);
+    safest[i].loanValue = concated[i].maxLoanValue;
     i += 1;
   }
 
