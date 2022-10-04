@@ -1,7 +1,6 @@
 import { web3, utils } from '@project-serum/anchor';
 
 import { NodeWallet } from './classes/nodewallet';
-import { BulkNft, BulkNftRaw } from './types';
 
 //when we only want to view vaults, no need to connect a real wallet.
 export const createFakeWallet = () => {
@@ -83,94 +82,4 @@ export const createAssociatedTokenAccountInstruction = (
       data: Buffer.from([]),
     }),
   ];
-};
-
-export const getSuggestedLoans = (items: BulkNftRaw[], minValue: number) => {
-  let sum = 0;
-  let i = 0;
-  const best: BulkNft[] = [];
-  const cheapest: BulkNft[] = [];
-  const safest: BulkNft[] = [];
-
-  const sortedElementsByValue = items.sort((a, b) => {
-    if (a.maxLoanValue !== b.maxLoanValue) {
-      return a.maxLoanValue - b.maxLoanValue;
-    }
-
-    return a.interest - b.interest;
-  });
-  const sortedElementsByInterest = items.sort((a, b) => {
-    if (a.interest !== b.interest) {
-      return a.interest - b.interest;
-    } else if (a.maxLoanValue !== b.maxLoanValue) {
-      return a.maxLoanValue - b.maxLoanValue;
-    }
-
-    return a.amountOfDays - b.amountOfDays;
-  });
-  const priceBased = sortedElementsByInterest.filter((element) => element.maxLoanValue !== element.minLoanValue);
-  const timeBased = sortedElementsByInterest.filter((element) => element.maxLoanValue === element.minLoanValue);
-
-  const concated = priceBased.concat(timeBased);
-
-  while (sum < minValue && i < sortedElementsByValue.length) {
-    best.push({
-      nftMint: sortedElementsByValue[i].nftMint,
-      loanValue: sortedElementsByValue[i].maxLoanValue,
-      interest: sortedElementsByValue[i].interest,
-      amountOfDays: sortedElementsByValue[i].amountOfDays
-    });
-    sum += sortedElementsByValue[i].maxLoanValue;
-    i += 1;
-  }
-
-  if (sum < minValue) {
-    return {
-      best: best,
-      safest: best,
-      cheapest: best,
-    };
-  }
-
-  sum = 0;
-  i = 0;
-
-  while (sum < minValue && i < concated.length) {
-    cheapest.push({
-      nftMint: concated[i].nftMint,
-      loanValue: concated[i].maxLoanValue,
-      interest: concated[i].interest,
-      amountOfDays: concated[i].amountOfDays
-    });
-    sum += concated[i].maxLoanValue;
-    i += 1;
-  }
-
-  sum = 0;
-  i = 0;
-
-  while (sum < minValue && i < concated.length) {
-    safest.push({
-      nftMint: concated[i].nftMint,
-      loanValue: concated[i].minLoanValue,
-      interest: concated[i].interest,
-      amountOfDays: concated[i].amountOfDays
-    });
-    sum += concated[i].minLoanValue;
-    i += 1;
-  }
-
-  i = 0;
-
-  while (sum < minValue) {
-    sum += (concated[i].maxLoanValue - safest[i].loanValue);
-    safest[i].loanValue = concated[i].maxLoanValue;
-    i += 1;
-  }
-
-  return {
-    best,
-    safest,
-    cheapest,
-  }
 };

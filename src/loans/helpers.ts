@@ -13,9 +13,12 @@ import {
   GemFarmRewardView,
   FixedRateView,
   PromisedSchedule,
+  BulkNftRaw,
+  BulkNft
 } from './types';
 import { createFakeWallet } from '../common';
 import { EDITION_PREFIX, METADATA_PREFIX, METADATA_PROGRAM_PUBKEY } from './constants';
+import { loans } from '..';
 
 type ReturnAnchorProgram = (programId: web3.PublicKey, connection: web3.Connection) => Program;
 export const returnAnchorProgram: ReturnAnchorProgram = (programId, connection) =>
@@ -225,9 +228,9 @@ export const anchorRawBNsAndPubkeysToNumsAndStrings = (rawAccount: any) => {
 };
 
 const knapsackAlgorithm = (
-  items: { v: number; w: number; loanValue: number; nftMint: string; interest: number }[],
+  items: { v: number; w: number; nftMint: string; }[],
   capacity: number,
-): { maxValue: number; subset: { v: number; w: number; loanValue: number; nftMint: string; interest: number }[] } => {
+): { maxValue: number; subset: { v: number; w: number; nftMint: string; }[] } => {
   const getLast = (memo) => {
     let lastRow = memo[memo.length - 1];
     return lastRow[lastRow.length - 1];
@@ -288,29 +291,88 @@ const knapsackAlgorithm = (
   return getLast(memo);
 };
 
-/*
-  Returns most optimal loans by lowest interest using Knapsack Algorithm.
-*/
-export const getMostOptimalLoansClosestToNeededSolInBulk = ({
+
+export const getBulkLoans = ({
   neededSol,
   possibleLoans,
 }: {
-  possibleLoans: { nftMint: string; loanValue: number; interest: number }[];
+  possibleLoans: BulkNftRaw[];
   neededSol: number;
 }) => {
-  const divider = 1e7;
+  const divider = 10 ** (neededSol.toString().length - 2);
 
-  const preparedItems = possibleLoans.map((loan) => ({
-    ...loan,
-    v: Math.ceil((loan.loanValue - loan.interest) / divider),
-    w: Math.ceil(loan.loanValue / divider),
+  const bestPreparedItems = possibleLoans.map((loan) => ({
+    nftMint: loan.nftMint,
+    v: Math.ceil(loan.maxLoanValue / divider),
+    w: Math.ceil(loan.maxLoanValue / divider),
   }));
 
+  const maxSum = bestPreparedItems.reduce((acc, loan) => acc + loan.v, 0);
+  
   const preparedNeededSol = Math.ceil(neededSol / divider);
-  const { maxValue, subset } = knapsackAlgorithm(preparedItems, preparedNeededSol);
+  if (maxSum < preparedNeededSol) {
+    const res = bestPreparedItems.map((item) => ({nftMint: item.nftMint, loanValue: item.v}));
+    return {best: res, cheapest: res, safest:res};
+  }
+  const freeAmount = preparedNeededSol - maxSum;
 
-  const result = subset.map((item) => ({ nftMint: item.nftMint, loanValue: item.loanValue, interest: item.interest }));
-  return result;
+  const { subset: bestSubset } = knapsackAlgorithm(bestPreparedItems, freeAmount);
+
+  const toDropBestResult = bestSubset.map((item) => ({ nftMint: item.nftMint, loanValue: item.w }));
+  
+  const best = bestPreparedItems.filter( ( el ) => !toDropBestResult.includes({nftMint: el.nftMint, loanValue: el.w}));
+
+  const cheapestPreparedItems = possibleLoans.map((loan) => ({
+    nftMint: loan.nftMint,
+    v: Math.ceil(loan.maxLoanValue / divider) * loan.interest,
+    w: Math.ceil(loan.maxLoanValue / divider),
+  }));
+
+  const { subset: cheapestSubset } = knapsackAlgorithm(cheapestPreparedItems, freeAmount);
+
+  const toDropCheapestResult = cheapestSubset.map((item) => ({ nftMint: item.nftMint, loanValue: item.w }));
+  const cheapest= cheapestPreparedItems.filter( ( el ) => !toDropCheapestResult.includes({nftMint: el.nftMint, loanValue: el.w}));
+  
+  const sortedElementsByInterest = possibleLoans.sort((a, b) => {
+    if (a.interest !== b.interest) {
+      return a.interest - b.interest;
+    } else if (a.maxLoanValue !== b.maxLoanValue) {
+      return a.maxLoanValue - b.maxLoanValue;
+    }
+
+    return a.amountOfDays - b.amountOfDays;
+  });
+
+  const priceBased = sortedElementsByInterest.filter((element) => element.maxLoanValue !== element.minLoanValue);
+  const timeBased = sortedElementsByInterest.filter((element) => element.maxLoanValue === element.minLoanValue);
+
+  const concated = priceBased.concat(timeBased);
+  let sum = 0;
+  let i = 0;
+  
+  const safest: BulkNft[] = [];
+
+  while (sum < neededSol && i < concated.length) {
+    safest.push({
+      nftMint: concated[i].nftMint,
+      loanValue: concated[i].minLoanValue,
+      interest: concated[i].interest,
+      amountOfDays: concated[i].amountOfDays
+    });
+    sum += concated[i].minLoanValue;
+    i += 1;
+  }
+
+  i = 0;
+
+  while (sum < neededSol) {
+    sum += (concated[i].maxLoanValue - safest[i].loanValue);
+    safest[i].loanValue = concated[i].maxLoanValue;
+    i += 1;
+  }
+
+
+  return {best, cheapest, safest};
 };
 
 export function objectBNsAndPubkeysToNums(obj: any) {
@@ -334,3 +396,93 @@ export function objectBNsAndPubkeysToNums(obj: any) {
 
   return { ...copyobj.account, publicKey: copyobj.publicKey.toBase58() };
 }
+
+export const getSuggestedLoans = (items: BulkNftRaw[], minValue: number) => {
+  let sum = 0;
+  let i = 0;
+  const best: BulkNft[] = [];
+  const cheapest: BulkNft[] = [];
+  const safest: BulkNft[] = [];
+
+  const sortedElementsByValue = items.sort((a, b) => {
+    if (a.maxLoanValue !== b.maxLoanValue) {
+      return a.maxLoanValue - b.maxLoanValue;
+    }
+
+    return a.interest - b.interest;
+  });
+  const sortedElementsByInterest = items.sort((a, b) => {
+    if (a.interest !== b.interest) {
+      return a.interest - b.interest;
+    } else if (a.maxLoanValue !== b.maxLoanValue) {
+      return a.maxLoanValue - b.maxLoanValue;
+    }
+
+    return a.amountOfDays - b.amountOfDays;
+  });
+  const priceBased = sortedElementsByInterest.filter((element) => element.maxLoanValue !== element.minLoanValue);
+  const timeBased = sortedElementsByInterest.filter((element) => element.maxLoanValue === element.minLoanValue);
+
+  const concated = priceBased.concat(timeBased);
+
+  while (sum < minValue && i < sortedElementsByValue.length) {
+    best.push({
+      nftMint: sortedElementsByValue[i].nftMint,
+      loanValue: sortedElementsByValue[i].maxLoanValue,
+      interest: sortedElementsByValue[i].interest,
+      amountOfDays: sortedElementsByValue[i].amountOfDays
+    });
+    sum += sortedElementsByValue[i].maxLoanValue;
+    i += 1;
+  }
+
+  if (sum < minValue) {
+    return {
+      best: best,
+      safest: best,
+      cheapest: best,
+    };
+  }
+
+  sum = 0;
+  i = 0;
+
+  while (sum < minValue && i < concated.length) {
+    cheapest.push({
+      nftMint: concated[i].nftMint,
+      loanValue: concated[i].maxLoanValue,
+      interest: concated[i].interest,
+      amountOfDays: concated[i].amountOfDays
+    });
+    sum += concated[i].maxLoanValue;
+    i += 1;
+  }
+
+  sum = 0;
+  i = 0;
+
+  while (sum < minValue && i < concated.length) {
+    safest.push({
+      nftMint: concated[i].nftMint,
+      loanValue: concated[i].minLoanValue,
+      interest: concated[i].interest,
+      amountOfDays: concated[i].amountOfDays
+    });
+    sum += concated[i].minLoanValue;
+    i += 1;
+  }
+
+  i = 0;
+
+  while (sum < minValue) {
+    sum += (concated[i].maxLoanValue - safest[i].loanValue);
+    safest[i].loanValue = concated[i].maxLoanValue;
+    i += 1;
+  }
+
+  return {
+    best,
+    safest,
+    cheapest,
+  }
+};
