@@ -313,39 +313,6 @@
       ]
     },
     {
-      "name": "updateTimeBasedLiquidityPool",
-      "accounts": [
-        {
-          "name": "liquidityPool",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "admin",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "rent",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": [
-        {
-          "name": "params",
-          "type": {
-            "defined": "LiqPoolInputParams"
-          }
-        }
-      ]
-    },
-    {
       "name": "updatePriceBasedLiquidityPool",
       "accounts": [
         {
@@ -2493,6 +2460,10 @@
             "type": "u8"
           },
           {
+            "name": "bumpFarmAuth",
+            "type": "u8"
+          },
+          {
             "name": "bumpAuthVaultAuthority",
             "type": "u8"
           },
@@ -2567,38 +2538,6 @@
           {
             "name": "isDegod",
             "type": "bool"
-          }
-        ]
-      }
-    },
-    {
-      "name": "LiqPoolInputParams",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "rewardInterestRateTime",
-            "type": "u64"
-          },
-          {
-            "name": "feeInterestRateTime",
-            "type": "u64"
-          },
-          {
-            "name": "id",
-            "type": "u64"
-          },
-          {
-            "name": "rewardInterestRatePrice",
-            "type": "u64"
-          },
-          {
-            "name": "feeInterestRatePrice",
-            "type": "u64"
-          },
-          {
-            "name": "period",
-            "type": "u64"
           }
         ]
       }

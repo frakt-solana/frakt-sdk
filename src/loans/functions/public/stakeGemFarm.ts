@@ -82,7 +82,7 @@ export const stakeGemFarm: StakeGemFarm = async ({
     gemBank,
   );
 
-  const [farmAuthority] = await web3.PublicKey.findProgramAddress(
+  const [farmAuthority, bumpFarmAuth] = await web3.PublicKey.findProgramAddress(
     [farm.toBuffer()],
     gemFarm,
   );
@@ -107,6 +107,7 @@ export const stakeGemFarm: StakeGemFarm = async ({
     {
       bumpPoolsAuth,
       bumpAuth,
+      bumpFarmAuth,
       bumpAuthVaultAuthority,
       bumpRarity,
       bumpGdr,
