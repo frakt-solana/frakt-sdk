@@ -1,9 +1,8 @@
-import { WSOL } from '@raydium-io/raydium-sdk';
 import { TokenInfo } from './types';
 
 export const SOL_TOKEN: TokenInfo = {
   chainId: 101,
-  address: WSOL.mint,
+  address: 'So11111111111111111111111111111111111111112',
   name: 'SOL',
   decimals: 9,
   symbol: 'SOL',
