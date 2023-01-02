@@ -24,6 +24,9 @@ Fetch wallet nfts with necessary data for taking loans
 const borrowNfts = await fetchWalletNfts({
   walletPublicKey,
 });
+
+// Tip: calculate max value available to borrow
+const maxBorrowValue = sum(map(borrowNfts, 'maxLoanValue'));
 ```
 
 Fetch suggestion for bulk loans
@@ -58,4 +61,52 @@ await proposeLoans({
   connection, // Object that implements Wallet interface: {publicKey, signTransaction, signAllTransactions}
   wallet, // web3.Connection
 });
+```
+
+## Interfaces
+
+```typescript
+interface BorrowNft {
+  mint: string;
+  name: string;
+  imageUrl: string;
+  valuation: string; // 2.508 (SOL)
+  maxLoanValue: string; // 1.003 (SOL)
+  isCanFreeze: boolean; // If false, NFT leaves wallet
+  timeBased: {
+    // Params for flip loans
+    returnPeriodDays: number; // 14 (days)
+    ltvPercents: number; // 40 (%)
+    fee: string; // 0.100 (SOL)
+    feeDiscountPercents: string; // 2 (%)
+    repayValue: string; // 1.101 (SOL)
+    liquidityPoolPubkey: string;
+    loanValue: string; // 1.020 (SOL)
+    isCanStake: boolean; // True for collections that support staking (f.e. deGods)
+  };
+  priceBased?: {
+    // Params for perpetual loans (not all collections are supported)
+    liquidityPoolPubkey: string;
+    ltvPercents: number; // 40 (%)
+    borrowAPRPercents: number; // 10 (%)
+    collaterizationRate: number; // 10(%)
+    isCanStake: boolean; // True for collections that support staking (f.e. deGods)
+  };
+}
+```
+
+```typescript
+interface BorrowNftBulk extends BorrowNft {
+  solLoanValue: number; // 1.101 (SOL) Suggested loan value
+  isPriceBased?: boolean;
+  priceBased?: {
+    liquidityPoolPubkey: string;
+    ltvPercents: number; // 40 (%)
+    borrowAPRPercents: number; // 10 (%)
+    collaterizationRate: number; // 10(%)
+    isCanStake: boolean; // True for collections that support staking (f.e. deGods)
+    ltv?: number;
+    suggestedLoanValue?: number;
+  };
+}
 ```
