@@ -15,6 +15,8 @@ export * from './functions/private/unstakeGemFarmByAdmin';
 export * from './functions/private/putLoanToLiquidationRaffles';
 
 export * from './functions/public/depositLiquidity';
+export * from './functions/public/getAllCardinalAccount';
+export * from './functions/public/calculateCardinalReward';
 export * from './functions/public/getAllProgramAccounts';
 export * from './functions/public/harvestLiquidity';
 export * from './functions/public/paybackLoan';
