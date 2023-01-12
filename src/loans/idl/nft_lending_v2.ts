@@ -1381,7 +1381,7 @@ export type NftLendingV2 = {
         },
         {
           "name": "rewardMint",
-          "isMut": false,
+          "isMut": true,
           "isSigner": false
         },
         {
@@ -3993,7 +3993,7 @@ export const IDL: NftLendingV2 = {
         },
         {
           "name": "rewardMint",
-          "isMut": false,
+          "isMut": true,
           "isSigner": false
         },
         {
