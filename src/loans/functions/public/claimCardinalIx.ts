@@ -55,7 +55,7 @@ export const claimCardinalIx: ClaimCardinalIx = async ({
   );
 
   const tokenDestinationIdentity = await findAssociatedTokenAddress(identity, rewardMint);
-  const rewardDestination = await findAssociatedTokenAddress(payer, rewardMint);
+  const rewardDestination = await findAssociatedTokenAddress(user, rewardMint);
   const rewardDistributorTokenAccount = await findAssociatedTokenAddress(rewardDistributor, rewardMint);
   // const additionalComputeBudgetInstruction = ComputeBudgetProgram.requestUnits({
   //   units: 300000,
