@@ -67,7 +67,7 @@ export const unstakeCardinalIx: UnstakeCardinalParams = async ({
   const reward1TokenAccount = await findAssociatedTokenAddress(paymentPubkey1, rewardMint);
   const reward2TokenAccount = await findAssociatedTokenAddress(paymentPubkey2, rewardMint);
 
-  const nftUserTokenAccount = await findAssociatedTokenAddress(user, nftMint);
+  const nftUserTokenAccount = await findAssociatedTokenAddress(payer, nftMint);
   const identityStakeMintTokenAccount = await findAssociatedTokenAddress(identity, nftMint);
   const editionId = getMetaplexEditionPda(nftMint);
   const additionalComputeBudgetInstructionIx = web3.ComputeBudgetProgram.requestUnits({
