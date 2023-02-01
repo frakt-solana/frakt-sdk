@@ -1,7 +1,7 @@
 import { web3, utils } from '@project-serum/anchor';
 
-import { METADATA_PROGRAM_PUBKEY } from '../../constants';
-import { getMetaplexEditionPda, returnAnchorProgram } from '../../helpers';
+import { AUTHORIZATION_RULES_PROGRAM, METADATA_PROGRAM_PUBKEY } from '../../constants';
+import { findTokenRecordPda, getMetaplexEditionPda, getMetaplexMetadata, returnAnchorProgram } from '../../helpers';
 
 type RejectLoanByAdmin = (params: {
   programId: web3.PublicKey;
@@ -11,8 +11,7 @@ type RejectLoanByAdmin = (params: {
   admin: web3.PublicKey;
   user: web3.PublicKey;
   nftMint: web3.PublicKey;
-  sendTxn: (transaction: web3.Transaction) => Promise<void>;
-}) => Promise<void>;
+}) => Promise<{ix: web3.TransactionInstruction}>;
 
 export const rejectLoanByAdmin: RejectLoanByAdmin = async ({
   programId,
@@ -22,7 +21,6 @@ export const rejectLoanByAdmin: RejectLoanByAdmin = async ({
   admin,
   user,
   nftMint,
-  sendTxn,
 }) => {
   const encoder = new TextEncoder();
   const program = returnAnchorProgram(programId, connection);
@@ -32,23 +30,24 @@ export const rejectLoanByAdmin: RejectLoanByAdmin = async ({
     [encoder.encode('nftlendingv2'), programId.toBuffer()],
     programId,
   );
+  const nftMetadata = getMetaplexMetadata(nftMint);
+  const tokenRecordInfo = findTokenRecordPda(nftMint, nftUserTokenAccount)
 
-  const instruction = program.instruction.rejectLoanByAdmin(bumpPoolsAuth, {
-    accounts: {
+  const ix = await program.methods.rejectLoanByAdmin().accounts({
       loan: loan,
       admin: admin,
       nftMint: nftMint,
       nftUserTokenAccount: nftUserTokenAccount,
       user: user,
+      instructions: web3.SYSVAR_INSTRUCTIONS_PUBKEY, 
+      nftMetadata, 
+      tokenRecordInfo, 
+      authorizationRulesProgram: AUTHORIZATION_RULES_PROGRAM,
       communityPoolsAuthority,
       tokenProgram: utils.token.TOKEN_PROGRAM_ID,
       systemProgram: web3.SystemProgram.programId,
       metadataProgram: METADATA_PROGRAM_PUBKEY,
       editionInfo: editionId,
-    },
-  });
-
-  const transaction = new web3.Transaction().add(instruction);
-
-  await sendTxn(transaction);
+    }).instruction();
+  return {ix}
 };

@@ -1,7 +1,8 @@
 import { web3, utils, BN } from '@project-serum/anchor';
 
-import { returnAnchorProgram } from '../../helpers';
+import { findTokenRecordPda, getMetaplexEditionPda, getMetaplexMetadata, returnAnchorProgram } from '../../helpers';
 import { findAssociatedTokenAddress } from '../../../common';
+import { AUTHORIZATION_RULES_PROGRAM, METADATA_PROGRAM_PUBKEY } from '../../constants';
 
 type PutLoanToLiquidationRaffles = (params: {
   programId: web3.PublicKey;
@@ -10,9 +11,7 @@ type PutLoanToLiquidationRaffles = (params: {
   loan: web3.PublicKey;
   nftMint: web3.PublicKey;
   gracePeriod: number;
-
-  sendTxn: (transaction: web3.Transaction, signers: web3.Keypair[]) => Promise<void>;
-}) => Promise<web3.PublicKey>;
+}) => Promise<{ix: web3.TransactionInstruction, liquidationLot: web3.Signer}>;
 
 export const putLoanToLiquidationRaffles: PutLoanToLiquidationRaffles = async ({
   programId,
@@ -21,7 +20,6 @@ export const putLoanToLiquidationRaffles: PutLoanToLiquidationRaffles = async ({
   loan,
   nftMint,
   gracePeriod,
-  sendTxn,
 }) => {
   const encoder = new TextEncoder();
   const program = returnAnchorProgram(programId, connection);
@@ -32,25 +30,37 @@ export const putLoanToLiquidationRaffles: PutLoanToLiquidationRaffles = async ({
     program.programId,
   );
   const vaultNftTokenAccount = await findAssociatedTokenAddress(communityPoolsAuthority, nftMint);
-  const liquidationLotAccount = web3.Keypair.generate();
+  const liquidationLot = web3.Keypair.generate();
 
-  const instruction = program.instruction.putLoanToLiquidationRaffles(bumpPoolsAuth, new BN(gracePeriod), {
-    accounts: {
+  const editionId = getMetaplexEditionPda(nftMint);
+  const ownerTokenRecord = findTokenRecordPda(nftMint, nftAdminTokenAccount)
+  const destTokenRecord = findTokenRecordPda(nftMint, vaultNftTokenAccount)
+
+  const nftMetadata = getMetaplexMetadata(nftMint);
+
+  const ix = await program.methods.putLoanToLiquidationRaffles(null, new BN(gracePeriod))
+    .accounts({
       loan: loan,
-      liquidationLot: liquidationLotAccount.publicKey,
+      liquidationLot: liquidationLot.publicKey,
       admin: admin,
       nftMint: nftMint,
       vaultNftTokenAccount: vaultNftTokenAccount,
       nftAdminTokenAccount: nftAdminTokenAccount,
       communityPoolsAuthority,
+      metadataProgram: METADATA_PROGRAM_PUBKEY,
+      editionInfo: editionId,
+      nftMetadata,
+      ownerTokenRecord,
+      destTokenRecord,
+      instructions: web3.SYSVAR_INSTRUCTIONS_PUBKEY, 
+      authorizationRulesProgram: AUTHORIZATION_RULES_PROGRAM,
       tokenProgram: utils.token.TOKEN_PROGRAM_ID,
       rent: web3.SYSVAR_RENT_PUBKEY,
       systemProgram: web3.SystemProgram.programId,
       associatedTokenProgram: utils.token.ASSOCIATED_PROGRAM_ID,
-    },
-  });
+    }).instruction();
 
-  const transaction = new web3.Transaction().add(instruction);
-  await sendTxn(transaction, [liquidationLotAccount]);
-  return liquidationLotAccount.publicKey;
+  // const transaction = new web3.Transaction().add(instruction);
+  // await sendTxn(transaction, [liquidationLotAccount]);
+  return {ix, liquidationLot};
 };

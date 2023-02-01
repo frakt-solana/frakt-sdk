@@ -16,8 +16,7 @@ type InitializeCollectionInfo = (params: {
   royaltyFeePrice: number | BN;
   expirationTime: number | BN;
   isPriceBased: boolean;
-  sendTxn: (transaction: web3.Transaction, signers: web3.Keypair[]) => Promise<void>;
-}) => Promise<web3.PublicKey>;
+}) => Promise<{ix: web3.TransactionInstruction, collectionInfo: web3.Signer}>;
 
 export const initializeCollectionInfo: InitializeCollectionInfo = async ({
   programId,
@@ -33,12 +32,11 @@ export const initializeCollectionInfo: InitializeCollectionInfo = async ({
   royaltyFeePrice,
   expirationTime,
   isPriceBased,
-  sendTxn,
 }) => {
   const program = returnAnchorProgram(programId, connection);
   const collectionInfo = web3.Keypair.generate();
 
-  const instruction = program.instruction.initializeCollectionInfo(
+  const instruction = await program.methods.initializeCollectionInfo(
     {
       loanToValue: new BN(loanToValue),
       collaterizationRate: new BN(collaterizationRate),
@@ -46,9 +44,7 @@ export const initializeCollectionInfo: InitializeCollectionInfo = async ({
       royaltyFeePrice: new BN(royaltyFeePrice),
       expirationTime: new BN(expirationTime),
       isPriceBased,
-    },
-    {
-      accounts: {
+    }).accounts({
         liquidityPool: liquidityPool,
         collectionInfo: collectionInfo.publicKey,
         admin: admin,
@@ -58,12 +54,7 @@ export const initializeCollectionInfo: InitializeCollectionInfo = async ({
         rent: web3.SYSVAR_RENT_PUBKEY,
         systemProgram: web3.SystemProgram.programId,
       },
-    },
-  );
+  ).instruction();
 
-  const transaction = new web3.Transaction().add(instruction);
-
-  await sendTxn(transaction, [collectionInfo]);
-
-  return collectionInfo.publicKey;
+  return {ix: instruction, collectionInfo};
 };

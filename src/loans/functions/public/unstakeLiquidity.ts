@@ -9,8 +9,7 @@ type UnstakeLiquidity = (params: {
   user: web3.PublicKey;
   amount: BN | number;
   adminPubkey: web3.PublicKey;
-  sendTxn: (transaction: web3.Transaction) => Promise<void>;
-}) => Promise<void>;
+}) => Promise<{ix: web3.TransactionInstruction}>;
 
 export const unstakeLiquidity: UnstakeLiquidity = async ({
   programId,
@@ -19,7 +18,6 @@ export const unstakeLiquidity: UnstakeLiquidity = async ({
   adminPubkey,
   user,
   amount,
-  sendTxn,
 }) => {
   const encoder = new TextEncoder();
   const program = await returnAnchorProgram(programId, connection);
@@ -34,18 +32,14 @@ export const unstakeLiquidity: UnstakeLiquidity = async ({
     program.programId,
   );
 
-  const instruction = program.instruction.unstakeLiquidity(depositBump, new BN(amount), {
-    accounts: {
+  const ix = await program.methods.unstakeLiquidity(depositBump, new BN(amount)).accounts({
       liquidityPool,
       user,
       deposit,
       liqOwner,
       systemProgram: web3.SystemProgram.programId,
       admin: adminPubkey,
-    },
-  });
+    }).instruction();
 
-  const transaction = new web3.Transaction().add(instruction);
-
-  await sendTxn(transaction);
+  return {ix}
 };

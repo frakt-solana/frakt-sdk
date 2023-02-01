@@ -39,8 +39,7 @@ export const initializePriceBasedLiquidityPool: InitializePriceBasedLiquidityPoo
     [encoder.encode('nftlendingv2'), liquidityPool.publicKey.toBuffer()],
     program.programId,
   );
-  const ix = program.instruction.initializePriceBasedLiquidityPool(
-    liqOwnerBump,
+  const ix = await program.methods.initializePriceBasedLiquidityPool(
     {
       id: id,
       baseBorrowRate: baseBorrowRate,
@@ -50,17 +49,13 @@ export const initializePriceBasedLiquidityPool: InitializePriceBasedLiquidityPoo
       reserveFactor: reserveFactor,
       depositCommission,
       borrowCommission,
-    },
-    {
-      accounts: {
+    }).accounts( {
         liquidityPool: liquidityPool.publicKey,
         liqOwner,
         admin: admin,
         rent: web3.SYSVAR_RENT_PUBKEY,
         systemProgram: web3.SystemProgram.programId,
-      },
-    },
-  );
+      }).instruction();
 
   const transaction = new web3.Transaction().add(ix);
 
