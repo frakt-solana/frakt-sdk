@@ -12,6 +12,61 @@ export interface CollectionInfoView {
   expirationTime: number;
 }
 
+
+export interface StakeEntryView {
+  bump: number,
+  kind: number,
+  pool: string,
+  amount: number,
+  stakeMint: string,
+  lastStaker: string,
+  lastStakedAt: number,
+  lastUpdatedAt: number,
+  totalStakeSeconds: number,
+  usedStakeSeconds: number,
+  cooldownStartSeconds?: number
+}
+
+
+export interface RewardEntryView {
+  bump: number,
+  stakeEntry: string,
+  rewardDistributor: string,
+  rewardSecondsReceived: number,
+  multiplier: number
+}
+
+
+export interface RewardDistributorView {
+  bump: number,
+  stakePool: string,
+  kind: number,
+  authority: string,
+  identifier: number,
+  rewardMint: string,
+  rewardAmount: number,
+  rewardDurationSeconds: number,
+  rewardsIssued: string,
+  defaultMultiplier: number,
+  multiplierDecimals: number,
+  claimRewardsPaymentInfo: string,
+  maxRewardSecondsReceived?: number
+}
+
+export interface StakePoolView {
+  bump: number,
+  authority: string,
+  totalStaked: number,
+  resetOnUnstake: boolean,
+  cooldownSeconds?: number,
+  minStakeSeconds?: number,
+  endDate?: number,
+  stakePaymentInfo: string,
+  unstakePaymentInfo: string,
+  requiresAuthorization: boolean,
+  identifier: string
+}
+
 export interface LendingStakeView {
   lendingStakePubkey: string;
   stakeType: string;

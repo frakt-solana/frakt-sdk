@@ -1,6 +1,6 @@
 import { Program, AnchorProvider, web3, BN, utils } from '@project-serum/anchor';
 
-import idl from './idl/nft_lending_v2.json';
+import {IDL} from './idl/nft_lending_v2';
 import {
   CollectionInfoView,
   DepositView,
@@ -20,7 +20,7 @@ import { EDITION_PREFIX, METADATA_PREFIX, METADATA_PROGRAM_PUBKEY } from './cons
 type ReturnAnchorProgram = (programId: web3.PublicKey, connection: web3.Connection) => Program;
 export const returnAnchorProgram: ReturnAnchorProgram = (programId, connection) =>
   new Program(
-    idl as any,
+    IDL as any,
     programId,
     new AnchorProvider(connection, createFakeWallet(), AnchorProvider.defaultOptions()),
   );

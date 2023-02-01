@@ -15,6 +15,8 @@ export * from './functions/private/unstakeGemFarmByAdmin';
 export * from './functions/private/putLoanToLiquidationRaffles';
 
 export * from './functions/public/depositLiquidity';
+export * from './functions/public/getAllCardinalAccount';
+export * from './functions/public/calculateCardinalReward';
 export * from './functions/public/getAllProgramAccounts';
 export * from './functions/public/harvestLiquidity';
 export * from './functions/public/paybackLoan';
@@ -28,6 +30,9 @@ export * from './functions/public/getLotTicketByStaking';
 export * from './functions/public/paybackLoanWithGrace';
 export * from './functions/public/paybackLoanWithGraceIx';
 export * from './functions/public/stakeGemFarm';
+export * from './functions/public/stakeCardinalIx';
+export * from './functions/public/claimCardinalIx';
+export * from './functions/public/unstakeCardinalIx';
 export * from './functions/public/unstakeGemFarm';
 export * from './functions/public/unstakeGemFarmIx';
 export * from './functions/public/claimGemFarm';
