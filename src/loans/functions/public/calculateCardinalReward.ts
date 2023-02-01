@@ -22,8 +22,8 @@ export const calculationRewardCardinal: CalculationRewardCardinal = ({
     return 0;
   }
 
-  const rewardSecondsReceived =
-    rewardEntry.rewardSecondsReceived || new BN(0);
+  // const rewardSecondsReceived =
+  //   rewardEntry.rewardSecondsReceived || new BN(0);
   const multiplier =
     rewardEntry?.multiplier ||
     rewardDistributor.defaultMultiplier;
@@ -32,7 +32,7 @@ export const calculationRewardCardinal: CalculationRewardCardinal = ({
     : new BN(currentSeconds);
 
   let rewardSeconds = UTCNow
-    .sub(new BN(stakeEntry.lastStakedAt))
+    .sub(new BN(stakeEntry.lastUpdatedAt))
     .mul(new BN(stakeEntry.amount))
     .add(new BN(stakeEntry.totalStakeSeconds));
 
@@ -44,7 +44,7 @@ export const calculationRewardCardinal: CalculationRewardCardinal = ({
   }
 
   const rewardAmountToReceive = rewardSeconds
-    .sub(new BN(rewardSecondsReceived))
+    // .sub(new BN(rewardSecondsReceived))
     .div(new BN(rewardDistributor.rewardDurationSeconds))
     .mul(new BN(rewardDistributor.rewardAmount))
     .mul(new BN(multiplier))
