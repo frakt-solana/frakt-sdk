@@ -9,7 +9,7 @@ import { BorrowNftBulk, ProposeLoan, ProposeLoans } from './types';
 
 interface TxnAndSigners {
   transaction: web3.Transaction;
-  signers?: web3.Keypair[];
+  signers?: web3.Signer[];
 }
 
 type CreateProposeLoansTxns = (props: {

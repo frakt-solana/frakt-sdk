@@ -1,8 +1,8 @@
 import { BN, web3, utils } from '@project-serum/anchor';
 
 import { findAssociatedTokenAddress } from '../../../common';
-import { METADATA_PROGRAM_PUBKEY } from '../../constants';
-import { getMetaplexEditionPda, returnAnchorProgram } from '../../helpers';
+import { AUTHORIZATION_RULES_PROGRAM, METADATA_PROGRAM_PUBKEY } from '../../constants';
+import { findTokenRecordPda, getMetaplexEditionPda, getMetaplexMetadata, returnAnchorProgram } from '../../helpers';
 
 type ProposeLoanIx = (params: {
   programId: web3.PublicKey;
@@ -13,7 +13,7 @@ type ProposeLoanIx = (params: {
   proposedNftPrice: BN;
   loanToValue: BN;
   isPriceBased: boolean;
-}) => Promise<{ loan: web3.Keypair, ix: web3.TransactionInstruction }>;
+}) => Promise<{ loan: web3.Signer, ix: web3.TransactionInstruction }>;
 
 export const proposeLoanIx: ProposeLoanIx = async ({
   proposedNftPrice,
@@ -33,25 +33,29 @@ export const proposeLoanIx: ProposeLoanIx = async ({
     programId,
   );
 
-  const editionId = getMetaplexEditionPda(nftMint);
-
   const nftUserTokenAccount = await findAssociatedTokenAddress(user, nftMint);
-  const ix = program.instruction.proposeLoan(bumpPoolsAuth, isPriceBased, proposedNftPrice, loanToValue, {
-    accounts: {
+  const editionId = getMetaplexEditionPda(nftMint);
+  const nftMetadata = getMetaplexMetadata(nftMint);
+  const tokenRecordInfo = findTokenRecordPda(nftMint, nftUserTokenAccount)
+
+  const ix = await program.methods.proposeLoan(isPriceBased, proposedNftPrice, loanToValue)
+    .accounts({
       loan: loan.publicKey,
       user: user,
       nftUserTokenAccount,
       nftMint: nftMint,
       communityPoolsAuthority,
+      instructions: web3.SYSVAR_INSTRUCTIONS_PUBKEY, 
+      authorizationRulesProgram: AUTHORIZATION_RULES_PROGRAM,
+      nftMetadata, 
+      tokenRecordInfo,
       tokenProgram: utils.token.TOKEN_PROGRAM_ID,
       rent: web3.SYSVAR_RENT_PUBKEY,
       systemProgram: web3.SystemProgram.programId,
       metadataProgram: METADATA_PROGRAM_PUBKEY,
       admin,
       editionInfo: editionId,
-    },
-    // signers: [loan]
-  });
+    }).instruction();
 
   return { loan: loan, ix };
 };
