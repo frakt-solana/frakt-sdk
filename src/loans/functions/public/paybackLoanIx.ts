@@ -48,8 +48,7 @@ export const paybackLoanIx: PaybackLoanIx = async ({
   const tokenRecordInfo = findTokenRecordPda(nftMint, nftUserTokenAccount)
 
 
-  const instruction = await program.methods.paybackLoan(paybackAmount, {
-    accounts: {
+  const instruction = await program.methods.paybackLoan(paybackAmount).accounts({
       loan: loan,
       liquidityPool: liquidityPool,
       collectionInfo,
@@ -69,7 +68,6 @@ export const paybackLoanIx: PaybackLoanIx = async ({
       // associatedTokenProgram: utils.token.ASSOCIATED_PROGRAM_ID,
       metadataProgram: METADATA_PROGRAM_PUBKEY,
       editionInfo: editionId,
-    },
-  }).instruction()
+    }).instruction()
   return {paybackLoanIx: instruction}
 };
