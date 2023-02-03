@@ -63,9 +63,7 @@ export const claimCardinalIx: ClaimCardinalIx = async ({
   // });
   
 
-  const claimIx = program.instruction.claimCardinal(
-    {
-      accounts: {
+  const claimIx = await program.methods.claimCardinal().accounts({
         user,
         identity,
         rewardMint,
@@ -84,8 +82,7 @@ export const claimCardinalIx: ClaimCardinalIx = async ({
         systemProgram: web3.SystemProgram.programId,
         tokenProgram: utils.token.TOKEN_PROGRAM_ID,
         associatedTokenProgram: utils.token.ASSOCIATED_PROGRAM_ID,
-      },
-      remainingAccounts: [
+      }).remainingAccounts([
         {
           pubkey: claimRewardsPaymentInfo,
           isSigner: false,
@@ -111,9 +108,7 @@ export const claimCardinalIx: ClaimCardinalIx = async ({
           isSigner: false,
           isWritable: true,
         },
-      ]
-    }
-  )
+      ]).instruction()
 
   return {claimIx};
 };

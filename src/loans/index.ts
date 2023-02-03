@@ -17,7 +17,6 @@ export * from './functions/public/harvestLiquidity';
 export * from './functions/public/paybackLoanIx';
 export * from './functions/public/proposeLoan';
 export * from './functions/public/unstakeLiquidity';
-export * from './functions/public/initializeNftAttemptsByStaking';
 export * from './functions/public/paybackLoanWithGrace';
 export * from './functions/public/stakeCardinalIx';
 export * from './functions/public/claimCardinalIx';
