@@ -32,7 +32,7 @@ export const unstakeLiquidity: UnstakeLiquidity = async ({
     program.programId,
   );
 
-  const ix = await program.methods.unstakeLiquidity(depositBump, new BN(amount)).accounts({
+  const ix = await program.methods.unstakeLiquidity(depositBump, new BN(amount)).accountsStrict({
       liquidityPool,
       user,
       deposit,

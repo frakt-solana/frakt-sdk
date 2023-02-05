@@ -43,7 +43,7 @@ export const updatePriceBasedLiquidityPool: UpdatePriceBasedLiquidityPool = asyn
       reserveFactor,
       depositCommission,
       borrowCommission,
-    }).accounts({
+    }).accountsStrict({
         liquidityPool: liquidityPool,
         admin: admin,
         rent: web3.SYSVAR_RENT_PUBKEY,

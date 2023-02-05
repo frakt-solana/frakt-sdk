@@ -42,7 +42,7 @@ export const liquidateLoanToRaffles: LiquidateLoanToRaffles = async ({
 
 
   const ix = await program.methods.liquidateNftToRaffles(new BN(gracePeriod), null)
-    .accounts({
+    .accountsStrict({
       loan,
       liquidationLot: liquidationLot.publicKey,
       user,

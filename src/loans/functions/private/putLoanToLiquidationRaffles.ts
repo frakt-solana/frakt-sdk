@@ -39,7 +39,7 @@ export const putLoanToLiquidationRaffles: PutLoanToLiquidationRaffles = async ({
   const nftMetadata = getMetaplexMetadata(nftMint);
 
   const ix = await program.methods.putLoanToLiquidationRaffles(null, new BN(gracePeriod))
-    .accounts({
+    .accountsStrict({
       loan: loan,
       liquidationLot: liquidationLot.publicKey,
       admin: admin,

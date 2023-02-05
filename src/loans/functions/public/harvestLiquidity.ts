@@ -30,7 +30,7 @@ export const harvestLiquidity: HarvestLiquidity = async ({
     program.programId,
   );
 
-  const ix = await program.methods.harvestLiquidity(depositBump).accounts({
+  const ix = await program.methods.harvestLiquidity(depositBump).accountsStrict({
       liquidityPool,
       user,
       deposit,

@@ -33,7 +33,7 @@ export const rejectLoanByAdmin: RejectLoanByAdmin = async ({
   const nftMetadata = getMetaplexMetadata(nftMint);
   const tokenRecordInfo = findTokenRecordPda(nftMint, nftUserTokenAccount)
 
-  const ix = await program.methods.rejectLoanByAdmin().accounts({
+  const ix = await program.methods.rejectLoanByAdmin().accountsStrict({
       loan: loan,
       admin: admin,
       nftMint: nftMint,

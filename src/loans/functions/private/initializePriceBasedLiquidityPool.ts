@@ -14,8 +14,8 @@ type InitializePriceBasedLiquidityPool = (params: {
   depositCommission: number;
   borrowCommission: number;
   id: number;
-  sendTxn: (transaction: web3.Transaction, signers: web3.Keypair[]) => Promise<void>;
-}) => Promise<web3.PublicKey>;
+  // sendTxn: (transaction: web3.Transaction, signers: web3.Keypair[]) => Promise<void>;
+}) => Promise<{ix: web3.TransactionInstruction, liquidityPool: web3.Signer}>;
 
 export const initializePriceBasedLiquidityPool: InitializePriceBasedLiquidityPool = async ({
   programId,
@@ -29,7 +29,7 @@ export const initializePriceBasedLiquidityPool: InitializePriceBasedLiquidityPoo
   depositCommission,
   borrowCommission,
   id,
-  sendTxn,
+  // sendTxn,
 }) => {
   const program = returnAnchorProgram(programId, connection);
   const encoder = new TextEncoder();
@@ -49,7 +49,7 @@ export const initializePriceBasedLiquidityPool: InitializePriceBasedLiquidityPoo
       reserveFactor: reserveFactor,
       depositCommission,
       borrowCommission,
-    }).accounts( {
+    }).accountsStrict( {
         liquidityPool: liquidityPool.publicKey,
         liqOwner,
         admin: admin,
@@ -57,8 +57,8 @@ export const initializePriceBasedLiquidityPool: InitializePriceBasedLiquidityPoo
         systemProgram: web3.SystemProgram.programId,
       }).instruction();
 
-  const transaction = new web3.Transaction().add(ix);
+  // const transaction = new web3.Transaction().add(ix);
 
-  await sendTxn(transaction, [liquidityPool]);
-  return liquidityPool.publicKey;
+  // await sendTxn(transaction, [liquidityPool]);
+  return {ix, liquidityPool};
 };

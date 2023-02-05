@@ -44,7 +44,7 @@ export const initializeCollectionInfo: InitializeCollectionInfo = async ({
       royaltyFeePrice: new BN(royaltyFeePrice),
       expirationTime: new BN(expirationTime),
       isPriceBased,
-    }).accounts({
+    }).accountsStrict({
         liquidityPool: liquidityPool,
         collectionInfo: collectionInfo.publicKey,
         admin: admin,

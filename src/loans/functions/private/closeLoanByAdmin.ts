@@ -16,7 +16,7 @@ export const closeLoanByAdmin: CloseLoanByAdmin = async ({ programId, connection
 
   const ix = await program.methods
     .closeLoan()
-    .accounts({
+    .accountsStrict({
       loan: loan,
       admin: admin,
     })

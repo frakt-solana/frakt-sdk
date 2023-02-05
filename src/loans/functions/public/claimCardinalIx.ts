@@ -63,7 +63,7 @@ export const claimCardinalIx: ClaimCardinalIx = async ({
   // });
   
 
-  const claimIx = await program.methods.claimCardinal().accounts({
+  const claimIx = await program.methods.claimCardinal().accountsStrict({
         user,
         identity,
         rewardMint,

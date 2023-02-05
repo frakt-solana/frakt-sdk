@@ -30,7 +30,7 @@ export const depositLiquidity: DepositLiquidityIx = async ({
     program.programId,
   );
 
-  const ix = await program.methods.depositLiquidity(new BN(amount)).accounts({
+  const ix = await program.methods.depositLiquidity(new BN(amount)).accountsStrict({
       liquidityPool: liquidityPool,
       liqOwner,
       deposit,

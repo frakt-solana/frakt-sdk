@@ -34,7 +34,7 @@ export const approveLoanByAdmin: ApproveLoanByAdmin = async ({
   );
 
   const ix = await program.methods.approveLoanByAdmin(new BN(nftPrice), new BN(discount))
-    .accounts({
+    .accountsStrict({
       loan: loan,
       user,
       liquidityPool,

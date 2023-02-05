@@ -35,7 +35,7 @@ export const stopLiquidationRaffles: stopLiquidationRafflesByAdminParams = async
   const destTokenRecord = findTokenRecordPda(nftMint, nftAdminTokenAccount)
 
 
-  const ix = await program.methods.stopLiquidationRafflesByAdmin(null).accounts({
+  const ix = await program.methods.stopLiquidationRafflesByAdmin(null).accountsStrict({
       admin,
       nftMint,
       communityPoolsAuthority,

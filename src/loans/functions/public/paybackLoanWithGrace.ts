@@ -58,7 +58,7 @@ export const paybackLoanWithGraceIx: PaybackLoanWithGraceIx = async ({
 
   const nftMetadata = getMetaplexMetadata(nftMint);
   const mainIx = await program.methods.paybackWithGrace(null)
-    .accounts({
+    .accountsStrict({
       loan: loan,
       liquidityPool,
       liquidationLot,

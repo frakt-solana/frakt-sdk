@@ -39,7 +39,7 @@ export const proposeLoanIx: ProposeLoanIx = async ({
   const tokenRecordInfo = findTokenRecordPda(nftMint, nftUserTokenAccount)
 
   const ix = await program.methods.proposeLoan(isPriceBased, proposedNftPrice, loanToValue)
-    .accounts({
+    .accountsStrict({
       loan: loan.publicKey,
       user: user,
       nftUserTokenAccount,
