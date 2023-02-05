@@ -1,7 +1,7 @@
 import { web3, utils } from '@project-serum/anchor';
 import { findAssociatedTokenAddress } from '../../../common';
 import { AUTHORIZATION_RULES_PROGRAM } from '../../constants';
-import { findTokenRecordPda, getMetaplexMetadata, returnAnchorProgram } from '../../helpers';
+import { findRuleSetPDA, findTokenRecordPda, getMetaplexMetadata, returnAnchorProgram } from '../../helpers';
 
 type stopLiquidationRafflesByAdminParams = (params: {
   programId: web3.PublicKey;
@@ -9,6 +9,8 @@ type stopLiquidationRafflesByAdminParams = (params: {
   admin: web3.PublicKey;
   nftMint: web3.PublicKey;
   liquidationLot: web3.PublicKey;
+  payerRuleSet: web3.PublicKey;
+  nameForRuleSet: string;
   loan: web3.PublicKey;
 }) => Promise<{ix: web3.TransactionInstruction}>;
 
@@ -17,6 +19,8 @@ export const stopLiquidationRaffles: stopLiquidationRafflesByAdminParams = async
   connection,
   admin,
   nftMint,
+  payerRuleSet,
+  nameForRuleSet,
   liquidationLot,
   loan,
 }) => {
@@ -33,6 +37,7 @@ export const stopLiquidationRaffles: stopLiquidationRafflesByAdminParams = async
   const nftMetadata = getMetaplexMetadata(nftMint);
   const ownerTokenRecord = findTokenRecordPda(nftMint, vaultNftTokenAccount)
   const destTokenRecord = findTokenRecordPda(nftMint, nftAdminTokenAccount)
+  const ruleSet = await findRuleSetPDA(payerRuleSet, nameForRuleSet);
 
 
   const ix = await program.methods.stopLiquidationRafflesByAdmin(null).accountsStrict({
@@ -52,6 +57,14 @@ export const stopLiquidationRaffles: stopLiquidationRafflesByAdminParams = async
       associatedTokenProgram: utils.token.ASSOCIATED_PROGRAM_ID,
       systemProgram: web3.SystemProgram.programId,
       rent: web3.SYSVAR_RENT_PUBKEY,
-    }).instruction();
+    }).remainingAccounts(
+      [
+       {
+         pubkey: ruleSet,
+         isSigner: false,
+         isWritable: false,
+       },
+     ],
+   ).instruction();
   return {ix}
 };

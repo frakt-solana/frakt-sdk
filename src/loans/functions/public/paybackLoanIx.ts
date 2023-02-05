@@ -1,6 +1,6 @@
 import { web3, utils, BN } from '@project-serum/anchor';
 
-import { findTokenRecordPda, getMetaplexEditionPda, getMetaplexMetadata, returnAnchorProgram } from '../../helpers';
+import { findRuleSetPDA, findTokenRecordPda, getMetaplexEditionPda, getMetaplexMetadata, returnAnchorProgram } from '../../helpers';
 import { findAssociatedTokenAddress } from '../../../common';
 import { AUTHORIZATION_RULES_PROGRAM, METADATA_PROGRAM_PUBKEY } from '../../constants';
 
@@ -11,6 +11,8 @@ type PaybackLoanIx = (params: {
   admin: web3.PublicKey;
   loan: web3.PublicKey;
   nftMint: web3.PublicKey;
+  payerRuleSet: web3.PublicKey;
+  nameForRuleSet: string;
   liquidityPool: web3.PublicKey;
   collectionInfo: web3.PublicKey;
   royaltyAddress: web3.PublicKey;
@@ -23,6 +25,8 @@ export const paybackLoanIx: PaybackLoanIx = async ({
   user,
   admin,
   loan,
+  payerRuleSet,
+  nameForRuleSet,
   nftMint,
   liquidityPool,
   collectionInfo,
@@ -46,6 +50,7 @@ export const paybackLoanIx: PaybackLoanIx = async ({
   const editionId = getMetaplexEditionPda(nftMint);
   const nftMetadata = getMetaplexMetadata(nftMint);
   const tokenRecordInfo = findTokenRecordPda(nftMint, nftUserTokenAccount)
+  const ruleSet = await findRuleSetPDA(payerRuleSet, nameForRuleSet);
 
 
   const instruction = await program.methods.paybackLoan(paybackAmount).accountsStrict({
@@ -68,6 +73,14 @@ export const paybackLoanIx: PaybackLoanIx = async ({
       // associatedTokenProgram: utils.token.ASSOCIATED_PROGRAM_ID,
       metadataProgram: METADATA_PROGRAM_PUBKEY,
       editionInfo: editionId,
-    }).instruction()
+    }).remainingAccounts(
+      [
+       {
+         pubkey: ruleSet,
+         isSigner: false,
+         isWritable: false,
+       },
+     ],
+   ).instruction()
   return {paybackLoanIx: instruction}
 };

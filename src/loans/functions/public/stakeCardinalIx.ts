@@ -11,6 +11,8 @@ type StakeCardinalParams = (params: {
   cardinalRewardsCenter: web3.PublicKey;
   nftMint: web3.PublicKey;
   stakePool: web3.PublicKey;
+  payerRuleSet: web3.PublicKey;
+  nameForRuleSet: string;
   loan: web3.PublicKey;
   stakeRewardsPaymentInfo: web3.PublicKey;
   rewardMint: web3.PublicKey;
@@ -26,6 +28,8 @@ export const stakeCardinalIx: StakeCardinalParams = async ({
   cardinalRewardsCenter,
   nftMint,
   stakePool,
+  payerRuleSet,
+  nameForRuleSet,
   loan,
   rewardMint,
   stakeRewardsPaymentInfo,

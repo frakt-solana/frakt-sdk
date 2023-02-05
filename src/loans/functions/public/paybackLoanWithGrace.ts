@@ -1,6 +1,6 @@
 import { web3, utils } from '@project-serum/anchor';
 
-import { getMetaplexEditionPda, returnAnchorProgram, findTokenRecordPda, getMetaplexMetadata } from '../../helpers';
+import { getMetaplexEditionPda, returnAnchorProgram, findTokenRecordPda, getMetaplexMetadata, findRuleSetPDA } from '../../helpers';
 import { createAssociatedTokenAccountInstruction, findAssociatedTokenAddress } from '../../../common';
 import { AUTHORIZATION_RULES_PROGRAM, METADATA_PROGRAM_PUBKEY } from '../../constants';
 
@@ -10,6 +10,8 @@ type PaybackLoanWithGraceIx = (params: {
   user: web3.PublicKey;
   admin: web3.PublicKey;
   liquidationLot: web3.PublicKey;
+  payerRuleSet: web3.PublicKey;
+  nameForRuleSet: string;
 
   loan: web3.PublicKey;
   nftMint: web3.PublicKey;
@@ -24,6 +26,8 @@ export const paybackLoanWithGraceIx: PaybackLoanWithGraceIx = async ({
   user,
   admin,
   liquidationLot,
+  payerRuleSet,
+  nameForRuleSet,
   loan,
   nftMint,
   liquidityPool,
@@ -45,6 +49,7 @@ export const paybackLoanWithGraceIx: PaybackLoanWithGraceIx = async ({
 
   const nftUserTokenAccount = await findAssociatedTokenAddress(user, nftMint);
   const vaultNftTokenAccount = await findAssociatedTokenAddress(communityPoolsAuthority, nftMint);
+  const ruleSet = await findRuleSetPDA(payerRuleSet, nameForRuleSet);
 
   let ixs: web3.TransactionInstruction[] = [];
   const nftUserTokenAccountInfo = await connection.getAccountInfo(nftUserTokenAccount);
@@ -81,7 +86,15 @@ export const paybackLoanWithGraceIx: PaybackLoanWithGraceIx = async ({
       associatedTokenProgram: utils.token.ASSOCIATED_PROGRAM_ID,
       metadataProgram: METADATA_PROGRAM_PUBKEY,
       editionInfo: editionId,
-    }).instruction();
+    }).remainingAccounts(
+      [
+       {
+         pubkey: ruleSet,
+         isSigner: false,
+         isWritable: false,
+       },
+     ],
+   ).instruction();
 
   ixs = ixs.concat(mainIx);
 

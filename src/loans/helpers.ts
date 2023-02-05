@@ -15,7 +15,7 @@ import {
   PromisedSchedule,
 } from './types';
 import { createFakeWallet } from '../common';
-import { EDITION_PREFIX, METADATA_PREFIX, METADATA_PROGRAM_PUBKEY, TOKEN_RECORD } from './constants';
+import { AUTHORIZATION_RULES_PROGRAM, EDITION_PREFIX, METADATA_PREFIX, METADATA_PROGRAM_PUBKEY, TOKEN_RECORD } from './constants';
 
 type ReturnAnchorProgram = (programId: web3.PublicKey, connection: web3.Connection) => Program;
 export const returnAnchorProgram: ReturnAnchorProgram = (programId, connection) =>
@@ -385,3 +385,13 @@ export const getMetaplexMetadata: GetMetaplexMetadata = (mintPubkey) => {
     METADATA_PROGRAM_PUBKEY
   )[0];
 }
+
+
+export const findRuleSetPDA = async (payer: web3.PublicKey, name: string) => {
+  return (
+    await web3.PublicKey.findProgramAddress(
+      [Buffer.from('rule_set'), payer.toBuffer(), Buffer.from(name)],
+      AUTHORIZATION_RULES_PROGRAM,
+    )
+  )[0];
+};
