@@ -52,7 +52,7 @@ export type NftLendingV2 = {
         },
         {
           "name": "tokenRecordInfo",
-          "isMut": false,
+          "isMut": true,
           "isSigner": false
         },
         {
@@ -420,7 +420,7 @@ export type NftLendingV2 = {
         },
         {
           "name": "tokenRecordInfo",
-          "isMut": false,
+          "isMut": true,
           "isSigner": false
         },
         {
@@ -501,7 +501,7 @@ export type NftLendingV2 = {
         },
         {
           "name": "tokenRecordInfo",
-          "isMut": false,
+          "isMut": true,
           "isSigner": false
         },
         {
@@ -679,12 +679,12 @@ export type NftLendingV2 = {
         },
         {
           "name": "ownerTokenRecord",
-          "isMut": false,
+          "isMut": true,
           "isSigner": false
         },
         {
           "name": "destTokenRecord",
-          "isMut": false,
+          "isMut": true,
           "isSigner": false
         },
         {
@@ -816,12 +816,12 @@ export type NftLendingV2 = {
         },
         {
           "name": "ownerTokenRecord",
-          "isMut": false,
+          "isMut": true,
           "isSigner": false
         },
         {
           "name": "destTokenRecord",
-          "isMut": false,
+          "isMut": true,
           "isSigner": false
         },
         {
@@ -945,12 +945,12 @@ export type NftLendingV2 = {
         },
         {
           "name": "ownerTokenRecord",
-          "isMut": false,
+          "isMut": true,
           "isSigner": false
         },
         {
           "name": "destTokenRecord",
-          "isMut": false,
+          "isMut": true,
           "isSigner": false
         },
         {
@@ -1050,12 +1050,12 @@ export type NftLendingV2 = {
         },
         {
           "name": "ownerTokenRecord",
-          "isMut": false,
+          "isMut": true,
           "isSigner": false
         },
         {
           "name": "destTokenRecord",
-          "isMut": false,
+          "isMut": true,
           "isSigner": false
         },
         {
@@ -2463,6 +2463,11 @@ export type NftLendingV2 = {
       "code": 6051,
       "name": "LockBuilderFailed",
       "msg": "LockBuilderFailed"
+    },
+    {
+      "code": 6052,
+      "name": "NoStandardOnNft",
+      "msg": "NoStandardOnNft"
     }
   ]
 };
@@ -2521,7 +2526,7 @@ export const IDL: NftLendingV2 = {
         },
         {
           "name": "tokenRecordInfo",
-          "isMut": false,
+          "isMut": true,
           "isSigner": false
         },
         {
@@ -2889,7 +2894,7 @@ export const IDL: NftLendingV2 = {
         },
         {
           "name": "tokenRecordInfo",
-          "isMut": false,
+          "isMut": true,
           "isSigner": false
         },
         {
@@ -2970,7 +2975,7 @@ export const IDL: NftLendingV2 = {
         },
         {
           "name": "tokenRecordInfo",
-          "isMut": false,
+          "isMut": true,
           "isSigner": false
         },
         {
@@ -3148,12 +3153,12 @@ export const IDL: NftLendingV2 = {
         },
         {
           "name": "ownerTokenRecord",
-          "isMut": false,
+          "isMut": true,
           "isSigner": false
         },
         {
           "name": "destTokenRecord",
-          "isMut": false,
+          "isMut": true,
           "isSigner": false
         },
         {
@@ -3285,12 +3290,12 @@ export const IDL: NftLendingV2 = {
         },
         {
           "name": "ownerTokenRecord",
-          "isMut": false,
+          "isMut": true,
           "isSigner": false
         },
         {
           "name": "destTokenRecord",
-          "isMut": false,
+          "isMut": true,
           "isSigner": false
         },
         {
@@ -3414,12 +3419,12 @@ export const IDL: NftLendingV2 = {
         },
         {
           "name": "ownerTokenRecord",
-          "isMut": false,
+          "isMut": true,
           "isSigner": false
         },
         {
           "name": "destTokenRecord",
-          "isMut": false,
+          "isMut": true,
           "isSigner": false
         },
         {
@@ -3519,12 +3524,12 @@ export const IDL: NftLendingV2 = {
         },
         {
           "name": "ownerTokenRecord",
-          "isMut": false,
+          "isMut": true,
           "isSigner": false
         },
         {
           "name": "destTokenRecord",
-          "isMut": false,
+          "isMut": true,
           "isSigner": false
         },
         {
@@ -4932,6 +4937,11 @@ export const IDL: NftLendingV2 = {
       "code": 6051,
       "name": "LockBuilderFailed",
       "msg": "LockBuilderFailed"
+    },
+    {
+      "code": 6052,
+      "name": "NoStandardOnNft",
+      "msg": "NoStandardOnNft"
     }
   ]
 };
