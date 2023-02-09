@@ -16,7 +16,7 @@ type PaybackLoanIx = (params: {
   collectionInfo: web3.PublicKey;
   royaltyAddress: web3.PublicKey;
   paybackAmount?: BN;
-}) => Promise<{paybackLoanIx: web3.TransactionInstruction}>;
+}) => Promise<{ixs: web3.TransactionInstruction[]}>;
 
 export const paybackLoanIx: PaybackLoanIx = async ({
   programId,
@@ -82,5 +82,12 @@ export const paybackLoanIx: PaybackLoanIx = async ({
        },
      ],
    ).instruction()
-  return {paybackLoanIx: instruction}
+
+   const ixs: web3.TransactionInstruction[] = []
+   ixs.push( web3.ComputeBudgetProgram.requestUnits({
+    units: 400000,
+    additionalFee: 0,
+  }))
+  ixs.push(instruction)
+  return {ixs}
 };

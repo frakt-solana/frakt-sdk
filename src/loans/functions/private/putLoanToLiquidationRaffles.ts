@@ -12,7 +12,7 @@ type PutLoanToLiquidationRaffles = (params: {
   loan: web3.PublicKey;
   nftMint: web3.PublicKey;
   gracePeriod: number;
-}) => Promise<{ix: web3.TransactionInstruction, liquidationLot: web3.Signer}>;
+}) => Promise<{ixs: web3.TransactionInstruction[], liquidationLot: web3.Signer}>;
 
 export const putLoanToLiquidationRaffles: PutLoanToLiquidationRaffles = async ({
   programId,
@@ -71,8 +71,14 @@ export const putLoanToLiquidationRaffles: PutLoanToLiquidationRaffles = async ({
        },
      ],
    ).instruction();
+   const ixs: web3.TransactionInstruction[] = []
+   ixs.push( web3.ComputeBudgetProgram.requestUnits({
+    units: 400000,
+    additionalFee: 0,
+  }))
+  ixs.push(ix)
 
   // const transaction = new web3.Transaction().add(instruction);
   // await sendTxn(transaction, [liquidationLotAccount]);
-  return {ix, liquidationLot};
+  return {ixs, liquidationLot};
 };

@@ -14,7 +14,7 @@ type ProposeLoanIx = (params: {
   proposedNftPrice: BN;
   loanToValue: BN;
   isPriceBased: boolean;
-}) => Promise<{ loan: web3.Signer, ix: web3.TransactionInstruction }>;
+}) => Promise<{ loan: web3.Signer, ixs: web3.TransactionInstruction[] }>;
 
 export const proposeLoanIx: ProposeLoanIx = async ({
   proposedNftPrice,
@@ -69,6 +69,13 @@ export const proposeLoanIx: ProposeLoanIx = async ({
        },
      ],
    ).instruction();
+  
+   const ixs: web3.TransactionInstruction[] = []
+   ixs.push( web3.ComputeBudgetProgram.requestUnits({
+    units: 400000,
+    additionalFee: 0,
+  }))
+  ixs.push(ix)
 
-  return { loan: loan, ix };
+  return { loan: loan, ixs };
 };

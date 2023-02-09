@@ -12,7 +12,7 @@ type RejectLoanByAdmin = (params: {
   admin: web3.PublicKey;
   user: web3.PublicKey;
   nftMint: web3.PublicKey;
-}) => Promise<{ix: web3.TransactionInstruction}>;
+}) => Promise<{ixs: web3.TransactionInstruction[]}>;
 
 export const rejectLoanByAdmin: RejectLoanByAdmin = async ({
   programId,
@@ -62,5 +62,11 @@ export const rejectLoanByAdmin: RejectLoanByAdmin = async ({
        },
      ],
    ).instruction();
-  return {ix}
+   const ixs: web3.TransactionInstruction[] = []
+   ixs.push( web3.ComputeBudgetProgram.requestUnits({
+    units: 400000,
+    additionalFee: 0,
+  }))
+  ixs.push(ix)
+  return {ixs}
 };

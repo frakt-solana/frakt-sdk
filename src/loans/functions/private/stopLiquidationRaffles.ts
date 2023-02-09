@@ -11,7 +11,7 @@ type stopLiquidationRafflesByAdminParams = (params: {
   nftMint: web3.PublicKey;
   liquidationLot: web3.PublicKey;
   loan: web3.PublicKey;
-}) => Promise<{ix: web3.TransactionInstruction}>;
+}) => Promise<{ixs: web3.TransactionInstruction[]}>;
 
 export const stopLiquidationRaffles: stopLiquidationRafflesByAdminParams = async ({
   programId,
@@ -65,6 +65,12 @@ export const stopLiquidationRaffles: stopLiquidationRafflesByAdminParams = async
          isWritable: false,
        },
      ],
-   ).instruction();
-  return {ix}
+   ).instruction();   
+   const ixs: web3.TransactionInstruction[] = []
+   ixs.push( web3.ComputeBudgetProgram.requestUnits({
+    units: 400000,
+    additionalFee: 0,
+  }))
+  ixs.push(ix)
+  return {ixs}
 };
