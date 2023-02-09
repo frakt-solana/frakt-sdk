@@ -2,7 +2,7 @@ import { Metadata } from '@metaplex-foundation/mpl-token-metadata';
 import { web3, utils } from '@project-serum/anchor';
 import { findAssociatedTokenAddress } from '../../../common';
 import { AUTHORIZATION_RULES_PROGRAM, METADATA_PROGRAM_PUBKEY } from '../../constants';
-import { findRuleSetPDA, findTokenRecordPda, getMetaplexMetadata, returnAnchorProgram } from '../../helpers';
+import { findRuleSetPDA, findTokenRecordPda, getMetaplexEditionPda, getMetaplexMetadata, returnAnchorProgram } from '../../helpers';
 
 type stopLiquidationRafflesByAdminParams = (params: {
   programId: web3.PublicKey;
@@ -35,6 +35,7 @@ export const stopLiquidationRaffles: stopLiquidationRafflesByAdminParams = async
   const ownerTokenRecord = findTokenRecordPda(nftMint, vaultNftTokenAccount)
   const destTokenRecord = findTokenRecordPda(nftMint, nftAdminTokenAccount)
   const metadataAccount = await Metadata.fromAccountAddress(connection, nftMetadata);
+  const editionInfo = getMetaplexEditionPda(nftMint);
 
   const ruleSet = metadataAccount.programmableConfig?.ruleSet;
 
@@ -50,6 +51,7 @@ export const stopLiquidationRaffles: stopLiquidationRafflesByAdminParams = async
       nftMetadata, 
       ownerTokenRecord, 
       destTokenRecord,
+      editionInfo,
       metadataProgram: METADATA_PROGRAM_PUBKEY,
       authorizationRulesProgram: AUTHORIZATION_RULES_PROGRAM,
       vaultNftTokenAccount,
