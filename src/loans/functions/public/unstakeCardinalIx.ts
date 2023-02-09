@@ -12,8 +12,6 @@ type UnstakeCardinalParams = (params: {
   nftMint: web3.PublicKey;
   stakePool: web3.PublicKey;
   loan: web3.PublicKey;
-  payerRuleSet: web3.PublicKey;
-  nameForRuleSet: string;
   unstakeRewardsPaymentInfo: web3.PublicKey;
   rewardMint: web3.PublicKey;
   paymentPubkey1: web3.PublicKey;
@@ -26,8 +24,6 @@ export const unstakeCardinalIx: UnstakeCardinalParams = async ({
   user,
   payer,
   cardinalRewardsCenter,
-  payerRuleSet,
-  nameForRuleSet,
   nftMint,
   stakePool,
   loan,

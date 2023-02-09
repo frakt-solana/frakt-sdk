@@ -1,3 +1,4 @@
+import { Metadata } from '@metaplex-foundation/mpl-token-metadata';
 import { web3, utils } from '@project-serum/anchor';
 
 import { AUTHORIZATION_RULES_PROGRAM, METADATA_PROGRAM_PUBKEY } from '../../constants';
@@ -9,8 +10,6 @@ type RejectLoanByAdmin = (params: {
   loan: web3.PublicKey;
   nftUserTokenAccount: web3.PublicKey;
   admin: web3.PublicKey;
-  payerRuleSet: web3.PublicKey;
-  nameForRuleSet: string;
   user: web3.PublicKey;
   nftMint: web3.PublicKey;
 }) => Promise<{ix: web3.TransactionInstruction}>;
@@ -20,8 +19,6 @@ export const rejectLoanByAdmin: RejectLoanByAdmin = async ({
   connection,
   loan,
   nftUserTokenAccount,
-  payerRuleSet,
-  nameForRuleSet,
   admin,
   user,
   nftMint,
@@ -36,7 +33,10 @@ export const rejectLoanByAdmin: RejectLoanByAdmin = async ({
   );
   const nftMetadata = getMetaplexMetadata(nftMint);
   const tokenRecordInfo = findTokenRecordPda(nftMint, nftUserTokenAccount)
-  const ruleSet = await findRuleSetPDA(payerRuleSet, nameForRuleSet);
+  const metadataAccount = await Metadata.fromAccountAddress(connection, nftMetadata);
+
+  const ruleSet = metadataAccount.programmableConfig?.ruleSet;
+
 
   const ix = await program.methods.rejectLoanByAdmin().accountsStrict({
       loan: loan,
@@ -56,7 +56,7 @@ export const rejectLoanByAdmin: RejectLoanByAdmin = async ({
     }).remainingAccounts(
       [
        {
-         pubkey: ruleSet,
+         pubkey: ruleSet || METADATA_PROGRAM_PUBKEY,
          isSigner: false,
          isWritable: false,
        },

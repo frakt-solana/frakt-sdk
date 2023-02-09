@@ -16,8 +16,6 @@ type CreateProposeLoansTxns = (props: {
   programPublicKey: web3.PublicKey;
   adminPublicKey: web3.PublicKey;
   connection: web3.Connection;
-  payerRuleSet: web3.PublicKey;
-  nameForRuleSet: string;
   walletPublicKey: web3.PublicKey;
   bulkNfts: BorrowNftBulk[];
 }) => Promise<TxnAndSigners[]>;
@@ -25,8 +23,6 @@ const createProposeLoansTxns: CreateProposeLoansTxns = async ({
   programPublicKey,
   adminPublicKey,
   connection,      
-  payerRuleSet,
-  nameForRuleSet,
   walletPublicKey,
   bulkNfts,
 }) => {
@@ -49,9 +45,6 @@ const createProposeLoansTxns: CreateProposeLoansTxns = async ({
         programId: programPublicKey,
         connection,
         user: walletPublicKey,
-        
-        payerRuleSet,
-        nameForRuleSet,
         nftMint: new web3.PublicKey(mint),
         proposedNftPrice: new BN(proposedNftPrice),
         isPriceBased: !!isPriceBased,
@@ -79,8 +72,6 @@ type CreateProposeLoanTxn = (props: {
   adminPublicKey: web3.PublicKey;
   connection: web3.Connection;
   walletPublicKey: web3.PublicKey;
-  payerRuleSet: web3.PublicKey;
-  nameForRuleSet: string;
   nftMint: string;
   valuation: number;
   ltv: number;
@@ -92,17 +83,13 @@ const createProposeLoanTxn: CreateProposeLoanTxn = async ({
   connection,
   walletPublicKey,
   nftMint,
-  payerRuleSet,
-  nameForRuleSet,
   valuation,
   ltv,
   isPriceBased = false,
 }) => {
   const { ix, loan } = await proposeLoanIx({
     programId: new web3.PublicKey(programPublicKey),
-    connection,        
-    payerRuleSet,
-    nameForRuleSet,
+    connection,
     user: walletPublicKey,
     nftMint: new web3.PublicKey(nftMint),
     proposedNftPrice: new BN(valuation * 10 ** SOL_TOKEN.decimals),
@@ -219,18 +206,14 @@ const signAndSendAllTransactions: SignAndSendAllTransactions = async ({
   );
 };
 
-type CreateProposeLoans = (props: { programPublicKey: string; adminPublicKey: string, 
-  payerRuleSet: web3.PublicKey;
-  nameForRuleSet: string; }) => ProposeLoans;
+type CreateProposeLoans = (props: { programPublicKey: string; adminPublicKey: string }) => ProposeLoans;
 export const createProposeLoans: CreateProposeLoans =
-  ({ programPublicKey, adminPublicKey, payerRuleSet, nameForRuleSet }) =>
+  ({ programPublicKey, adminPublicKey }) =>
   async ({ bulkNfts, connection, wallet, onAfterSend, onBeforeApprove }) => {
     const txnAndSignersArray = await createProposeLoansTxns({
       programPublicKey: new web3.PublicKey(programPublicKey),
       adminPublicKey: new web3.PublicKey(adminPublicKey),
       connection,
-      payerRuleSet,
-      nameForRuleSet,
       walletPublicKey: wallet.publicKey,
       bulkNfts,
     });
@@ -244,18 +227,15 @@ export const createProposeLoans: CreateProposeLoans =
     });
   };
 
-type CreateProposeLoan = (props: { programPublicKey: string; adminPublicKey: string, payerRuleSet: web3.PublicKey;
-  nameForRuleSet: string;  }) => ProposeLoan;
+type CreateProposeLoan = (props: { programPublicKey: string; adminPublicKey: string  }) => ProposeLoan;
 export const createProposeLoan: CreateProposeLoan =
-  ({ programPublicKey, adminPublicKey, nameForRuleSet, payerRuleSet }) =>
+  ({ programPublicKey, adminPublicKey }) =>
   async ({ connection, wallet, nftMint, valuation, ltv, isPriceBased, onAfterSend, onBeforeApprove }) => {
     const txnAndSigners = await createProposeLoanTxn({
       programPublicKey: new web3.PublicKey(programPublicKey),
       adminPublicKey: new web3.PublicKey(adminPublicKey),
       connection,
       walletPublicKey: wallet.publicKey,
-      payerRuleSet,
-      nameForRuleSet,
       nftMint,
       valuation,
       ltv,

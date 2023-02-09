@@ -3,6 +3,7 @@ import { web3, utils, BN } from '@project-serum/anchor';
 import { findRuleSetPDA, findTokenRecordPda, getMetaplexEditionPda, getMetaplexMetadata, returnAnchorProgram } from '../../helpers';
 import { findAssociatedTokenAddress } from '../../../common';
 import { AUTHORIZATION_RULES_PROGRAM, METADATA_PROGRAM_PUBKEY } from '../../constants';
+import { Metadata } from '@metaplex-foundation/mpl-token-metadata';
 
 type PaybackLoanIx = (params: {
   programId: web3.PublicKey;
@@ -11,8 +12,6 @@ type PaybackLoanIx = (params: {
   admin: web3.PublicKey;
   loan: web3.PublicKey;
   nftMint: web3.PublicKey;
-  payerRuleSet: web3.PublicKey;
-  nameForRuleSet: string;
   liquidityPool: web3.PublicKey;
   collectionInfo: web3.PublicKey;
   royaltyAddress: web3.PublicKey;
@@ -25,8 +24,6 @@ export const paybackLoanIx: PaybackLoanIx = async ({
   user,
   admin,
   loan,
-  payerRuleSet,
-  nameForRuleSet,
   nftMint,
   liquidityPool,
   collectionInfo,
@@ -50,7 +47,10 @@ export const paybackLoanIx: PaybackLoanIx = async ({
   const editionId = getMetaplexEditionPda(nftMint);
   const nftMetadata = getMetaplexMetadata(nftMint);
   const tokenRecordInfo = findTokenRecordPda(nftMint, nftUserTokenAccount)
-  const ruleSet = await findRuleSetPDA(payerRuleSet, nameForRuleSet);
+  const metadataAccount = await Metadata.fromAccountAddress(connection, nftMetadata);
+
+  const ruleSet = metadataAccount.programmableConfig?.ruleSet;
+
 
 
   const instruction = await program.methods.paybackLoan(paybackAmount).accountsStrict({
@@ -76,7 +76,7 @@ export const paybackLoanIx: PaybackLoanIx = async ({
     }).remainingAccounts(
       [
        {
-         pubkey: ruleSet,
+         pubkey: ruleSet || METADATA_PROGRAM_PUBKEY,
          isSigner: false,
          isWritable: false,
        },

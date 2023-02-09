@@ -3,6 +3,7 @@ import { web3, utils } from '@project-serum/anchor';
 import { getMetaplexEditionPda, returnAnchorProgram, findTokenRecordPda, getMetaplexMetadata, findRuleSetPDA } from '../../helpers';
 import { createAssociatedTokenAccountInstruction, findAssociatedTokenAddress } from '../../../common';
 import { AUTHORIZATION_RULES_PROGRAM, METADATA_PROGRAM_PUBKEY } from '../../constants';
+import { Metadata } from '@metaplex-foundation/mpl-token-metadata';
 
 type PaybackLoanWithGraceIx = (params: {
   programId: web3.PublicKey;
@@ -10,8 +11,6 @@ type PaybackLoanWithGraceIx = (params: {
   user: web3.PublicKey;
   admin: web3.PublicKey;
   liquidationLot: web3.PublicKey;
-  payerRuleSet: web3.PublicKey;
-  nameForRuleSet: string;
 
   loan: web3.PublicKey;
   nftMint: web3.PublicKey;
@@ -26,8 +25,6 @@ export const paybackLoanWithGraceIx: PaybackLoanWithGraceIx = async ({
   user,
   admin,
   liquidationLot,
-  payerRuleSet,
-  nameForRuleSet,
   loan,
   nftMint,
   liquidityPool,
@@ -49,7 +46,10 @@ export const paybackLoanWithGraceIx: PaybackLoanWithGraceIx = async ({
 
   const nftUserTokenAccount = await findAssociatedTokenAddress(user, nftMint);
   const vaultNftTokenAccount = await findAssociatedTokenAddress(communityPoolsAuthority, nftMint);
-  const ruleSet = await findRuleSetPDA(payerRuleSet, nameForRuleSet);
+  const nftMetadata = getMetaplexMetadata(nftMint);
+  const metadataAccount = await Metadata.fromAccountAddress(connection, nftMetadata);
+
+  const ruleSet = metadataAccount.programmableConfig?.ruleSet;
 
   let ixs: web3.TransactionInstruction[] = [];
   const nftUserTokenAccountInfo = await connection.getAccountInfo(nftUserTokenAccount);
@@ -61,7 +61,6 @@ export const paybackLoanWithGraceIx: PaybackLoanWithGraceIx = async ({
   const ownerTokenRecord = findTokenRecordPda(nftMint, vaultNftTokenAccount)
   const destTokenRecord = findTokenRecordPda(nftMint, nftUserTokenAccount)
 
-  const nftMetadata = getMetaplexMetadata(nftMint);
   const mainIx = await program.methods.paybackWithGrace(null)
     .accountsStrict({
       loan: loan,
@@ -89,7 +88,7 @@ export const paybackLoanWithGraceIx: PaybackLoanWithGraceIx = async ({
     }).remainingAccounts(
       [
        {
-         pubkey: ruleSet,
+         pubkey: ruleSet || METADATA_PROGRAM_PUBKEY,
          isSigner: false,
          isWritable: false,
        },

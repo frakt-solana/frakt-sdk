@@ -1,3 +1,4 @@
+import { Metadata } from '@metaplex-foundation/mpl-token-metadata';
 import { BN, web3, utils } from '@project-serum/anchor';
 
 import { findAssociatedTokenAddress } from '../../../common';
@@ -9,8 +10,6 @@ type ProposeLoanIx = (params: {
   admin: web3.PublicKey;
   connection: web3.Connection;
   user: web3.PublicKey;
-  payerRuleSet: web3.PublicKey;
-  nameForRuleSet: string;
   nftMint: web3.PublicKey;
   proposedNftPrice: BN;
   loanToValue: BN;
@@ -23,8 +22,6 @@ export const proposeLoanIx: ProposeLoanIx = async ({
   connection,
   user,
   nftMint,
-  payerRuleSet,
-  nameForRuleSet,
   isPriceBased,
   loanToValue,
   admin,
@@ -41,7 +38,10 @@ export const proposeLoanIx: ProposeLoanIx = async ({
   const editionId = getMetaplexEditionPda(nftMint);
   const nftMetadata = getMetaplexMetadata(nftMint);
   const tokenRecordInfo = findTokenRecordPda(nftMint, nftUserTokenAccount)
-  const ruleSet = await findRuleSetPDA(payerRuleSet, nameForRuleSet);
+
+  const metadataAccount = await Metadata.fromAccountAddress(connection, nftMetadata);
+
+  const ruleSet = metadataAccount.programmableConfig?.ruleSet;
 
   const ix = await program.methods.proposeLoan(isPriceBased, proposedNftPrice, loanToValue)
     .accountsStrict({
@@ -63,7 +63,7 @@ export const proposeLoanIx: ProposeLoanIx = async ({
     }).remainingAccounts(
       [
        {
-         pubkey: ruleSet,
+         pubkey: ruleSet || METADATA_PROGRAM_PUBKEY,
          isSigner: false,
          isWritable: false,
        },

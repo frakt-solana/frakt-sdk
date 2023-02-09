@@ -3,14 +3,13 @@ import { web3, utils, BN } from '@project-serum/anchor';
 import { findRuleSetPDA, findTokenRecordPda, getMetaplexEditionPda, getMetaplexMetadata, returnAnchorProgram } from '../../helpers';
 import { findAssociatedTokenAddress } from '../../../common';
 import { AUTHORIZATION_RULES_PROGRAM, METADATA_PROGRAM_PUBKEY } from '../../constants';
+import { Metadata } from '@metaplex-foundation/mpl-token-metadata';
 
 type LiquidateLoanToRaffles = (params: {
   programId: web3.PublicKey;
   connection: web3.Connection;
   user: web3.PublicKey;
   liquidator: web3.PublicKey;
-  payerRuleSet: web3.PublicKey;
-  nameForRuleSet: string;
 
   gracePeriod: number;
   loan: web3.PublicKey;
@@ -21,8 +20,6 @@ export const liquidateLoanToRaffles: LiquidateLoanToRaffles = async ({
   programId,
   connection,
   user,
-  payerRuleSet,
-  nameForRuleSet,
   liquidator,
   gracePeriod,
   loan,
@@ -42,9 +39,13 @@ export const liquidateLoanToRaffles: LiquidateLoanToRaffles = async ({
   const liquidationLot = web3.Keypair.generate();
   const nftMetadata = getMetaplexMetadata(nftMint);
   
-  const ruleSet = await findRuleSetPDA(payerRuleSet, nameForRuleSet);
+  // const ruleSet = await findRuleSetPDA(payerRuleSet, nameForRuleSet);
   const ownerTokenRecord = findTokenRecordPda(nftMint, nftUserTokenAccount)
   const destTokenRecord = findTokenRecordPda(nftMint, vaultNftTokenAccount)
+
+  const metadataAccount = await Metadata.fromAccountAddress(connection, nftMetadata);
+
+  const ruleSet = metadataAccount.programmableConfig?.ruleSet;
 
 
   const ix = await program.methods.liquidateNftToRaffles(new BN(gracePeriod), null)
@@ -71,7 +72,7 @@ export const liquidateLoanToRaffles: LiquidateLoanToRaffles = async ({
     }).remainingAccounts(
       [
        {
-         pubkey: ruleSet,
+         pubkey: ruleSet || METADATA_PROGRAM_PUBKEY,
          isSigner: false,
          isWritable: false,
        },
