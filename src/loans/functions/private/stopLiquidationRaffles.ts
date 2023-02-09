@@ -50,6 +50,7 @@ export const stopLiquidationRaffles: stopLiquidationRafflesByAdminParams = async
       nftMetadata, 
       ownerTokenRecord, 
       destTokenRecord,
+      metadataProgram: METADATA_PROGRAM_PUBKEY,
       authorizationRulesProgram: AUTHORIZATION_RULES_PROGRAM,
       vaultNftTokenAccount,
       nftAdminTokenAccount,
