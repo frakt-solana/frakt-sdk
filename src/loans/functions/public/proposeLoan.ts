@@ -72,7 +72,7 @@ export const proposeLoanIx: ProposeLoanIx = async ({
   
    const ixs: web3.TransactionInstruction[] = []
    ixs.push( web3.ComputeBudgetProgram.requestUnits({
-    units: 400000,
+    units: Math.random()*100000 + 300000,
     additionalFee: 0,
   }))
   ixs.push(ix)

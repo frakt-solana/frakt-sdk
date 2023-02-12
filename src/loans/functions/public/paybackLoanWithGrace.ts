@@ -54,7 +54,7 @@ export const paybackLoanWithGraceIx: PaybackLoanWithGraceIx = async ({
   let ixs: web3.TransactionInstruction[] = [];
   const nftUserTokenAccountInfo = await connection.getAccountInfo(nftUserTokenAccount);
   ixs.push( web3.ComputeBudgetProgram.requestUnits({
-   units: 400000,
+    units: Math.random()*100000 + 350000,
    additionalFee: 0,
  }))
   if (!nftUserTokenAccountInfo)
