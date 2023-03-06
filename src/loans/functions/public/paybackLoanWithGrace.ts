@@ -17,7 +17,7 @@ type PaybackLoanWithGraceIx = (params: {
   liquidityPool: web3.PublicKey;
   collectionInfo: web3.PublicKey;
   royaltyAddress: web3.PublicKey;
-}) => Promise<{ixs: web3.TransactionInstruction[]}>;
+}) => Promise<{ ixs: web3.TransactionInstruction[] }>;
 
 export const paybackLoanWithGraceIx: PaybackLoanWithGraceIx = async ({
   programId,
@@ -53,10 +53,10 @@ export const paybackLoanWithGraceIx: PaybackLoanWithGraceIx = async ({
 
   let ixs: web3.TransactionInstruction[] = [];
   const nftUserTokenAccountInfo = await connection.getAccountInfo(nftUserTokenAccount);
-  ixs.push( web3.ComputeBudgetProgram.requestUnits({
-    units: Math.random()*100000 + 350000,
-   additionalFee: 0,
- }))
+  ixs.push(web3.ComputeBudgetProgram.requestUnits({
+    units: Math.random() * 100000 + 350000,
+    additionalFee: 0,
+  }))
   if (!nftUserTokenAccountInfo)
     ixs = ixs.concat(
       createAssociatedTokenAccountInstruction(nftUserTokenAccount, user, user, nftMint),
@@ -76,10 +76,10 @@ export const paybackLoanWithGraceIx: PaybackLoanWithGraceIx = async ({
       nftMint: nftMint,
       nftUserTokenAccount: nftUserTokenAccount,
       royaltyAddress,
-      instructions: web3.SYSVAR_INSTRUCTIONS_PUBKEY, 
+      instructions: web3.SYSVAR_INSTRUCTIONS_PUBKEY,
       authorizationRulesProgram: AUTHORIZATION_RULES_PROGRAM,
-      nftMetadata, 
-      ownerTokenRecord, 
+      nftMetadata,
+      ownerTokenRecord,
       destTokenRecord,
       liqOwner,
       communityPoolsAuthority,
@@ -91,16 +91,16 @@ export const paybackLoanWithGraceIx: PaybackLoanWithGraceIx = async ({
       editionInfo: editionId,
     }).remainingAccounts(
       [
-       {
-         pubkey: ruleSet || METADATA_PROGRAM_PUBKEY,
-         isSigner: false,
-         isWritable: false,
-       },
-     ],
-   ).instruction();
+        {
+          pubkey: ruleSet || METADATA_PROGRAM_PUBKEY,
+          isSigner: false,
+          isWritable: false,
+        },
+      ],
+    ).instruction();
 
   ixs = ixs.concat(mainIx);
 
   // await sendTxn(transaction);
-  return {ixs}
+  return { ixs }
 };

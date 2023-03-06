@@ -6,5 +6,5 @@ if [[ "$BRANCH" != "master" ]]; then
   exit 0;
 fi
 
-# npm run build;
-# npm publish;
+npm run build;
+npm publish;

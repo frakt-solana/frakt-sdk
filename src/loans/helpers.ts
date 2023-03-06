@@ -1,6 +1,6 @@
 import { Program, AnchorProvider, web3, BN, utils } from '@project-serum/anchor';
 
-import {IDL} from './idl/nft_lending_v2';
+import { IDL } from './idl/nft_lending_v2';
 import {
   CollectionInfoView,
   DepositView,
@@ -42,20 +42,20 @@ export const decodedCollectionInfo: DecodedCollectionInfo = (decodedCollection, 
 
 type DecodedLendingStake = (decodedLendingStake: any, address: web3.PublicKey) => LendingStakeView;
 export const decodedLendingStake: DecodedLendingStake = (decodedStake, address) => ({
-    lendingStakePubkey: address.toBase58(),
-    stakeType: Object.keys(decodedStake.stakeType)[0],
-    loan: decodedStake.loan.toBase58(),
-    stakeContract: decodedStake.stakeContract.toBase58(),
-    stakeConstractOptional: decodedStake.stakeConstractOptional?.toBase58(),
-    stakeState: Object.keys(decodedStake.stakeState)[0],
-    identity: decodedStake.identity.toBase58(),
-    dataA: decodedStake.dataA.toBase58(),
-    dataB: decodedStake.dataB.toBase58(),
-    dataC: decodedStake.dataC.toBase58(),
-    dataD: decodedStake.dataD.toBase58(),
-    totalHarvested: decodedStake.totalHarvested.toNumber(),
-    totalHarvestedOptional: decodedStake.totalHarvestedOptional.toNumber(),
-    lastTime: decodedStake.lastTime.toNumber()
+  lendingStakePubkey: address.toBase58(),
+  stakeType: Object.keys(decodedStake.stakeType)[0],
+  loan: decodedStake.loan.toBase58(),
+  stakeContract: decodedStake.stakeContract.toBase58(),
+  stakeConstractOptional: decodedStake.stakeConstractOptional?.toBase58(),
+  stakeState: Object.keys(decodedStake.stakeState)[0],
+  identity: decodedStake.identity.toBase58(),
+  dataA: decodedStake.dataA.toBase58(),
+  dataB: decodedStake.dataB.toBase58(),
+  dataC: decodedStake.dataC.toBase58(),
+  dataD: decodedStake.dataD.toBase58(),
+  totalHarvested: decodedStake.totalHarvested.toNumber(),
+  totalHarvestedOptional: decodedStake.totalHarvestedOptional.toNumber(),
+  lastTime: decodedStake.lastTime.toNumber()
 });
 
 type DecodedFarmer = (decodedFarmer: any, address: web3.PublicKey) => FarmerView;
@@ -335,20 +335,20 @@ export function objectBNsAndPubkeysToNums(obj: any) {
   return { ...copyobj.account, publicKey: copyobj.publicKey.toBase58() };
 }
 
-export const createAndSendV0Tx = async( 
+export const createAndSendV0Tx = async (
   connection: web3.Connection,
-  txInstructions: web3.TransactionInstruction[], 
+  txInstructions: web3.TransactionInstruction[],
   signer: web3.Signer,
   additionalSigners: web3.Signer[],
   lookupTablePubkey: web3.PublicKey
-  ) => {
+) => {
   let latestBlockhash = await connection.getLatestBlockhash('finalized');
   const lookupTable = (await connection.getAddressLookupTable(lookupTablePubkey)).value;
-  if (!lookupTable) return 
+  if (!lookupTable) return
   const messageV0 = new web3.TransactionMessage({
-      payerKey: signer.publicKey,
-      recentBlockhash: latestBlockhash.blockhash,
-      instructions: txInstructions
+    payerKey: signer.publicKey,
+    recentBlockhash: latestBlockhash.blockhash,
+    instructions: txInstructions
   }).compileToV0Message([lookupTable]);
   const transaction = new web3.VersionedTransaction(messageV0);
 
@@ -356,9 +356,9 @@ export const createAndSendV0Tx = async(
   const txid = await connection.sendTransaction(transaction, { maxRetries: 5 });
 
   const confirmation = await connection.confirmTransaction({
-      signature: txid,
-      blockhash: latestBlockhash.blockhash,
-      lastValidBlockHeight: latestBlockhash.lastValidBlockHeight
+    signature: txid,
+    blockhash: latestBlockhash.blockhash,
+    lastValidBlockHeight: latestBlockhash.lastValidBlockHeight
   });
   console.log(`txid ${txid}`);
   if (confirmation.value.err) { throw new Error("   ❌ - Transaction not confirmed.") }

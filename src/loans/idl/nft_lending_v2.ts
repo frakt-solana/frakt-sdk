@@ -1105,6 +1105,148 @@ export type NftLendingV2 = {
       ]
     },
     {
+      "name": "returnFromGraceToActive",
+      "accounts": [
+        {
+          "name": "loan",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "liquidationLot",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "nftMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vaultNftTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "communityPoolsAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "userReturnLoanFromEscrow",
+      "accounts": [
+        {
+          "name": "loan",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "nftMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vaultNftTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftUserTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "communityPoolsAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "editionInfo",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "ownerTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "destTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "instructions",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authorizationRulesProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
       "name": "closeLoan",
       "accounts": [
         {
@@ -1331,102 +1473,6 @@ export type NftLendingV2 = {
       "args": []
     },
     {
-      "name": "claimCardinal",
-      "accounts": [
-        {
-          "name": "payer",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "user",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "identity",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "cardinalStakeCenter",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "rewardEntry",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "rewardDistributor",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "stakeEntry",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "stakePool",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "rewardDistributorTokenAccount",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "rewardMint",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "lendingStake",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "loan",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "tokenDestinationIdentity",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "rewardDestination",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "rent",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "associatedTokenProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": []
-    },
-    {
       "name": "topupLiqPool",
       "accounts": [
         {
@@ -1504,6 +1550,18 @@ export type NftLendingV2 = {
           },
           {
             "name": "expirationTime",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "comPools",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "initialized",
             "type": "u64"
           }
         ]
@@ -3579,6 +3637,148 @@ export const IDL: NftLendingV2 = {
       ]
     },
     {
+      "name": "returnFromGraceToActive",
+      "accounts": [
+        {
+          "name": "loan",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "liquidationLot",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "nftMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vaultNftTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "communityPoolsAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "userReturnLoanFromEscrow",
+      "accounts": [
+        {
+          "name": "loan",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "nftMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "vaultNftTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "nftUserTokenAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "communityPoolsAuthority",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "editionInfo",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "ownerTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "destTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "instructions",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authorizationRulesProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
       "name": "closeLoan",
       "accounts": [
         {
@@ -3805,102 +4005,6 @@ export const IDL: NftLendingV2 = {
       "args": []
     },
     {
-      "name": "claimCardinal",
-      "accounts": [
-        {
-          "name": "payer",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "user",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "identity",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "cardinalStakeCenter",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "rewardEntry",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "rewardDistributor",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "stakeEntry",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "stakePool",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "rewardDistributorTokenAccount",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "rewardMint",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "lendingStake",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "loan",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "tokenDestinationIdentity",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "rewardDestination",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "rent",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "associatedTokenProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": []
-    },
-    {
       "name": "topupLiqPool",
       "accounts": [
         {
@@ -3978,6 +4082,18 @@ export const IDL: NftLendingV2 = {
           },
           {
             "name": "expirationTime",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "comPools",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "initialized",
             "type": "u64"
           }
         ]
