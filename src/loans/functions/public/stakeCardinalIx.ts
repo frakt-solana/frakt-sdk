@@ -76,7 +76,7 @@ export const stakeCardinalIx: StakeCardinalParams = async ({
   });
   
 
-  const stakeIx = await program.methods.stakeCardinal().accounts({
+  const stakeIx = await program.methods.stakeCardinal().accountsStrict({
         user,
         lendingStake,
         loan, 

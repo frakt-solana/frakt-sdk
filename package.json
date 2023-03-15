@@ -1,6 +1,6 @@
 {
   "name": "@frakt-protocol/frakt-sdk",
-  "version": "0.8.12",
+  "version": "0.8.22-beta.0",
   "description": "Frakt SDK for interacting with frakt.xyz protocols",
   "keywords": [
     "Frakt",
@@ -23,7 +23,8 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "@project-serum/anchor": "0.24.2",
+    "@project-serum/anchor": "0.26.0",
+    "@metaplex-foundation/mpl-token-metadata": "^2.7.0",
     "axios": "^1.2.1"
   },
   "devDependencies": {

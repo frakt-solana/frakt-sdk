@@ -9,7 +9,7 @@ import { BorrowNftBulk, ProposeLoan, ProposeLoans } from './types';
 
 interface TxnAndSigners {
   transaction: web3.Transaction;
-  signers?: web3.Keypair[];
+  signers?: web3.Signer[];
 }
 
 type CreateProposeLoansTxns = (props: {
@@ -22,7 +22,7 @@ type CreateProposeLoansTxns = (props: {
 const createProposeLoansTxns: CreateProposeLoansTxns = async ({
   programPublicKey,
   adminPublicKey,
-  connection,
+  connection,      
   walletPublicKey,
   bulkNfts,
 }) => {
@@ -41,7 +41,7 @@ const createProposeLoansTxns: CreateProposeLoansTxns = async ({
 
       const loanToValue = rawLoanToValue || suggestedLtvPersent;
 
-      const { ix, loan } = await proposeLoanIx({
+      const { ixs, loan } = await proposeLoanIx({
         programId: programPublicKey,
         connection,
         user: walletPublicKey,
@@ -53,14 +53,14 @@ const createProposeLoansTxns: CreateProposeLoansTxns = async ({
       });
 
       return {
-        instruction: ix,
+        instructions: ixs,
         signer: loan,
       };
     }),
   );
 
   const txnsAndSigners = chunk(ixnsAndSigners, PROPOSE_LOAN_IXS_PER_TXN).map((ixnsAndSigners) => ({
-    transaction: new web3.Transaction().add(...ixnsAndSigners.map(({ instruction }) => instruction)),
+    transaction: new web3.Transaction().add(...ixnsAndSigners.map(({ instructions }) => instructions)),
     signers: ixnsAndSigners.map(({ signer }) => signer),
   }));
 
@@ -87,7 +87,7 @@ const createProposeLoanTxn: CreateProposeLoanTxn = async ({
   ltv,
   isPriceBased = false,
 }) => {
-  const { ix, loan } = await proposeLoanIx({
+  const { ixs, loan } = await proposeLoanIx({
     programId: new web3.PublicKey(programPublicKey),
     connection,
     user: walletPublicKey,
@@ -99,7 +99,7 @@ const createProposeLoanTxn: CreateProposeLoanTxn = async ({
   });
 
   return {
-    transaction: new web3.Transaction().add(ix),
+    transaction: new web3.Transaction().add(ixs[0]).add(ixs[1]),
     signers: [loan],
   };
 };
@@ -227,7 +227,7 @@ export const createProposeLoans: CreateProposeLoans =
     });
   };
 
-type CreateProposeLoan = (props: { programPublicKey: string; adminPublicKey: string }) => ProposeLoan;
+type CreateProposeLoan = (props: { programPublicKey: string; adminPublicKey: string  }) => ProposeLoan;
 export const createProposeLoan: CreateProposeLoan =
   ({ programPublicKey, adminPublicKey }) =>
   async ({ connection, wallet, nftMint, valuation, ltv, isPriceBased, onAfterSend, onBeforeApprove }) => {

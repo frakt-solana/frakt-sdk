@@ -46,6 +46,26 @@ export type NftLendingV2 = {
           "isSigner": false
         },
         {
+          "name": "nftMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenRecordInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "instructions",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authorizationRulesProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
           "name": "admin",
           "isMut": true,
           "isSigner": false,
@@ -65,10 +85,6 @@ export type NftLendingV2 = {
         }
       ],
       "args": [
-        {
-          "name": "bumpPoolsAuth",
-          "type": "u8"
-        },
         {
           "name": "isPriceBased",
           "type": "bool"
@@ -301,10 +317,6 @@ export type NftLendingV2 = {
       ],
       "args": [
         {
-          "name": "bumpPoolsAuth",
-          "type": "u8"
-        },
-        {
           "name": "params",
           "type": {
             "defined": "PriceBasedLiqPoolInputParams"
@@ -324,16 +336,6 @@ export type NftLendingV2 = {
           "name": "admin",
           "isMut": true,
           "isSigner": true
-        },
-        {
-          "name": "rent",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
         }
       ],
       "args": [
@@ -412,6 +414,26 @@ export type NftLendingV2 = {
           "isSigner": false
         },
         {
+          "name": "nftMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenRecordInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "instructions",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authorizationRulesProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
           "name": "tokenProgram",
           "isMut": false,
           "isSigner": false
@@ -423,10 +445,6 @@ export type NftLendingV2 = {
         }
       ],
       "args": [
-        {
-          "name": "bumpPoolsAuth",
-          "type": "u8"
-        },
         {
           "name": "amount",
           "type": "u64"
@@ -477,6 +495,26 @@ export type NftLendingV2 = {
           "isSigner": false
         },
         {
+          "name": "nftMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenRecordInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "instructions",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authorizationRulesProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
           "name": "tokenProgram",
           "isMut": false,
           "isSigner": false
@@ -487,12 +525,7 @@ export type NftLendingV2 = {
           "isSigner": false
         }
       ],
-      "args": [
-        {
-          "name": "bumpPoolsAuth",
-          "type": "u8"
-        }
-      ]
+      "args": []
     },
     {
       "name": "unstakeLiquidity",
@@ -630,17 +663,42 @@ export type NftLendingV2 = {
           "isSigner": false
         },
         {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
           "name": "metadataProgram",
           "isMut": false,
           "isSigner": false
         },
         {
           "name": "editionInfo",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "ownerTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "destTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "instructions",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authorizationRulesProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
           "isMut": false,
           "isSigner": false
         },
@@ -662,12 +720,16 @@ export type NftLendingV2 = {
       ],
       "args": [
         {
-          "name": "bumpPoolsAuth",
-          "type": "u8"
-        },
-        {
           "name": "gracePeriod",
           "type": "u64"
+        },
+        {
+          "name": "authorizationData",
+          "type": {
+            "option": {
+              "defined": "AuthorizationDataLocal"
+            }
+          }
         }
       ]
     },
@@ -748,6 +810,31 @@ export type NftLendingV2 = {
           "isSigner": false
         },
         {
+          "name": "nftMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "ownerTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "destTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "instructions",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authorizationRulesProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
           "name": "tokenProgram",
           "isMut": false,
           "isSigner": false
@@ -765,8 +852,12 @@ export type NftLendingV2 = {
       ],
       "args": [
         {
-          "name": "bumpPoolsAuth",
-          "type": "u8"
+          "name": "authorizationData",
+          "type": {
+            "option": {
+              "defined": "AuthorizationDataLocal"
+            }
+          }
         }
       ]
     },
@@ -838,6 +929,41 @@ export type NftLendingV2 = {
           "isSigner": false
         },
         {
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "editionInfo",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "ownerTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "destTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "instructions",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authorizationRulesProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
           "name": "tokenProgram",
           "isMut": false,
           "isSigner": false
@@ -860,8 +986,12 @@ export type NftLendingV2 = {
       ],
       "args": [
         {
-          "name": "bumpPoolsAuth",
-          "type": "u8"
+          "name": "authorizationData",
+          "type": {
+            "option": {
+              "defined": "AuthorizationDataLocal"
+            }
+          }
         }
       ]
     },
@@ -904,6 +1034,41 @@ export type NftLendingV2 = {
           "isSigner": false
         },
         {
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "editionInfo",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "ownerTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "destTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "instructions",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authorizationRulesProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
           "name": "tokenProgram",
           "isMut": false,
           "isSigner": false
@@ -926,8 +1091,12 @@ export type NftLendingV2 = {
       ],
       "args": [
         {
-          "name": "bumpPoolsAuth",
-          "type": "u8"
+          "name": "authorizationData",
+          "type": {
+            "option": {
+              "defined": "AuthorizationDataLocal"
+            }
+          }
         },
         {
           "name": "gracePeriod",
@@ -936,80 +1105,40 @@ export type NftLendingV2 = {
       ]
     },
     {
-      "name": "claimGemFarmStaking",
+      "name": "returnFromGraceToActive",
       "accounts": [
-        {
-          "name": "user",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "gemFarm",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "farm",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "farmAuthority",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "farmer",
-          "isMut": true,
-          "isSigner": false
-        },
         {
           "name": "loan",
           "isMut": true,
           "isSigner": false
         },
         {
-          "name": "gemMint",
+          "name": "liquidationLot",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "nftMint",
           "isMut": false,
           "isSigner": false
         },
         {
-          "name": "identity",
+          "name": "vaultNftTokenAccount",
           "isMut": true,
           "isSigner": false
         },
         {
-          "name": "rewardAPot",
+          "name": "communityPoolsAuthority",
           "isMut": true,
           "isSigner": false
         },
         {
-          "name": "rewardAMint",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "rewardADestinationIdentity",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "rewardBPot",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "rewardBMint",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "rewardBDestinationIdentity",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "tokenProgram",
+          "name": "rent",
           "isMut": false,
           "isSigner": false
         },
@@ -1019,81 +1148,79 @@ export type NftLendingV2 = {
           "isSigner": false
         },
         {
-          "name": "rent",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
           "name": "associatedTokenProgram",
           "isMut": false,
           "isSigner": false
         }
       ],
-      "args": [
-        {
-          "name": "params",
-          "type": {
-            "defined": "ClaimGemFarmParams"
-          }
-        }
-      ]
+      "args": []
     },
     {
-      "name": "getClaimedGemFarmStaking",
+      "name": "userReturnLoanFromEscrow",
       "accounts": [
-        {
-          "name": "user",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "identity",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "lendingStake",
-          "isMut": true,
-          "isSigner": false
-        },
         {
           "name": "loan",
           "isMut": true,
           "isSigner": false
         },
         {
-          "name": "gemMint",
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "nftMint",
           "isMut": false,
           "isSigner": false
         },
         {
-          "name": "rewardAMint",
+          "name": "vaultNftTokenAccount",
           "isMut": true,
           "isSigner": false
         },
         {
-          "name": "rewardADestinationIdentity",
+          "name": "nftUserTokenAccount",
           "isMut": true,
           "isSigner": false
         },
         {
-          "name": "rewardADestination",
+          "name": "communityPoolsAuthority",
           "isMut": true,
           "isSigner": false
         },
         {
-          "name": "rewardBMint",
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "editionInfo",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftMetadata",
           "isMut": true,
           "isSigner": false
         },
         {
-          "name": "rewardBDestinationIdentity",
+          "name": "ownerTokenRecord",
           "isMut": true,
           "isSigner": false
         },
         {
-          "name": "rewardBDestination",
+          "name": "destTokenRecord",
           "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "instructions",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authorizationRulesProgram",
+          "isMut": false,
           "isSigner": false
         },
         {
@@ -1102,7 +1229,7 @@ export type NftLendingV2 = {
           "isSigner": false
         },
         {
-          "name": "systemProgram",
+          "name": "associatedTokenProgram",
           "isMut": false,
           "isSigner": false
         },
@@ -1112,17 +1239,31 @@ export type NftLendingV2 = {
           "isSigner": false
         },
         {
-          "name": "associatedTokenProgram",
+          "name": "systemProgram",
           "isMut": false,
           "isSigner": false
         }
       ],
-      "args": [
+      "args": []
+    },
+    {
+      "name": "closeLoan",
+      "accounts": [
         {
-          "name": "bumpAuth",
-          "type": "u8"
+          "name": "loan",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "CHECK"
+          ]
         }
-      ]
+      ],
+      "args": []
     },
     {
       "name": "stakeCardinal",
@@ -1332,241 +1473,33 @@ export type NftLendingV2 = {
       "args": []
     },
     {
-      "name": "claimCardinal",
+      "name": "topupLiqPool",
       "accounts": [
         {
-          "name": "payer",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "user",
+          "name": "liquidityPool",
           "isMut": true,
           "isSigner": false
         },
         {
-          "name": "identity",
+          "name": "liqOwner",
           "isMut": true,
           "isSigner": false
         },
-        {
-          "name": "cardinalStakeCenter",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "rewardEntry",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "rewardDistributor",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "stakeEntry",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "stakePool",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "rewardDistributorTokenAccount",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "rewardMint",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "lendingStake",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "loan",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "tokenDestinationIdentity",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "rewardDestination",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "rent",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "associatedTokenProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": []
-    },
-    {
-      "name": "unstakeGemFarmStakingByAdmin",
-      "accounts": [
         {
           "name": "admin",
           "isMut": true,
           "isSigner": true
         },
         {
-          "name": "gemFarm",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "lendingStake",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "farm",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "farmAuthority",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "farmer",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "farmTreasury",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "loan",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "identity",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "bank",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "gemBank",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "feeAcc",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "vault",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "authority",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "gemBox",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "gemDepositReceipt",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "gemSource",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "gemMint",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "gemRarity",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "communityPoolsAuthority",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "editionInfo",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "metadataProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
           "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "rent",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "associatedTokenProgram",
           "isMut": false,
           "isSigner": false
         }
       ],
       "args": [
         {
-          "name": "params",
-          "type": {
-            "defined": "UnstakeGemFarmParams"
-          }
+          "name": "amount",
+          "type": "u64"
         }
       ]
     }
@@ -1617,6 +1550,18 @@ export type NftLendingV2 = {
           },
           {
             "name": "expirationTime",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "comPools",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "initialized",
             "type": "u64"
           }
         ]
@@ -1861,60 +1806,6 @@ export type NftLendingV2 = {
       }
     },
     {
-      "name": "lotTicket",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "liquidationLot",
-            "type": "publicKey"
-          },
-          {
-            "name": "user",
-            "type": "publicKey"
-          },
-          {
-            "name": "usedNftAttempts",
-            "type": "publicKey"
-          },
-          {
-            "name": "ticketState",
-            "type": {
-              "defined": "TicketState"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "nftAttempts",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "nftMint",
-            "type": "publicKey"
-          },
-          {
-            "name": "blockedUntil",
-            "type": "u64"
-          },
-          {
-            "name": "attempts",
-            "type": "u64"
-          },
-          {
-            "name": "cycleStartedAt",
-            "type": "u64"
-          },
-          {
-            "name": "lastTriedAt",
-            "type": "u64"
-          }
-        ]
-      }
-    },
-    {
       "name": "priceBasedLiquidityPool",
       "type": {
         "kind": "struct",
@@ -2065,38 +1956,6 @@ export type NftLendingV2 = {
   ],
   "types": [
     {
-      "name": "ClaimGemFarmParams",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "bumpAuth",
-            "type": "u8"
-          },
-          {
-            "name": "bumpAuthAuthority",
-            "type": "u8"
-          },
-          {
-            "name": "bumpFarmer",
-            "type": "u8"
-          },
-          {
-            "name": "bumpPotA",
-            "type": "u8"
-          },
-          {
-            "name": "bumpPotB",
-            "type": "u8"
-          },
-          {
-            "name": "isDegod",
-            "type": "bool"
-          }
-        ]
-      }
-    },
-    {
       "name": "CollectionInfoParams",
       "type": {
         "kind": "struct",
@@ -2169,49 +2028,74 @@ export type NftLendingV2 = {
       }
     },
     {
-      "name": "UnstakeGemFarmParams",
+      "name": "AuthorizationDataLocal",
       "type": {
         "kind": "struct",
         "fields": [
           {
-            "name": "bumpPoolsAuth",
-            "type": "u8"
+            "name": "payload",
+            "type": {
+              "vec": {
+                "defined": "TaggedPayload"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "TaggedPayload",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "name",
+            "type": "string"
           },
           {
-            "name": "bumpAuth",
-            "type": "u8"
-          },
+            "name": "payload",
+            "type": {
+              "defined": "PayloadTypeLocal"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "SeedsVecLocal",
+      "type": {
+        "kind": "struct",
+        "fields": [
           {
-            "name": "bumpAuthAuthority",
-            "type": "u8"
-          },
+            "name": "seeds",
+            "docs": [
+              "The vector of derivation seeds."
+            ],
+            "type": {
+              "vec": "bytes"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "ProofInfoLocal",
+      "type": {
+        "kind": "struct",
+        "fields": [
           {
-            "name": "bumpTreasury",
-            "type": "u8"
-          },
-          {
-            "name": "bumpFarmer",
-            "type": "u8"
-          },
-          {
-            "name": "bumpAuthVaultAuthority",
-            "type": "u8"
-          },
-          {
-            "name": "bumpGemBox",
-            "type": "u8"
-          },
-          {
-            "name": "bumpGdr",
-            "type": "u8"
-          },
-          {
-            "name": "bumpRarity",
-            "type": "u8"
-          },
-          {
-            "name": "isDegod",
-            "type": "bool"
+            "name": "proof",
+            "docs": [
+              "The merkle proof."
+            ],
+            "type": {
+              "vec": {
+                "array": [
+                  "u8",
+                  32
+                ]
+              }
+            }
           }
         ]
       }
@@ -2322,21 +2206,37 @@ export type NftLendingV2 = {
       }
     },
     {
-      "name": "TicketState",
+      "name": "PayloadTypeLocal",
       "type": {
         "kind": "enum",
         "variants": [
           {
-            "name": "ToBeRevealed"
+            "name": "Pubkey",
+            "fields": [
+              "publicKey"
+            ]
           },
           {
-            "name": "NotWinning"
+            "name": "Seeds",
+            "fields": [
+              {
+                "defined": "SeedsVecLocal"
+              }
+            ]
           },
           {
-            "name": "Winning"
+            "name": "MerkleProof",
+            "fields": [
+              {
+                "defined": "ProofInfoLocal"
+              }
+            ]
           },
           {
-            "name": "Rejected"
+            "name": "Number",
+            "fields": [
+              "u64"
+            ]
           }
         ]
       }
@@ -2606,6 +2506,26 @@ export type NftLendingV2 = {
       "code": 6048,
       "name": "UserDoesntOwnStake",
       "msg": "UserDoesntOwnStake"
+    },
+    {
+      "code": 6049,
+      "name": "BadRuleSet",
+      "msg": "BadRuleSetForProgrammableNft"
+    },
+    {
+      "code": 6050,
+      "name": "DelegateBuilderFailed",
+      "msg": "DelegateBuilderFailed"
+    },
+    {
+      "code": 6051,
+      "name": "LockBuilderFailed",
+      "msg": "LockBuilderFailed"
+    },
+    {
+      "code": 6052,
+      "name": "NoStandardOnNft",
+      "msg": "NoStandardOnNft"
     }
   ]
 };
@@ -2658,6 +2578,26 @@ export const IDL: NftLendingV2 = {
           "isSigner": false
         },
         {
+          "name": "nftMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenRecordInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "instructions",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authorizationRulesProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
           "name": "admin",
           "isMut": true,
           "isSigner": false,
@@ -2677,10 +2617,6 @@ export const IDL: NftLendingV2 = {
         }
       ],
       "args": [
-        {
-          "name": "bumpPoolsAuth",
-          "type": "u8"
-        },
         {
           "name": "isPriceBased",
           "type": "bool"
@@ -2913,10 +2849,6 @@ export const IDL: NftLendingV2 = {
       ],
       "args": [
         {
-          "name": "bumpPoolsAuth",
-          "type": "u8"
-        },
-        {
           "name": "params",
           "type": {
             "defined": "PriceBasedLiqPoolInputParams"
@@ -2936,16 +2868,6 @@ export const IDL: NftLendingV2 = {
           "name": "admin",
           "isMut": true,
           "isSigner": true
-        },
-        {
-          "name": "rent",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
         }
       ],
       "args": [
@@ -3024,6 +2946,26 @@ export const IDL: NftLendingV2 = {
           "isSigner": false
         },
         {
+          "name": "nftMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenRecordInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "instructions",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authorizationRulesProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
           "name": "tokenProgram",
           "isMut": false,
           "isSigner": false
@@ -3035,10 +2977,6 @@ export const IDL: NftLendingV2 = {
         }
       ],
       "args": [
-        {
-          "name": "bumpPoolsAuth",
-          "type": "u8"
-        },
         {
           "name": "amount",
           "type": "u64"
@@ -3089,6 +3027,26 @@ export const IDL: NftLendingV2 = {
           "isSigner": false
         },
         {
+          "name": "nftMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenRecordInfo",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "instructions",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authorizationRulesProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
           "name": "tokenProgram",
           "isMut": false,
           "isSigner": false
@@ -3099,12 +3057,7 @@ export const IDL: NftLendingV2 = {
           "isSigner": false
         }
       ],
-      "args": [
-        {
-          "name": "bumpPoolsAuth",
-          "type": "u8"
-        }
-      ]
+      "args": []
     },
     {
       "name": "unstakeLiquidity",
@@ -3242,17 +3195,42 @@ export const IDL: NftLendingV2 = {
           "isSigner": false
         },
         {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
           "name": "metadataProgram",
           "isMut": false,
           "isSigner": false
         },
         {
           "name": "editionInfo",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "ownerTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "destTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "instructions",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authorizationRulesProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
           "isMut": false,
           "isSigner": false
         },
@@ -3274,12 +3252,16 @@ export const IDL: NftLendingV2 = {
       ],
       "args": [
         {
-          "name": "bumpPoolsAuth",
-          "type": "u8"
-        },
-        {
           "name": "gracePeriod",
           "type": "u64"
+        },
+        {
+          "name": "authorizationData",
+          "type": {
+            "option": {
+              "defined": "AuthorizationDataLocal"
+            }
+          }
         }
       ]
     },
@@ -3360,6 +3342,31 @@ export const IDL: NftLendingV2 = {
           "isSigner": false
         },
         {
+          "name": "nftMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "ownerTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "destTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "instructions",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authorizationRulesProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
           "name": "tokenProgram",
           "isMut": false,
           "isSigner": false
@@ -3377,8 +3384,12 @@ export const IDL: NftLendingV2 = {
       ],
       "args": [
         {
-          "name": "bumpPoolsAuth",
-          "type": "u8"
+          "name": "authorizationData",
+          "type": {
+            "option": {
+              "defined": "AuthorizationDataLocal"
+            }
+          }
         }
       ]
     },
@@ -3450,6 +3461,41 @@ export const IDL: NftLendingV2 = {
           "isSigner": false
         },
         {
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "editionInfo",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "ownerTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "destTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "instructions",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authorizationRulesProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
           "name": "tokenProgram",
           "isMut": false,
           "isSigner": false
@@ -3472,8 +3518,12 @@ export const IDL: NftLendingV2 = {
       ],
       "args": [
         {
-          "name": "bumpPoolsAuth",
-          "type": "u8"
+          "name": "authorizationData",
+          "type": {
+            "option": {
+              "defined": "AuthorizationDataLocal"
+            }
+          }
         }
       ]
     },
@@ -3516,6 +3566,41 @@ export const IDL: NftLendingV2 = {
           "isSigner": false
         },
         {
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "editionInfo",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftMetadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "ownerTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "destTokenRecord",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "instructions",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authorizationRulesProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
           "name": "tokenProgram",
           "isMut": false,
           "isSigner": false
@@ -3538,8 +3623,12 @@ export const IDL: NftLendingV2 = {
       ],
       "args": [
         {
-          "name": "bumpPoolsAuth",
-          "type": "u8"
+          "name": "authorizationData",
+          "type": {
+            "option": {
+              "defined": "AuthorizationDataLocal"
+            }
+          }
         },
         {
           "name": "gracePeriod",
@@ -3548,80 +3637,40 @@ export const IDL: NftLendingV2 = {
       ]
     },
     {
-      "name": "claimGemFarmStaking",
+      "name": "returnFromGraceToActive",
       "accounts": [
-        {
-          "name": "user",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "gemFarm",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "farm",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "farmAuthority",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "farmer",
-          "isMut": true,
-          "isSigner": false
-        },
         {
           "name": "loan",
           "isMut": true,
           "isSigner": false
         },
         {
-          "name": "gemMint",
+          "name": "liquidationLot",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "nftMint",
           "isMut": false,
           "isSigner": false
         },
         {
-          "name": "identity",
+          "name": "vaultNftTokenAccount",
           "isMut": true,
           "isSigner": false
         },
         {
-          "name": "rewardAPot",
+          "name": "communityPoolsAuthority",
           "isMut": true,
           "isSigner": false
         },
         {
-          "name": "rewardAMint",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "rewardADestinationIdentity",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "rewardBPot",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "rewardBMint",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "rewardBDestinationIdentity",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "tokenProgram",
+          "name": "rent",
           "isMut": false,
           "isSigner": false
         },
@@ -3631,81 +3680,79 @@ export const IDL: NftLendingV2 = {
           "isSigner": false
         },
         {
-          "name": "rent",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
           "name": "associatedTokenProgram",
           "isMut": false,
           "isSigner": false
         }
       ],
-      "args": [
-        {
-          "name": "params",
-          "type": {
-            "defined": "ClaimGemFarmParams"
-          }
-        }
-      ]
+      "args": []
     },
     {
-      "name": "getClaimedGemFarmStaking",
+      "name": "userReturnLoanFromEscrow",
       "accounts": [
-        {
-          "name": "user",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "identity",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "lendingStake",
-          "isMut": true,
-          "isSigner": false
-        },
         {
           "name": "loan",
           "isMut": true,
           "isSigner": false
         },
         {
-          "name": "gemMint",
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "nftMint",
           "isMut": false,
           "isSigner": false
         },
         {
-          "name": "rewardAMint",
+          "name": "vaultNftTokenAccount",
           "isMut": true,
           "isSigner": false
         },
         {
-          "name": "rewardADestinationIdentity",
+          "name": "nftUserTokenAccount",
           "isMut": true,
           "isSigner": false
         },
         {
-          "name": "rewardADestination",
+          "name": "communityPoolsAuthority",
           "isMut": true,
           "isSigner": false
         },
         {
-          "name": "rewardBMint",
+          "name": "metadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "editionInfo",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "nftMetadata",
           "isMut": true,
           "isSigner": false
         },
         {
-          "name": "rewardBDestinationIdentity",
+          "name": "ownerTokenRecord",
           "isMut": true,
           "isSigner": false
         },
         {
-          "name": "rewardBDestination",
+          "name": "destTokenRecord",
           "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "instructions",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authorizationRulesProgram",
+          "isMut": false,
           "isSigner": false
         },
         {
@@ -3714,7 +3761,7 @@ export const IDL: NftLendingV2 = {
           "isSigner": false
         },
         {
-          "name": "systemProgram",
+          "name": "associatedTokenProgram",
           "isMut": false,
           "isSigner": false
         },
@@ -3724,17 +3771,31 @@ export const IDL: NftLendingV2 = {
           "isSigner": false
         },
         {
-          "name": "associatedTokenProgram",
+          "name": "systemProgram",
           "isMut": false,
           "isSigner": false
         }
       ],
-      "args": [
+      "args": []
+    },
+    {
+      "name": "closeLoan",
+      "accounts": [
         {
-          "name": "bumpAuth",
-          "type": "u8"
+          "name": "loan",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "admin",
+          "isMut": true,
+          "isSigner": true,
+          "docs": [
+            "CHECK"
+          ]
         }
-      ]
+      ],
+      "args": []
     },
     {
       "name": "stakeCardinal",
@@ -3944,241 +4005,33 @@ export const IDL: NftLendingV2 = {
       "args": []
     },
     {
-      "name": "claimCardinal",
+      "name": "topupLiqPool",
       "accounts": [
         {
-          "name": "payer",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
-          "name": "user",
+          "name": "liquidityPool",
           "isMut": true,
           "isSigner": false
         },
         {
-          "name": "identity",
+          "name": "liqOwner",
           "isMut": true,
           "isSigner": false
         },
-        {
-          "name": "cardinalStakeCenter",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "rewardEntry",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "rewardDistributor",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "stakeEntry",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "stakePool",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "rewardDistributorTokenAccount",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "rewardMint",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "lendingStake",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "loan",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "tokenDestinationIdentity",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "rewardDestination",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "rent",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "associatedTokenProgram",
-          "isMut": false,
-          "isSigner": false
-        }
-      ],
-      "args": []
-    },
-    {
-      "name": "unstakeGemFarmStakingByAdmin",
-      "accounts": [
         {
           "name": "admin",
           "isMut": true,
           "isSigner": true
         },
         {
-          "name": "gemFarm",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "lendingStake",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "farm",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "farmAuthority",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "farmer",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "farmTreasury",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "loan",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "identity",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "bank",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "gemBank",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "feeAcc",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "vault",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "authority",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "gemBox",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "gemDepositReceipt",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "gemSource",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "gemMint",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "gemRarity",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "communityPoolsAuthority",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
-          "name": "editionInfo",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "metadataProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "tokenProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
           "name": "systemProgram",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "rent",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
-          "name": "associatedTokenProgram",
           "isMut": false,
           "isSigner": false
         }
       ],
       "args": [
         {
-          "name": "params",
-          "type": {
-            "defined": "UnstakeGemFarmParams"
-          }
+          "name": "amount",
+          "type": "u64"
         }
       ]
     }
@@ -4229,6 +4082,18 @@ export const IDL: NftLendingV2 = {
           },
           {
             "name": "expirationTime",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "comPools",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "initialized",
             "type": "u64"
           }
         ]
@@ -4473,60 +4338,6 @@ export const IDL: NftLendingV2 = {
       }
     },
     {
-      "name": "lotTicket",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "liquidationLot",
-            "type": "publicKey"
-          },
-          {
-            "name": "user",
-            "type": "publicKey"
-          },
-          {
-            "name": "usedNftAttempts",
-            "type": "publicKey"
-          },
-          {
-            "name": "ticketState",
-            "type": {
-              "defined": "TicketState"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "nftAttempts",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "nftMint",
-            "type": "publicKey"
-          },
-          {
-            "name": "blockedUntil",
-            "type": "u64"
-          },
-          {
-            "name": "attempts",
-            "type": "u64"
-          },
-          {
-            "name": "cycleStartedAt",
-            "type": "u64"
-          },
-          {
-            "name": "lastTriedAt",
-            "type": "u64"
-          }
-        ]
-      }
-    },
-    {
       "name": "priceBasedLiquidityPool",
       "type": {
         "kind": "struct",
@@ -4677,38 +4488,6 @@ export const IDL: NftLendingV2 = {
   ],
   "types": [
     {
-      "name": "ClaimGemFarmParams",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "bumpAuth",
-            "type": "u8"
-          },
-          {
-            "name": "bumpAuthAuthority",
-            "type": "u8"
-          },
-          {
-            "name": "bumpFarmer",
-            "type": "u8"
-          },
-          {
-            "name": "bumpPotA",
-            "type": "u8"
-          },
-          {
-            "name": "bumpPotB",
-            "type": "u8"
-          },
-          {
-            "name": "isDegod",
-            "type": "bool"
-          }
-        ]
-      }
-    },
-    {
       "name": "CollectionInfoParams",
       "type": {
         "kind": "struct",
@@ -4781,49 +4560,74 @@ export const IDL: NftLendingV2 = {
       }
     },
     {
-      "name": "UnstakeGemFarmParams",
+      "name": "AuthorizationDataLocal",
       "type": {
         "kind": "struct",
         "fields": [
           {
-            "name": "bumpPoolsAuth",
-            "type": "u8"
+            "name": "payload",
+            "type": {
+              "vec": {
+                "defined": "TaggedPayload"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "TaggedPayload",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "name",
+            "type": "string"
           },
           {
-            "name": "bumpAuth",
-            "type": "u8"
-          },
+            "name": "payload",
+            "type": {
+              "defined": "PayloadTypeLocal"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "SeedsVecLocal",
+      "type": {
+        "kind": "struct",
+        "fields": [
           {
-            "name": "bumpAuthAuthority",
-            "type": "u8"
-          },
+            "name": "seeds",
+            "docs": [
+              "The vector of derivation seeds."
+            ],
+            "type": {
+              "vec": "bytes"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "ProofInfoLocal",
+      "type": {
+        "kind": "struct",
+        "fields": [
           {
-            "name": "bumpTreasury",
-            "type": "u8"
-          },
-          {
-            "name": "bumpFarmer",
-            "type": "u8"
-          },
-          {
-            "name": "bumpAuthVaultAuthority",
-            "type": "u8"
-          },
-          {
-            "name": "bumpGemBox",
-            "type": "u8"
-          },
-          {
-            "name": "bumpGdr",
-            "type": "u8"
-          },
-          {
-            "name": "bumpRarity",
-            "type": "u8"
-          },
-          {
-            "name": "isDegod",
-            "type": "bool"
+            "name": "proof",
+            "docs": [
+              "The merkle proof."
+            ],
+            "type": {
+              "vec": {
+                "array": [
+                  "u8",
+                  32
+                ]
+              }
+            }
           }
         ]
       }
@@ -4934,21 +4738,37 @@ export const IDL: NftLendingV2 = {
       }
     },
     {
-      "name": "TicketState",
+      "name": "PayloadTypeLocal",
       "type": {
         "kind": "enum",
         "variants": [
           {
-            "name": "ToBeRevealed"
+            "name": "Pubkey",
+            "fields": [
+              "publicKey"
+            ]
           },
           {
-            "name": "NotWinning"
+            "name": "Seeds",
+            "fields": [
+              {
+                "defined": "SeedsVecLocal"
+              }
+            ]
           },
           {
-            "name": "Winning"
+            "name": "MerkleProof",
+            "fields": [
+              {
+                "defined": "ProofInfoLocal"
+              }
+            ]
           },
           {
-            "name": "Rejected"
+            "name": "Number",
+            "fields": [
+              "u64"
+            ]
           }
         ]
       }
@@ -5218,6 +5038,26 @@ export const IDL: NftLendingV2 = {
       "code": 6048,
       "name": "UserDoesntOwnStake",
       "msg": "UserDoesntOwnStake"
+    },
+    {
+      "code": 6049,
+      "name": "BadRuleSet",
+      "msg": "BadRuleSetForProgrammableNft"
+    },
+    {
+      "code": 6050,
+      "name": "DelegateBuilderFailed",
+      "msg": "DelegateBuilderFailed"
+    },
+    {
+      "code": 6051,
+      "name": "LockBuilderFailed",
+      "msg": "LockBuilderFailed"
+    },
+    {
+      "code": 6052,
+      "name": "NoStandardOnNft",
+      "msg": "NoStandardOnNft"
     }
   ]
 };

@@ -2,23 +2,21 @@ import { BN, web3 } from '@project-serum/anchor';
 
 import { returnAnchorProgram } from '../../helpers';
 
-type DepositLiquidity = (params: {
+type DepositLiquidityIx = (params: {
   programId: web3.PublicKey;
   liquidityPool: web3.PublicKey;
   connection: web3.Connection;
   user: web3.PublicKey;
   amount: number;
-  sendTxn: (transaction: web3.Transaction) => Promise<void>;
-}) => Promise<web3.PublicKey>;
+}) => Promise<{deposit: web3.PublicKey, ix: web3.TransactionInstruction}>;
 
-export const depositLiquidity: DepositLiquidity = async ({
+export const depositLiquidity: DepositLiquidityIx = async ({
   programId,
   liquidityPool,
   connection,
   user,
   amount,
-  sendTxn,
-}): Promise<web3.PublicKey> => {
+}) => {
   const encoder = new TextEncoder();
   const program = returnAnchorProgram(programId, connection);
 
@@ -32,19 +30,14 @@ export const depositLiquidity: DepositLiquidity = async ({
     program.programId,
   );
 
-  const instruction = program.instruction.depositLiquidity(new BN(amount), {
-    accounts: {
+  const ix = await program.methods.depositLiquidity(new BN(amount)).accountsStrict({
       liquidityPool: liquidityPool,
       liqOwner,
       deposit,
       user: user,
       rent: web3.SYSVAR_RENT_PUBKEY,
       systemProgram: web3.SystemProgram.programId,
-    },
-  });
+    }).instruction();
 
-  const transaction = new web3.Transaction().add(instruction);
-
-  await sendTxn(transaction);
-  return deposit;
+  return {deposit, ix};
 };

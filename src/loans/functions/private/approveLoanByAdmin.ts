@@ -12,8 +12,7 @@ type ApproveLoanByAdmin = (params: {
   nftPrice: number | BN;
   discount: number | BN;
   user: web3.PublicKey;
-  sendTxn: (transaction: web3.Transaction) => Promise<void>;
-}) => Promise<void>;
+}) => Promise<{ix: web3.TransactionInstruction}>;
 
 export const approveLoanByAdmin: ApproveLoanByAdmin = async ({
   programId,
@@ -25,7 +24,6 @@ export const approveLoanByAdmin: ApproveLoanByAdmin = async ({
   nftPrice,
   discount,
   user,
-  sendTxn,
 }) => {
   const encoder = new TextEncoder();
   const program = returnAnchorProgram(programId, connection);
@@ -35,8 +33,8 @@ export const approveLoanByAdmin: ApproveLoanByAdmin = async ({
     programId,
   );
 
-  const instruction = program.instruction.approveLoanByAdmin(new BN(nftPrice), new BN(discount), {
-    accounts: {
+  const ix = await program.methods.approveLoanByAdmin(new BN(nftPrice), new BN(discount))
+    .accountsStrict({
       loan: loan,
       user,
       liquidityPool,
@@ -44,10 +42,7 @@ export const approveLoanByAdmin: ApproveLoanByAdmin = async ({
       collectionInfo,
       admin,
       systemProgram: web3.SystemProgram.programId,
-    },
-  });
+    }).instruction();
 
-  const transaction = new web3.Transaction().add(instruction);
-
-  await sendTxn(transaction);
+  return {ix}
 };

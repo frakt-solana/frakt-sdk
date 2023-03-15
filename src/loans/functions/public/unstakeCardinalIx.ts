@@ -76,7 +76,7 @@ export const unstakeCardinalIx: UnstakeCardinalParams = async ({
   });
   
 
-  const unstakeIx = await program.methods.unstakeCardinal().accounts({
+  const unstakeIx = await program.methods.unstakeCardinal().accountsStrict({
         user,
         lendingStake,
         loan, 

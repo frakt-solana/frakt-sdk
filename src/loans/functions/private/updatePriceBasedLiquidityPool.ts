@@ -15,8 +15,7 @@ type UpdatePriceBasedLiquidityPool = (params: {
   depositCommission: number;
   borrowCommission: number;
   id: number;
-  sendTxn: (transaction: web3.Transaction) => Promise<void>;
-}) => Promise<void>;
+}) => Promise<{ix: web3.TransactionInstruction}>;
 
 export const updatePriceBasedLiquidityPool: UpdatePriceBasedLiquidityPool = async ({
   programId,
@@ -31,11 +30,10 @@ export const updatePriceBasedLiquidityPool: UpdatePriceBasedLiquidityPool = asyn
   depositCommission,
   borrowCommission,
   id,
-  sendTxn,
 }) => {
   const program = returnAnchorProgram(programId, connection);
 
-  const ix = program.instruction.updatePriceBasedLiquidityPool(
+  const ix = await program.methods.updatePriceBasedLiquidityPool(
     {
       id,
       baseBorrowRate,
@@ -45,19 +43,13 @@ export const updatePriceBasedLiquidityPool: UpdatePriceBasedLiquidityPool = asyn
       reserveFactor,
       depositCommission,
       borrowCommission,
-    },
-    {
-      accounts: {
+    }).accountsStrict({
         liquidityPool: liquidityPool,
         admin: admin,
         rent: web3.SYSVAR_RENT_PUBKEY,
         systemProgram: web3.SystemProgram.programId,
-      },
-    },
-  );
+      },).instruction();
 
-  const transaction = new web3.Transaction().add(ix);
-
-  await sendTxn(transaction);
+  return {ix};
   // return liquidityPool;
 };

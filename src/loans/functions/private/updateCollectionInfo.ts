@@ -17,8 +17,7 @@ type UpdateCollectionInfo = (params: {
   royaltyFeePrice: number | BN;
   expirationTime: number | BN;
   isPriceBased: boolean;
-  sendTxn: (transaction: web3.Transaction) => Promise<void>;
-}) => Promise<void>;
+}) => Promise<{ix: web3.TransactionInstruction}>;
 
 export const updateCollectionInfo: UpdateCollectionInfo = async ({
   programId,
@@ -35,11 +34,10 @@ export const updateCollectionInfo: UpdateCollectionInfo = async ({
   royaltyFeePrice,
   expirationTime,
   isPriceBased,
-  sendTxn,
 }) => {
   const program = returnAnchorProgram(programId, connection);
 
-  const instruction = program.instruction.updateCollectionInfo(
+  const ix = await program.methods.updateCollectionInfo(
     {
       loanToValue: new BN(loanToValue),
       collaterizationRate: new BN(collaterizationRate),
@@ -47,20 +45,14 @@ export const updateCollectionInfo: UpdateCollectionInfo = async ({
       royaltyFeePrice: new BN(royaltyFeePrice),
       expirationTime: new BN(expirationTime),
       isPriceBased,
-    },
-    {
-      accounts: {
+    }).accountsStrict({
         liquidityPool: liquidityPool,
         collectionInfo: collectionInfo,
         admin: admin,
         creatorAddress: creatorAddress,
         royaltyAddress,
         pricingLookupAddress: pricingLookupAddress,
-      },
-    },
-  );
+      }).instruction();
 
-  const transaction = new web3.Transaction().add(instruction);
-
-  await sendTxn(transaction);
+  return {ix}
 };

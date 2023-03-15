@@ -1,6 +1,6 @@
 import { Program, AnchorProvider, web3, BN, utils } from '@project-serum/anchor';
 
-import {IDL} from './idl/nft_lending_v2';
+import { IDL } from './idl/nft_lending_v2';
 import {
   CollectionInfoView,
   DepositView,
@@ -15,7 +15,7 @@ import {
   PromisedSchedule,
 } from './types';
 import { createFakeWallet } from '../common';
-import { EDITION_PREFIX, METADATA_PREFIX, METADATA_PROGRAM_PUBKEY } from './constants';
+import { AUTHORIZATION_RULES_PROGRAM, EDITION_PREFIX, METADATA_PREFIX, METADATA_PROGRAM_PUBKEY, TOKEN_RECORD } from './constants';
 
 type ReturnAnchorProgram = (programId: web3.PublicKey, connection: web3.Connection) => Program;
 export const returnAnchorProgram: ReturnAnchorProgram = (programId, connection) =>
@@ -42,20 +42,20 @@ export const decodedCollectionInfo: DecodedCollectionInfo = (decodedCollection, 
 
 type DecodedLendingStake = (decodedLendingStake: any, address: web3.PublicKey) => LendingStakeView;
 export const decodedLendingStake: DecodedLendingStake = (decodedStake, address) => ({
-    lendingStakePubkey: address.toBase58(),
-    stakeType: Object.keys(decodedStake.stakeType)[0],
-    loan: decodedStake.loan.toBase58(),
-    stakeContract: decodedStake.stakeContract.toBase58(),
-    stakeConstractOptional: decodedStake.stakeConstractOptional?.toBase58(),
-    stakeState: Object.keys(decodedStake.stakeState)[0],
-    identity: decodedStake.identity.toBase58(),
-    dataA: decodedStake.dataA.toBase58(),
-    dataB: decodedStake.dataB.toBase58(),
-    dataC: decodedStake.dataC.toBase58(),
-    dataD: decodedStake.dataD.toBase58(),
-    totalHarvested: decodedStake.totalHarvested.toNumber(),
-    totalHarvestedOptional: decodedStake.totalHarvestedOptional.toNumber(),
-    lastTime: decodedStake.lastTime.toNumber()
+  lendingStakePubkey: address.toBase58(),
+  stakeType: Object.keys(decodedStake.stakeType)[0],
+  loan: decodedStake.loan.toBase58(),
+  stakeContract: decodedStake.stakeContract.toBase58(),
+  stakeConstractOptional: decodedStake.stakeConstractOptional?.toBase58(),
+  stakeState: Object.keys(decodedStake.stakeState)[0],
+  identity: decodedStake.identity.toBase58(),
+  dataA: decodedStake.dataA.toBase58(),
+  dataB: decodedStake.dataB.toBase58(),
+  dataC: decodedStake.dataC.toBase58(),
+  dataD: decodedStake.dataD.toBase58(),
+  totalHarvested: decodedStake.totalHarvested.toNumber(),
+  totalHarvestedOptional: decodedStake.totalHarvestedOptional.toNumber(),
+  lastTime: decodedStake.lastTime.toNumber()
 });
 
 type DecodedFarmer = (decodedFarmer: any, address: web3.PublicKey) => FarmerView;
@@ -334,3 +334,64 @@ export function objectBNsAndPubkeysToNums(obj: any) {
 
   return { ...copyobj.account, publicKey: copyobj.publicKey.toBase58() };
 }
+
+export const createAndSendV0Tx = async (
+  connection: web3.Connection,
+  txInstructions: web3.TransactionInstruction[],
+  signer: web3.Signer,
+  additionalSigners: web3.Signer[],
+  lookupTablePubkey: web3.PublicKey
+) => {
+  let latestBlockhash = await connection.getLatestBlockhash('finalized');
+  const lookupTable = (await connection.getAddressLookupTable(lookupTablePubkey)).value;
+  if (!lookupTable) return
+  const messageV0 = new web3.TransactionMessage({
+    payerKey: signer.publicKey,
+    recentBlockhash: latestBlockhash.blockhash,
+    instructions: txInstructions
+  }).compileToV0Message([lookupTable]);
+  const transaction = new web3.VersionedTransaction(messageV0);
+
+  transaction.sign([signer, ...additionalSigners]);
+  const txid = await connection.sendTransaction(transaction, { maxRetries: 5 });
+
+  const confirmation = await connection.confirmTransaction({
+    signature: txid,
+    blockhash: latestBlockhash.blockhash,
+    lastValidBlockHeight: latestBlockhash.lastValidBlockHeight
+  });
+  console.log(`txid ${txid}`);
+  if (confirmation.value.err) { throw new Error("   ❌ - Transaction not confirmed.") }
+}
+
+type FindTokenRecordPda = (mintPubkey: web3.PublicKey, token: web3.PublicKey) => web3.PublicKey;
+export const findTokenRecordPda: FindTokenRecordPda = (mintPubkey, token) => {
+  return web3.PublicKey.findProgramAddressSync(
+    [
+      Buffer.from(METADATA_PREFIX),
+      METADATA_PROGRAM_PUBKEY.toBuffer(),
+      mintPubkey.toBuffer(),
+      Buffer.from(TOKEN_RECORD),
+      token.toBuffer(),
+    ],
+    METADATA_PROGRAM_PUBKEY,
+  )[0];
+}
+
+type GetMetaplexMetadata = (mintPubkey: web3.PublicKey) => web3.PublicKey;
+export const getMetaplexMetadata: GetMetaplexMetadata = (mintPubkey) => {
+  return web3.PublicKey.findProgramAddressSync(
+    [Buffer.from(METADATA_PREFIX), METADATA_PROGRAM_PUBKEY.toBuffer(), mintPubkey.toBuffer()],
+    METADATA_PROGRAM_PUBKEY
+  )[0];
+}
+
+
+export const findRuleSetPDA = async (payer: web3.PublicKey, name: string) => {
+  return (
+    await web3.PublicKey.findProgramAddress(
+      [Buffer.from('rule_set'), payer.toBuffer(), Buffer.from(name)],
+      AUTHORIZATION_RULES_PROGRAM,
+    )
+  )[0];
+};
