@@ -2,9 +2,9 @@
 . "$(dirname -- "$0")/_/husky.sh"
 
 BRANCH="$(git rev-parse --abbrev-ref HEAD)"
-if [[ "$BRANCH" != "master" ]]; then
+if [["$BRANCH"!="master"]] then
   exit 0;
 fi
 
-# npm run build;
-# npm publish;
+npm run build;
+npm publish;
