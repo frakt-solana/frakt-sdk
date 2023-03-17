@@ -172,13 +172,16 @@ export const onAccountsChange = async ({
         }
       }
     } catch (err) {
-      lastSignature = await connection.getSignaturesForAddress(
+      const latestConfirmedSignatures = await connection.getSignaturesForAddress(
         programId,
         {
           limit: 1,
         },
         'confirmed',
-      )[0].signature;
+      );
+
+      if (!latestConfirmedSignatures[0]) continue;
+      lastSignature = latestConfirmedSignatures[0].signature;
 
       console.log('onAccountsChange Error: ', err);
     }
