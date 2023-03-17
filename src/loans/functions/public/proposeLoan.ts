@@ -50,9 +50,9 @@ export const proposeLoanIx: ProposeLoanIx = async ({
       nftUserTokenAccount,
       nftMint: nftMint,
       communityPoolsAuthority,
-      instructions: web3.SYSVAR_INSTRUCTIONS_PUBKEY, 
+      instructions: web3.SYSVAR_INSTRUCTIONS_PUBKEY,
       authorizationRulesProgram: AUTHORIZATION_RULES_PROGRAM,
-      nftMetadata, 
+      nftMetadata,
       tokenRecordInfo,
       tokenProgram: utils.token.TOKEN_PROGRAM_ID,
       rent: web3.SYSVAR_RENT_PUBKEY,
@@ -62,17 +62,17 @@ export const proposeLoanIx: ProposeLoanIx = async ({
       editionInfo: editionId,
     }).remainingAccounts(
       [
-       {
-         pubkey: ruleSet || METADATA_PROGRAM_PUBKEY,
-         isSigner: false,
-         isWritable: false,
-       },
-     ],
-   ).instruction();
-  
-   const ixs: web3.TransactionInstruction[] = []
-   ixs.push( web3.ComputeBudgetProgram.requestUnits({
-    units: Math.random()*100000 + 300000,
+        {
+          pubkey: ruleSet || METADATA_PROGRAM_PUBKEY,
+          isSigner: false,
+          isWritable: false,
+        },
+      ],
+    ).instruction();
+
+  const ixs: web3.TransactionInstruction[] = []
+  ixs.push(web3.ComputeBudgetProgram.requestUnits({
+    units: Math.random() * 100000 + 400000,
     additionalFee: 0,
   }))
   ixs.push(ix)

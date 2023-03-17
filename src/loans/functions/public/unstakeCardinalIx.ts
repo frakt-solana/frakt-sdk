@@ -16,7 +16,7 @@ type UnstakeCardinalParams = (params: {
   rewardMint: web3.PublicKey;
   paymentPubkey1: web3.PublicKey;
   paymentPubkey2: web3.PublicKey;
-}) => Promise<{additionalComputeBudgetInstructionIx: web3.TransactionInstruction, unstakeIx: web3.TransactionInstruction}>;
+}) => Promise<{ additionalComputeBudgetInstructionIx: web3.TransactionInstruction, unstakeIx: web3.TransactionInstruction }>;
 
 export const unstakeCardinalIx: UnstakeCardinalParams = async ({
   programId,
@@ -71,65 +71,65 @@ export const unstakeCardinalIx: UnstakeCardinalParams = async ({
   const identityStakeMintTokenAccount = await findAssociatedTokenAddress(identity, nftMint);
   const editionId = getMetaplexEditionPda(nftMint);
   const additionalComputeBudgetInstructionIx = web3.ComputeBudgetProgram.requestUnits({
-    units: 300000,
+    units: 400000,
     additionalFee: 0,
   });
-  
+
 
   const unstakeIx = await program.methods.unstakeCardinal().accountsStrict({
-        user,
-        lendingStake,
-        loan, 
-        stakeMint: nftMint,
-        nftUserTokenAccount,
-        identity,
-        identityStakeMintTokenAccount,
+    user,
+    lendingStake,
+    loan,
+    stakeMint: nftMint,
+    nftUserTokenAccount,
+    identity,
+    identityStakeMintTokenAccount,
 
-        payer,
-        cardinalStakeCenter: cardinalRewardsCenter,
-        stakeEntry,
-        stakePool,
-        identityEscrow,
-        communityPoolsAuthority,
+    payer,
+    cardinalStakeCenter: cardinalRewardsCenter,
+    stakeEntry,
+    stakePool,
+    identityEscrow,
+    communityPoolsAuthority,
 
-        editionInfo: editionId,
-        metadataProgram: METADATA_PROGRAM_PUBKEY,
-        rent: web3.SYSVAR_RENT_PUBKEY,
-        systemProgram: web3.SystemProgram.programId,
-        tokenProgram: utils.token.TOKEN_PROGRAM_ID,
-        associatedTokenProgram: utils.token.ASSOCIATED_PROGRAM_ID,
-      }).
-      remainingAccounts( [
-        {
-          pubkey: unstakeRewardsPaymentInfo,
-          isSigner: false,
-          isWritable: true,
-        },
-        {
-          pubkey: payer,
-          isSigner: true,
-          isWritable: true,
-        },
-        {
-          pubkey: utils.token.TOKEN_PROGRAM_ID,
-          isSigner: false,
-          isWritable: false,
-        },
-        {
-          pubkey: payerTokenAccount,
-          isSigner: false,
-          isWritable: true,
-        },
-        {
-          pubkey: reward1TokenAccount,
-          isSigner: false,
-          isWritable: true,
-        },
-        {
-          pubkey: reward2TokenAccount,
-          isSigner: false,
-          isWritable: true,
-        },
-      ]).instruction()
-  return {additionalComputeBudgetInstructionIx, unstakeIx}
+    editionInfo: editionId,
+    metadataProgram: METADATA_PROGRAM_PUBKEY,
+    rent: web3.SYSVAR_RENT_PUBKEY,
+    systemProgram: web3.SystemProgram.programId,
+    tokenProgram: utils.token.TOKEN_PROGRAM_ID,
+    associatedTokenProgram: utils.token.ASSOCIATED_PROGRAM_ID,
+  }).
+    remainingAccounts([
+      {
+        pubkey: unstakeRewardsPaymentInfo,
+        isSigner: false,
+        isWritable: true,
+      },
+      {
+        pubkey: payer,
+        isSigner: true,
+        isWritable: true,
+      },
+      {
+        pubkey: utils.token.TOKEN_PROGRAM_ID,
+        isSigner: false,
+        isWritable: false,
+      },
+      {
+        pubkey: payerTokenAccount,
+        isSigner: false,
+        isWritable: true,
+      },
+      {
+        pubkey: reward1TokenAccount,
+        isSigner: false,
+        isWritable: true,
+      },
+      {
+        pubkey: reward2TokenAccount,
+        isSigner: false,
+        isWritable: true,
+      },
+    ]).instruction()
+  return { additionalComputeBudgetInstructionIx, unstakeIx }
 };
