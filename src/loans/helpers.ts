@@ -15,7 +15,13 @@ import {
   PromisedSchedule,
 } from './types';
 import { createFakeWallet } from '../common';
-import { AUTHORIZATION_RULES_PROGRAM, EDITION_PREFIX, METADATA_PREFIX, METADATA_PROGRAM_PUBKEY, TOKEN_RECORD } from './constants';
+import {
+  AUTHORIZATION_RULES_PROGRAM,
+  EDITION_PREFIX,
+  METADATA_PREFIX,
+  METADATA_PROGRAM_PUBKEY,
+  TOKEN_RECORD,
+} from './constants';
 
 type ReturnAnchorProgram = (programId: web3.PublicKey, connection: web3.Connection) => Program;
 export const returnAnchorProgram: ReturnAnchorProgram = (programId, connection) =>
@@ -55,7 +61,7 @@ export const decodedLendingStake: DecodedLendingStake = (decodedStake, address) 
   dataD: decodedStake.dataD.toBase58(),
   totalHarvested: decodedStake.totalHarvested.toNumber(),
   totalHarvestedOptional: decodedStake.totalHarvestedOptional.toNumber(),
-  lastTime: decodedStake.lastTime.toNumber()
+  lastTime: decodedStake.lastTime.toNumber(),
 });
 
 type DecodedFarmer = (decodedFarmer: any, address: web3.PublicKey) => FarmerView;
@@ -77,7 +83,7 @@ const decodedReward: DecodedGemFarmReward = (decodedReward) => ({
   paidOutReward: decodedReward.paidOutReward.toNumber(),
   accruedReward: decodedReward.accruedReward.toNumber(),
   variableRate: decodedReward.lastRecordedAccruedRewardPerRarityPoint?.n?.toNumber(),
-  fixedRate: decodedFixedRate(decodedReward.fixedRate)
+  fixedRate: decodedFixedRate(decodedReward.fixedRate),
 });
 
 type DecodedFixedRate = (decodedFixedRate: any) => FixedRateView;
@@ -86,8 +92,8 @@ const decodedFixedRate: DecodedFixedRate = (decodedFixedRate) => ({
   beginStakingTs: decodedFixedRate.beginStakingTs.toNumber(),
   lastUpdatedTs: decodedFixedRate.lastUpdatedTs.toNumber(),
   promisedDuration: decodedFixedRate.promisedDuration.toNumber(),
-  promisedSchedule: decodedPromisedSchedule(decodedFixedRate.promisedSchedule)
-})
+  promisedSchedule: decodedPromisedSchedule(decodedFixedRate.promisedSchedule),
+});
 
 type DecodedPromisedSchedule = (decodedPromisedSchedule: any) => PromisedSchedule;
 const decodedPromisedSchedule: DecodedPromisedSchedule = (decodedSchedule) => ({
@@ -95,8 +101,8 @@ const decodedPromisedSchedule: DecodedPromisedSchedule = (decodedSchedule) => ({
   tier1: decodedSchedule.tier1?.toNumber(),
   tier2: decodedSchedule.tier2?.toNumber(),
   tier3: decodedSchedule.tier3?.toNumber(),
-  denominator: decodedSchedule.denominator?.toNumber()
-})
+  denominator: decodedSchedule.denominator?.toNumber(),
+});
 
 type DecodedTimeBasedLiquidityPool = (decodedLiquidityPool: any, address: web3.PublicKey) => TimeBasedLiquidityPoolView;
 export const decodedTimeBasedLiquidityPool: DecodedTimeBasedLiquidityPool = (decodedLiquidityPool, address) => ({
@@ -340,29 +346,32 @@ export const createAndSendV0Tx = async (
   txInstructions: web3.TransactionInstruction[],
   signer: web3.Signer,
   additionalSigners: web3.Signer[],
-  lookupTablePubkey: web3.PublicKey
+  lookupTablePubkey: web3.PublicKey,
+  skipPreflight?: boolean,
 ) => {
   let latestBlockhash = await connection.getLatestBlockhash('finalized');
   const lookupTable = (await connection.getAddressLookupTable(lookupTablePubkey)).value;
-  if (!lookupTable) return
+  if (!lookupTable) return;
   const messageV0 = new web3.TransactionMessage({
     payerKey: signer.publicKey,
     recentBlockhash: latestBlockhash.blockhash,
-    instructions: txInstructions
+    instructions: txInstructions,
   }).compileToV0Message([lookupTable]);
   const transaction = new web3.VersionedTransaction(messageV0);
 
   transaction.sign([signer, ...additionalSigners]);
-  const txid = await connection.sendTransaction(transaction, { maxRetries: 5 });
+  const txid = await connection.sendTransaction(transaction, { maxRetries: 5, skipPreflight: !!skipPreflight });
 
   const confirmation = await connection.confirmTransaction({
     signature: txid,
     blockhash: latestBlockhash.blockhash,
-    lastValidBlockHeight: latestBlockhash.lastValidBlockHeight
+    lastValidBlockHeight: latestBlockhash.lastValidBlockHeight,
   });
   console.log(`txid ${txid}`);
-  if (confirmation.value.err) { throw new Error("   ❌ - Transaction not confirmed.") }
-}
+  if (confirmation.value.err) {
+    throw new Error('   ❌ - Transaction not confirmed.');
+  }
+};
 
 type FindTokenRecordPda = (mintPubkey: web3.PublicKey, token: web3.PublicKey) => web3.PublicKey;
 export const findTokenRecordPda: FindTokenRecordPda = (mintPubkey, token) => {
@@ -376,16 +385,15 @@ export const findTokenRecordPda: FindTokenRecordPda = (mintPubkey, token) => {
     ],
     METADATA_PROGRAM_PUBKEY,
   )[0];
-}
+};
 
 type GetMetaplexMetadata = (mintPubkey: web3.PublicKey) => web3.PublicKey;
 export const getMetaplexMetadata: GetMetaplexMetadata = (mintPubkey) => {
   return web3.PublicKey.findProgramAddressSync(
     [Buffer.from(METADATA_PREFIX), METADATA_PROGRAM_PUBKEY.toBuffer(), mintPubkey.toBuffer()],
-    METADATA_PROGRAM_PUBKEY
+    METADATA_PROGRAM_PUBKEY,
   )[0];
-}
-
+};
 
 export const findRuleSetPDA = async (payer: web3.PublicKey, name: string) => {
   return (
