@@ -1,7 +1,7 @@
 # frakt-sdk
 [![npm version](https://badge.fury.io/js/@frakt-protocol%2Ffrakt-sdk.svg)](https://badge.fury.io/js/@frakt-protocol%2Ffrakt-sdk)
 
-Library to interact with frakt.xyz protocols on Solana.
+Library to interact with frakt.xyz protocols on Solana. This SDK is available under the MIT license.
 
 ## Install
 ```bash
