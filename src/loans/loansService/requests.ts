@@ -1,4 +1,4 @@
-const axios = require('axios');
+const axios = require('axios/dist/browser/axios.cjs');
 axios;
 import { BorrowNft, BulkSuggestion, FetchBulkSuggestion, FetchWalletNfts } from './types';
 
