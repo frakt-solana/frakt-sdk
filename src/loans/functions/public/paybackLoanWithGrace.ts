@@ -1,9 +1,14 @@
 import { web3, utils } from '@project-serum/anchor';
 
-import { getMetaplexEditionPda, returnAnchorProgram, findTokenRecordPda, getMetaplexMetadata, findRuleSetPDA } from '../../helpers';
+import {
+  getMetaplexEditionPda,
+  returnAnchorProgram,
+  findTokenRecordPda,
+  getMetaplexMetadata,
+  findRuleSetPDA,
+} from '../../helpers';
 import { createAssociatedTokenAccountInstruction, findAssociatedTokenAddress } from '../../../common';
 import { AUTHORIZATION_RULES_PROGRAM, METADATA_PROGRAM_PUBKEY } from '../../constants';
-import { Metadata } from '@metaplex-foundation/mpl-token-metadata';
 
 type PaybackLoanWithGraceIx = (params: {
   programId: web3.PublicKey;
@@ -17,6 +22,7 @@ type PaybackLoanWithGraceIx = (params: {
   liquidityPool: web3.PublicKey;
   collectionInfo: web3.PublicKey;
   royaltyAddress: web3.PublicKey;
+  ruleSet?: web3.PublicKey;
 }) => Promise<{ ixs: web3.TransactionInstruction[] }>;
 
 export const paybackLoanWithGraceIx: PaybackLoanWithGraceIx = async ({
@@ -30,6 +36,7 @@ export const paybackLoanWithGraceIx: PaybackLoanWithGraceIx = async ({
   liquidityPool,
   collectionInfo,
   royaltyAddress,
+  ruleSet,
 }) => {
   const encoder = new TextEncoder();
   const program = returnAnchorProgram(programId, connection);
@@ -47,25 +54,23 @@ export const paybackLoanWithGraceIx: PaybackLoanWithGraceIx = async ({
   const nftUserTokenAccount = await findAssociatedTokenAddress(user, nftMint);
   const vaultNftTokenAccount = await findAssociatedTokenAddress(communityPoolsAuthority, nftMint);
   const nftMetadata = getMetaplexMetadata(nftMint);
-  const metadataAccount = await Metadata.fromAccountAddress(connection, nftMetadata);
-
-  const ruleSet = metadataAccount.programmableConfig?.ruleSet;
 
   let ixs: web3.TransactionInstruction[] = [];
   const nftUserTokenAccountInfo = await connection.getAccountInfo(nftUserTokenAccount);
-  ixs.push(web3.ComputeBudgetProgram.requestUnits({
-    units: Math.random() * 100000 + 350000,
-    additionalFee: 0,
-  }))
+  ixs.push(
+    web3.ComputeBudgetProgram.requestUnits({
+      units: Math.random() * 100000 + 350000,
+      additionalFee: 0,
+    }),
+  );
   if (!nftUserTokenAccountInfo)
-    ixs = ixs.concat(
-      createAssociatedTokenAccountInstruction(nftUserTokenAccount, user, user, nftMint),
-    );
+    ixs = ixs.concat(createAssociatedTokenAccountInstruction(nftUserTokenAccount, user, user, nftMint));
   const editionId = getMetaplexEditionPda(nftMint);
-  const ownerTokenRecord = findTokenRecordPda(nftMint, vaultNftTokenAccount)
-  const destTokenRecord = findTokenRecordPda(nftMint, nftUserTokenAccount)
+  const ownerTokenRecord = findTokenRecordPda(nftMint, vaultNftTokenAccount);
+  const destTokenRecord = findTokenRecordPda(nftMint, nftUserTokenAccount);
 
-  const mainIx = await program.methods.paybackWithGrace(null)
+  const mainIx = await program.methods
+    .paybackWithGrace(null)
     .accountsStrict({
       loan: loan,
       liquidityPool,
@@ -89,18 +94,18 @@ export const paybackLoanWithGraceIx: PaybackLoanWithGraceIx = async ({
       associatedTokenProgram: utils.token.ASSOCIATED_PROGRAM_ID,
       metadataProgram: METADATA_PROGRAM_PUBKEY,
       editionInfo: editionId,
-    }).remainingAccounts(
-      [
-        {
-          pubkey: ruleSet || METADATA_PROGRAM_PUBKEY,
-          isSigner: false,
-          isWritable: false,
-        },
-      ],
-    ).instruction();
+    })
+    .remainingAccounts([
+      {
+        pubkey: ruleSet || METADATA_PROGRAM_PUBKEY,
+        isSigner: false,
+        isWritable: false,
+      },
+    ])
+    .instruction();
 
   ixs = ixs.concat(mainIx);
 
   // await sendTxn(transaction);
-  return { ixs }
+  return { ixs };
 };
