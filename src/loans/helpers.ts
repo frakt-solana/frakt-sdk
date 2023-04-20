@@ -360,7 +360,10 @@ export const createAndSendV0Tx = async (
   const transaction = new web3.VersionedTransaction(messageV0);
 
   transaction.sign([signer, ...additionalSigners]);
-  const txid = await connection.sendTransaction(transaction, { maxRetries: 5, skipPreflight: !!skipPreflight });
+  const txid = await connection.sendTransaction(transaction, {
+    maxRetries: 5,
+    skipPreflight: skipPreflight ? true : false,
+  });
 
   const confirmation = await connection.confirmTransaction({
     signature: txid,
