@@ -23,4 +23,6 @@ export * from './functions/public/stakeCardinalIx';
 export * from './functions/public/unstakeCardinalIx';
 export * from './functions/public/userReturnLoanFromEscrow';
 
+export { onAccountsChange } from './accountsChanged/onAccountsChanged';
+
 export * from './helpers';

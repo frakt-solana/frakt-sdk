@@ -14,7 +14,7 @@ type LiquidateLoanToRaffles = (params: {
   gracePeriod: number;
   loan: web3.PublicKey;
   nftMint: web3.PublicKey;
-}) => Promise<{ixs: web3.TransactionInstruction[], liquidationLot: web3.Signer}>;
+}) => Promise<{ ixs: web3.TransactionInstruction[], liquidationLot: web3.Signer }>;
 
 export const liquidateLoanToRaffles: LiquidateLoanToRaffles = async ({
   programId,
@@ -38,7 +38,7 @@ export const liquidateLoanToRaffles: LiquidateLoanToRaffles = async ({
   const editionId = getMetaplexEditionPda(nftMint);
   const liquidationLot = web3.Keypair.generate();
   const nftMetadata = getMetaplexMetadata(nftMint);
-  
+
   // const ruleSet = await findRuleSetPDA(payerRuleSet, nameForRuleSet);
   const ownerTokenRecord = findTokenRecordPda(nftMint, nftUserTokenAccount)
   const destTokenRecord = findTokenRecordPda(nftMint, vaultNftTokenAccount)
@@ -58,9 +58,9 @@ export const liquidateLoanToRaffles: LiquidateLoanToRaffles = async ({
       vaultNftTokenAccount,
       nftUserTokenAccount,
       communityPoolsAuthority,
-      instructions: web3.SYSVAR_INSTRUCTIONS_PUBKEY, 
-      nftMetadata, 
-      ownerTokenRecord, 
+      instructions: web3.SYSVAR_INSTRUCTIONS_PUBKEY,
+      nftMetadata,
+      ownerTokenRecord,
       destTokenRecord,
       authorizationRulesProgram: AUTHORIZATION_RULES_PROGRAM,
       systemProgram: web3.SystemProgram.programId,
@@ -71,18 +71,18 @@ export const liquidateLoanToRaffles: LiquidateLoanToRaffles = async ({
       rent: web3.SYSVAR_RENT_PUBKEY,
     }).remainingAccounts(
       [
-       {
-         pubkey: ruleSet || METADATA_PROGRAM_PUBKEY,
-         isSigner: false,
-         isWritable: false,
-       },
-     ],
-   ).instruction()
-   const ixs: web3.TransactionInstruction[] = []
-   ixs.push( web3.ComputeBudgetProgram.requestUnits({
-    units: 400000,
+        {
+          pubkey: ruleSet || METADATA_PROGRAM_PUBKEY,
+          isSigner: false,
+          isWritable: false,
+        },
+      ],
+    ).instruction()
+  const ixs: web3.TransactionInstruction[] = []
+  ixs.push(web3.ComputeBudgetProgram.requestUnits({
+    units: 450000,
     additionalFee: 0,
   }))
   ixs.push(ix)
-  return {ixs, liquidationLot};
+  return { ixs, liquidationLot };
 };

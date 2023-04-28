@@ -7,7 +7,7 @@ type ClaimCardinalIx = (params: {
   connection: web3.Connection;
   payer: web3.PublicKey;
   user: web3.PublicKey;
-  cardinalRewardsCenter:web3. PublicKey;
+  cardinalRewardsCenter: web3.PublicKey;
   nftMint: web3.PublicKey;
   rewardDistributor: web3.PublicKey;
   stakePool: web3.PublicKey;
@@ -16,7 +16,7 @@ type ClaimCardinalIx = (params: {
   rewardMint: web3.PublicKey;
   paymentPubkey1: web3.PublicKey;
   paymentPubkey2: web3.PublicKey;
-}) => Promise<{claimIx: web3.TransactionInstruction}>;
+}) => Promise<{ claimIx: web3.TransactionInstruction }>;
 
 export const claimCardinalIx: ClaimCardinalIx = async ({
   programId,
@@ -50,7 +50,7 @@ export const claimCardinalIx: ClaimCardinalIx = async ({
     cardinalRewardsCenter,
   );
   const [rewardEntry] = await web3.PublicKey.findProgramAddress(
-    [encoder.encode('reward-entry'), rewardDistributor.toBuffer(), stakeEntry.toBuffer(), ],
+    [encoder.encode('reward-entry'), rewardDistributor.toBuffer(), stakeEntry.toBuffer(),],
     cardinalRewardsCenter,
   );
 
@@ -58,57 +58,57 @@ export const claimCardinalIx: ClaimCardinalIx = async ({
   const rewardDestination = await findAssociatedTokenAddress(user, rewardMint);
   const rewardDistributorTokenAccount = await findAssociatedTokenAddress(rewardDistributor, rewardMint);
   // const additionalComputeBudgetInstruction = ComputeBudgetProgram.requestUnits({
-  //   units: 300000,
+  //   units: 400000,
   //   additionalFee: 0,
   // });
-  
+
 
   const claimIx = await program.methods.claimCardinal().accountsStrict({
-        user,
-        identity,
-        rewardMint,
-        payer: payer,
-        cardinalStakeCenter: cardinalRewardsCenter,
-        rewardDistributor,
-        rewardDistributorTokenAccount,
-        rewardEntry,
-        stakeEntry,
-        stakePool,
-        rewardDestination,
-        loan,
-        lendingStake,
-        tokenDestinationIdentity,
-        rent: web3.SYSVAR_RENT_PUBKEY,
-        systemProgram: web3.SystemProgram.programId,
-        tokenProgram: utils.token.TOKEN_PROGRAM_ID,
-        associatedTokenProgram: utils.token.ASSOCIATED_PROGRAM_ID,
-      }).remainingAccounts([
-        {
-          pubkey: claimRewardsPaymentInfo,
-          isSigner: false,
-          isWritable: true,
-        },
-        {
-          pubkey: payer,
-          isSigner: true,
-          isWritable: true,
-        },
-        {
-          pubkey: web3.SystemProgram.programId,
-          isSigner: false,
-          isWritable: false,
-        },
-        {
-          pubkey: paymentPubkey1,
-          isSigner: false,
-          isWritable: true,
-        },
-        {
-          pubkey: paymentPubkey2,
-          isSigner: false,
-          isWritable: true,
-        },
-      ]).instruction()
+    user,
+    identity,
+    rewardMint,
+    payer: payer,
+    cardinalStakeCenter: cardinalRewardsCenter,
+    rewardDistributor,
+    rewardDistributorTokenAccount,
+    rewardEntry,
+    stakeEntry,
+    stakePool,
+    rewardDestination,
+    loan,
+    lendingStake,
+    tokenDestinationIdentity,
+    rent: web3.SYSVAR_RENT_PUBKEY,
+    systemProgram: web3.SystemProgram.programId,
+    tokenProgram: utils.token.TOKEN_PROGRAM_ID,
+    associatedTokenProgram: utils.token.ASSOCIATED_PROGRAM_ID,
+  }).remainingAccounts([
+    {
+      pubkey: claimRewardsPaymentInfo,
+      isSigner: false,
+      isWritable: true,
+    },
+    {
+      pubkey: payer,
+      isSigner: true,
+      isWritable: true,
+    },
+    {
+      pubkey: web3.SystemProgram.programId,
+      isSigner: false,
+      isWritable: false,
+    },
+    {
+      pubkey: paymentPubkey1,
+      isSigner: false,
+      isWritable: true,
+    },
+    {
+      pubkey: paymentPubkey2,
+      isSigner: false,
+      isWritable: true,
+    },
+  ]).instruction()
 
-  return {claimIx};
+  return { claimIx };
 };

@@ -11,7 +11,7 @@ type stopLiquidationRafflesByAdminParams = (params: {
   nftMint: web3.PublicKey;
   liquidationLot: web3.PublicKey;
   loan: web3.PublicKey;
-}) => Promise<{ixs: web3.TransactionInstruction[]}>;
+}) => Promise<{ ixs: web3.TransactionInstruction[] }>;
 
 export const stopLiquidationRaffles: stopLiquidationRafflesByAdminParams = async ({
   programId,
@@ -42,38 +42,38 @@ export const stopLiquidationRaffles: stopLiquidationRafflesByAdminParams = async
 
 
   const ix = await program.methods.stopLiquidationRafflesByAdmin(null).accountsStrict({
-      admin,
-      nftMint,
-      communityPoolsAuthority,
-      liquidationLot,
-      loan,
-      instructions: web3.SYSVAR_INSTRUCTIONS_PUBKEY, 
-      nftMetadata, 
-      ownerTokenRecord, 
-      destTokenRecord,
-      editionInfo,
-      metadataProgram: METADATA_PROGRAM_PUBKEY,
-      authorizationRulesProgram: AUTHORIZATION_RULES_PROGRAM,
-      vaultNftTokenAccount,
-      nftAdminTokenAccount,
-      tokenProgram: utils.token.TOKEN_PROGRAM_ID,
-      associatedTokenProgram: utils.token.ASSOCIATED_PROGRAM_ID,
-      systemProgram: web3.SystemProgram.programId,
-      rent: web3.SYSVAR_RENT_PUBKEY,
-    }).remainingAccounts(
-      [
-       {
-         pubkey: ruleSet || METADATA_PROGRAM_PUBKEY,
-         isSigner: false,
-         isWritable: false,
-       },
-     ],
-   ).instruction();   
-   const ixs: web3.TransactionInstruction[] = []
-   ixs.push( web3.ComputeBudgetProgram.requestUnits({
-    units: 400000,
+    admin,
+    nftMint,
+    communityPoolsAuthority,
+    liquidationLot,
+    loan,
+    instructions: web3.SYSVAR_INSTRUCTIONS_PUBKEY,
+    nftMetadata,
+    ownerTokenRecord,
+    destTokenRecord,
+    editionInfo,
+    metadataProgram: METADATA_PROGRAM_PUBKEY,
+    authorizationRulesProgram: AUTHORIZATION_RULES_PROGRAM,
+    vaultNftTokenAccount,
+    nftAdminTokenAccount,
+    tokenProgram: utils.token.TOKEN_PROGRAM_ID,
+    associatedTokenProgram: utils.token.ASSOCIATED_PROGRAM_ID,
+    systemProgram: web3.SystemProgram.programId,
+    rent: web3.SYSVAR_RENT_PUBKEY,
+  }).remainingAccounts(
+    [
+      {
+        pubkey: ruleSet || METADATA_PROGRAM_PUBKEY,
+        isSigner: false,
+        isWritable: false,
+      },
+    ],
+  ).instruction();
+  const ixs: web3.TransactionInstruction[] = []
+  ixs.push(web3.ComputeBudgetProgram.requestUnits({
+    units: 450000,
     additionalFee: 0,
   }))
   ixs.push(ix)
-  return {ixs}
+  return { ixs }
 };

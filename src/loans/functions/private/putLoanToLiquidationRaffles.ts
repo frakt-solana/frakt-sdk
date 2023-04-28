@@ -12,7 +12,7 @@ type PutLoanToLiquidationRaffles = (params: {
   loan: web3.PublicKey;
   nftMint: web3.PublicKey;
   gracePeriod: number;
-}) => Promise<{ixs: web3.TransactionInstruction[], liquidationLot: web3.Signer}>;
+}) => Promise<{ ixs: web3.TransactionInstruction[], liquidationLot: web3.Signer }>;
 
 export const putLoanToLiquidationRaffles: PutLoanToLiquidationRaffles = async ({
   programId,
@@ -56,7 +56,7 @@ export const putLoanToLiquidationRaffles: PutLoanToLiquidationRaffles = async ({
       nftMetadata,
       ownerTokenRecord,
       destTokenRecord,
-      instructions: web3.SYSVAR_INSTRUCTIONS_PUBKEY, 
+      instructions: web3.SYSVAR_INSTRUCTIONS_PUBKEY,
       authorizationRulesProgram: AUTHORIZATION_RULES_PROGRAM,
       tokenProgram: utils.token.TOKEN_PROGRAM_ID,
       rent: web3.SYSVAR_RENT_PUBKEY,
@@ -64,21 +64,21 @@ export const putLoanToLiquidationRaffles: PutLoanToLiquidationRaffles = async ({
       associatedTokenProgram: utils.token.ASSOCIATED_PROGRAM_ID,
     }).remainingAccounts(
       [
-       {
-         pubkey: ruleSet || METADATA_PROGRAM_PUBKEY,
-         isSigner: false,
-         isWritable: false,
-       },
-     ],
-   ).instruction();
-   const ixs: web3.TransactionInstruction[] = []
-   ixs.push( web3.ComputeBudgetProgram.requestUnits({
-    units: 400000,
+        {
+          pubkey: ruleSet || METADATA_PROGRAM_PUBKEY,
+          isSigner: false,
+          isWritable: false,
+        },
+      ],
+    ).instruction();
+  const ixs: web3.TransactionInstruction[] = []
+  ixs.push(web3.ComputeBudgetProgram.requestUnits({
+    units: 450000,
     additionalFee: 0,
   }))
   ixs.push(ix)
 
   // const transaction = new web3.Transaction().add(instruction);
   // await sendTxn(transaction, [liquidationLotAccount]);
-  return {ixs, liquidationLot};
+  return { ixs, liquidationLot };
 };

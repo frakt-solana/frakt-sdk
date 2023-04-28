@@ -16,7 +16,7 @@ type StakeCardinalParams = (params: {
   rewardMint: web3.PublicKey;
   paymentPubkey1: web3.PublicKey;
   paymentPubkey2: web3.PublicKey;
-}) => Promise<{additionalComputeBudgetInstructionIx: web3.TransactionInstruction, stakeIx: web3.TransactionInstruction}>;
+}) => Promise<{ additionalComputeBudgetInstructionIx: web3.TransactionInstruction, stakeIx: web3.TransactionInstruction }>;
 
 export const stakeCardinalIx: StakeCardinalParams = async ({
   programId,
@@ -71,35 +71,35 @@ export const stakeCardinalIx: StakeCardinalParams = async ({
   const identityStakeMintTokenAccount = await findAssociatedTokenAddress(identity, nftMint);
   const editionId = getMetaplexEditionPda(nftMint);
   const additionalComputeBudgetInstructionIx = web3.ComputeBudgetProgram.requestUnits({
-    units: 400000,
+    units: 450000,
     additionalFee: 0,
   });
-  
+
 
   const stakeIx = await program.methods.stakeCardinal().accountsStrict({
-        user,
-        lendingStake,
-        loan, 
-        stakeMint: nftMint,
-        nftUserTokenAccount,
-        identity,
-        identityStakeMintTokenAccount,
+    user,
+    lendingStake,
+    loan,
+    stakeMint: nftMint,
+    nftUserTokenAccount,
+    identity,
+    identityStakeMintTokenAccount,
 
-        payer,
-        cardinalStakeCenter: cardinalRewardsCenter,
-        stakeEntry,
-        stakePool,
-        identityEscrow,
-        communityPoolsAuthority,
-        stakeMintMetadata: nftMintMetadata,
+    payer,
+    cardinalStakeCenter: cardinalRewardsCenter,
+    stakeEntry,
+    stakePool,
+    identityEscrow,
+    communityPoolsAuthority,
+    stakeMintMetadata: nftMintMetadata,
 
-        editionInfo: editionId,
-        metadataProgram: METADATA_PROGRAM_PUBKEY,
-        rent: web3.SYSVAR_RENT_PUBKEY,
-        systemProgram: web3.SystemProgram.programId,
-        tokenProgram: utils.token.TOKEN_PROGRAM_ID,
-        associatedTokenProgram: utils.token.ASSOCIATED_PROGRAM_ID,
-      },
+    editionInfo: editionId,
+    metadataProgram: METADATA_PROGRAM_PUBKEY,
+    rent: web3.SYSVAR_RENT_PUBKEY,
+    systemProgram: web3.SystemProgram.programId,
+    tokenProgram: utils.token.TOKEN_PROGRAM_ID,
+    associatedTokenProgram: utils.token.ASSOCIATED_PROGRAM_ID,
+  },
   ).remainingAccounts(
     [
       {
@@ -134,5 +134,5 @@ export const stakeCardinalIx: StakeCardinalParams = async ({
       },
     ]
   ).instruction()
-  return {additionalComputeBudgetInstructionIx, stakeIx}
+  return { additionalComputeBudgetInstructionIx, stakeIx }
 };
