@@ -1,3 +1,7 @@
+
+export const TIME_BASED_LOAN_TYPE = 'timeBased';
+export const PRICE_BASED_LOAN_TYPE = 'priceBased';
+
 export interface CollectionInfoView {
   collectionInfoPubkey: string;
   creator: string;
@@ -109,7 +113,7 @@ export interface FixedRateView {
   beginScheduleTs: number;
   lastUpdatedTs: number;
   promisedSchedule: PromisedSchedule;
-  promisedDuration: number;  
+  promisedDuration: number;
 }
 
 export interface PromisedSchedule {

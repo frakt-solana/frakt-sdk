@@ -1,4 +1,4 @@
-import { Metadata } from '@metaplex-foundation/mpl-token-metadata';
+import { Metadata, TokenRecord, TokenStandard } from '@metaplex-foundation/mpl-token-metadata';
 import { BN, web3, utils } from '@project-serum/anchor';
 
 import { findAssociatedTokenAddress } from '../../../common';
@@ -42,6 +42,11 @@ export const proposeLoanIx: ProposeLoanIx = async ({
   const metadataAccount = await Metadata.fromAccountAddress(connection, nftMetadata);
 
   const ruleSet = metadataAccount.programmableConfig?.ruleSet;
+  const tokenRecordData =
+    metadataAccount.tokenStandard === TokenStandard.ProgrammableNonFungible
+      ? await TokenRecord.fromAccountAddress(connection, tokenRecordInfo)
+      : { delegate: null };
+  const delegatePubkey = tokenRecordData.delegate;
 
   const ix = await program.methods.proposeLoan(isPriceBased, proposedNftPrice, loanToValue)
     .accountsStrict({
@@ -50,9 +55,9 @@ export const proposeLoanIx: ProposeLoanIx = async ({
       nftUserTokenAccount,
       nftMint: nftMint,
       communityPoolsAuthority,
-      instructions: web3.SYSVAR_INSTRUCTIONS_PUBKEY, 
+      instructions: web3.SYSVAR_INSTRUCTIONS_PUBKEY,
       authorizationRulesProgram: AUTHORIZATION_RULES_PROGRAM,
-      nftMetadata, 
+      nftMetadata,
       tokenRecordInfo,
       tokenProgram: utils.token.TOKEN_PROGRAM_ID,
       rent: web3.SYSVAR_RENT_PUBKEY,
@@ -62,17 +67,22 @@ export const proposeLoanIx: ProposeLoanIx = async ({
       editionInfo: editionId,
     }).remainingAccounts(
       [
-       {
-         pubkey: ruleSet || METADATA_PROGRAM_PUBKEY,
-         isSigner: false,
-         isWritable: false,
-       },
-     ],
-   ).instruction();
-  
-   const ixs: web3.TransactionInstruction[] = []
-   ixs.push( web3.ComputeBudgetProgram.requestUnits({
-    units: Math.random()*100000 + 300000,
+        {
+          pubkey: ruleSet || METADATA_PROGRAM_PUBKEY,
+          isSigner: false,
+          isWritable: false,
+        },
+        {
+          pubkey: delegatePubkey || METADATA_PROGRAM_PUBKEY,
+          isSigner: false,
+          isWritable: false,
+        },
+      ],
+    ).instruction();
+
+  const ixs: web3.TransactionInstruction[] = []
+  ixs.push(web3.ComputeBudgetProgram.requestUnits({
+    units: Math.random() * 50000 + 425000,
     additionalFee: 0,
   }))
   ixs.push(ix)
