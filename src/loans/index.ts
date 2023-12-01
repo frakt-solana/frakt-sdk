@@ -9,6 +9,7 @@ export * from './functions/private/liquidateLoanToRaffles';
 export * from './functions/private/stopLiquidationRaffles';
 export * from './functions/private/putLoanToLiquidationRaffles';
 export * from './functions/private/returnFromGraceToActive';
+export * from './functions/private/rejectLoanByAdminNoLoan';
 
 export * from './functions/public/depositLiquidity';
 export * from './functions/public/getAllCardinalAccount';
@@ -18,6 +19,8 @@ export * from './functions/public/harvestLiquidity';
 export * from './functions/public/paybackLoanIx';
 export * from './functions/public/proposeLoan';
 export * from './functions/public/unstakeLiquidity';
+export * from './functions/public/unstakeLiquidityHarvest';
+
 export * from './functions/public/paybackLoanWithGrace';
 export * from './functions/public/stakeCardinalIx';
 export * from './functions/public/unstakeCardinalIx';
