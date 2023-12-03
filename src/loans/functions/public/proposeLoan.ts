@@ -88,13 +88,13 @@ export const proposeLoanIx: ProposeLoanIx = async ({
     .instruction();
 
   const ixs: web3.TransactionInstruction[] = [];
-  // ixs.push(
-  //   web3.ComputeBudgetProgram.requestUnits({
-  //     units: Math.random() * 50000 + 425000,
-  //     additionalFee: 0,
-  //   }),
-  // );
-  // ixs.push(ix);
+  ixs.push(
+    web3.ComputeBudgetProgram.setComputeUnitLimit({
+      units: Math.random() * 50000 + 425000,
+      // additionalFee: 0,
+    }),
+  );
+  ixs.push(ix);
 
   return { loan: loan, ixs };
 };

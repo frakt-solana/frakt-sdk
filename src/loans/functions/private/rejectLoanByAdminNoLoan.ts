@@ -68,9 +68,8 @@ export const rejectLoanByAdminNoLoan: RejectLoanByAdminNoLoan = async ({
     .instruction();
   const ixs: web3.TransactionInstruction[] = [];
   // ixs.push(
-  //   web3.ComputeBudgetProgram.requestUnits({
+  //   web3.ComputeBudgetProgram.setComputeUnitLimit({
   //     units: 450000,
-  //     additionalFee: 0,
   //   }),
   // );
   ixs.push(ix);

@@ -16,7 +16,10 @@ type StakeCardinalParams = (params: {
   rewardMint: web3.PublicKey;
   paymentPubkey1: web3.PublicKey;
   paymentPubkey2: web3.PublicKey;
-}) => Promise<{ additionalComputeBudgetInstructionIx: web3.TransactionInstruction, stakeIx: web3.TransactionInstruction }>;
+}) => Promise<{
+  additionalComputeBudgetInstructionIx: web3.TransactionInstruction;
+  stakeIx: web3.TransactionInstruction;
+}>;
 
 export const stakeCardinalIx: StakeCardinalParams = async ({
   programId,
@@ -70,38 +73,37 @@ export const stakeCardinalIx: StakeCardinalParams = async ({
   const nftUserTokenAccount = await findAssociatedTokenAddress(payer, nftMint);
   const identityStakeMintTokenAccount = await findAssociatedTokenAddress(identity, nftMint);
   const editionId = getMetaplexEditionPda(nftMint);
-  const additionalComputeBudgetInstructionIx = web3.ComputeBudgetProgram.requestUnits({
+  const additionalComputeBudgetInstructionIx = web3.ComputeBudgetProgram.setComputeUnitLimit({
     units: 450000,
-    additionalFee: 0,
   });
 
+  const stakeIx = await program.methods
+    .stakeCardinal()
+    .accountsStrict({
+      user,
+      lendingStake,
+      loan,
+      stakeMint: nftMint,
+      nftUserTokenAccount,
+      identity,
+      identityStakeMintTokenAccount,
 
-  const stakeIx = await program.methods.stakeCardinal().accountsStrict({
-    user,
-    lendingStake,
-    loan,
-    stakeMint: nftMint,
-    nftUserTokenAccount,
-    identity,
-    identityStakeMintTokenAccount,
+      payer,
+      cardinalStakeCenter: cardinalRewardsCenter,
+      stakeEntry,
+      stakePool,
+      identityEscrow,
+      communityPoolsAuthority,
+      stakeMintMetadata: nftMintMetadata,
 
-    payer,
-    cardinalStakeCenter: cardinalRewardsCenter,
-    stakeEntry,
-    stakePool,
-    identityEscrow,
-    communityPoolsAuthority,
-    stakeMintMetadata: nftMintMetadata,
-
-    editionInfo: editionId,
-    metadataProgram: METADATA_PROGRAM_PUBKEY,
-    rent: web3.SYSVAR_RENT_PUBKEY,
-    systemProgram: web3.SystemProgram.programId,
-    tokenProgram: utils.token.TOKEN_PROGRAM_ID,
-    associatedTokenProgram: utils.token.ASSOCIATED_PROGRAM_ID,
-  },
-  ).remainingAccounts(
-    [
+      editionInfo: editionId,
+      metadataProgram: METADATA_PROGRAM_PUBKEY,
+      rent: web3.SYSVAR_RENT_PUBKEY,
+      systemProgram: web3.SystemProgram.programId,
+      tokenProgram: utils.token.TOKEN_PROGRAM_ID,
+      associatedTokenProgram: utils.token.ASSOCIATED_PROGRAM_ID,
+    })
+    .remainingAccounts([
       {
         pubkey: stakeRewardsPaymentInfo,
         isSigner: false,
@@ -132,7 +134,7 @@ export const stakeCardinalIx: StakeCardinalParams = async ({
         isSigner: false,
         isWritable: true,
       },
-    ]
-  ).instruction()
-  return { additionalComputeBudgetInstructionIx, stakeIx }
+    ])
+    .instruction();
+  return { additionalComputeBudgetInstructionIx, stakeIx };
 };
