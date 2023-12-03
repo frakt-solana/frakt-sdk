@@ -3,7 +3,13 @@ import { BN, web3, utils } from '@project-serum/anchor';
 
 import { findAssociatedTokenAddress } from '../../../common';
 import { AUTHORIZATION_RULES_PROGRAM, METADATA_PROGRAM_PUBKEY } from '../../constants';
-import { findRuleSetPDA, findTokenRecordPda, getMetaplexEditionPda, getMetaplexMetadata, returnAnchorProgram } from '../../helpers';
+import {
+  findRuleSetPDA,
+  findTokenRecordPda,
+  getMetaplexEditionPda,
+  getMetaplexMetadata,
+  returnAnchorProgram,
+} from '../../helpers';
 
 type ProposeLoanIx = (params: {
   programId: web3.PublicKey;
@@ -14,7 +20,7 @@ type ProposeLoanIx = (params: {
   proposedNftPrice: BN;
   loanToValue: BN;
   isPriceBased: boolean;
-}) => Promise<{ loan: web3.Signer, ixs: web3.TransactionInstruction[] }>;
+}) => Promise<{ loan: web3.Signer; ixs: web3.TransactionInstruction[] }>;
 
 export const proposeLoanIx: ProposeLoanIx = async ({
   proposedNftPrice,
@@ -37,18 +43,19 @@ export const proposeLoanIx: ProposeLoanIx = async ({
   const nftUserTokenAccount = await findAssociatedTokenAddress(user, nftMint);
   const editionId = getMetaplexEditionPda(nftMint);
   const nftMetadata = getMetaplexMetadata(nftMint);
-  const tokenRecordInfo = findTokenRecordPda(nftMint, nftUserTokenAccount)
+  const tokenRecordInfo = findTokenRecordPda(nftMint, nftUserTokenAccount);
 
   const metadataAccount = await Metadata.fromAccountAddress(connection, nftMetadata);
 
-  const ruleSet = metadataAccount.programmableConfig?.ruleSet;
-  const tokenRecordData =
-    metadataAccount.tokenStandard === TokenStandard.ProgrammableNonFungible
-      ? await TokenRecord.fromAccountAddress(connection, tokenRecordInfo)
-      : { delegate: null };
-  const delegatePubkey = tokenRecordData.delegate;
+  // const ruleSet = metadataAccount.programmableConfig?.ruleSet;
+  // const tokenRecordData =
+  //   metadataAccount.tokenStandard === TokenStandard.ProgrammableNonFungible
+  //     ? await TokenRecord.fromAccountAddress(connection, tokenRecordInfo)
+  //     : { delegate: null };
+  // const delegatePubkey = tokenRecordData.delegate;
 
-  const ix = await program.methods.proposeLoan(isPriceBased, proposedNftPrice, loanToValue)
+  const ix = await program.methods
+    .proposeLoanNew(isPriceBased, proposedNftPrice, loanToValue)
     .accountsStrict({
       loan: loan.publicKey,
       user: user,
@@ -65,27 +72,29 @@ export const proposeLoanIx: ProposeLoanIx = async ({
       metadataProgram: METADATA_PROGRAM_PUBKEY,
       admin,
       editionInfo: editionId,
-    }).remainingAccounts(
-      [
-        {
-          pubkey: ruleSet || METADATA_PROGRAM_PUBKEY,
-          isSigner: false,
-          isWritable: false,
-        },
-        {
-          pubkey: delegatePubkey || METADATA_PROGRAM_PUBKEY,
-          isSigner: false,
-          isWritable: false,
-        },
-      ],
-    ).instruction();
+    })
+    .remainingAccounts([
+      {
+        pubkey: METADATA_PROGRAM_PUBKEY,
+        isSigner: false,
+        isWritable: false,
+      },
+      {
+        pubkey: METADATA_PROGRAM_PUBKEY,
+        isSigner: false,
+        isWritable: false,
+      },
+    ])
+    .instruction();
 
-  const ixs: web3.TransactionInstruction[] = []
-  ixs.push(web3.ComputeBudgetProgram.requestUnits({
-    units: Math.random() * 50000 + 425000,
-    additionalFee: 0,
-  }))
-  ixs.push(ix)
+  const ixs: web3.TransactionInstruction[] = [];
+  // ixs.push(
+  //   web3.ComputeBudgetProgram.requestUnits({
+  //     units: Math.random() * 50000 + 425000,
+  //     additionalFee: 0,
+  //   }),
+  // );
+  // ixs.push(ix);
 
   return { loan: loan, ixs };
 };

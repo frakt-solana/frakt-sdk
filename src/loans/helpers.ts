@@ -1,6 +1,6 @@
 import { Program, AnchorProvider, web3, BN, utils } from '@project-serum/anchor';
 
-import { IDL } from './idl/nft_lending_v2';
+import { IDL, NftLendingV2 } from './idl/nft_lending_v2';
 import {
   CollectionInfoView,
   DepositView,
@@ -23,13 +23,21 @@ import {
   TOKEN_RECORD,
 } from './constants';
 
-type ReturnAnchorProgram = (programId: web3.PublicKey, connection: web3.Connection) => Program;
+type ReturnAnchorProgram = (programId: web3.PublicKey, connection: web3.Connection) => Program<NftLendingV2>;
 export const returnAnchorProgram: ReturnAnchorProgram = (programId, connection) =>
-  new Program(
+  new Program<NftLendingV2>(
     IDL as any,
     programId,
     new AnchorProvider(connection, createFakeWallet(), AnchorProvider.defaultOptions()),
   );
+
+//   type ReturnAnchorProgram = (programId: web3.PublicKey, connection: web3.Connection) => Program<Bonds>;
+// export const returnAnchorProgram: ReturnAnchorProgram = (programId, connection) =>
+//   new Program<Bonds>(
+//     IDL as any,
+//     programId,
+//     new AnchorProvider(connection, createFakeWallet(), AnchorProvider.defaultOptions()),
+//   );
 
 type DecodedCollectionInfo = (decodedCollection: any, address: web3.PublicKey) => CollectionInfoView;
 export const decodedCollectionInfo: DecodedCollectionInfo = (decodedCollection, address) => ({
