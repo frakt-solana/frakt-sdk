@@ -47,12 +47,12 @@ export const proposeLoanIx: ProposeLoanIx = async ({
 
   const metadataAccount = await Metadata.fromAccountAddress(connection, nftMetadata);
 
-  // const ruleSet = metadataAccount.programmableConfig?.ruleSet;
-  // const tokenRecordData =
-  //   metadataAccount.tokenStandard === TokenStandard.ProgrammableNonFungible
-  //     ? await TokenRecord.fromAccountAddress(connection, tokenRecordInfo)
-  //     : { delegate: null };
-  // const delegatePubkey = tokenRecordData.delegate;
+  const ruleSet = metadataAccount.programmableConfig?.ruleSet;
+  const tokenRecordData =
+    metadataAccount.tokenStandard === TokenStandard.ProgrammableNonFungible
+      ? await TokenRecord.fromAccountAddress(connection, tokenRecordInfo)
+      : { delegate: null };
+  const delegatePubkey = tokenRecordData.delegate;
 
   const ix = await program.methods
     .proposeLoanNew(isPriceBased, proposedNftPrice, loanToValue)
@@ -75,12 +75,12 @@ export const proposeLoanIx: ProposeLoanIx = async ({
     })
     .remainingAccounts([
       {
-        pubkey: METADATA_PROGRAM_PUBKEY,
+        pubkey: ruleSet || METADATA_PROGRAM_PUBKEY,
         isSigner: false,
         isWritable: false,
       },
       {
-        pubkey: METADATA_PROGRAM_PUBKEY,
+        pubkey: delegatePubkey || METADATA_PROGRAM_PUBKEY,
         isSigner: false,
         isWritable: false,
       },

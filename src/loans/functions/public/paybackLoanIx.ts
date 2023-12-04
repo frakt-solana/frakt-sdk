@@ -57,7 +57,7 @@ export const paybackLoanIx: PaybackLoanIx = async ({
   const tokenRecordInfo = findTokenRecordPda(nftMint, userNftTokenAccount);
   const metadataAccount = await Metadata.fromAccountAddress(connection, nftMetadata);
 
-  // const ruleSet = metadataAccount.programmableConfig?.ruleSet;
+  const ruleSet = metadataAccount.programmableConfig?.ruleSet;
 
   const instruction = await program.methods
     .paybackLoan(paybackAmount)
@@ -84,7 +84,7 @@ export const paybackLoanIx: PaybackLoanIx = async ({
     })
     .remainingAccounts([
       {
-        pubkey: METADATA_PROGRAM_PUBKEY,
+        pubkey: ruleSet || METADATA_PROGRAM_PUBKEY,
         isSigner: false,
         isWritable: false,
       },

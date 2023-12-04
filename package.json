@@ -1,6 +1,6 @@
 {
   "name": "@frakt-protocol/frakt-sdk",
-  "version": "0.8.37",
+  "version": "0.8.38",
   "license": "MIT",
   "description": "Frakt SDK for interacting with frakt.xyz protocols",
   "keywords": [
